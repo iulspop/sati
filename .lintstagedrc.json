@@ -1,0 +1,4 @@
+{
+  "client/**": "eslint",
+  "*.{js,html,json,md}": "prettier --write"
+}
