@@ -1,0 +1,29 @@
+{
+  "name": "behavior-design-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-jest": "^27.1.1",
+    "jest": "^29.1.2",
+    "prettier": "^2.7.1"
+  },
+  "scripts": {
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watch",
+    "format": "npx prettier --write .",
+    "lint": "npx eslint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iulspop/behavior-design-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iulspop/behavior-design-app/issues"
+  },
+  "homepage": "https://github.com/iulspop/behavior-design-app#readme"
+}

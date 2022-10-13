@@ -1,37 +1,33 @@
 Imagine
 
 When you can create a prompt.
-  Options are:
-  Question
-  Frequency (assume once a day)
-  Type (assume yes/no)
+Options are:
+Question
+Frequency (assume once a day)
+Type (assume yes/no)
 
 When you visit question queue
-  loads any questions not answered for that time
+loads any questions not answered for that time
 
 When you answer question
-  records answer
-  doesn't ask question for that time again
+records answer
+doesn't ask question for that time again
 
 When you look at answers
-  lists answers
+lists answers
 
 Concepts:
 Prompt:
-  A prompt which produces recurring question to collect data
+A prompt which produces recurring question to collect data
 
 Question:
-  A question which collects one answer (data point)
+A question which collects one answer (data point)
 
 Question Queue:
-  A queue where questions appear based on prompt schedule
+A queue where questions appear based on prompt schedule
 
 Answer:
-  A data point which records the answer to one question
-
-
-
-
+A data point which records the answer to one question
 
 Story: Create a prompt
 
@@ -54,7 +50,6 @@ Story: View data
 Given data
 When I view the data page
 Then I see the data
-
 
 What about when answer prompt, that triggers a port,
 you can connect different adapters to it, for example output to google sheet.
