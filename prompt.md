@@ -1,13 +1,47 @@
+Imagine
+
+When you can create a prompt.
+  Options are:
+  Question
+  Frequency (assume once a day)
+  Type (assume yes/no)
+
+When you visit question queue
+  loads any questions not answered for that time
+
+When you answer question
+  records answer
+  doesn't ask question for that time again
+
+When you look at answers
+  lists answers
+
+Concepts:
+Prompt:
+  A prompt which produces recurring question to collect data
+
+Question:
+  A question which collects one answer (data point)
+
+Question Queue:
+  A queue where questions appear based on prompt schedule
+
+Answer:
+  A data point which records the answer to one question
+
+
+
+
+
 Story: Create a prompt
 
 As a personal metrics nerd
-I order to collect interesting data.
+In order to collect interesting data.
 I want to create a recurring prompt
 
 Given there a no prompts
 When I create a prompt
 Then I should receive a prompt a the times I set
-
 
 Story: Answer a prompt
 
