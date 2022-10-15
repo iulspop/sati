@@ -1,55 +1,41 @@
-Imagine
+# Story: Create a question
 
-When you can create a prompt.
-Options are:
-Question
-Frequency (assume once a day)
-Type (assume yes/no)
+As a user (personal metrics nerd)
+In order to collect interesting data
+I want to create a recurring question.
 
-When you visit question queue
-loads any questions not answered for that time
-
-When you answer question
-records answer
-doesn't ask question for that time again
-
-When you look at answers
-lists answers
-
-Concepts:
-Prompt:
-A prompt which produces recurring question to collect data
-
-Question:
-A question which collects one answer (data point)
-
-Question Queue:
-A queue where questions appear based on prompt schedule
-
-Answer:
-A data point which records the answer to one question
-
-Story: Create a prompt
-
-As a personal metrics nerd
-In order to collect interesting data.
-I want to create a recurring prompt
-
-Given there a no prompts
-When I create a prompt
+Given there a no questions
+When I create a question
 Then I should receive a prompt a the times I set
 
 Story: Answer a prompt
 
 Given a prompt
-When I enter data
-Then data is output
+When I enter an answer
+Then the answer is recorded
 
-Story: View data
+Story: View my anwwers
 
-Given data
-When I view the data page
-Then I see the data
+Given some answers recorded
+When I view the view the answers
+Then I get a list of all my answers
 
-What about when answer prompt, that triggers a port,
-you can connect different adapters to it, for example output to google sheet.
+# Domain: Data Collection
+
+Vocabulary:
+Question (maybe trigger?)
+A question is something you set which creates a recurring prompts
+
+Ex. A user creates a recurring question:
+Question: Have you completed strength training today?
+Period: Daily
+Type: Yes/no
+
+Prompt:
+A prompt which collects one answer (data point)
+
+Prompt Queue:
+A queue where prompts appear based on question schedule
+
+Answer:
+A data point which records the answer to one promopt

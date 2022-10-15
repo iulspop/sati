@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "devDependencies": {
     "eslint": "^8.25.0",
     "eslint-config-prettier": "^8.5.0",
