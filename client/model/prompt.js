@@ -18,4 +18,3 @@ function QuestionQueue() {
 }
 
 export { QuestionQueue }
-;``
