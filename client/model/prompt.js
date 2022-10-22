@@ -1,13 +1,13 @@
 function PromptQueue() {
-  let questionList = []
+  let recurringQuestionList = []
   let answerList = []
 
   return {
     createRecurringQuestion: question => {
-      questionList = [...questionList, question]
+      recurringQuestionList = [...recurringQuestionList, question]
     },
     query: () =>
-      questionList
+      recurringQuestionList
         .reduce((promptList, { id, question }) => [{ questionId: id, question }, ...promptList], [])
         .filter(prompt => !answerList.find(answer => answer.questionId === prompt.questionId)),
     answerPrompt: answer => {
