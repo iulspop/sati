@@ -11,24 +11,6 @@ describe('create question story', () => {
   })
 })
 
-describe.skip('queryQuestionQueue function', () => {
-  it('works', () => {
-    expect(2).toEqual(2)
-  })
-})
-
-describe.skip('answerQuestion function', () => {
-  it('works', () => {
-    expect(2).toEqual(2)
-  })
-})
-
-describe.skip('readAnswers function', () => {
-  it('works', () => {
-    expect(2).toEqual(2)
-  })
-})
-
 /*
 
   createPrompt
