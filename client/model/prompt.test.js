@@ -4,7 +4,7 @@ describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
     const promptQueue = PromptQueue()
 
-    promptQueue.createQuestion({ id: 1, question: 'Did you study 2 hours today?' })
+    promptQueue.createRecurringQuestion({ id: 1, question: 'Did you study 2 hours today?' })
     let promptList = promptQueue.query() //Changed from const to let.
 
     expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?' }])

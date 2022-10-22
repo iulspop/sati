@@ -3,7 +3,7 @@ function PromptQueue() {
   let answerList = []
 
   return {
-    createQuestion: question => {
+    createRecurringQuestion: question => {
       questionList = [...questionList, question]
     },
     query: () =>
