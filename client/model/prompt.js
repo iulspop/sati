@@ -1,15 +1,15 @@
 function QuestionQueue() {
-  const questionList = []
-  const answerList = []
+  let questionList = []
+  let answerList = []
 
   return {
     createQuestion: question => {
-      questionList.push(question)
+      questionList = [...questionList, question]
     },
     query: () =>
       questionList.reduce((promptList, { id, question }) => [{ questionId: id, question }, ...promptList], []),
     answerPrompt: answer => {
-      answerList.push(answer)
+      answerList = [...answerList, answer]
     },
     getAnswers: () => {
       return answerList
@@ -18,3 +18,4 @@ function QuestionQueue() {
 }
 
 export { QuestionQueue }
+;``
