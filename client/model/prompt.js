@@ -6,11 +6,8 @@ function QuestionQueue() {
     createQuestion: question => {
       questionList.push(question)
     },
-    query: date =>
-      questionList.reduce(
-        (promptList, {id, question}) => [{ questionId: id, question }, ...promptList],
-        []
-      ),
+    query: () =>
+      questionList.reduce((promptList, { id, question }) => [{ questionId: id, question }, ...promptList], []),
     answerQuestion: answer => {
       answerList.push(answer)
     },

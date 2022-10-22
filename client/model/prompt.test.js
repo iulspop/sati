@@ -5,7 +5,7 @@ describe('create question story', () => {
     const questionQueue = QuestionQueue()
 
     questionQueue.createQuestion({ id: 1, question: 'Did you study 2 hours today?' })
-    const promptList = questionQueue.query(new Date(2022, 9, 15, 9))
+    const promptList = questionQueue.query()
 
     expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?' }])
   })

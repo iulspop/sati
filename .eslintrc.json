@@ -1,7 +1,8 @@
 {
   "root": true,
   "parserOptions": {
-    "ecmaVersion": "latest"
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
   "extends": ["eslint:recommended", "eslint-config-prettier", "plugin:jest/recommended"],
   "plugins": ["jest"],
