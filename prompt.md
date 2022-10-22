@@ -14,7 +14,7 @@ Given a prompt
 When I enter an answer
 Then the answer is recorded
 
-Story: View my anwwers
+Story: View my answers
 
 Given some answers recorded
 When I view the view the answers

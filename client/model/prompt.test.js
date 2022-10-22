@@ -10,21 +10,3 @@ describe('create question story', () => {
     expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?' }])
   })
 })
-
-/*
-
-  createPrompt
-    => add to prompt list
-
-  queryQuestionQueue
-    => check the prompt list and answers list, return a list of questions that have not been answered
-
-  answerQuestion
-
-
-  questionQueue.createPrompt
-  questionQueue.query
-  questionQueue.answerQuestion
-  questionQueue.getAnswers
-
-*/
