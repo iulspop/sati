@@ -1,4 +1,4 @@
-function QuestionQueue() {
+function PromptQueue() {
   let questionList = []
   let answerList = []
 
@@ -19,4 +19,4 @@ function QuestionQueue() {
   }
 }
 
-export { QuestionQueue }
+export { PromptQueue }

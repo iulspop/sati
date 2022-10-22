@@ -1,8 +1,8 @@
-import { QuestionQueue } from './prompt'
+import { PromptQueue } from './prompt'
 
 describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
-    const questionQueue = QuestionQueue()
+    const questionQueue = PromptQueue()
 
     questionQueue.createQuestion({ id: 1, question: 'Did you study 2 hours today?' })
     let promptList = questionQueue.query() //Changed from const to let.
