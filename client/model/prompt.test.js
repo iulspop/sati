@@ -5,7 +5,7 @@ describe('create question story', () => {
     const questionQueue = QuestionQueue()
 
     questionQueue.createQuestion({ id: 1, question: 'Did you study 2 hours today?' })
-    const promptList = questionQueue.query()
+    let promptList = questionQueue.query() //Changed from const to let.
 
     expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?' }])
 
@@ -15,5 +15,10 @@ describe('create question story', () => {
 
     // then the answer is recorded
     expect(questionQueue.getAnswers()).toEqual([answer])
+
+    // if a prompt has been answered, then it should be filtered out of the prompt list
+    promptList = questionQueue.query()
+
+    expect(promptList).toEqual([])
   })
 })
