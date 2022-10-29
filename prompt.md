@@ -40,3 +40,11 @@ A queue where prompts appear based on question schedule
 
 Answer:
 A data point which records the answer to one prompt
+
+# Interface Boundaries
+
+CLIENT
+
+UI | Adapter for UI (async interface) | Port (Well-defined API) | Domain Core
+UI | Adapter for REST (async interface) | Port (Well-defined API) | Domain Core
+UI | Adapter for CLI (async interface) | Port (Well-defined API) | Domain Core
