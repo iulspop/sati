@@ -8,7 +8,13 @@ function PromptQueue() {
     },
     query: currentDate =>
       recurringQuestionList
-        .reduce((promptList, recurringQuestion) => [{ questionId: id, question }, ...promptList], [])
+        .reduce(
+          (promptList, { id, question, startDate }) => [
+            ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, date })),
+            ...promptList,
+          ],
+          []
+        )
         .filter(prompt => !answerList.find(answer => answer.questionId === prompt.questionId)),
     answerPrompt: answer => {
       answerList = [...answerList, answer]
@@ -16,13 +22,13 @@ function PromptQueue() {
     getAnswers: () => {
       return answerList
     },
-  };
+  }
 }
 
 const addDays = days => date => {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
+  const result = new Date(date)
+  result.setDate(result.getDate() + days)
+  return result
 }
 
 const addDay = addDays(1)
@@ -38,18 +44,3 @@ const toDayList = (startDate, endDate) => {
 }
 
 export { PromptQueue, toDayList, addDays, addDay }
-
-/*
-
-for each recurring question,
-  create a prompt for each day since the start date, to the current date
-   
-filter out prompts that have already been answered for a date and a question
-
-
-function toDayList(startDate, endDate) => array of dates
-
-
-toDayList(recurringQuestion.startDate, currentDate).map
-
-*/

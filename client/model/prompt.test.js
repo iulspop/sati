@@ -1,6 +1,6 @@
 import { PromptQueue, toDayList, addDay } from './prompt'
 
-describe.skip('create question story', () => {
+describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
     const promptQueue = PromptQueue()
 
@@ -14,25 +14,23 @@ describe.skip('create question story', () => {
     expect(promptList).toEqual([
       { questionId: 1, question: 'Did you study 2 hours today?', date: startDate },
       { questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) },
-    ]);
-
-    const answer = { questionId: 1, date: startDate, answer: true }
-    promptQueue.answerPrompt(answer)
-    expect(promptQueue.getAnswers()).toEqual([answer])
-
-    promptList = promptQueue.query(addDay(startDate))
-    expect(promptList).toEqual([
-      { questionId: 2, question: 'Did you study 2 hours today?', date: addDay(startDate) },
     ])
+
+    // const answer = { questionId: 1, date: startDate, answer: true }
+    // promptQueue.answerPrompt(answer)
+    // expect(promptQueue.getAnswers()).toEqual([answer])
+
+    // promptList = promptQueue.query(addDay(startDate))
+    // expect(promptList).toEqual([{ questionId: 2, question: 'Did you study 2 hours today?', date: addDay(startDate) }])
   })
 })
 
 describe('toDayList funct', () => {
-  test("Test toDayList function", () => {
-    const startDate = new Date(2022, 9, 22, 0, 0, 0, 0);
-    const endDate = new Date(2022, 9, 24, 0, 0, 0, 0);
+  it('creates a list of dates from a startDate and endDate', () => {
+    const startDate = new Date(2022, 9, 22, 0, 0, 0, 0)
+    const endDate = new Date(2022, 9, 24, 0, 0, 0, 0)
 
-    expect(toDayList(startDate, endDate)).toEqual([startDate, addDay(startDate), endDate]);
+    expect(toDayList(startDate, endDate)).toEqual([startDate, addDay(startDate), endDate])
   })
 })
 
