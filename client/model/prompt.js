@@ -15,13 +15,7 @@ function PromptQueue() {
           ],
           []
         )
-        .filter(
-          prompt =>
-            !answerList.find(
-              answer =>
-                answer.questionId === prompt.questionId && answer.date.toDateString() === prompt.date.toDateString()
-            )
-        ),
+        .filter(unlessPromptAnswered(answerList)),
     answerPrompt: answer => {
       answerList = [...answerList, answer]
     },
@@ -30,6 +24,11 @@ function PromptQueue() {
     },
   }
 }
+
+const unlessPromptAnswered = answerList => prompt =>
+  !answerList.find(
+    answer => answer.questionId === prompt.questionId && answer.date.toDateString() === prompt.date.toDateString()
+  )
 
 const addDays = days => date => {
   const result = new Date(date)
