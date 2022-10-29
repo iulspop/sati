@@ -4,7 +4,7 @@ describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
     const promptQueue = PromptQueue()
 
-    const startDate = new Date(2022, 9, 22, 0, 0, 0, 0)
+    const startDate = new Date(2022, 9, 22, 0, 0, 0)
     promptQueue.createRecurringQuestion({
       id: 1,
       question: 'Did you study 2 hours today?',
@@ -16,12 +16,12 @@ describe('create question story', () => {
       { questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) },
     ])
 
-    // const answer = { questionId: 1, date: startDate, answer: true }
-    // promptQueue.answerPrompt(answer)
-    // expect(promptQueue.getAnswers()).toEqual([answer])
+    const answer = { questionId: 1, date: new Date(2022, 9, 22, 9, 0, 0), answer: true }
+    promptQueue.answerPrompt(answer)
+    expect(promptQueue.getAnswers()).toEqual([answer])
 
-    // promptList = promptQueue.query(addDay(startDate))
-    // expect(promptList).toEqual([{ questionId: 2, question: 'Did you study 2 hours today?', date: addDay(startDate) }])
+    promptList = promptQueue.query(addDay(startDate))
+    expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) }])
   })
 })
 

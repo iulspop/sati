@@ -15,7 +15,13 @@ function PromptQueue() {
           ],
           []
         )
-        .filter(prompt => !answerList.find(answer => answer.questionId === prompt.questionId)),
+        .filter(
+          prompt =>
+            !answerList.find(
+              answer =>
+                answer.questionId === prompt.questionId && answer.date.toDateString() === prompt.date.toDateString()
+            )
+        ),
     answerPrompt: answer => {
       answerList = [...answerList, answer]
     },
