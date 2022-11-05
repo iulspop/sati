@@ -7,7 +7,7 @@ function PromptQueue() {
       recurringQuestionList = [...recurringQuestionList, question]
     },
     query: currentDate =>
-      pipe(createPromptList(recurringQuestionList), filterUnansweredPrompts(answerList))(currentDate),
+      pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate),
     answerPrompt: answer => {
       answerList = [...answerList, answer]
     },
@@ -17,7 +17,7 @@ function PromptQueue() {
   }
 }
 
-const createPromptList = recurringQuestionList => currentDate =>
+const calculatePromptList = recurringQuestionList => currentDate =>
   recurringQuestionList.reduce(
     (promptList, { id, question, startDate }) => [
       ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, date })),
@@ -26,7 +26,7 @@ const createPromptList = recurringQuestionList => currentDate =>
     []
   )
 
-const filterUnansweredPrompts = answerList => promptList =>
+const keepUnlessPromptAnswered = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
