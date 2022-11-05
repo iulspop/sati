@@ -1,4 +1,4 @@
-import { PromptQueue, toDayList, addDay, addDays } from './prompt'
+import { PromptQueue, toDayList, addDay } from './prompt'
 
 describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
@@ -13,7 +13,7 @@ describe('create question story', () => {
     })
 
     // Query Prompts
-    let promptList = promptQueue.query(addDays(startDate))
+    let promptList = promptQueue.query(addDay(startDate))
     expect(promptList).toEqual([
       { questionId: 1, question: 'Did you study 2 hours today?', date: startDate },
       { questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) },
@@ -52,6 +52,35 @@ Next Steps:
 Future Features:
 - Create recurring question at different intervals
   - Current interval is assumed to be 1 day
+  - What intervals do we want to support?
+    - inverval builder
+    - once a day
+    - once a week
+      tuesday, thursday, sunday at 8pm
+    - once a month
+
+    - interval will just be a piece of data
+    {
+      daysOfTheWeek: ["tuesday", "thursday", "sunday"],
+    }
+
+    Interval => data points to be collected => prompt of each
+
+    reminders
+    {
+
+    }
+
+    - How many times a day I want to be prompted?
+      - 8AM, 9PM
+      - which days of the week is it activated?
+
+      - But maybe on tuesdays I want to be prompted at 7AM and 8PM?
+        then need finer grained control
+
+    - Specify days of the week you wanted to be prompted on?
+      - default time applies to days select
+      - but can override time for specific days
 
 
 
@@ -63,6 +92,6 @@ Ports
 GUI => GUI Adapter (implements port API/interface/contract) => Domain Core
 CLI => CLI Adapter (implements port API/interface/contract) => Domain Core
 
-Adapters
+Driving => Domain Core => Driven
 
 */
