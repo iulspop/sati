@@ -1,25 +1,30 @@
-import { PromptQueue, toDayList, addDay } from './prompt'
+import { PromptQueue, toDayList, addDay, addDays } from './prompt'
 
 describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
     const promptQueue = PromptQueue()
 
+    // Create Recurring Question
     const startDate = new Date(2022, 9, 22, 0, 0, 0)
     promptQueue.createRecurringQuestion({
       id: 1,
       question: 'Did you study 2 hours today?',
       startDate,
     })
-    let promptList = promptQueue.query(addDay(startDate))
+
+    // Query Prompts
+    let promptList = promptQueue.query(addDays(startDate))
     expect(promptList).toEqual([
       { questionId: 1, question: 'Did you study 2 hours today?', date: startDate },
       { questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) },
     ])
 
-    const answer = { questionId: 1, date: new Date(2022, 9, 22, 9, 0, 0), answer: true }
+    // Answer Prompt
+    const answer = { questionId: 1, date: new Date(startDate), answer: true }
     promptQueue.answerPrompt(answer)
     expect(promptQueue.getAnswers()).toEqual([answer])
 
+    // Answered Prompts Should Not Prompt Again
     promptList = promptQueue.query(addDay(startDate))
     expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) }])
   })
@@ -37,11 +42,27 @@ describe('toDayList funct', () => {
 /*
 
 TODO:
-- Add notion of date & time to the prompt queue
-  - Recurring Question should have a start date (stores timestamp not date object)
-  - Querying queue takes a timestamp
-  - Answers should have a timestamp
-  - PromptQueue should filter out questions that have already been answered for their specific date
+Next Steps:
+- Define port interface
+  - options: it write down or define a typescript interface and/or write contract test
+- Implement port interface as CLI adapter
+  - CLI adapter should have contract test
+- Create CLI program
+
+Future Features:
 - Create recurring question at different intervals
+  - Current interval is assumed to be 1 day
+
+
+
+Ports & Adapters
+
+Ports
+  well-defined interfaces for interacting with domain core
+
+GUI => GUI Adapter (implements port API/interface/contract) => Domain Core
+CLI => CLI Adapter (implements port API/interface/contract) => Domain Core
+
+Adapters
 
 */
