@@ -1,5 +1,5 @@
 import { PromptQueue, toDayList, addDay } from './prompt'
-import 'jest'
+import { describe, it, expect } from 'vitest'
 
 describe('create question story', () => {
   it('when I create a question, then I should receive a prompt at the times I set', () => {
