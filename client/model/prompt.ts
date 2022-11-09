@@ -3,17 +3,11 @@ function PromptQueue() {
   let answerList = []
 
   return {
-    createRecurringQuestion: question => {
-      recurringQuestionList = [...recurringQuestionList, question]
-    },
-    query: currentDate =>
+    createRecurringQuestion: async question => (recurringQuestionList = [...recurringQuestionList, question]),
+    query: async currentDate =>
       pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate),
-    answerPrompt: answer => {
-      answerList = [...answerList, answer]
-    },
-    getAnswers: () => {
-      return answerList
-    },
+    answerPrompt: async answer => (answerList = [...answerList, answer]),
+    getAnswers: async () => answerList,
   }
 }
 

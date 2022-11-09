@@ -1,20 +1,20 @@
 import { PromptQueue, toDayList, addDay } from './prompt'
 import { describe, it, expect } from 'vitest'
 
-describe('create question story', () => {
-  it('when I create a question, then I should receive a prompt at the times I set', () => {
+describe('create question story', async () => {
+  it('when I create a question, then I should receive a prompt at the times I set', async () => {
     const promptQueue = PromptQueue()
 
     // Create Recurring Question
     const startDate = new Date(2022, 9, 22, 0, 0, 0)
-    promptQueue.createRecurringQuestion({
+    await promptQueue.createRecurringQuestion({
       id: 1,
       question: 'Did you study 2 hours today?',
       startDate,
     })
 
     // Query Prompts
-    let promptList = promptQueue.query(addDay(startDate))
+    let promptList = await promptQueue.query(addDay(startDate))
     expect(promptList).toEqual([
       { questionId: 1, question: 'Did you study 2 hours today?', date: startDate },
       { questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) },
@@ -22,11 +22,11 @@ describe('create question story', () => {
 
     // Answer Prompt
     const answer = { questionId: 1, date: new Date(startDate), answer: true }
-    promptQueue.answerPrompt(answer)
-    expect(promptQueue.getAnswers()).toEqual([answer])
+    await promptQueue.answerPrompt(answer)
+    expect(await promptQueue.getAnswers()).toEqual([answer])
 
     // Answered Prompts Should Not Prompt Again
-    promptList = promptQueue.query(addDay(startDate))
+    promptList = await promptQueue.query(addDay(startDate))
     expect(promptList).toEqual([{ questionId: 1, question: 'Did you study 2 hours today?', date: addDay(startDate) }])
   })
 })
