@@ -1,6 +1,6 @@
 import RecurringQuestion from '../entities/recurringQuestion'
 
 export default interface RecurringQuestionRepository {
-  findAll(): Promise<Array<RecurringQuestion>>
-  save(reucrringQuestion: RecurringQuestion): Promise<void>
+  findMany(): Promise<Array<RecurringQuestion>>
+  create(reucrringQuestion: RecurringQuestion): Promise<void>
 }

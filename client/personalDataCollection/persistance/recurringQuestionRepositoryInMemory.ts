@@ -5,10 +5,10 @@ export default function recurringQuestionRepositoryInMemory(): RecurringQuestion
   let recurringQuestions: RecurringQuestion[] = []
 
   return {
-    async findAll() {
+    async findMany() {
       return recurringQuestions
     },
-    async save(recurringQuestion: RecurringQuestion) {
+    async create(recurringQuestion: RecurringQuestion) {
       recurringQuestions = [...recurringQuestions, recurringQuestion]
     },
   }

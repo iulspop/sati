@@ -5,10 +5,10 @@ export default function answerRepositoryInMemory(): AnswerRepository {
   let answers: Answer[] = []
 
   return {
-    async findAll() {
+    async findMany() {
       return answers
     },
-    async save(answer: Answer) {
+    async create(answer: Answer) {
       answers = [...answers, answer]
     },
   }
