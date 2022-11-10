@@ -1,4 +1,4 @@
-import { PromptQueue, toDayList, addDay } from './prompt'
+import { PromptQueue, toDayList, addDay } from './promptQueue'
 import { describe, it, expect } from 'vitest'
 
 describe('create question story', async () => {
