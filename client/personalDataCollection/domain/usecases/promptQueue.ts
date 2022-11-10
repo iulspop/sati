@@ -3,12 +3,28 @@ function PromptQueue() {
   let answerList = []
 
   return {
-    createRecurringQuestion: async question => (recurringQuestionList = [...recurringQuestionList, question]),
-    query: async currentDate =>
-      pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate),
-    answerPrompt: async answer => (answerList = [...answerList, answer]),
-    getAnswers: async () => answerList,
+    createRecurringQuestion: async question => {
+      return (recurringQuestionList = [...recurringQuestionList, question])
+    },
+    query: async currentDate => {
+      return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
+    },
+    answerPrompt: async answer => {
+      return (answerList = [...answerList, answer])
+    },
+    getAnswers: async () => {
+      return answerList
+    },
   }
+}
+
+// eslint-disable-next-line
+const promptQueue = {
+  createRecurringQuestion: async (recurringQuestionList, question) =>
+    (recurringQuestionList = [...recurringQuestionList, question]),
+  query: async (recurringQuestionList, answerList, currentDate) =>
+    pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate),
+  answerPrompt: async (answerList, answer) => (answerList = [...answerList, answer]),
 }
 
 const calculatePromptList = recurringQuestionList => currentDate =>
