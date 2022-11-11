@@ -5,9 +5,7 @@ import RecurringQuestion from '../entities/recurring-question'
 import Answer from '../entities/answer'
 import PromptQueueAPI from './prompt-queue-api'
 
-type a = (
-  recurringQuestionRepository: RecurringQuestionRepository
-) => (answerRepository: AnswerRepository) => PromptQueueAPI
+type a = (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
   createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
   query: async currentDate => {
@@ -38,8 +36,7 @@ const keepUnlessPromptAnswered: c = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
-        answer =>
-          answer.questionId === prompt.questionId && answer.timestamp.toDateString() === prompt.timestamp.toDateString()
+        answer => answer.questionId === prompt.questionId && answer.timestamp.toDateString() === prompt.timestamp.toDateString()
       )
   )
 
