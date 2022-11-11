@@ -1,6 +1,6 @@
 import { PromptQueue, toDayList, addDay } from './promptQueue'
-import answerRepositoryInMemory from '../../persistance/answerRepositoryInMemory'
-import recurringQuestionRepositoryInMemory from '../../persistance/recurringQuestionRepositoryInMemory'
+import answerRepositoryInMemory from '../../infrastructure/answerRepositoryInMemory'
+import recurringQuestionRepositoryInMemory from '../../infrastructure/recurringQuestionRepositoryInMemory'
 import { describe } from 'vitest'
 import { assert } from '~/test/assert'
 
