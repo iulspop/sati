@@ -1,5 +1,5 @@
 import { Answer, createAnswer } from '../domain/entities/answer'
-import AnswerRepository from '../domain/repositories/answerRepository'
+import AnswerRepository from '../domain/repositories/answer-repository'
 
 export default function answerRepositoryInMemory(): AnswerRepository {
   let answers: Answer[] = []

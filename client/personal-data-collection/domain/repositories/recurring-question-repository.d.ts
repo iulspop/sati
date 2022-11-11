@@ -1,4 +1,4 @@
-import RecurringQuestion from '../entities/recurringQuestion'
+import RecurringQuestion from '../entities/recurring-question'
 
 export default interface RecurringQuestionRepository {
   findMany(): Promise<Array<RecurringQuestion>>

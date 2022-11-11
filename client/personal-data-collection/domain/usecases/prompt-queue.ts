@@ -1,7 +1,7 @@
-import AnswerRepository from '../repositories/answerRepository'
-import RecurringQuestionRepository from '../repositories/recurringQuestionRepository'
+import AnswerRepository from '../repositories/answer-repository'
+import RecurringQuestionRepository from '../repositories/recurring-question-repository'
 import Prompt from '../entities/prompt'
-import RecurringQuestion from '../entities/recurringQuestion'
+import RecurringQuestion from '../entities/recurring-question'
 import Answer from '../entities/answer'
 
 interface PromptQueueAPI {

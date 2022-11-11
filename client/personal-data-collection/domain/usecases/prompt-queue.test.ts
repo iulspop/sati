@@ -1,11 +1,11 @@
 import { describe } from 'vitest'
 import { assert } from '~/test/assert'
 
-import { PromptQueue, toDayList, addDay } from './promptQueue'
-import answerRepositoryInMemory from '../../infrastructure/answerRepositoryInMemory'
-import recurringQuestionRepositoryInMemory from '../../infrastructure/recurringQuestionRepositoryInMemory'
-import Prompt from '../../domain/entities/prompt'
-import { Answer } from '../../domain/entities/answer'
+import { PromptQueue, toDayList, addDay } from './prompt-queue'
+import answerRepositoryInMemory from '../../infrastructure/answer-repository-in-memory'
+import recurringQuestionRepositoryInMemory from '../../infrastructure/recurring-question-repository-in-memory'
+import Prompt from '../entities/prompt'
+import { Answer } from '../entities/answer'
 
 describe('promptQueue()', async () => {
   const promptQueue = PromptQueue(recurringQuestionRepositoryInMemory())(answerRepositoryInMemory())
