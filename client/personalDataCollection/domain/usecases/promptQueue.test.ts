@@ -1,21 +1,28 @@
-import { PromptQueue, toDayList, addDay } from './promptQueue'
-import answerRepositoryInMemory from '../../infrastructure/answerRepositoryInMemory'
-import recurringQuestionRepositoryInMemory from '../../infrastructure/recurringQuestionRepositoryInMemory'
 import { describe } from 'vitest'
 import { assert } from '~/test/assert'
 
+import { PromptQueue, toDayList, addDay } from './promptQueue'
+import answerRepositoryInMemory from '../../infrastructure/answerRepositoryInMemory'
+import recurringQuestionRepositoryInMemory from '../../infrastructure/recurringQuestionRepositoryInMemory'
+import Prompt from '../../domain/entities/prompt'
+import { Answer } from '../../domain/entities/answer'
+
 describe('promptQueue()', async () => {
   const promptQueue = PromptQueue(recurringQuestionRepositoryInMemory())(answerRepositoryInMemory())
-
-  // Create Recurring Question
   const startDate = new Date(2022, 9, 22, 0, 0, 0)
+  const firstDayPrompt: Prompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: startDate }
+  const secondDayPrompt: Prompt = {
+    questionId: '1',
+    question: 'Did you study 2 hours today?',
+    timestamp: addDay(startDate),
+  }
+  const firstDayAnswer: Answer = { id: '1', questionId: '1', timestamp: new Date(startDate), response: true }
+
   await promptQueue.createRecurringQuestion({
     id: '1',
     question: 'Did you study 2 hours today?',
     startDate,
   })
-  const firstDayPrompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: startDate }
-  const secondDayPrompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: addDay(startDate) }
 
   assert({
     given: 'a query the day after the start date',
@@ -24,8 +31,6 @@ describe('promptQueue()', async () => {
     expected: [firstDayPrompt, secondDayPrompt],
   })
 
-  // Answer a Prompt
-  const firstDayAnswer = { id: '1', questionId: '1', timestamp: new Date(startDate), response: true }
   await promptQueue.answerPrompt(firstDayAnswer)
 
   assert({
