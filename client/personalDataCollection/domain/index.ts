@@ -1,3 +1,5 @@
-// import { PromptQueue } from './usecases/promptQueue'
+import answerRepositoryInMemory from '../persistance/answerRepositoryInMemory'
+import recurringQuestionRepositoryInMemory from '../persistance/recurringQuestionRepositoryInMemory'
+import { PromptQueue } from './usecases/promptQueue'
 
-// init Prompt Queue with Repositories and export it
+export const promptQueue = PromptQueue(answerRepositoryInMemory())(recurringQuestionRepositoryInMemory())

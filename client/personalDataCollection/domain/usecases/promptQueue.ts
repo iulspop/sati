@@ -1,31 +1,22 @@
-function PromptQueue() {
-  let recurringQuestionList = []
-  let answerList = []
+import { createRecurringQuestion } from '../entities/recurringQuestion'
 
-  return {
-    createRecurringQuestion: async question => {
-      return (recurringQuestionList = [...recurringQuestionList, question])
-    },
-    query: async currentDate => {
-      return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
-    },
-    answerPrompt: async answer => {
-      return (answerList = [...answerList, answer])
-    },
-    getAnswers: async () => {
-      return answerList
-    },
-  }
-}
-
-// eslint-disable-next-line
-const promptQueue = {
-  createRecurringQuestion: async (recurringQuestionList, question) =>
-    (recurringQuestionList = [...recurringQuestionList, question]),
-  query: async (recurringQuestionList, answerList, currentDate) =>
-    pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate),
-  answerPrompt: async (answerList, answer) => (answerList = [...answerList, answer]),
-}
+const PromptQueue = recurringQuestionRepository => answerRepository => ({
+  saveRecurringQuestion: async question => {
+    const recurringQuestion = createRecurringQuestion(question)
+    await recurringQuestionRepository.create(recurringQuestion)
+  },
+  query: async currentDate => {
+    const recurringQuestionList = await recurringQuestionRepository.findMany()
+    const answerList = await answerRepository.findMany()
+    return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
+  },
+  answerPrompt: async answer => {
+    await answerRepository.create(answer)
+  },
+  getAnswers: async () => {
+    return answerRepository.findMany()
+  },
+})
 
 const calculatePromptList = recurringQuestionList => currentDate =>
   recurringQuestionList.reduce(

@@ -1,5 +1,5 @@
 export default interface Answer {
-  questionId: number
+  questionId: string
   answer: boolean
   date: Date
 }

@@ -6,7 +6,8 @@
     "moduleResolution": "Node",
     "pretty": true,
     "noImplicitAny": false,
-    "strictNullChecks": false
+    "strictNullChecks": false,
+    "esModuleInterop": true
   },
   "include": ["client/**/*.ts"]
 }
