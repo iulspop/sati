@@ -1,27 +1,26 @@
-import { createRecurringQuestion } from '../entities/recurringQuestion'
+import AnswerRepository from '../repositories/answerRepository'
+import RecurringQuestionRepository from '../repositories/recurringQuestionRepository'
 
-const PromptQueue = recurringQuestionRepository => answerRepository => ({
-  saveRecurringQuestion: async question => {
-    const recurringQuestion = createRecurringQuestion(question)
-    await recurringQuestionRepository.create(recurringQuestion)
-  },
-  query: async currentDate => {
-    const recurringQuestionList = await recurringQuestionRepository.findMany()
-    const answerList = await answerRepository.findMany()
-    return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
-  },
-  answerPrompt: async answer => {
-    await answerRepository.create(answer)
-  },
-  getAnswers: async () => {
-    return answerRepository.findMany()
-  },
-})
+const PromptQueue =
+  (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => ({
+    createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
+    query: async currentDate => {
+      const recurringQuestionList = await recurringQuestionRepository.findMany()
+      const answerList = await answerRepository.findMany()
+      return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
+    },
+    answerPrompt: async answer => {
+      await answerRepository.create(answer)
+    },
+    getAnswers: async () => {
+      return answerRepository.findMany()
+    },
+  })
 
 const calculatePromptList = recurringQuestionList => currentDate =>
   recurringQuestionList.reduce(
     (promptList, { id, question, startDate }) => [
-      ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, date })),
+      ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, timestamp: date })),
       ...promptList,
     ],
     []
@@ -31,7 +30,8 @@ const keepUnlessPromptAnswered = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
-        answer => answer.questionId === prompt.questionId && answer.date.toDateString() === prompt.date.toDateString()
+        answer =>
+          answer.questionId === prompt.questionId && answer.timestamp.toDateString() === prompt.timestamp.toDateString()
       )
   )
 

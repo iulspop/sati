@@ -1,4 +1,4 @@
-import RecurringQuestion from '../domain/entities/recurringQuestion'
+import { RecurringQuestion, createRecurringQuestion } from '../domain/entities/recurringQuestion'
 import RecurringQuestionRepository from '../domain/repositories/recurringQuestionRepository'
 
 export default function recurringQuestionRepositoryInMemory(): RecurringQuestionRepository {
@@ -9,7 +9,7 @@ export default function recurringQuestionRepositoryInMemory(): RecurringQuestion
       return recurringQuestions
     },
     async create(recurringQuestion: RecurringQuestion) {
-      recurringQuestions = [...recurringQuestions, recurringQuestion]
+      recurringQuestions = [...recurringQuestions, createRecurringQuestion(recurringQuestion)]
     },
   }
 }

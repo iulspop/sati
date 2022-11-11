@@ -1,5 +1,17 @@
+import cuid from 'cuid'
+
 export default interface Answer {
+  id: string
   questionId: string
-  answer: boolean
-  date: Date
+  response: boolean
+  timestamp: Date
 }
+
+const createAnswer = ({ id = cuid(), questionId, response = false, timestamp = new Date() }): Answer => ({
+  id,
+  questionId,
+  response,
+  timestamp,
+})
+
+export { Answer, createAnswer }

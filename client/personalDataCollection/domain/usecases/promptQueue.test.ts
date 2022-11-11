@@ -5,43 +5,41 @@ import { describe } from 'vitest'
 import { assert } from '~/test/assert'
 
 describe('promptQueue()', async () => {
-  const promptQueue = PromptQueue(answerRepositoryInMemory())(recurringQuestionRepositoryInMemory())
+  const promptQueue = PromptQueue(recurringQuestionRepositoryInMemory())(answerRepositoryInMemory())
 
   // Create Recurring Question
   const startDate = new Date(2022, 9, 22, 0, 0, 0)
-  await promptQueue.saveRecurringQuestion({
+  await promptQueue.createRecurringQuestion({
     id: '1',
     question: 'Did you study 2 hours today?',
     startDate,
   })
-  const promptList = await promptQueue.query(addDay(startDate))
+  const firstDayPrompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: startDate }
+  const secondDayPrompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: addDay(startDate) }
 
   assert({
     given: 'a query the day after the start date',
     should: 'return two prompts, one for each day',
-    actual: promptList,
-    expected: [
-      { questionId: '1', question: 'Did you study 2 hours today?', date: startDate },
-      { questionId: '1', question: 'Did you study 2 hours today?', date: addDay(startDate) },
-    ],
+    actual: await promptQueue.query(addDay(startDate)),
+    expected: [firstDayPrompt, secondDayPrompt],
   })
 
   // Answer a Prompt
-  const answer = { questionId: '1', date: new Date(startDate), answer: true }
-  await promptQueue.answerPrompt(answer)
+  const firstDayAnswer = { id: '1', questionId: '1', timestamp: new Date(startDate), response: true }
+  await promptQueue.answerPrompt(firstDayAnswer)
 
   assert({
-    given: 'a prompt answered',
-    should: 'save one answer',
+    given: 'one prompt answered',
+    should: 'return one answer',
     actual: await promptQueue.getAnswers(),
-    expected: [answer],
+    expected: [firstDayAnswer],
   })
 
   assert({
     given: 'a prompt answered',
     should: 'not show the prompt again',
     actual: await promptQueue.query(addDay(startDate)),
-    expected: [{ questionId: '1', question: 'Did you study 2 hours today?', date: addDay(startDate) }],
+    expected: [secondDayPrompt],
   })
 })
 

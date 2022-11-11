@@ -1,4 +1,4 @@
-import Answer from '../domain/entities/answer'
+import { Answer, createAnswer } from '../domain/entities/answer'
 import AnswerRepository from '../domain/repositories/answerRepository'
 
 export default function answerRepositoryInMemory(): AnswerRepository {
@@ -9,7 +9,7 @@ export default function answerRepositoryInMemory(): AnswerRepository {
       return answers
     },
     async create(answer: Answer) {
-      answers = [...answers, answer]
+      answers = [...answers, createAnswer(answer)]
     },
   }
 }
