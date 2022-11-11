@@ -1,8 +1,19 @@
 import AnswerRepository from '../repositories/answerRepository'
 import RecurringQuestionRepository from '../repositories/recurringQuestionRepository'
+import Prompt from '../entities/prompt'
+import RecurringQuestion from '../entities/recurringQuestion'
+import Answer from '../entities/answer'
+
+interface PromptQueueAPI {
+  createRecurringQuestion: (recurringQuestion: RecurringQuestion) => Promise<void>
+  query: (currentDate: Date) => Promise<Array<Prompt>>
+  answerPrompt: (answer: Answer) => Promise<void>
+  getAnswers: () => Promise<Array<Answer>>
+}
 
 const PromptQueue =
-  (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => ({
+  (recurringQuestionRepository: RecurringQuestionRepository) =>
+  (answerRepository: AnswerRepository): PromptQueueAPI => ({
     createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
     query: async currentDate => {
       const recurringQuestionList = await recurringQuestionRepository.findMany()
@@ -17,7 +28,8 @@ const PromptQueue =
     },
   })
 
-const calculatePromptList = recurringQuestionList => currentDate =>
+type x = (recurringQuestionList: Array<RecurringQuestion>) => (currentDate: Date) => Array<Prompt>
+const calculatePromptList: x = recurringQuestionList => currentDate =>
   recurringQuestionList.reduce(
     (promptList, { id, question, startDate }) => [
       ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, timestamp: date })),
@@ -26,7 +38,8 @@ const calculatePromptList = recurringQuestionList => currentDate =>
     []
   )
 
-const keepUnlessPromptAnswered = answerList => promptList =>
+type y = (answerList: Array<Answer>) => (promptList: Array<Prompt>) => Array<Prompt>
+const keepUnlessPromptAnswered: y = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
