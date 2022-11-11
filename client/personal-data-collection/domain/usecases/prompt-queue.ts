@@ -3,33 +3,28 @@ import RecurringQuestionRepository from '../repositories/recurring-question-repo
 import Prompt from '../entities/prompt'
 import RecurringQuestion from '../entities/recurring-question'
 import Answer from '../entities/answer'
+import PromptQueueAPI from './prompt-queue-api'
 
-interface PromptQueueAPI {
-  createRecurringQuestion: (recurringQuestion: RecurringQuestion) => Promise<void>
-  query: (currentDate: Date) => Promise<Array<Prompt>>
-  answerPrompt: (answer: Answer) => Promise<void>
-  getAnswers: () => Promise<Array<Answer>>
-}
+type a = (
+  recurringQuestionRepository: RecurringQuestionRepository
+) => (answerRepository: AnswerRepository) => PromptQueueAPI
+const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
+  createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
+  query: async currentDate => {
+    const recurringQuestionList = await recurringQuestionRepository.findMany()
+    const answerList = await answerRepository.findMany()
+    return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
+  },
+  answerPrompt: async answer => {
+    await answerRepository.create(answer)
+  },
+  getAnswers: async () => {
+    return answerRepository.findMany()
+  },
+})
 
-const PromptQueue =
-  (recurringQuestionRepository: RecurringQuestionRepository) =>
-  (answerRepository: AnswerRepository): PromptQueueAPI => ({
-    createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
-    query: async currentDate => {
-      const recurringQuestionList = await recurringQuestionRepository.findMany()
-      const answerList = await answerRepository.findMany()
-      return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
-    },
-    answerPrompt: async answer => {
-      await answerRepository.create(answer)
-    },
-    getAnswers: async () => {
-      return answerRepository.findMany()
-    },
-  })
-
-type x = (recurringQuestionList: Array<RecurringQuestion>) => (currentDate: Date) => Array<Prompt>
-const calculatePromptList: x = recurringQuestionList => currentDate =>
+type b = (recurringQuestionList: Array<RecurringQuestion>) => (currentDate: Date) => Array<Prompt>
+const calculatePromptList: b = recurringQuestionList => currentDate =>
   recurringQuestionList.reduce(
     (promptList, { id, question, startDate }) => [
       ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, timestamp: date })),
@@ -38,8 +33,8 @@ const calculatePromptList: x = recurringQuestionList => currentDate =>
     []
   )
 
-type y = (answerList: Array<Answer>) => (promptList: Array<Prompt>) => Array<Prompt>
-const keepUnlessPromptAnswered: y = answerList => promptList =>
+type c = (answerList: Array<Answer>) => (promptList: Array<Prompt>) => Array<Prompt>
+const keepUnlessPromptAnswered: c = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
