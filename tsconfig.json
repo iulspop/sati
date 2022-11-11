@@ -7,7 +7,12 @@
     "pretty": true,
     "noImplicitAny": false,
     "strictNullChecks": false,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./client/*"]
+    }
   },
+
   "include": ["client/**/*.ts"]
 }
