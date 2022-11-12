@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-import promptQueue from './personal-data-collection/controllers/cli-to-prompt-queue.js'
+import { createRecurringQuestion, query } from './personal-data-collection/controllers/cli-prompt-queue.js'
 
 yargs(hideBin(process.argv))
   .scriptName('inquire')
@@ -14,7 +14,7 @@ yargs(hideBin(process.argv))
         describe: 'the question to add',
         type: 'string',
       }),
-    promptQueue.createRecurringQuestion
+    createRecurringQuestion
   )
-  .command('query', 'query for questions', promptQueue.query)
+  .command('query', 'query for questions', query)
   .help().argv
