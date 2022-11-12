@@ -18,7 +18,7 @@ console.log(storageDirPath)
 describe('promptQueue()', async () => {
   if (fs.existsSync(path.join(storageDirPath, 'answers.json'))) fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
   if (fs.existsSync(path.join(storageDirPath, 'recurring-questions.json')))
-    fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
+    fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
 
   const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
   const startDate = new Date(2022, 9, 22, 0, 0, 0)
