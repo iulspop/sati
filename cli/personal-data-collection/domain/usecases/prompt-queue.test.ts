@@ -25,7 +25,7 @@ describe('promptQueue()', async () => {
   })
 
   assert({
-    given: 'a query the day after the start date',
+    given: 'a query the next day after creating a recurring question',
     should: 'return two prompts, one for each day',
     actual: await promptQueue.query(addDay(startDate)),
     expected: [firstDayPrompt, secondDayPrompt],
