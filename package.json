@@ -23,8 +23,8 @@
   },
   "scripts": {
     "test": "npm run test:watch",
-    "test:watch": "npm run compile && npx vitest --no-threads",
-    "cli": "npm run compile && node ./bin/index.js",
+    "test:watch": "npm run compile && STORAGE_PATH=test-storage npx vitest --no-threads",
+    "cli": "npm run compile && STORAGE_PATH=storage node ./bin/index.js",
     "format": "npx prettier --write .",
     "lint": "npx eslint .",
     "compile": "npx tsc -p  ./",

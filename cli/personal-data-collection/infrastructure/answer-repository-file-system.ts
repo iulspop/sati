@@ -5,9 +5,8 @@ import path from 'path'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
-
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const storageDirPath = path.join(__dirname, '..', '..', '..', 'storage')
+const storageDirPath = path.join(__dirname, '..', '..', '..', process.env.STORAGE_PATH)
 
 export default function answerRepositoryFileSystem(): AnswerRepository {
   if (!fs.existsSync(storageDirPath)) fs.mkdirSync(storageDirPath)

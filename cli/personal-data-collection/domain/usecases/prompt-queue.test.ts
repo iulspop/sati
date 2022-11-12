@@ -10,10 +10,8 @@ import path from 'path'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
-
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const storageDirPath = path.join(__dirname, '..', '..', '..', '..', 'storage')
-console.log(storageDirPath)
+const storageDirPath = path.join(__dirname, '..', '..', '..', '..', process.env.STORAGE_PATH)
 
 describe('promptQueue()', async () => {
   if (fs.existsSync(path.join(storageDirPath, 'answers.json'))) fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
