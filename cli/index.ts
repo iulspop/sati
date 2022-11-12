@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-import { createRecurringQuestion, query } from './personal-data-collection/controllers/cli-prompt-queue.js'
+import { createRecurringQuestion, query } from './personal-data-collection/application/cli-prompt-queue.js'
 
 yargs(hideBin(process.argv))
   .scriptName('inquire')
