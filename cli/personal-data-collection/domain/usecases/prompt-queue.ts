@@ -3,7 +3,13 @@ import RecurringQuestionRepository from '../repositories/recurring-question-repo
 import Prompt from '../entities/prompt'
 import RecurringQuestion from '../entities/recurring-question'
 import Answer from '../entities/answer'
-import PromptQueueAPI from './prompt-queue-api'
+
+interface PromptQueueAPI {
+  createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
+  query: (currentDate?: Date) => Promise<Array<Prompt>>
+  answerPrompt: (answer: Partial<Answer>) => Promise<void>
+  getAnswers: () => Promise<Array<Answer>>
+}
 
 type a = (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
