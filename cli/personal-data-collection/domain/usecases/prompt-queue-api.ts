@@ -5,6 +5,6 @@ import RecurringQuestion from '../entities/recurring-question'
 export default interface PromptQueueAPI {
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
   query: (currentDate?: Date) => Promise<Array<Prompt>>
-  answerPrompt: (answer: Answer) => Promise<void>
+  answerPrompt: (answer: Partial<Answer>) => Promise<void>
   getAnswers: () => Promise<Array<Answer>>
 }

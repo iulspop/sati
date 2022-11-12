@@ -1,14 +1,13 @@
-import { describe } from 'vitest'
-import { assert } from '~/test/assert'
-
-import { PromptQueue, toDayList, addDay } from './prompt-queue'
-import answerRepositoryInMemory from '../../infrastructure/answer-repository-in-memory'
-import recurringQuestionRepositoryInMemory from '../../infrastructure/recurring-question-repository-in-memory'
-import Prompt from '../entities/prompt'
 import { Answer } from '../entities/answer'
+import { assert } from '~/test/assert'
+import { describe } from 'vitest'
+import { PromptQueue, toDayList, addDay } from './prompt-queue'
+import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
+import Prompt from '../entities/prompt'
+import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
 
 describe('promptQueue()', async () => {
-  const promptQueue = PromptQueue(recurringQuestionRepositoryInMemory())(answerRepositoryInMemory())
+  const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
   const startDate = new Date(2022, 9, 22, 0, 0, 0)
   const firstDayPrompt: Prompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: startDate }
   const secondDayPrompt: Prompt = {
