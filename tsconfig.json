@@ -10,9 +10,9 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./client/*"]
+      "~/*": ["cli/*"]
     }
   },
 
-  "include": ["client/**/*.ts"]
+  "include": ["cli/**/*.ts"]
 }

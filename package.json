@@ -8,6 +8,8 @@
     "@faker-js/faker": "^7.6.0",
     "@types/jest": "^29.2.2",
     "@types/node": "^18.11.9",
+    "@types/prompts": "^2.4.1",
+    "@types/yargs": "^17.0.13",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
     "eslint": "^8.27.0",
@@ -22,9 +24,10 @@
   "scripts": {
     "test": "npm run test:watch",
     "test:watch": "npx vitest",
+    "cli": "npm run compile && node --experimental-specifier-resolution=node ./bin/index.js",
     "format": "npx prettier --write .",
     "lint": "npx eslint .",
-    "compile": "npx tsc",
+    "compile": "npx tsc -p  ./",
     "prepare": "husky install"
   },
   "repository": {
@@ -37,5 +40,9 @@
   "bugs": {
     "url": "https://github.com/iulspop/behavior-design-app/issues"
   },
-  "homepage": "https://github.com/iulspop/behavior-design-app#readme"
+  "homepage": "https://github.com/iulspop/behavior-design-app#readme",
+  "dependencies": {
+    "prompts": "^2.4.2",
+    "yargs": "^17.6.2"
+  }
 }
