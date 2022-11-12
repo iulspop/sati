@@ -10,10 +10,10 @@ const query = async () => {
 }
 
 const mapPromptsToQuestions = promptList =>
-  promptList.map(({ question }, index) => ({
+  promptList.map(({ question, timestamp }, index) => ({
     type: 'toggle',
     name: String(index),
-    message: question,
+    message: `${timestamp}: ${question}`,
     initial: true,
     active: 'yes',
     inactive: 'no',
