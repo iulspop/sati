@@ -1,10 +1,6 @@
 import prompts from 'prompts'
-import { PromptQueue } from '../domain/usecases/prompt-queue'
 import { addDay } from '../domain/usecases/prompt-queue'
-import answerRepositoryFileSystem from '../infrastructure/answer-repository-file-system'
-import recurringQuestionRepositoryFileSystem from '../infrastructure/recurring-question-repository-file-system'
-
-const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
+import { promptQueue } from '../domain'
 
 const cliToPromptQueue = {
   createRecurringQuestion: async argv => await promptQueue.createRecurringQuestion({ question: argv.question }),
