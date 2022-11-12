@@ -61,6 +61,7 @@ describe('promptQueue()', async () => {
 
   fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
   fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
+  fs.rmdirSync(storageDirPath)
 })
 
 describe('toDayList()', () => {

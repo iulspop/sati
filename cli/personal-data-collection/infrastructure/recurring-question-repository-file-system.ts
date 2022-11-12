@@ -10,6 +10,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const storageDirPath = path.join(__dirname, '..', '..', '..', 'storage')
 
 export default function recurringQuestionRepositoryFileSystem(): RecurringQuestionRepository {
+  if (!fs.existsSync(storageDirPath)) fs.mkdirSync(storageDirPath)
   if (!fs.existsSync(path.join(storageDirPath, 'recurring-questions.json')))
     fs.writeFileSync(path.join(storageDirPath, 'recurring-questions.json'), JSON.stringify([]))
 
