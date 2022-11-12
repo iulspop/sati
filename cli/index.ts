@@ -20,31 +20,33 @@ yargs(hideBin(process.argv))
       promptQueue.createRecurringQuestion({ question: argv.question })
     }
   )
-  .help().argv
+  .command('query', 'query for questions', async () => {
+    const promptList = await promptQueue.query(addDay(new Date()))
+    console.log(promptList)
 
-const promptList = await promptQueue.query(addDay(new Date()))
+    const mapPromptsToQuestions = promptList =>
+      promptList.map(({ question }, index) => ({
+        type: 'toggle',
+        name: String(index),
+        message: question,
+        initial: true,
+        active: 'yes',
+        inactive: 'no',
+      }))
 
-const mapPromptsToQuestions = promptList =>
-  promptList.map(({ question }, index) => ({
-    type: 'toggle',
-    name: String(index),
-    message: question,
-    initial: true,
-    active: 'yes',
-    inactive: 'no',
-  }))
+    const response = await prompts(mapPromptsToQuestions(promptList))
 
-const response = await prompts(mapPromptsToQuestions(promptList))
-
-const mapResponseToAnswers = (promptList, response) => {
-  return Object.entries(response).map(([index, response]) => {
-    const { questionId, timestamp } = promptList[index]
-    return {
-      questionId,
-      response,
-      timestamp,
+    const mapResponseToAnswers = (promptList, response) => {
+      return Object.entries(response).map(([index, response]) => {
+        const { questionId, timestamp } = promptList[index]
+        return {
+          questionId,
+          response,
+          timestamp,
+        }
+      })
     }
-  })
-}
 
-console.log(mapResponseToAnswers(promptList, response))
+    console.log(mapResponseToAnswers(promptList, response))
+  })
+  .help().argv
