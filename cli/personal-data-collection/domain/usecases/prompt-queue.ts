@@ -8,7 +8,7 @@ import PromptQueueAPI from './prompt-queue-api'
 type a = (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
   createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
-  query: async currentDate => {
+  query: async (currentDate = new Date()) => {
     const recurringQuestionList = await recurringQuestionRepository.findMany()
     const answerList = await answerRepository.findMany()
     return pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(currentDate)
