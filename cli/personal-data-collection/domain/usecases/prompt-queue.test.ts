@@ -5,8 +5,21 @@ import { PromptQueue, toDayList, addDay } from './prompt-queue'
 import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
 import Prompt from '../entities/prompt'
 import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
+import fs from 'fs'
+import path from 'path'
+
+import { dirname } from 'path'
+import { fileURLToPath } from 'url'
+
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const storageDirPath = path.join(__dirname, '..', '..', '..', '..', 'storage')
+console.log(storageDirPath)
 
 describe('promptQueue()', async () => {
+  if (fs.existsSync(path.join(storageDirPath, 'answers.json'))) fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
+  if (fs.existsSync(path.join(storageDirPath, 'recurring-questions.json')))
+    fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
+
   const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
   const startDate = new Date(2022, 9, 22, 0, 0, 0)
   const firstDayPrompt: Prompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: startDate }
@@ -45,6 +58,9 @@ describe('promptQueue()', async () => {
     actual: await promptQueue.query(addDay(startDate)),
     expected: [secondDayPrompt],
   })
+
+  fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
+  fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
 })
 
 describe('toDayList()', () => {

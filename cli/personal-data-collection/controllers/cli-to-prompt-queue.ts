@@ -21,9 +21,9 @@ const cliToPromptQueue = {
         inactive: 'no',
       }))
 
-    const response = await prompts(mapPromptsToQuestions(promptList))
+    const response: { '0': boolean } = await prompts(mapPromptsToQuestions(promptList))
 
-    const mapResponseToAnswers = (promptList, response) =>
+    const mapResponseToAnswers = (promptList, response: { '0': boolean }) =>
       Object.entries(response).map(([index, response]) => {
         const { questionId, timestamp } = promptList[index]
         return {

@@ -23,7 +23,7 @@
   },
   "scripts": {
     "test": "npm run test:watch",
-    "test:watch": "npx vitest",
+    "test:watch": "npx vitest --no-threads",
     "cli": "npm run compile && node --experimental-specifier-resolution=node ./bin/index.js",
     "format": "npx prettier --write .",
     "lint": "npx eslint .",

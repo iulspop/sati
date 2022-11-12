@@ -7,7 +7,7 @@ export default interface Answer {
   timestamp: Date
 }
 
-const createAnswer = ({ id = cuid(), questionId, response = false, timestamp = new Date() }): Answer => ({
+const createAnswer = ({ id = cuid(), questionId = 'N/A', response = false, timestamp = new Date() }): Answer => ({
   id,
   questionId,
   response,
