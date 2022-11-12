@@ -1,5 +1,5 @@
-import { RecurringQuestion, createRecurringQuestion } from '../domain/entities/recurring-question'
-import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository'
+import { RecurringQuestion, createRecurringQuestion } from '../domain/entities/recurring-question.js'
+import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository.js'
 
 export default function recurringQuestionRepositoryInMemory(): RecurringQuestionRepository {
   let recurringQuestions: RecurringQuestion[] = []

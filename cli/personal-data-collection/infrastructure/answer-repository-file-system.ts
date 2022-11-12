@@ -1,5 +1,5 @@
-import AnswerRepository from '../domain/repositories/answer-repository'
-import { createAnswer } from '../domain/entities/answer'
+import AnswerRepository from '../domain/repositories/answer-repository.js'
+import { createAnswer } from '../domain/entities/answer.js'
 import fs from 'fs'
 import path from 'path'
 

@@ -1,8 +1,8 @@
-import AnswerRepository from '../repositories/answer-repository'
-import RecurringQuestionRepository from '../repositories/recurring-question-repository'
-import Prompt from '../entities/prompt'
-import RecurringQuestion from '../entities/recurring-question'
-import Answer from '../entities/answer'
+import AnswerRepository from '../repositories/answer-repository.js'
+import RecurringQuestionRepository from '../repositories/recurring-question-repository.js'
+import Prompt from '../entities/prompt.js'
+import RecurringQuestion from '../entities/recurring-question.js'
+import Answer from '../entities/answer.js'
 
 interface PromptQueueAPI {
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>

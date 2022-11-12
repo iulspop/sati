@@ -1,7 +1,7 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-import promptQueue from './personal-data-collection/controllers/cli-to-prompt-queue'
+import promptQueue from './personal-data-collection/controllers/cli-to-prompt-queue.js'
 
 yargs(hideBin(process.argv))
   .scriptName('inquire')

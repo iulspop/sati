@@ -1,6 +1,6 @@
 import prompts from 'prompts'
-import { addDay } from '../domain/usecases/prompt-queue'
-import { promptQueue } from '../domain'
+import { addDay } from '../domain/usecases/prompt-queue.js'
+import { promptQueue } from '../domain/index.js'
 
 const cliToPromptQueue = {
   createRecurringQuestion: async argv => await promptQueue.createRecurringQuestion({ question: argv.question }),
