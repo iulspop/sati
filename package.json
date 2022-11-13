@@ -42,6 +42,7 @@
   },
   "homepage": "https://github.com/iulspop/behavior-design-app#readme",
   "dependencies": {
+    "cuid": "^2.1.8",
     "prompts": "^2.4.2",
     "yargs": "^17.6.2"
   }
