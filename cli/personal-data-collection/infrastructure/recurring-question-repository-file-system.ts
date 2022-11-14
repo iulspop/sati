@@ -23,7 +23,7 @@ export default function recurringQuestionRepositoryFileSystem(): RecurringQuesti
       const recurringQuestions = JSON.parse(fs.readFileSync(path.join(storageDirPath, 'recurring-questions.json'), 'utf8'))
       fs.writeFileSync(
         path.join(storageDirPath, 'recurring-questions.json'),
-        JSON.stringify([...recurringQuestions, createRecurringQuestion(recurringQuestion)])
+        JSON.stringify([...recurringQuestions, createRecurringQuestion(recurringQuestion)], null, 2)
       )
     },
   }

@@ -21,7 +21,7 @@ export default function answerRepositoryFileSystem(): AnswerRepository {
       })),
     create: async answer => {
       const answers = JSON.parse(fs.readFileSync(path.join(storageDirPath, 'answers.json'), 'utf8'))
-      fs.writeFileSync(path.join(storageDirPath, 'answers.json'), JSON.stringify([...answers, createAnswer(answer)]))
+      fs.writeFileSync(path.join(storageDirPath, 'answers.json'), JSON.stringify([...answers, createAnswer(answer)], null, 2))
     },
   }
 }
