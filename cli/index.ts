@@ -21,7 +21,7 @@ yargs(hideBin(process.argv))
     createRecurringQuestion
   )
   .command(
-    'add bulk <questions-file-path>',
+    'add-bulk <questions-file-path>',
     'create recurring questions from new line delimited questions file',
     yargs =>
       yargs.positional('question-file-path', {
