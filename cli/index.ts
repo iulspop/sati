@@ -1,7 +1,11 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-import { createRecurringQuestion, query } from './personal-data-collection/application/cli-prompt-queue.js'
+import {
+  createRecurringQuestion,
+  createRecurringQuestionsFromFile,
+  query,
+} from './personal-data-collection/application/cli-prompt-queue.js'
 
 yargs(hideBin(process.argv))
   .scriptName('inquire')
@@ -15,6 +19,16 @@ yargs(hideBin(process.argv))
         type: 'string',
       }),
     createRecurringQuestion
+  )
+  .command(
+    'add bulk <questions-file-path>',
+    'create recurring questions from new line delimited questions file',
+    yargs =>
+      yargs.positional('question-file-path', {
+        describe: 'the relative path to the questions file',
+        type: 'string',
+      }),
+    createRecurringQuestionsFromFile
   )
   .command('query', 'query for questions', query)
   .help().argv

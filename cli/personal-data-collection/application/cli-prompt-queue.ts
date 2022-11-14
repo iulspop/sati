@@ -1,7 +1,16 @@
+import fs from 'fs'
 import prompts from 'prompts'
 import { promptQueue } from '../domain/index.js'
 
 const createRecurringQuestion = async argv => await promptQueue.createRecurringQuestion({ question: argv.question })
+
+const createRecurringQuestionsFromFile = async argv => {
+  const questions = fs
+    .readFileSync(argv.questionsFilePath, 'utf8')
+    .split('\n')
+    .filter(string => string.length > 0)
+  questions.forEach(question => promptQueue.createRecurringQuestion({ question }))
+}
 
 const query = async () => {
   const promptList = await promptQueue.query()
@@ -29,4 +38,4 @@ const mapResponseToAnswers = (promptList, response) =>
     }
   })
 
-export { createRecurringQuestion, query }
+export { createRecurringQuestion, createRecurringQuestionsFromFile, query }
