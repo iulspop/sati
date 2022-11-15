@@ -72,4 +72,18 @@ describe('toDayList()', () => {
     actual: toDayList(startDate, endDate),
     expected: [startDate, addDay(startDate), endDate],
   })
+
+  assert({
+    given: 'a date and another date 5 hours after after',
+    should: 'return one day',
+    actual: toDayList(startDate, new Date(2022, 9, 22, 5, 0, 0, 0)),
+    expected: [startDate],
+  })
+
+  assert({
+    given: 'a date and another date 25 hours after after',
+    should: 'return two days, second day exactly 24 hours after first day',
+    actual: toDayList(startDate, new Date(2022, 9, 23, 1, 0, 0, 0)),
+    expected: [startDate, addDay(startDate)],
+  })
 })
