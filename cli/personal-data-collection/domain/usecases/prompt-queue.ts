@@ -30,8 +30,8 @@ const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
 type b = (recurringQuestionList: Array<RecurringQuestion>) => (currentDate: Date) => Array<Prompt>
 const calculatePromptList: b = recurringQuestionList => currentDate =>
   recurringQuestionList.reduce(
-    (promptList, { id, question, startDate }) => [
-      ...toDayList(startDate, currentDate).map(date => ({ questionId: id, question, timestamp: date })),
+    (promptList, { id, question, phases }) => [
+      ...toDayList(phases[0].timestamp, currentDate).map(date => ({ questionId: id, question, timestamp: date })),
       ...promptList,
     ],
     []

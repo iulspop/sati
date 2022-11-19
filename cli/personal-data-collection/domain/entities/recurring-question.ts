@@ -3,13 +3,20 @@ import cuid from 'cuid'
 export default interface RecurringQuestion {
   id: string
   question: string
-  startDate: Date
+  phases: {
+    timestamp: Date
+    utcOffsetInMinutes: number
+  }[]
 }
 
-const createRecurringQuestion = ({ id = cuid(), question = 'N/A', startDate = new Date() }): RecurringQuestion => ({
+const createRecurringQuestion = ({
+  id = cuid(),
+  question = 'N/A',
+  phases = [{ timestamp: new Date(), utcOffsetInMinutes: 0 }],
+}): RecurringQuestion => ({
   id,
   question,
-  startDate,
+  phases,
 })
 
 export { RecurringQuestion, createRecurringQuestion }

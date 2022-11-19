@@ -1,4 +1,4 @@
-import { createRecurringQuestion } from '../domain/entities/recurring-question.js'
+import { RecurringQuestion, createRecurringQuestion } from '../domain/entities/recurring-question.js'
 import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository.js'
 import fs from 'fs'
 import path from 'path'
@@ -14,11 +14,26 @@ export default function recurringQuestionRepositoryFileSystem(): RecurringQuesti
     fs.writeFileSync(path.join(storageDirPath, 'recurring-questions.json'), JSON.stringify([]))
 
   return {
-    findMany: async () =>
-      JSON.parse(fs.readFileSync(path.join(storageDirPath, 'recurring-questions.json'), 'utf8')).map(recurringQuestion => ({
+    findMany: async () => {
+      const recurringQuestions: {
+        id: string
+        question: string
+        phases: {
+          timestamp: string
+          utcOffsetInMinutes: number
+        }[]
+      }[] = JSON.parse(fs.readFileSync(path.join(storageDirPath, 'recurring-questions.json'), 'utf8'))
+
+      return recurringQuestions.map(recurringQuestion => ({
         ...recurringQuestion,
-        startDate: new Date(recurringQuestion.startDate),
-      })),
+        phases: [
+          {
+            timestamp: new Date(recurringQuestion.phases[0].timestamp),
+            utcOffsetInMinutes: recurringQuestion.phases[0].utcOffsetInMinutes,
+          },
+        ],
+      }))
+    },
     create: async recurringQuestion => {
       const recurringQuestions = JSON.parse(fs.readFileSync(path.join(storageDirPath, 'recurring-questions.json'), 'utf8'))
       fs.writeFileSync(
