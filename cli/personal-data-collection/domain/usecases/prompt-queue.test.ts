@@ -13,6 +13,12 @@ import { fileURLToPath } from 'url'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const storageDirPath = path.join(__dirname, '..', '..', '..', '..', process.env.STORAGE_PATH)
 
+const addHours = (hours: number, date: Date) => {
+  const newDate = new Date(date)
+  newDate.setHours(newDate.getHours() + hours)
+  return newDate
+}
+
 describe('promptQueue()', async () => {
   if (fs.existsSync(path.join(storageDirPath, 'answers.json'))) fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
   if (fs.existsSync(path.join(storageDirPath, 'recurring-questions.json')))
@@ -49,9 +55,9 @@ describe('promptQueue()', async () => {
   })
 
   assert({
-    given: 'a query the next day after creating a recurring question',
+    given: 'a recurring question set and a query the next day in local time',
     should: 'return two prompts, one for each day',
-    actual: await promptQueue.query(addDay(startDate)),
+    actual: await promptQueue.query(addHours(4, startDate)),
     expected: [firstDayPrompt, secondDayPrompt],
   })
 
