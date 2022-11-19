@@ -69,4 +69,10 @@ const toDayList = (startDate, endDate) => {
   return dayList
 }
 
-export { PromptQueue, toDayList, addDays, addDay }
+const toStartOfDay = (date: Date) => {
+  const dateCopy = new Date(date)
+  dateCopy.setUTCHours(0, 0)
+  return dateCopy
+}
+
+export { PromptQueue, toDayList, addDays, addDay, toStartOfDay }
