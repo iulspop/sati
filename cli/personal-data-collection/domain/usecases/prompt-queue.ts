@@ -75,4 +75,7 @@ const toStartOfDay = (date: Date) => {
   return dateCopy
 }
 
-export { PromptQueue, toDayList, addDays, addDay, toStartOfDay }
+type d = ({ timestamp, utcOffsetInMinutes }: { timestamp: Date; utcOffsetInMinutes: number }) => Date
+const toLocalTime: d = ({ timestamp, utcOffsetInMinutes }) => new Date(timestamp.getTime() - utcOffsetInMinutes * 60 * 1000)
+
+export { PromptQueue, toDayList, addDays, addDay, toStartOfDay, toLocalTime }

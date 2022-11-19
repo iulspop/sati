@@ -1,7 +1,7 @@
 import { Answer } from '../entities/answer'
 import { assert } from '~/test/assert'
 import { describe } from 'vitest'
-import { PromptQueue, toDayList, addDay, toStartOfDay } from './prompt-queue'
+import { PromptQueue, toDayList, addDay, toStartOfDay, toLocalTime } from './prompt-queue'
 import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
 import Prompt from '../entities/prompt'
 import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
@@ -99,5 +99,21 @@ describe('toStartOfDay()', () => {
     should: 'return a date at 12AM the same day',
     actual: toStartOfDay(new Date('2022-10-19T20:00:00.000Z')),
     expected: new Date('2022-10-19T00:00:00.000Z'),
+  })
+})
+
+describe('toLocalTime()', () => {
+  assert({
+    given: 'a date at 1AM and a UTC offset of -5 hours (EST)',
+    should: 'return a date at 8PM the previous day',
+    actual: toLocalTime({ timestamp: new Date('2022-10-20T01:00:00.000Z'), utcOffsetInMinutes: 5 * 60 }),
+    expected: new Date('2022-10-19T20:00:00.000Z'),
+  })
+
+  assert({
+    given: 'a date at 8PM and a UTC offset of 2 hours (Bucharest)',
+    should: 'return a date at 10PM the same day',
+    actual: toLocalTime({ timestamp: new Date('2022-10-20T20:00:00.000Z'), utcOffsetInMinutes: -2 * 60 }),
+    expected: new Date('2022-10-20T22:00:00.000Z'),
   })
 })
