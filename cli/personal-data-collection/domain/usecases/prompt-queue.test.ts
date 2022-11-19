@@ -19,14 +19,23 @@ describe('promptQueue()', async () => {
     fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
 
   const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
-  const startDate = new Date(2022, 9, 22, 0, 0, 0)
-  const firstDayPrompt: Prompt = { questionId: '1', question: 'Did you study 2 hours today?', timestamp: startDate }
+
+  const startDate = new Date('2022-10-20T01:00:00.000Z')
+  const startOfDayInLocalTime = new Date('2022-10-19T00:00:00.000Z')
+
+  const firstDayPrompt: Prompt = {
+    questionId: '1',
+    question: 'Did you study 2 hours today?',
+    timestamp: startOfDayInLocalTime,
+  }
+
   const secondDayPrompt: Prompt = {
     questionId: '1',
     question: 'Did you study 2 hours today?',
-    timestamp: addDay(startDate),
+    timestamp: addDay(startOfDayInLocalTime),
   }
-  const firstDayAnswer: Answer = { id: '1', questionId: '1', timestamp: new Date(startDate), response: true }
+
+  const firstDayAnswer: Answer = { id: '1', questionId: '1', timestamp: new Date(startOfDayInLocalTime), response: true }
 
   await promptQueue.createRecurringQuestion({
     id: '1',
@@ -34,7 +43,7 @@ describe('promptQueue()', async () => {
     phases: [
       {
         timestamp: startDate,
-        utcOffsetInMinutes: 0,
+        utcOffsetInMinutes: 5 * 60,
       },
     ],
   })
