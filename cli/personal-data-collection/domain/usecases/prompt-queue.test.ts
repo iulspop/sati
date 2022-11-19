@@ -31,7 +31,11 @@ describe('promptQueue()', async () => {
   await promptQueue.createRecurringQuestion({
     id: '1',
     question: 'Did you study 2 hours today?',
-    startDate,
+    // startDate
+    phases: [{
+      timestamp: startDate,
+      utcOffsetInMinutes: 0, 
+    }]
   })
 
   assert({

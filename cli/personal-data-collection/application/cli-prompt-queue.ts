@@ -2,7 +2,16 @@ import fs from 'fs'
 import prompts from 'prompts'
 import { promptQueue } from '../domain/index.js'
 
-const createRecurringQuestion = async argv => await promptQueue.createRecurringQuestion({ question: argv.question })
+const createRecurringQuestion = async argv =>
+  await promptQueue.createRecurringQuestion({
+    question: argv.question,
+    phases: [
+      {
+        timestamp: new Date(),
+        utcOffsetInMinutes: new Date().getTimezoneOffset(),
+      },
+    ],
+  })
 
 const createRecurringQuestionsFromFile = async argv => {
   const questions = fs
