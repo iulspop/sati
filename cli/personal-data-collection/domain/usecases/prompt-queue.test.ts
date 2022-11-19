@@ -1,7 +1,7 @@
 import { Answer } from '../entities/answer'
 import { assert } from '~/test/assert'
 import { describe } from 'vitest'
-import { PromptQueue, toDayList, addDay } from './prompt-queue'
+import { PromptQueue, toDayList, addDay, toStartOfDay } from './prompt-queue'
 import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
 import Prompt from '../entities/prompt'
 import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
@@ -31,11 +31,12 @@ describe('promptQueue()', async () => {
   await promptQueue.createRecurringQuestion({
     id: '1',
     question: 'Did you study 2 hours today?',
-    // startDate
-    phases: [{
-      timestamp: startDate,
-      utcOffsetInMinutes: 0, 
-    }]
+    phases: [
+      {
+        timestamp: startDate,
+        utcOffsetInMinutes: 0,
+      },
+    ],
   })
 
   assert({
@@ -89,5 +90,14 @@ describe('toDayList()', () => {
     should: 'return two days, second day exactly 24 hours after first day',
     actual: toDayList(startDate, new Date(2022, 9, 23, 1, 0, 0, 0)),
     expected: [startDate, addDay(startDate)],
+  })
+})
+
+describe('toStartOfDay()', () => {
+  assert({
+    given: 'a date at 8PM',
+    should: 'return a date at 12AM the same day',
+    actual: toStartOfDay(new Date('2022-10-19T20:00:00.000Z')),
+    expected: new Date('2022-10-19T00:00:00.000Z'),
   })
 })
