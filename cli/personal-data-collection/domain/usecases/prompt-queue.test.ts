@@ -58,7 +58,7 @@ describe('promptQueue()', async () => {
   assert({
     given: 'a recurring question and a query in two days local time',
     should: 'return two prompts, one for each day except the current day',
-    actual: await promptQueue.query(addHours(24, startDateLocal)),
+    actual: await promptQueue.query(addHours(28, startDateLocal)),
     expected: [firstDayPrompt, secondDayPrompt],
   })
 
@@ -74,7 +74,7 @@ describe('promptQueue()', async () => {
   assert({
     given: 'a prompt answered',
     should: 'not show the prompt again',
-    actual: await promptQueue.query(addHours(24, startDateLocal)),
+    actual: await promptQueue.query(addHours(28, startDateLocal)),
     expected: [secondDayPrompt],
   })
 
