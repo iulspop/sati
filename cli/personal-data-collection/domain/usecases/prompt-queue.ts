@@ -6,7 +6,7 @@ import Answer from '../entities/answer.js'
 
 interface PromptQueueAPI {
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
-  query: (queryTime?: Date) => Promise<Array<Prompt>>
+  query: (queryTimeLocal?: Date) => Promise<Array<Prompt>>
   answerPrompt: (answer: Partial<Answer>) => Promise<void>
   getAnswers: () => Promise<Array<Answer>>
 }
@@ -14,10 +14,10 @@ interface PromptQueueAPI {
 type a = (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
   createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
-  query: async (queryTime = new Date()) => {
+  query: async (queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })) => {
     const recurringQuestionList = await recurringQuestionRepository.findMany()
     const answerList = await answerRepository.findMany()
-    return calculateQuery(recurringQuestionList, answerList, queryTime)
+    return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
   },
   answerPrompt: async answer => {
     await answerRepository.create(answer)
@@ -27,18 +27,19 @@ const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
   },
 })
 
-type b = (recurringQuestionList: RecurringQuestion[], answerList: Answer[], queryTime: Date) => Prompt[]
-const calculateQuery: b = (recurringQuestionList, answerList, queryTime) =>
-  pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(queryTime)
+type b = (recurringQuestionList: RecurringQuestion[], answerList: Answer[], queryTimeLocal: Date) => Prompt[]
+const calculateQuery: b = (recurringQuestionList, answerList, queryTimeLocal) =>
+  pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(queryTimeLocal)
 
-type c = (recurringQuestionList: Array<RecurringQuestion>) => (queryTime: Date) => Array<Prompt>
-const calculatePromptList: c = recurringQuestionList => queryTime =>
+type c = (recurringQuestionList: Array<RecurringQuestion>) => (queryTimeLocal: Date) => Array<Prompt>
+const calculatePromptList: c = recurringQuestionList => queryTimeLocal =>
   recurringQuestionList.reduce(
     (promptList, { id, question, phases }) => [
-      ...toDayList(
-        toStartOfDay(toLocalTime(phases[0])),
-        toLocalTime({ timestamp: queryTime, utcOffsetInMinutes: phases[0].utcOffsetInMinutes })
-      ).map(date => ({ questionId: id, question, timestamp: date })),
+      ...toDayList(toStartOfDay(toLocalTime(phases[0])), queryTimeLocal).map(date => ({
+        questionId: id,
+        question,
+        timestamp: date,
+      })),
       ...promptList,
     ],
     []
@@ -52,6 +53,10 @@ const keepUnlessPromptAnswered: d = answerList => promptList =>
         answer => answer.questionId === prompt.questionId && answer.timestamp.toDateString() === prompt.timestamp.toDateString()
       )
   )
+
+type e = (date: Date) => (promptList: Prompt[]) => Prompt[]
+const filterIfCurrentDay: e = queryTimeLocal => promptList =>
+  promptList.filter(prompt => prompt.timestamp.toDateString() != queryTimeLocal.toDateString())
 
 const pipe =
   (...fns) =>
@@ -82,7 +87,7 @@ const toStartOfDay = (date: Date) => {
   return dateCopy
 }
 
-type e = ({ timestamp, utcOffsetInMinutes }: { timestamp: Date; utcOffsetInMinutes: number }) => Date
-const toLocalTime: e = ({ timestamp, utcOffsetInMinutes }) => new Date(timestamp.getTime() - utcOffsetInMinutes * 60 * 1000)
+type f = ({ timestamp, utcOffsetInMinutes }: { timestamp: Date; utcOffsetInMinutes: number }) => Date
+const toLocalTime: f = ({ timestamp, utcOffsetInMinutes }) => new Date(timestamp.getTime() - utcOffsetInMinutes * 60 * 1000)
 
 export { PromptQueue, toDayList, addDays, addDay, toStartOfDay, toLocalTime }

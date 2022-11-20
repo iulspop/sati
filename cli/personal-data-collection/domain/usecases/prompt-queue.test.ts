@@ -27,6 +27,7 @@ describe('promptQueue()', async () => {
   const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
 
   const startDate = new Date('2022-10-20T01:00:00.000Z')
+  const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
   const startOfDayInLocalTime = new Date('2022-10-19T00:00:00.000Z')
 
   const firstDayPrompt: Prompt = {
@@ -55,9 +56,9 @@ describe('promptQueue()', async () => {
   })
 
   assert({
-    given: 'a recurring question set and a query the next day in local time',
-    should: 'return two prompts, one for each day',
-    actual: await promptQueue.query(addHours(4, startDate)),
+    given: 'a recurring question and a query in two days local time',
+    should: 'return two prompts, one for each day except the current day',
+    actual: await promptQueue.query(addHours(24, startDateLocal)),
     expected: [firstDayPrompt, secondDayPrompt],
   })
 
@@ -73,7 +74,7 @@ describe('promptQueue()', async () => {
   assert({
     given: 'a prompt answered',
     should: 'not show the prompt again',
-    actual: await promptQueue.query(addDay(startDate)),
+    actual: await promptQueue.query(addHours(24, startDateLocal)),
     expected: [secondDayPrompt],
   })
 
