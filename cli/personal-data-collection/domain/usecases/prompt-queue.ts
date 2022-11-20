@@ -29,7 +29,11 @@ const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
 
 type b = (recurringQuestionList: RecurringQuestion[], answerList: Answer[], queryTimeLocal: Date) => Prompt[]
 const calculateQuery: b = (recurringQuestionList, answerList, queryTimeLocal) =>
-  pipe(calculatePromptList(recurringQuestionList), keepUnlessPromptAnswered(answerList))(queryTimeLocal)
+  pipe(
+    calculatePromptList(recurringQuestionList),
+    keepUnlessPromptAnswered(answerList),
+    filterIfCurrentDay(queryTimeLocal)
+  )(queryTimeLocal)
 
 type c = (recurringQuestionList: Array<RecurringQuestion>) => (queryTimeLocal: Date) => Array<Prompt>
 const calculatePromptList: c = recurringQuestionList => queryTimeLocal =>
