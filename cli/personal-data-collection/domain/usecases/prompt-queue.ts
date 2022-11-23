@@ -94,7 +94,4 @@ const toStartOfDay = (date: Date) => {
 type f = ({ timestamp, utcOffsetInMinutes }: { timestamp: Date; utcOffsetInMinutes: number }) => Date
 const toLocalTime: f = ({ timestamp, utcOffsetInMinutes }) => new Date(timestamp.getTime() - utcOffsetInMinutes * 60 * 1000)
 
-type g = (timestamp: Date, utcOffsetInMinutes: number) => Date
-const toUTCTime: g = (timestamp, utcOffsetInMinutes) => new Date(timestamp.getTime() + utcOffsetInMinutes * 60 * 1000)
-
-export { PromptQueue, toDayList, keepUnlessPromptAnswered, filterIfCurrentDay, addDays, addDay, toStartOfDay, toLocalTime }
+export { PromptQueue, toDayList, addDays, addDay, toStartOfDay, toLocalTime, calculateQuery }

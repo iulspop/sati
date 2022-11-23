@@ -1,15 +1,7 @@
 import { Answer } from '../entities/answer'
 import { assert } from '~/test/assert'
 import { describe } from 'vitest'
-import {
-  PromptQueue,
-  toDayList,
-  keepUnlessPromptAnswered,
-  filterIfCurrentDay,
-  addDay,
-  toStartOfDay,
-  toLocalTime,
-} from './prompt-queue'
+import { PromptQueue, toDayList, addDay, toStartOfDay, toLocalTime, calculateQuery } from './prompt-queue'
 import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
 import Prompt from '../entities/prompt'
 import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
@@ -18,6 +10,7 @@ import path from 'path'
 
 import { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import RecurringQuestion from '../entities/recurring-question'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const storageDirPath = path.join(__dirname, '..', '..', '..', '..', process.env.STORAGE_PATH)
 
@@ -196,5 +189,37 @@ describe('toLocalTime()', () => {
     should: 'return a date at 10PM the same day',
     actual: toLocalTime({ timestamp: new Date('2022-10-20T20:00:00.000Z'), utcOffsetInMinutes: -2 * 60 }),
     expected: new Date('2022-10-20T22:00:00.000Z'),
+  })
+})
+
+describe('calculateQuery()', () => {
+  const localTimeObj = {
+    timestamp: new Date(Date.UTC(2022, 10, 22, 5, 0, 0)),
+    utcOffsetInMinutes: 5 * 60
+  }
+
+  const localTime = toLocalTime(localTimeObj);
+
+  const questions: RecurringQuestion[] = [{
+    id: '1',
+    question: "Have you studied today?",
+    phases: [{
+      timestamp: new Date(Date.UTC(2022, 10, 22, 1, 0, 0)),
+      utcOffsetInMinutes: 5 * 60
+    }]
+  }];
+  
+  const answers = [];
+  const prompt: Prompt = {
+    questionId: '1',
+    question: "Have you studied today?",
+    timestamp: localTime,
+  }
+
+  assert({
+    given: 'a recurring quesion created at 8PM on a day, and a query at 00:00 the next day',
+    should: 'return one prompt',
+    actual: calculateQuery(questions, answers, localTime),
+    expected: [prompt],
   })
 })
