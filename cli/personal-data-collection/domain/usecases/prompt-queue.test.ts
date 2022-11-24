@@ -213,7 +213,7 @@ describe('calculateQuery()', () => {
   const prompt: Prompt = {
     questionId: '1',
     question: "Have you studied today?",
-    timestamp: localTime,
+    timestamp: new Date(Date.UTC(2022, 10, 21, 0, 0, 0)),
   }
 
   assert({
