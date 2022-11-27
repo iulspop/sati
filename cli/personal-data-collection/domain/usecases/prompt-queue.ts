@@ -39,12 +39,12 @@ type c = (recurringQuestionList: Array<RecurringQuestion>) => (queryTimeLocal: D
 const calculatePromptList: c = recurringQuestionList => queryTimeLocal =>
   recurringQuestionList.reduce(
     (promptList, { id, question, phases }) => [
+      ...promptList,
       ...toDayList(toStartOfDay(toLocalTime(phases[0])), queryTimeLocal).map(date => ({
         questionId: id,
         question,
         timestamp: date,
       })),
-      ...promptList,
     ],
     []
   )
