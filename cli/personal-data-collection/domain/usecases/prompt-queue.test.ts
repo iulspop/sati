@@ -113,7 +113,7 @@ describe('toStartOfDay()', () => {
   assert({
     given: 'a date at 8PM',
     should: 'return a date at 12AM the same day',
-    actual: toStartOfDay(new Date('2022-10-19T20:00:00.000Z')),
+    actual: toStartOfDay(new Date('2022-10-19T20:01:01.500Z')),
     expected: new Date('2022-10-19T00:00:00.000Z'),
   })
 })

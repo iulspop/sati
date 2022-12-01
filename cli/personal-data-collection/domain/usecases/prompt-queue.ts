@@ -87,7 +87,7 @@ const toDayList = (startDate, endDate) => {
 
 const toStartOfDay = (date: Date) => {
   const dateCopy = new Date(date)
-  dateCopy.setUTCHours(0, 0)
+  dateCopy.setUTCHours(0, 0, 0, 0)
   return dateCopy
 }
 
