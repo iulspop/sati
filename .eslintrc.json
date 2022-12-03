@@ -5,12 +5,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "eslint-config-prettier",
-    "plugin:jest/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "eslint-config-prettier", "plugin:jest/recommended"],
   "plugins": ["@typescript-eslint", "jest"],
   "rules": {
     "strict": ["error", "never"]

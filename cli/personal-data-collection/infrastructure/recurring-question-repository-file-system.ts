@@ -1,4 +1,4 @@
-import { RecurringQuestion, createRecurringQuestion } from '../domain/entities/recurring-question.js'
+import { createRecurringQuestion } from '../domain/entities/recurring-question.js'
 import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository.js'
 import fs from 'fs'
 import path from 'path'
