@@ -1,7 +1,7 @@
 import { Answer } from '../entities/answer'
 import { assert } from '~/test/assert'
 import { describe } from 'vitest'
-import { PromptQueue, toDayList, addDay, toStartOfDay, toLocalTime } from './prompt-queue'
+import { PromptQueue, toDayList, filterIfCurrentDay, addDay, toStartOfDay, toLocalTime } from './prompt-queue'
 import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
 import Prompt from '../entities/prompt'
 import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
@@ -28,7 +28,7 @@ describe('promptQueue()', async () => {
 
   const startDate = new Date('2022-10-20T01:00:00.000Z')
   const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
-  const startOfDayInLocalTime = new Date('2022-10-19T00:00:00.000Z')
+  const startOfDayInLocalTime = new Date('2022-10-19T05:00:00.000Z')
 
   const firstDayPrompt: Prompt = {
     questionId: '1',
@@ -81,6 +81,27 @@ describe('promptQueue()', async () => {
   fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
   fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
   fs.rmdirSync(storageDirPath)
+})
+
+describe('filterIfCurrentDay()', () => {
+  const firstDayPrompt: Prompt = {
+    questionId: '1',
+    question: 'Did you study 2 hours today?',
+    timestamp: new Date('2022-10-19T05:00:00.000Z'),
+  }
+
+  const secondDayPrompt: Prompt = {
+    questionId: '1',
+    question: 'Did you study 2 hours today?',
+    timestamp: new Date('2022-10-20T05:00:00.000Z'),
+  }
+
+  assert({
+    given: 'a query on the 21st and prompts on the 19th and 20th',
+    should: 'return the prompts on the 19th and 20th',
+    actual: filterIfCurrentDay(new Date('2022-10-21T00:00:00.000Z'))([firstDayPrompt, secondDayPrompt]),
+    expected: [firstDayPrompt, secondDayPrompt],
+  })
 })
 
 describe('toDayList()', () => {

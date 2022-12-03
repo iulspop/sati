@@ -40,7 +40,7 @@ const calculatePromptList: c = recurringQuestionList => queryTimeLocal =>
   recurringQuestionList.reduce(
     (promptList, { id, question, phases }) => [
       ...promptList,
-      ...toDayList(toStartOfDay(toLocalTime(phases[0])), queryTimeLocal).map(date => ({
+      ...toDayList(toUTCTime(toStartOfDay(toLocalTime(phases[0])), phases[0].utcOffsetInMinutes), queryTimeLocal).map(date => ({
         questionId: id,
         question,
         timestamp: date,
@@ -60,7 +60,7 @@ const keepUnlessPromptAnswered: d = answerList => promptList =>
 
 type e = (date: Date) => (promptList: Prompt[]) => Prompt[]
 const filterIfCurrentDay: e = queryTimeLocal => promptList =>
-  promptList.filter(prompt => prompt.timestamp.toDateString() != queryTimeLocal.toDateString())
+  promptList.filter(prompt => prompt.timestamp.toISOString().split('T')[0] != queryTimeLocal.toISOString().split('T')[0])
 
 const pipe =
   (...fns) =>
@@ -94,4 +94,7 @@ const toStartOfDay = (date: Date) => {
 type f = ({ timestamp, utcOffsetInMinutes }: { timestamp: Date; utcOffsetInMinutes: number }) => Date
 const toLocalTime: f = ({ timestamp, utcOffsetInMinutes }) => new Date(timestamp.getTime() - utcOffsetInMinutes * 60 * 1000)
 
-export { PromptQueue, toDayList, addDays, addDay, toStartOfDay, toLocalTime }
+type g = (timestamp: Date, utcOffsetInMinutes: number) => Date
+const toUTCTime: g = (timestamp, utcOffsetInMinutes) => new Date(timestamp.getTime() + utcOffsetInMinutes * 60 * 1000)
+
+export { PromptQueue, toDayList, filterIfCurrentDay, addDays, addDay, toStartOfDay, toLocalTime }
