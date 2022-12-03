@@ -6,9 +6,9 @@ import Answer from '../entities/answer.js'
 
 interface PromptQueueAPI {
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
-  query: (queryTimeLocal?: Date) => Promise<Array<Prompt>>
+  query: (queryTimeLocal?: Date) => Promise<Prompt[]>
   answerPrompt: (answer: Partial<Answer>) => Promise<void>
-  getAnswers: () => Promise<Array<Answer>>
+  getAnswers: () => Promise<Answer[]>
 }
 
 type a = (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => PromptQueueAPI
@@ -35,7 +35,7 @@ const calculateQuery: b = (recurringQuestionList, answerList, queryTimeLocal) =>
     filterIfCurrentDay(queryTimeLocal)
   )(queryTimeLocal)
 
-type c = (recurringQuestionList: Array<RecurringQuestion>) => (queryTimeLocal: Date) => Array<Prompt>
+type c = (recurringQuestionList: RecurringQuestion[]) => (queryTimeLocal: Date) => Prompt[]
 const calculatePromptList: c = recurringQuestionList => queryTimeLocal =>
   recurringQuestionList.reduce(
     (promptList, { id, question, phases }) => [
@@ -49,7 +49,7 @@ const calculatePromptList: c = recurringQuestionList => queryTimeLocal =>
     []
   )
 
-type d = (answerList: Array<Answer>) => (promptList: Array<Prompt>) => Array<Prompt>
+type d = (answerList: Answer[]) => (promptList: Prompt[]) => Prompt[]
 const keepUnlessPromptAnswered: d = answerList => promptList =>
   promptList.filter(
     prompt =>
