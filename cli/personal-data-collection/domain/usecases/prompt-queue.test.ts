@@ -1,7 +1,15 @@
 import { Answer } from '../entities/answer'
 import { assert } from '~/test/assert'
 import { describe } from 'vitest'
-import { PromptQueue, toDayList, filterIfCurrentDay, addDay, toStartOfDay, toLocalTime } from './prompt-queue'
+import {
+  PromptQueue,
+  toDayList,
+  keepUnlessPromptAnswered,
+  filterIfCurrentDay,
+  addDay,
+  toStartOfDay,
+  toLocalTime,
+} from './prompt-queue'
 import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
 import Prompt from '../entities/prompt'
 import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
@@ -81,6 +89,42 @@ describe('promptQueue()', async () => {
   fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
   fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
   fs.rmdirSync(storageDirPath)
+})
+
+describe('keepUnlessPromptAnswered()', () => {
+  const answer: Answer = {
+    id: '1',
+    questionId: '1',
+    response: true,
+    timestamp: new Date('2022-10-19T10:00:00.000Z'),
+  }
+
+  const prompt: Prompt = {
+    questionId: '1',
+    question: 'Did you study 2 hours today?',
+    timestamp: new Date('2022-10-19T15:00:00.000Z'),
+  }
+
+  assert({
+    given: 'an answer and a prompt at different times',
+    should: 'not filter prompt',
+    actual: keepUnlessPromptAnswered([answer])([prompt]),
+    expected: [prompt],
+  })
+
+  const answerAtSameTime: Answer = {
+    id: '1',
+    questionId: '1',
+    response: true,
+    timestamp: new Date('2022-10-19T15:00:00.000Z'),
+  }
+
+  assert({
+    given: 'an answer and a prompt at the same time',
+    should: 'filter prompt',
+    actual: keepUnlessPromptAnswered([answerAtSameTime])([prompt]),
+    expected: [],
+  })
 })
 
 describe('filterIfCurrentDay()', () => {

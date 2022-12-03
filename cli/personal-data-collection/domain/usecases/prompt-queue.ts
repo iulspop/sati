@@ -54,7 +54,7 @@ const keepUnlessPromptAnswered: d = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
-        answer => answer.questionId === prompt.questionId && answer.timestamp.toDateString() === prompt.timestamp.toDateString()
+        answer => answer.questionId === prompt.questionId && answer.timestamp.toISOString() === prompt.timestamp.toISOString()
       )
   )
 
@@ -97,4 +97,4 @@ const toLocalTime: f = ({ timestamp, utcOffsetInMinutes }) => new Date(timestamp
 type g = (timestamp: Date, utcOffsetInMinutes: number) => Date
 const toUTCTime: g = (timestamp, utcOffsetInMinutes) => new Date(timestamp.getTime() + utcOffsetInMinutes * 60 * 1000)
 
-export { PromptQueue, toDayList, filterIfCurrentDay, addDays, addDay, toStartOfDay, toLocalTime }
+export { PromptQueue, toDayList, keepUnlessPromptAnswered, filterIfCurrentDay, addDays, addDay, toStartOfDay, toLocalTime }
