@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model RecurringQuestion {
+  id String @id @default(uuid())
+  question String
+  timestamp DateTime @default(now())
+  utcOffsetInMinutes Int
+  answers Answer[]
+}
+
+model Answer {
+  id String @id @default(uuid())
+  question RecurringQuestion @relation(fields: [questionId], references: [id])
+  questionId String
+  timestamp DateTime @default(now())
+  utcOffsetInMinutes Int
+}
