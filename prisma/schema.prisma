@@ -22,6 +22,6 @@ model Answer {
   id String @id @default(uuid())
   question RecurringQuestion @relation(fields: [questionId], references: [id])
   questionId String
+  response Boolean
   timestamp DateTime @default(now())
-  utcOffsetInMinutes Int
 }
