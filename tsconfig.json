@@ -13,5 +13,9 @@
       "~/*": ["cli/*"]
     }
   },
-  "include": ["cli/**/*.ts"]
+  "include": ["cli/**/*.ts"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }

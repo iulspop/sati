@@ -2,6 +2,8 @@ import AnswerRepository from '../domain/repositories/answer-repository.js'
 import { createAnswer } from '../domain/entities/answer.js'
 
 import { PrismaClient } from '@prisma/client'
+import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository.js'
+import { UrlWithStringQuery } from 'url'
 
 const prisma = new PrismaClient()
 async function main() {
@@ -15,8 +17,40 @@ async function main() {
   // console.log(newQuestion)
   //
 
-  const questions = await prisma.recurringQuestion.findMany();
-  console.log(questions);
+   const newAnswer = await prisma.answer.create({
+    data: {
+      questionId: '957eebd3-2560-462a-aec4-42ab00666a71',
+      response: true
+    },
+  })
+
+  console.log(newAnswer)
+  
+  // const questions = await prisma.recurringQuestion.findMany();
+  // console.log(questions);
+}
+
+export default function recurringQuestionRepositoryDatabase(): RecurringQuestionRepository {
+  return {
+    findMany: async() => {
+      const recurringQuestions = await prisma.recurringQuestion.findMany();
+      return recurringQuestions.map(recurringQuestion => {
+        return {
+          id: recurringQuestion.id,
+          question: recurringQuestion.question,
+          phases: {
+            timestamp: new Date(recurringQuestion.timestamp),
+            utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes
+          }
+        }
+      })
+    },
+    create: async(recurringQuestion) => {
+      await prisma.recurringQuestion.create({data: {
+        ...recurringQuestion
+      }})
+    }
+  }
 }
 
 main()
