@@ -12,8 +12,8 @@ import {
   toLocalTime,
 } from './prompt-queue'
 import Prompt from '../entities/prompt'
-import answerRepositoryFileSystem from '~/personal-data-collection/infrastructure/answer-repository-file-system'
-import recurringQuestionRepositoryFileSystem from '~/personal-data-collection/infrastructure/recurring-question-repository-file-system'
+import answerRepositoryDatabase from '~/personal-data-collection/infrastructure/answer-repository-prisma-api';
+import recurringQuestionRepositoryDatabase from '~/personal-data-collection/infrastructure/recurring-question-prisma-api';
 import fs from 'fs'
 import path from 'path'
 
@@ -33,7 +33,7 @@ describe('promptQueue()', async () => {
   if (fs.existsSync(path.join(storageDirPath, 'recurring-questions.json')))
     fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
 
-  const promptQueue = PromptQueue(recurringQuestionRepositoryFileSystem())(answerRepositoryFileSystem())
+  const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
 
   const startDate = new Date('2022-10-20T01:00:00.000Z')
   const startDateLocal = new Date('2022-10-19T20:00:00.000Z')

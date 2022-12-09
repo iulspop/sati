@@ -10,16 +10,18 @@ export default function answerRepositoryDatabase(): AnswerRepository {
     findMany: async () => {
       try {
         const answers = await prisma.answer.findMany();
-        // const mappedRecurringQuestions = recurringQuestions.map(recurringQuestion => {
+
+        // const mappedAnswers = answers.map(answer => {
         //   return {
-        //     id: recurringQuestion.id,
-        //     question: recurringQuestion.question,
+        //     id: answer.id,
+        //     question: answer.question,
         //     phases: [{
-        //       timestamp: new Date(recurringQuestion.timestamp),
-        //       utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes
+        //       timestamp: new Date(answer.timestamp),
+        //       utcOffsetInMinutes: answer.utcOffsetInMinutes
         //     }]
         //   }
         // })
+
         await prisma.$disconnect();
         return new Promise((resolve, reject) => {
           resolve(answers);

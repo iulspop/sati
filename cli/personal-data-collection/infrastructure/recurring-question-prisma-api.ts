@@ -1,5 +1,3 @@
-// import prisma from './prisma-client';
-
 import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository.js'
 
 import { PrismaClient } from '@prisma/client';
