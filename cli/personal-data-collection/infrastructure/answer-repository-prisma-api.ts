@@ -1,15 +1,11 @@
-// import prisma from './prisma-client';
-
-import AnswerRepository from '../domain/repositories/answer-repository';
-
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+import AnswerRepository from '../domain/repositories/answer-repository.js'
+import prisma from './prisma-client.js'
 
 export default function answerRepositoryDatabase(): AnswerRepository {
   return {
     findMany: async () => {
       try {
-        const answers = await prisma.answer.findMany();
+        const answers = await prisma.answer.findMany()
 
         // const mappedAnswers = answers.map(answer => {
         //   return {
@@ -22,31 +18,31 @@ export default function answerRepositoryDatabase(): AnswerRepository {
         //   }
         // })
 
-        await prisma.$disconnect();
+        await prisma.$disconnect()
         return new Promise((resolve, reject) => {
-          resolve(answers);
-        });
+          resolve(answers)
+        })
       } catch (e) {
-        console.error(e);
-        await prisma.$disconnect();
-        process.exit(1);
+        console.error(e)
+        await prisma.$disconnect()
+        process.exit(1)
       }
     },
-    create: async (answer) => {
+    create: async answer => {
       try {
         await prisma.answer.create({
           data: {
             questionId: answer.questionId,
             response: answer.response,
-            timestamp: new Date(answer.timestamp)
-          }
+            timestamp: new Date(answer.timestamp),
+          },
         })
-        await prisma.$disconnect();
+        await prisma.$disconnect()
       } catch (e) {
-        console.error(e);
-        await prisma.$disconnect();
-        process.exit(1);
+        console.error(e)
+        await prisma.$disconnect()
+        process.exit(1)
       }
-    }
+    },
   }
 }
