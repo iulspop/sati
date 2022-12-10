@@ -7,9 +7,10 @@ export default function answerRepositoryDatabase(): AnswerRepository {
     create: async answer => {
       await prisma.answer.create({
         data: {
+          id: answer.id,
           questionId: answer.questionId,
           response: answer.response,
-          timestamp: new Date(answer.timestamp),
+          timestamp: answer.timestamp,
         },
       })
     },
