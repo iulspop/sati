@@ -7,7 +7,11 @@ Inquire is a multi-purpose tool for self-inquiry.
 1. Have Node.js 18.12.1 (LTS Hydrogen) installed.
 2. Install packages: `npm install`
 3. Compile: `npm run compile`
-4. Run `bash cli.sh --help` for CLI command instructions
+4. Initialize SQLite:
+   1. Create `.env` file
+   2. Add `DATABASE_URL="file:./dev.db"` to `.env` file
+   3. Run `npx prisma migrate dev`
+5. Run `bash cli.sh --help` for CLI command instructions
 
 ## Example use
 
@@ -18,10 +22,3 @@ Inquire is a multi-purpose tool for self-inquiry.
 Add `bash path-to-cli/cli.sh query` to your `.bashrc` or `.zshrc` file to prompt you to collect unanswered data points.
 
 Data is stored in JSON under `./storage` folder.
-
-## Using DB
-
-- Add env var DATABASE_URL="file:./dev.db"
-- `npx prisma migrate dev --name init`
-
-TODO: ADD DB Config to README
