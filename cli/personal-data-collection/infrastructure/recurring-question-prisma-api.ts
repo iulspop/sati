@@ -4,45 +4,28 @@ import prisma from './prisma-client.js'
 export default function recurringQuestionRepositoryDatabase(): RecurringQuestionRepository {
   return {
     findMany: async () => {
-      try {
-        const recurringQuestions = await prisma.recurringQuestion.findMany()
-        const mappedRecurringQuestions = recurringQuestions.map(recurringQuestion => {
-          return {
-            id: recurringQuestion.id,
-            question: recurringQuestion.question,
-            phases: [
-              {
-                timestamp: new Date(recurringQuestion.timestamp),
-                utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes,
-              },
-            ],
-          }
-        })
-        await prisma.$disconnect()
-        return new Promise((resolve, reject) => {
-          resolve(mappedRecurringQuestions)
-        })
-      } catch (e) {
-        console.error(e)
-        await prisma.$disconnect()
-        process.exit(1)
-      }
+      const recurringQuestions = await prisma.recurringQuestion.findMany()
+      return recurringQuestions.map(recurringQuestion => {
+        return {
+          id: recurringQuestion.id,
+          question: recurringQuestion.question,
+          phases: [
+            {
+              timestamp: new Date(recurringQuestion.timestamp),
+              utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes,
+            },
+          ],
+        }
+      })
     },
     create: async recurringQuestion => {
-      try {
-        await prisma.recurringQuestion.create({
-          data: {
-            question: recurringQuestion.question,
-            timestamp: recurringQuestion.phases[0].timestamp,
-            utcOffsetInMinutes: recurringQuestion.phases[0].utcOffsetInMinutes,
-          },
-        })
-        await prisma.$disconnect()
-      } catch (e) {
-        console.error(e)
-        await prisma.$disconnect()
-        process.exit(1)
-      }
+      await prisma.recurringQuestion.create({
+        data: {
+          question: recurringQuestion.question,
+          timestamp: recurringQuestion.phases[0].timestamp,
+          utcOffsetInMinutes: recurringQuestion.phases[0].utcOffsetInMinutes,
+        },
+      })
     },
   }
 }
