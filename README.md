@@ -18,3 +18,10 @@ Inquire is a multi-purpose tool for self-inquiry.
 Add `bash path-to-cli/cli.sh query` to your `.bashrc` or `.zshrc` file to prompt you to collect unanswered data points.
 
 Data is stored in JSON under `./storage` folder.
+
+## Using DB
+
+- Add env var DATABASE_URL="file:./dev.db"
+- `npx prisma migrate dev --name init`
+
+TODO: ADD DB Config to README
