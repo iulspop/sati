@@ -2,3 +2,4 @@ node_modules/
 bin/
 storage/
 .env
+prisma/dev.db
