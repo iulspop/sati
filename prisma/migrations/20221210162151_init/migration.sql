@@ -10,7 +10,7 @@ CREATE TABLE "RecurringQuestion" (
 CREATE TABLE "Answer" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "questionId" TEXT NOT NULL,
+    "response" BOOLEAN NOT NULL,
     "timestamp" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "utcOffsetInMinutes" INTEGER NOT NULL,
     CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "RecurringQuestion" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
