@@ -24,8 +24,10 @@
   },
   "scripts": {
     "test": "npm run test:watch",
-    "test:watch": "STORAGE_PATH=test-storage vitest --no-threads",
-    "cli": "npm run compile && STORAGE_PATH=storage node ./bin/index.js",
+    "test:init": "DATABASE_URL=\"file:./test.db\" prisma migrate dev",
+    "test:inspect": "DATABASE_URL=\"file:./test.db\" prisma studio",
+    "test:watch": "DATABASE_URL=\"file:./test.db\" vitest --no-threads",
+    "cli": "npm run compile && node ./bin/index.js",
     "format": "prettier --write .",
     "lint": "eslint .",
     "compile": "tsc -p  ./",

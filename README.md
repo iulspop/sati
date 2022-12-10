@@ -22,3 +22,7 @@ Inquire is a multi-purpose tool for self-inquiry.
 Add `bash path-to-cli/cli.sh query` to your `.bashrc` or `.zshrc` file to prompt you to collect unanswered data points.
 
 Data is stored in JSON under `./storage` folder.
+
+## How To Run Tests
+
+Run, `npm test:init` first to initialize test DB.
