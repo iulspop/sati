@@ -1,6 +1,6 @@
 import { Answer } from '../entities/answer'
 import { assert } from '~/test/assert'
-import { describe } from 'vitest'
+import { beforeAll, describe } from 'vitest'
 import {
   PromptQueue,
   toDayList,
@@ -12,26 +12,13 @@ import {
   toLocalTime,
 } from './prompt-queue'
 import Prompt from '../entities/prompt'
-import answerRepositoryDatabase from '~/personal-data-collection/infrastructure/answer-repository-prisma-api';
-import recurringQuestionRepositoryDatabase from '~/personal-data-collection/infrastructure/recurring-question-prisma-api';
-import fs from 'fs'
-import path from 'path'
-
-import { dirname } from 'path'
-import { fileURLToPath } from 'url'
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const storageDirPath = path.join(__dirname, '..', '..', '..', '..', process.env.STORAGE_PATH)
-
-const addHours = (hours: number, date: Date) => {
-  const newDate = new Date(date)
-  newDate.setHours(newDate.getHours() + hours)
-  return newDate
-}
+import answerRepositoryDatabase from '~/personal-data-collection/infrastructure/answer-repository-prisma-api'
+import recurringQuestionRepositoryDatabase from '~/personal-data-collection/infrastructure/recurring-question-prisma-api'
+import prisma from '~/personal-data-collection/infrastructure/prisma-client'
 
 describe('promptQueue()', async () => {
-  if (fs.existsSync(path.join(storageDirPath, 'answers.json'))) fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
-  if (fs.existsSync(path.join(storageDirPath, 'recurring-questions.json')))
-    fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
+  await prisma.answer.deleteMany()
+  await prisma.recurringQuestion.deleteMany()
 
   const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
 
@@ -86,10 +73,6 @@ describe('promptQueue()', async () => {
     actual: await promptQueue.query(addHours(28, startDateLocal)),
     expected: [secondDayPrompt],
   })
-
-  fs.unlinkSync(path.join(storageDirPath, 'answers.json'))
-  fs.unlinkSync(path.join(storageDirPath, 'recurring-questions.json'))
-  fs.rmdirSync(storageDirPath)
 })
 
 describe('calculateQuery()', () => {
@@ -232,3 +215,9 @@ describe('toLocalTime()', () => {
     expected: new Date('2022-10-20T22:00:00.000Z'),
   })
 })
+
+const addHours = (hours: number, date: Date) => {
+  const newDate = new Date(date)
+  newDate.setHours(newDate.getHours() + hours)
+  return newDate
+}

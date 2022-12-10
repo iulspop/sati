@@ -21,6 +21,7 @@ export default function recurringQuestionRepositoryDatabase(): RecurringQuestion
     create: async recurringQuestion => {
       await prisma.recurringQuestion.create({
         data: {
+          id: recurringQuestion.id,
           question: recurringQuestion.question,
           timestamp: recurringQuestion.phases[0].timestamp,
           utcOffsetInMinutes: recurringQuestion.phases[0].utcOffsetInMinutes,
