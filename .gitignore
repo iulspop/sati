@@ -1,6 +1,5 @@
 node_modules/
 bin/
-storage/
 .env
 prisma/*.db
 prisma/*.db-journal
