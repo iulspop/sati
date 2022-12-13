@@ -1,0 +1,32 @@
+[
+  {
+    "id": "clapl4vpj000055ub8np7gxcm",
+    "question": "Have you studied today?",
+    "phases": [
+      {
+        "timestamp": "2022-11-18T16:40:23.430Z",
+        "utcOffsetInMinutes": -120
+      }
+    ]
+  },
+  {
+    "id": "clau0bfxf0000fzub841j4w3u",
+    "question": "Did you go to the gym?",
+    "phases": [
+      {
+        "timestamp": "2022-11-23T18:56:28.514Z",
+        "utcOffsetInMinutes": -120
+      }
+    ]
+  },
+  {
+    "id": "clbfcuuay000061ubdzs27ko3",
+    "question": "Have you studied today?",
+    "phases": [
+      {
+        "timestamp": "2022-12-08T17:30:38.697Z",
+        "utcOffsetInMinutes": -120
+      }
+    ]
+  }
+]
