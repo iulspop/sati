@@ -1,19 +1,22 @@
-import { promptQueue } from '../../../../personal-data-collection/domain/index';
 import { useLoaderData } from '@remix-run/react';
-import { json } from "@remix-run/node";
+import prisma from '../../../../personal-data-collection/infrastructure/prisma-client';
 
 export const loader = async() => {
-  return json ({
-    data: await promptQueue.query()
-  })
+  const data = await prisma.recurringQuestion.findMany();
+
+  return data;
 }
 
 export default function Index() {
   const data = useLoaderData<typeof loader>();
-  console.log(data);
+
   return (
     <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <p>{data.data}</p>
+      <ul>
+        {data.map(question => (
+          <p>{question.question}</p>
+        ))}
+      </ul>
     </div>
   );
 }
