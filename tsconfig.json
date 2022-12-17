@@ -10,8 +10,8 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["domains/*"]
+      "~/*": ["src/*"]
     }
   },
-  "include": ["domains/**/*.ts"]
+  "include": ["src/**/*.ts"]
 }
