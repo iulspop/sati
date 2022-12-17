@@ -1,6 +1,6 @@
 import { useLoaderData } from '@remix-run/react';
 // import promptQueueInstance from 'utils/db.server';
-import prisma from '../../../../personal-data-collection/infrastructure/prisma-client';
+import prisma from '../../../../domains/personal-data-collection/infrastructure/prisma-client';
 
 export const loader = async () => {
   const data = await prisma.recurringQuestion.findMany({
