@@ -5,18 +5,17 @@ export default function recurringQuestionRepositoryDatabase(): RecurringQuestion
   return {
     findMany: async () => {
       const recurringQuestions = await prisma.recurringQuestion.findMany()
-      return recurringQuestions.map(recurringQuestion => {
-        return {
-          id: recurringQuestion.id,
-          question: recurringQuestion.question,
-          phases: [
-            {
-              timestamp: new Date(recurringQuestion.timestamp),
-              utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes,
-            },
-          ],
-        }
-      })
+      return recurringQuestions.map(recurringQuestion => ({
+        id: recurringQuestion.id,
+        question: recurringQuestion.question,
+
+        phases: [
+          {
+            timestamp: new Date(recurringQuestion.timestamp),
+            utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes,
+          },
+        ],
+      }))
     },
     create: async recurringQuestion => {
       await prisma.recurringQuestion.create({
