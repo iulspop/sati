@@ -6,24 +6,20 @@ import Answer from '../entities/answer.js'
 
 interface PromptQueueAPI {
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
-  query: (queryTimeLocal?: Date) => Promise<Prompt[]>
   answerPrompt: (answer: Partial<Answer>) => Promise<void>
   getAnswers: () => Promise<Answer[]>
+  query: (queryTimeLocal?: Date) => Promise<Prompt[]>
 }
 
 type a = (recurringQuestionRepository: RecurringQuestionRepository) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
-  createRecurringQuestion: async recurringQuestion => await recurringQuestionRepository.create(recurringQuestion),
+  createRecurringQuestion: recurringQuestionRepository.create,
+  answerPrompt: answerRepository.create,
+  getAnswers: answerRepository.findMany,
   query: async (queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })) => {
     const recurringQuestionList = await recurringQuestionRepository.findMany()
     const answerList = await answerRepository.findMany()
     return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
-  },
-  answerPrompt: async answer => {
-    await answerRepository.create(answer)
-  },
-  getAnswers: async () => {
-    return answerRepository.findMany()
   },
 })
 
