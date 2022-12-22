@@ -10,8 +10,9 @@
     "esModuleInterop": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["cli/*"]
+      "~/*": ["src/*"]
     }
   },
-  "include": ["cli/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/web"]
 }

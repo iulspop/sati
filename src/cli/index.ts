@@ -5,7 +5,7 @@ import {
   createRecurringQuestion,
   createRecurringQuestionsFromFile,
   query,
-} from './personal-data-collection/application/cli-prompt-queue.js'
+} from '../domains/personal-data-collection/application/cli-prompt-queue.js'
 
 yargs(hideBin(process.argv))
   .scriptName('inquire')
