@@ -1,5 +1,4 @@
 import { useLoaderData } from '@remix-run/react'
-// import promptQueueInstance from 'utils/db.server';
 import prisma from '../../../personal-data-collection/infrastructure/prisma-client'
 
 export const loader = async () => {
