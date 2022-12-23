@@ -1,6 +1,6 @@
 import { Answer } from '../entities/answer'
-import { assert } from '~/utils/test/assert'
-import { beforeAll, describe } from 'vitest'
+import { assert } from '~/test/assert'
+import { describe } from 'vitest'
 import {
   PromptQueue,
   toDayList,
