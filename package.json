@@ -33,6 +33,9 @@
     "compile": "tsc -p  ./",
     "prepare": "husky install"
   },
+  "prisma": {
+    "schema": "src/personal-data-collection/infrastructure/prisma/schema.prisma"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iulspop/behavior-design-app.git"

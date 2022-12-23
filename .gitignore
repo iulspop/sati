@@ -1,5 +1,5 @@
 node_modules/
 bin/
 .env
-prisma/*.db
-prisma/*.db-journal
+**/prisma/*.db
+**/prisma/*.db-journal
