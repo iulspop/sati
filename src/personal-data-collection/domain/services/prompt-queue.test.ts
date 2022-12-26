@@ -11,7 +11,7 @@ import {
   toStartOfDay,
   toLocalTime,
 } from './prompt-queue'
-import Prompt from '../entities/prompt'
+import Prompt from '../value-objects/prompt'
 import answerRepositoryDatabase from '~/personal-data-collection/infrastructure/answer-repository-prisma-api'
 import recurringQuestionRepositoryDatabase from '~/personal-data-collection/infrastructure/recurring-question-prisma-api'
 import prisma from '~/personal-data-collection/infrastructure/prisma-client'

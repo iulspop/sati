@@ -1,6 +1,6 @@
 import AnswerRepository from '../repositories/answer-repository.js'
 import RecurringQuestionRepository from '../repositories/recurring-question-repository.js'
-import Prompt from '../entities/prompt.js'
+import Prompt from '../value-objects/prompt.js'
 import RecurringQuestion from '../entities/recurring-question.js'
 import Answer from '../entities/answer.js'
 
