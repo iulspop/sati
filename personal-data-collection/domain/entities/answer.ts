@@ -1,5 +1,3 @@
-import cuid from 'cuid'
-
 export default interface Answer {
   id: string
   questionId: string
@@ -7,7 +5,12 @@ export default interface Answer {
   timestamp: Date
 }
 
-const createAnswer = ({ id = cuid(), questionId = 'N/A', response = false, timestamp = new Date() }): Answer => ({
+const createAnswer = ({
+  id = '123',
+  questionId = 'N/A',
+  response = false,
+  timestamp = new Date(),
+}): Answer => ({
   id,
   questionId,
   response,

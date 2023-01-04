@@ -1,5 +1,5 @@
 import { Answer } from '../entities/answer'
-import { assert } from '~/test/assert'
+import { assert } from '@test/assert'
 import { describe } from 'vitest'
 import {
   PromptQueue,
@@ -12,15 +12,17 @@ import {
   toLocalTime,
 } from './prompt-queue'
 import Prompt from '../value-objects/prompt'
-import answerRepositoryDatabase from '~/personal-data-collection/infrastructure/answer-repository-prisma-api'
-import recurringQuestionRepositoryDatabase from '~/personal-data-collection/infrastructure/recurring-question-prisma-api'
-import prisma from '~/personal-data-collection/infrastructure/prisma-client'
+import answerRepositoryDatabase from '../../infrastructure/answer-repository-prisma-api'
+import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma-api'
+import prisma from '../../infrastructure/prisma-client'
 
 describe('promptQueue()', async () => {
   await prisma.answer.deleteMany()
   await prisma.recurringQuestion.deleteMany()
 
-  const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+  const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(
+    answerRepositoryDatabase()
+  )
 
   const startDate = new Date('2022-10-20T01:00:00.000Z')
   const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
@@ -38,7 +40,12 @@ describe('promptQueue()', async () => {
     timestamp: addDay(startOfDayInLocalTime),
   }
 
-  const firstDayAnswer: Answer = { id: '1', questionId: '1', timestamp: new Date(startOfDayInLocalTime), response: true }
+  const firstDayAnswer: Answer = {
+    id: '1',
+    questionId: '1',
+    timestamp: new Date(startOfDayInLocalTime),
+    response: true,
+  }
 
   await promptQueue.createRecurringQuestion({
     id: '1',
@@ -80,7 +87,8 @@ describe('calculateQuery()', () => {
   const queryTimeLocal = new Date('2022-10-22T00:00:00.000Z')
 
   assert({
-    given: 'a recurring quesion created at 20:00 local time, follow by a query at 00:00 local time',
+    given:
+      'a recurring quesion created at 20:00 local time, follow by a query at 00:00 local time',
     should: 'return one prompt',
     actual: calculateQuery(
       [
@@ -160,7 +168,10 @@ describe('filterIfCurrentDay()', () => {
   assert({
     given: 'a query on the 21st and prompts on the 19th and 20th',
     should: 'return the prompts on the 19th and 20th',
-    actual: filterIfCurrentDay(new Date('2022-10-21T00:00:00.000Z'))([firstDayPrompt, secondDayPrompt]),
+    actual: filterIfCurrentDay(new Date('2022-10-21T00:00:00.000Z'))([
+      firstDayPrompt,
+      secondDayPrompt,
+    ]),
     expected: [firstDayPrompt, secondDayPrompt],
   })
 })
@@ -204,14 +215,20 @@ describe('toLocalTime()', () => {
   assert({
     given: 'a date at 1AM and a UTC offset of -5 hours (EST)',
     should: 'return a date at 8PM the previous day',
-    actual: toLocalTime({ timestamp: new Date('2022-10-20T01:00:00.000Z'), utcOffsetInMinutes: 5 * 60 }),
+    actual: toLocalTime({
+      timestamp: new Date('2022-10-20T01:00:00.000Z'),
+      utcOffsetInMinutes: 5 * 60,
+    }),
     expected: new Date('2022-10-19T20:00:00.000Z'),
   })
 
   assert({
     given: 'a date at 8PM and a UTC offset of 2 hours (Bucharest)',
     should: 'return a date at 10PM the same day',
-    actual: toLocalTime({ timestamp: new Date('2022-10-20T20:00:00.000Z'), utcOffsetInMinutes: -2 * 60 }),
+    actual: toLocalTime({
+      timestamp: new Date('2022-10-20T20:00:00.000Z'),
+      utcOffsetInMinutes: -2 * 60,
+    }),
     expected: new Date('2022-10-20T22:00:00.000Z'),
   })
 })
