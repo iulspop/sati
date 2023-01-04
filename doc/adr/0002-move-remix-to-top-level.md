@@ -22,6 +22,8 @@ Where `web/` contained all Remix/React related application files, ` cli`` all CL
 
 However, the way tree-shaking is configured on Remix, when importing a module from outside the Remix project folder, it doesn't remove it from the browser bundle even when adding `.server.ts` hint for the compiler. This makes our Prisma client initialize on the browser and error.
 
+See [Module Constraints](https://remix.run/docs/en/v1/guides/constraints) Remix doc for in-detail explanation of how the Remix compiler compiles the server and browser bundles.
+
 ## Decision
 
 To make Remix tree-shake the browser bundle correctly, we'll move the Remix project folder to top-level. The new folder structure as follows:
