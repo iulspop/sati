@@ -14,9 +14,9 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
+      "@domains/*": ["./domains/*"]
     },
-
     // Remix takes care of building everything in `remix build`.
     "noEmit": true
   }
