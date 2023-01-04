@@ -1,8 +1,8 @@
 import AnswerRepository from '../repositories/answer-repository.js'
 import RecurringQuestionRepository from '../repositories/recurring-question-repository.js'
 import Prompt from '../value-objects/prompt.js'
-import RecurringQuestion from '../entities/recurring-question.js'
-import Answer from '../entities/answer.js'
+import RecurringQuestion, { createRecurringQuestion } from '../entities/recurring-question.js'
+import Answer, { createAnswer } from '../entities/answer.js'
 
 interface PromptQueueAPI {
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
@@ -15,8 +15,9 @@ type a = (
   recurringQuestionRepository: RecurringQuestionRepository
 ) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
-  createRecurringQuestion: recurringQuestionRepository.create,
-  answerPrompt: answerRepository.create,
+  createRecurringQuestion: partialRecurringQuestion =>
+    recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion)),
+  answerPrompt: partialAnswer => answerRepository.create(createAnswer(partialAnswer)),
   getAnswers: answerRepository.findMany,
   query: async (
     queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
