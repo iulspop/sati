@@ -1,6 +1,6 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import prisma from '~/prisma-client'
+import prisma from '../../personal-data-collection/infrastructure/db.server'
 
 export const loader = async () => {
   return json(

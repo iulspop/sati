@@ -1,5 +1,5 @@
 import RecurringQuestionRepository from '../domain/repositories/recurring-question-repository.js'
-import prisma from './prisma-client.js'
+import prisma from './db.server.js'
 
 export default function recurringQuestionRepositoryDatabase(): RecurringQuestionRepository {
   return {

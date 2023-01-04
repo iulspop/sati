@@ -12,9 +12,9 @@ import {
   toLocalTime,
 } from './prompt-queue'
 import Prompt from '../value-objects/prompt'
-import answerRepositoryDatabase from '../../infrastructure/answer-repository-prisma-api'
-import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma-api'
-import prisma from '../../infrastructure/prisma-client'
+import answerRepositoryDatabase from '../../infrastructure/answer-repository-prisma'
+import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
+import prisma from '../../infrastructure/db.server'
 
 describe('promptQueue()', async () => {
   await prisma.answer.deleteMany()
