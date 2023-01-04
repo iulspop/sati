@@ -6,5 +6,3 @@ export default interface RecurringQuestion {
     utcOffsetInMinutes: number
   }[]
 }
-
-export { RecurringQuestion }

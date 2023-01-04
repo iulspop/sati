@@ -4,5 +4,3 @@ export default interface Answer {
   response: boolean
   timestamp: Date
 }
-
-export { Answer }
