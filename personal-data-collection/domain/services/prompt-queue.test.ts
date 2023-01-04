@@ -1,20 +1,20 @@
-import { Answer } from '../entities/answer'
 import { assert } from '@test/assert'
-import { describe } from 'vitest'
+import Answer from '../entities/answer'
+import answerRepositoryDatabase from '../../infrastructure/answer-prisma'
 import {
+  addDay,
+  calculateQuery,
+  filterIfCurrentDay,
+  keepUnlessPromptAnswered,
   PromptQueue,
   toDayList,
-  calculateQuery,
-  keepUnlessPromptAnswered,
-  filterIfCurrentDay,
-  addDay,
-  toStartOfDay,
   toLocalTime,
+  toStartOfDay,
 } from './prompt-queue'
-import Prompt from '../value-objects/prompt'
-import answerRepositoryDatabase from '../../infrastructure/answer-prisma'
-import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
+import { describe } from 'vitest'
 import prisma from '../../infrastructure/db.server'
+import Prompt from '../value-objects/prompt'
+import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
 
 describe('promptQueue()', async () => {
   await prisma.answer.deleteMany()
