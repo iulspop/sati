@@ -1,36 +1,37 @@
+import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import prisma from '../../../personal-data-collection/infrastructure/prisma-client'
+import prisma from '~/prisma-client'
 
 export const loader = async () => {
-  const data = await prisma.recurringQuestion.findMany({
+  const recurringQuestions = await prisma.recurringQuestion.findMany({
     include: {
       answers: true,
     },
   })
 
-  return data
+  return json(recurringQuestions)
 }
 
 export default function Index() {
-  const data = useLoaderData<typeof loader>()
+  const recurringQuestions = useLoaderData<typeof loader>()
 
   return (
-    <div style={{ fontFamily: 'system-ui, sans-serif', lineHeight: '1.4' }}>
-      {data.map(question => {
-        let answers = question.answers.map(answer => {
-          return (
-            <p>
-              {answer.timestamp}: {String(answer.response)}
-            </p>
-          )
-        })
-        return (
-          <div>
-            <h2>{question.question}</h2>
-            <h3>{answers}</h3>
-          </div>
-        )
-      })}
-    </div>
+    <main>
+      <h1>Remix + Prisma</h1>
+      <ul>
+        {recurringQuestions.map(({ id, question, answers }) => (
+          <li key={id}>
+            <h2>{question}</h2>
+            <ul>
+              {answers.map(({ id, timestamp, response }) => (
+                <li key={id}>
+                  {timestamp}: {String(response)}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </main>
   )
 }
