@@ -12,7 +12,7 @@ import {
   toLocalTime,
 } from './prompt-queue'
 import Prompt from '../value-objects/prompt'
-import answerRepositoryDatabase from '../../infrastructure/answer-repository-prisma'
+import answerRepositoryDatabase from '../../infrastructure/answer-prisma'
 import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
 import prisma from '../../infrastructure/db.server'
 
