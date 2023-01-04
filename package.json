@@ -2,6 +2,8 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
+    "test": "vitest --no-threads",
+    "format": "prettier --write .",
     "build": "remix build",
     "dev": "remix dev",
     "start": "remix build && remix-serve build",

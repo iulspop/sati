@@ -20,9 +20,7 @@ describe('promptQueue()', async () => {
   await prisma.answer.deleteMany()
   await prisma.recurringQuestion.deleteMany()
 
-  const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(
-    answerRepositoryDatabase()
-  )
+  const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
 
   const startDate = new Date('2022-10-20T01:00:00.000Z')
   const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
@@ -87,8 +85,7 @@ describe('calculateQuery()', () => {
   const queryTimeLocal = new Date('2022-10-22T00:00:00.000Z')
 
   assert({
-    given:
-      'a recurring quesion created at 20:00 local time, follow by a query at 00:00 local time',
+    given: 'a recurring quesion created at 20:00 local time, follow by a query at 00:00 local time',
     should: 'return one prompt',
     actual: calculateQuery(
       [
@@ -168,10 +165,7 @@ describe('filterIfCurrentDay()', () => {
   assert({
     given: 'a query on the 21st and prompts on the 19th and 20th',
     should: 'return the prompts on the 19th and 20th',
-    actual: filterIfCurrentDay(new Date('2022-10-21T00:00:00.000Z'))([
-      firstDayPrompt,
-      secondDayPrompt,
-    ]),
+    actual: filterIfCurrentDay(new Date('2022-10-21T00:00:00.000Z'))([firstDayPrompt, secondDayPrompt]),
     expected: [firstDayPrompt, secondDayPrompt],
   })
 })
