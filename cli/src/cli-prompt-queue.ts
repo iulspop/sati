@@ -1,6 +1,6 @@
 import fs from 'fs'
 import prompts from 'prompts'
-import { promptQueue } from '../../domains/personal-data-collection/domain/index.js'
+import { promptQueue } from '@domains/personal-data-collection/domain/index.js'
 
 const createRecurringQuestion = async argv =>
   await promptQueue.createRecurringQuestion({

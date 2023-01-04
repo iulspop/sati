@@ -8,7 +8,10 @@
     "noImplicitAny": false,
     "strictNullChecks": false,
     "esModuleInterop": true,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@domains/*": ["../domains/*"]
+    }
   },
   "include": ["src/**/*.ts"]
 }
