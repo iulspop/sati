@@ -1,28 +1,53 @@
-# Inquire
+# Welcome to Remix!
 
-Inquire is a multi-purpose tool for self-inquiry.
+- [Remix Docs](https://remix.run/docs)
 
-## How To Start
+## Development
 
-1. Have Node.js 18.12.1 (LTS Hydrogen) installed.
-2. Install packages: `npm install`
-3. Compile: `npm run compile`
-4. Initialize SQLite:
-   1. Create `.env` file
-   2. Add `DATABASE_URL="file:./dev.db"` to `.env` file
-   3. Run `npx prisma migrate dev`
-5. Run `bash cli.sh --help` for CLI command instructions
+From your terminal:
 
-## Example use
+```sh
+npm run dev
+```
 
-`bash cli.sh add 'Have you meditated 20 minutes today?'` creates a recurring question which prompts you once a day. Currently only supports once a day, yes/no questions.
+This starts your app in development mode, rebuilding assets on file changes.
 
-`bash cli.sh query` queries for prompts to be answered. You're only prompted once the day has passed for that data point.
+## Deployment
 
-Add `bash path-to-cli/cli.sh query` to your `.bashrc` or `.zshrc` file to prompt you to collect unanswered data points.
+First, build your app for production:
 
-Data is stored in JSON under `./storage` folder.
+```sh
+npm run build
+```
 
-## How To Run Tests
+Then run the app in production mode:
 
-Run, `npm test:init` first to initialize test DB.
+```sh
+npm start
+```
+
+Now you'll need to pick a host to deploy it to.
+
+### DIY
+
+If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
+
+Make sure to deploy the output of `remix build`
+
+- `build/`
+- `public/build/`
+
+### Using a Template
+
+When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again to create a new project, then copy over your `app/` folder to the new project that's pre-configured for your target server.
+
+```sh
+cd ..
+# create a new project, and pick a pre-configured host
+npx create-remix@latest
+cd my-new-remix-app
+# remove the new project's app (not the old one!)
+rm -rf app
+# copy your app over
+cp -R ../my-old-remix-app/app app
+```

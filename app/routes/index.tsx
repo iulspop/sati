@@ -1,12 +1,17 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import prisma from '~/prisma-client'
+// import prisma from '~/prisma-client'
 
-export const loader = async () => json(await prisma.recurringQuestion.findMany({
-  include: {
-    answers: true,
-  },
-}))
+export const loader = async () => {
+
+  // return json(await prisma.recurringQuestion.findMany({
+  //   include: {
+  //     answers: true,
+  //   },
+  // }));
+
+  return json([])
+}
 
 export default function Index() {
   const recurringQuestions = useLoaderData<typeof loader>()

@@ -1,5 +1,6 @@
-node_modules/
-bin/
+node_modules
+
+/.cache
+/build
+/public/build
 .env
-**/prisma/*.db
-**/prisma/*.db-journal

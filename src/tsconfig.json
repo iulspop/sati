@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "outDir": "bin",
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "Node",
+    "pretty": true,
+    "noImplicitAny": false,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/web"]
+}
