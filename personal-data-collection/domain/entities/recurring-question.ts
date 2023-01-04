@@ -7,14 +7,4 @@ export default interface RecurringQuestion {
   }[]
 }
 
-const createRecurringQuestion = ({
-  id = '123',
-  question = 'N/A',
-  phases = [{ timestamp: new Date(), utcOffsetInMinutes: 0 }],
-}): RecurringQuestion => ({
-  id,
-  question,
-  phases,
-})
-
-export { RecurringQuestion, createRecurringQuestion }
+export { RecurringQuestion }
