@@ -8,7 +8,6 @@ export default function recurringQuestionRepositoryDatabase(): RecurringQuestion
       return recurringQuestions.map(recurringQuestion => ({
         id: recurringQuestion.id,
         question: recurringQuestion.question,
-
         phases: [
           {
             timestamp: new Date(recurringQuestion.timestamp),

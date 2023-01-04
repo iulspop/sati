@@ -63,7 +63,7 @@ describe('promptQueue()', async () => {
     expected: [firstDayPrompt, secondDayPrompt],
   })
 
-  await promptQueue.answerPrompt(firstDayAnswer)
+  await promptQueue.createAnswer(firstDayAnswer)
 
   assert({
     given: 'one prompt answered',

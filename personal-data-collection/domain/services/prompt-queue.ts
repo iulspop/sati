@@ -5,9 +5,10 @@ import RecurringQuestion, { createRecurringQuestion } from '../entities/recurrin
 import Answer, { createAnswer } from '../entities/answer.js'
 
 interface PromptQueueAPI {
-  createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
-  answerPrompt: (answer: Partial<Answer>) => Promise<void>
   getAnswers: () => Promise<Answer[]>
+  createAnswer: (answer: Partial<Answer>) => Promise<void>
+  getRecurringQuestions: () => Promise<RecurringQuestion[]>
+  createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
   query: (queryTimeLocal?: Date) => Promise<Prompt[]>
 }
 
@@ -15,10 +16,11 @@ type a = (
   recurringQuestionRepository: RecurringQuestionRepository
 ) => (answerRepository: AnswerRepository) => PromptQueueAPI
 const PromptQueue: a = recurringQuestionRepository => answerRepository => ({
+  createAnswer: partialAnswer => answerRepository.create(createAnswer(partialAnswer)),
+  getAnswers: answerRepository.findMany,
   createRecurringQuestion: partialRecurringQuestion =>
     recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion)),
-  answerPrompt: partialAnswer => answerRepository.create(createAnswer(partialAnswer)),
-  getAnswers: answerRepository.findMany,
+  getRecurringQuestions: recurringQuestionRepository.findMany,
   query: async (
     queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
   ) => {

@@ -34,7 +34,7 @@ const createRecurringQuestionsFromFile = async argv => {
 const query = async () => {
   const promptList = await promptQueue.query()
   const response = await prompts(mapPromptsToQuestions(promptList))
-  mapResponseToAnswers(promptList, response).forEach(answer => promptQueue.answerPrompt(answer))
+  mapResponseToAnswers(promptList, response).forEach(answer => promptQueue.createAnswer(answer))
 }
 
 const mapPromptsToQuestions = promptList =>

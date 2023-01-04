@@ -1,14 +1,18 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import prisma from '../../personal-data-collection/infrastructure/db.server'
+import { promptQueue } from '../../personal-data-collection/domain'
 
 export const loader = async () => {
+  const [recurringQuestions, answers] = await Promise.all([
+    promptQueue.getRecurringQuestions(),
+    promptQueue.getAnswers(),
+  ])
+
   return json(
-    await prisma.recurringQuestion.findMany({
-      include: {
-        answers: true,
-      },
-    })
+    recurringQuestions.map(recurringQuestion => ({
+      ...recurringQuestion,
+      answers: answers.filter(answer => answer.questionId === recurringQuestion.id),
+    }))
   )
 }
 
