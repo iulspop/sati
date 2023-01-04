@@ -31,7 +31,8 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "compile": "tsc -p  ./",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "prisma:studio": "prisma studio"
   },
   "prisma": {
     "schema": "src/personal-data-collection/infrastructure/prisma/schema.prisma"
