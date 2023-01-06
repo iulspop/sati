@@ -73,11 +73,12 @@ const filterIfCurrentDay: e = queryTimeLocal => promptList =>
   )
 
 const pipe =
-  (...fns) =>
+  (...fns: Function[]) =>
+  // @ts-ignore
   x =>
     fns.reduce((v, f) => f(v), x)
 
-const addDays = days => date => {
+const addDays = (days: number) => (date: Date) => {
   const result = new Date(date)
   result.setDate(result.getDate() + days)
   return result
@@ -85,7 +86,7 @@ const addDays = days => date => {
 
 const addDay = addDays(1)
 
-const toDayList = (startDate, endDate) => {
+const toDayList = (startDate: Date, endDate: Date) => {
   const dayList = []
   let currentDate = startDate
   while (currentDate <= endDate) {
