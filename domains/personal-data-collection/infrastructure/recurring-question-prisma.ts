@@ -4,25 +4,27 @@ import prisma from './db.server.js'
 export default function recurringQuestionRepositoryDatabase(): RecurringQuestionRepository {
   return {
     findMany: async () => {
-      const recurringQuestions = await prisma.recurringQuestion.findMany()
-      return recurringQuestions.map(recurringQuestion => ({
-        id: recurringQuestion.id,
-        question: recurringQuestion.question,
+      const recurringQuestions = await prisma.recurringQuestion.findMany({ orderBy: { order: 'asc' } })
+      return recurringQuestions.map(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
+        id,
+        order,
+        question,
         phases: [
           {
-            timestamp: new Date(recurringQuestion.timestamp),
-            utcOffsetInMinutes: recurringQuestion.utcOffsetInMinutes,
+            timestamp: new Date(timestamp),
+            utcOffsetInMinutes: utcOffsetInMinutes,
           },
         ],
       }))
     },
-    create: async recurringQuestion => {
+    create: async ({ id, order, question, phases }) => {
       await prisma.recurringQuestion.create({
         data: {
-          id: recurringQuestion.id,
-          question: recurringQuestion.question,
-          timestamp: recurringQuestion.phases[0].timestamp,
-          utcOffsetInMinutes: recurringQuestion.phases[0].utcOffsetInMinutes,
+          id,
+          order,
+          question,
+          timestamp: phases[0].timestamp,
+          utcOffsetInMinutes: phases[0].utcOffsetInMinutes,
         },
       })
     },

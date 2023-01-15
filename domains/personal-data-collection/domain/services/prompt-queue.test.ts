@@ -28,13 +28,13 @@ describe('promptQueue()', async () => {
 
   const firstDayPrompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours today?',
+    question: 'Did you study 2 hours?',
     timestamp: startOfDayInLocalTime,
   }
 
   const secondDayPrompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours today?',
+    question: 'Did you study 2 hours?',
     timestamp: addDay(startOfDayInLocalTime),
   }
 
@@ -47,7 +47,7 @@ describe('promptQueue()', async () => {
 
   await promptQueue.createRecurringQuestion({
     id: '1',
-    question: 'Did you study 2 hours today?',
+    question: 'Did you study 2 hours?',
     phases: [
       {
         timestamp: startDate,
@@ -78,6 +78,54 @@ describe('promptQueue()', async () => {
     actual: await promptQueue.query(addHours(28, startDateLocal)),
     expected: [secondDayPrompt],
   })
+
+  await prisma.answer.deleteMany()
+  await prisma.recurringQuestion.deleteMany()
+
+  const startTime = new Date('2022-10-22T00:00:00.000Z')
+  const queryTime = new Date('2022-10-23T00:00:00.000Z')
+
+  await promptQueue.createRecurringQuestion({
+    id: '2',
+    order: 2,
+    question: 'Have you studied?',
+    phases: [
+      {
+        timestamp: startTime,
+        utcOffsetInMinutes: 0,
+      },
+    ],
+  })
+
+  await promptQueue.createRecurringQuestion({
+    id: '1',
+    order: 1,
+    question: 'Have you eaten broccoli?',
+    phases: [
+      {
+        timestamp: startTime,
+        utcOffsetInMinutes: 0,
+      },
+    ],
+  })
+
+  assert({
+    given: 'two recurring questions',
+    should: 'return prompts in order of the questions',
+    actual: await promptQueue.query(queryTime),
+    expected: [
+      {
+        questionId: '1',
+        question: 'Have you eaten broccoli?',
+        timestamp: startTime,
+      },
+      {
+        questionId: '2',
+        question: 'Have you studied?',
+        timestamp: startTime,
+      },
+    ],
+  })
 })
 
 describe('calculateQuery()', () => {
@@ -91,7 +139,8 @@ describe('calculateQuery()', () => {
       [
         {
           id: '1',
-          question: 'Have you studied today?',
+          order: 1,
+          question: 'Have you studied?',
           phases: [
             {
               timestamp: startTimeUTC,
@@ -106,7 +155,7 @@ describe('calculateQuery()', () => {
     expected: [
       {
         questionId: '1',
-        question: 'Have you studied today?',
+        question: 'Have you studied?',
         timestamp: new Date('2022-10-21T05:00:00.000Z'),
       },
     ],
@@ -123,7 +172,7 @@ describe('keepUnlessPromptAnswered()', () => {
 
   const prompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours today?',
+    question: 'Did you study 2 hours?',
     timestamp: new Date('2022-10-19T15:00:00.000Z'),
   }
 
@@ -152,13 +201,13 @@ describe('keepUnlessPromptAnswered()', () => {
 describe('filterIfCurrentDay()', () => {
   const firstDayPrompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours today?',
+    question: 'Did you study 2 hours?',
     timestamp: new Date('2022-10-19T05:00:00.000Z'),
   }
 
   const secondDayPrompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours today?',
+    question: 'Did you study 2 hours?',
     timestamp: new Date('2022-10-20T05:00:00.000Z'),
   }
 
@@ -182,14 +231,14 @@ describe('toDayList()', () => {
   })
 
   assert({
-    given: 'a date and another date 5 hours after after',
+    given: 'a date and another date 5 hours after',
     should: 'return one day',
     actual: toDayList(startDate, new Date(2022, 9, 22, 5, 0, 0, 0)),
     expected: [startDate],
   })
 
   assert({
-    given: 'a date and another date 25 hours after after',
+    given: 'a date and another date 25 hours after',
     should: 'return two days, second day exactly 24 hours after first day',
     actual: toDayList(startDate, new Date(2022, 9, 23, 1, 0, 0, 0)),
     expected: [startDate, addDay(startDate)],
