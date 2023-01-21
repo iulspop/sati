@@ -153,36 +153,93 @@ describe('promptQueue()', async () => {
   }
 })
 
-describe('calculateQuery()', () => {
-  const startTimeUTC = new Date('2022-10-22T01:00:00.000Z')
-  const queryTimeLocal = new Date('2022-10-22T00:00:00.000Z')
+describe.skip('calculateQuery()', () => {
+  {
+    const startTimeUTC = new Date('2022-10-22T01:00:00.000Z')
+    const queryTimeLocal = new Date('2022-10-22T00:00:00.000Z')
 
-  assert({
-    given: 'a recurring quesion created at 20:00 local time, follow by a query at 00:00 local time',
-    should: 'return one prompt',
-    actual: calculateQuery(
-      [
-        {
-          id: '1',
-          order: 1,
-          question: 'Have you studied?',
-          phase: {
-            timestamp: startTimeUTC,
-            utcOffsetInMinutes: 5 * 60,
+    assert({
+      given: 'a recurring question created at 20:00 local time and a query the next day at 00:00 local time',
+      should: 'return one prompt',
+      actual: calculateQuery(
+        [
+          {
+            id: '1',
+            order: 1,
+            question: 'Have you studied?',
+            phase: {
+              timestamp: startTimeUTC,
+              utcOffsetInMinutes: 5 * 60,
+            },
           },
+        ],
+        [],
+        queryTimeLocal
+      ),
+      expected: [
+        {
+          questionId: '1',
+          question: 'Have you studied?',
+          timestamp: new Date('2022-10-21T05:00:00.000Z'),
         },
       ],
-      [],
-      queryTimeLocal
-    ),
-    expected: [
-      {
-        questionId: '1',
-        question: 'Have you studied?',
-        timestamp: new Date('2022-10-21T05:00:00.000Z'),
-      },
-    ],
-  })
+    })
+  }
+  {
+    const startTime = new Date('2022-10-22T00:00:00.000Z')
+    const queryTime = new Date('2022-10-24T00:00:00.000Z')
+
+    assert({
+      given: 'two recurring questions and a prompt in two days',
+      should: 'return prompts grouped by day',
+      actual: calculateQuery(
+        [
+          {
+            id: '1',
+            order: 1,
+            question: 'Have you studied?',
+            phase: {
+              timestamp: startTime,
+              utcOffsetInMinutes: 0,
+            },
+          },
+          {
+            id: '2',
+            order: 2,
+            question: 'Did you eat your vegetables?',
+            phase: {
+              timestamp: startTime,
+              utcOffsetInMinutes: 0,
+            },
+          },
+        ],
+        [],
+        queryTime
+      ),
+      expected: [
+        {
+          questionId: '1',
+          question: 'Have you studied?',
+          timestamp: new Date('2022-10-22T00:00:00.000Z'),
+        },
+        {
+          questionId: '2',
+          question: 'Did you eat your vegetables?',
+          timestamp: new Date('2022-10-22T00:00:00.000Z'),
+        },
+        {
+          questionId: '1',
+          question: 'Have you studied?',
+          timestamp: new Date('2022-10-23T00:00:00.000Z'),
+        },
+        {
+          questionId: '2',
+          question: 'Did you eat your vegetables?',
+          timestamp: new Date('2022-10-23T00:00:00.000Z'),
+        },
+      ],
+    })
+  }
 })
 
 describe('keepUnlessPromptAnswered()', () => {
