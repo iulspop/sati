@@ -18,8 +18,9 @@ const createRecurringQuestionsFromFile = async argv => {
     .readFileSync(argv.questionsFilePath, 'utf8')
     .split('\n')
     .filter(string => string.length > 0)
-  questions.forEach(question =>
-    promptQueue.createRecurringQuestion({
+
+  for (const question of questions) {
+    await promptQueue.createRecurringQuestion({
       question,
       phases: [
         {
@@ -28,7 +29,7 @@ const createRecurringQuestionsFromFile = async argv => {
         },
       ],
     })
-  )
+  }
 }
 
 const query = async () => {

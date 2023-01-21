@@ -19,12 +19,15 @@ const PromptQueue =
     getAnswers: answerRepository.findMany,
     createRecurringQuestion: async partialRecurringQuestion => {
       if ('order' in partialRecurringQuestion)
-        return recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion))
+        return await recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion))
 
       const recurringQuestions = await recurringQuestionRepository.findMany()
-      const lastOrder = recurringQuestions.reduce((max, recurringQuestion) => Math.max(max, recurringQuestion.order), 0)
+      const lastOrder = recurringQuestions.reduce(
+        (max, recurringQuestion) => Math.max(max, recurringQuestion.order),
+        -1
+      )
 
-      return recurringQuestionRepository.create(
+      await recurringQuestionRepository.create(
         createRecurringQuestion({ ...partialRecurringQuestion, order: lastOrder + 1 })
       )
     },
