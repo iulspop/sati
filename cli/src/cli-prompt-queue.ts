@@ -38,7 +38,7 @@ const mapPromptsToQuestions = promptList =>
   promptList.map(({ question, timestamp }, index) => ({
     type: 'toggle',
     name: String(index),
-    message: `${timestamp}: ${question}`,
+    message: `${timestamp.toDateString()}: ${question}`,
     initial: true,
     active: 'yes',
     inactive: 'no',
