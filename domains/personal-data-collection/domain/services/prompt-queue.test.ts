@@ -17,115 +17,120 @@ import Prompt from '../value-objects/prompt'
 import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
 
 describe('promptQueue()', async () => {
-  await prisma.answer.deleteMany()
-  await prisma.recurringQuestion.deleteMany()
+  {
+    await prisma.answer.deleteMany()
+    await prisma.recurringQuestion.deleteMany()
 
-  const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+    const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
 
-  const startDate = new Date('2022-10-20T01:00:00.000Z')
-  const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
-  const startOfDayInLocalTime = new Date('2022-10-19T05:00:00.000Z')
+    const startDate = new Date('2022-10-20T01:00:00.000Z')
+    const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
+    const startOfDayInLocalTime = new Date('2022-10-19T05:00:00.000Z')
 
-  const firstDayPrompt: Prompt = {
-    questionId: '1',
-    question: 'Did you study 2 hours?',
-    timestamp: startOfDayInLocalTime,
+    const firstDayPrompt: Prompt = {
+      questionId: '1',
+      question: 'Did you study 2 hours?',
+      timestamp: startOfDayInLocalTime,
+    }
+
+    const secondDayPrompt: Prompt = {
+      questionId: '1',
+      question: 'Did you study 2 hours?',
+      timestamp: addDay(startOfDayInLocalTime),
+    }
+
+    const firstDayAnswer: Answer = {
+      id: '1',
+      questionId: '1',
+      timestamp: new Date(startOfDayInLocalTime),
+      response: true,
+    }
+
+    await promptQueue.createRecurringQuestion({
+      id: '1',
+      question: 'Did you study 2 hours?',
+      phases: [
+        {
+          timestamp: startDate,
+          utcOffsetInMinutes: 5 * 60,
+        },
+      ],
+    })
+
+    assert({
+      given: 'a recurring question and a query in two days local time',
+      should: 'return two prompts, one for each day except the current day',
+      actual: await promptQueue.query(addHours(28, startDateLocal)),
+      expected: [firstDayPrompt, secondDayPrompt],
+    })
+
+    await promptQueue.createAnswer(firstDayAnswer)
+
+    assert({
+      given: 'one prompt answered',
+      should: 'return one answer',
+      actual: await promptQueue.getAnswers(),
+      expected: [firstDayAnswer],
+    })
+
+    assert({
+      given: 'a prompt answered',
+      should: 'not show the prompt again',
+      actual: await promptQueue.query(addHours(28, startDateLocal)),
+      expected: [secondDayPrompt],
+    })
   }
+  {
+    await prisma.answer.deleteMany()
+    await prisma.recurringQuestion.deleteMany()
 
-  const secondDayPrompt: Prompt = {
-    questionId: '1',
-    question: 'Did you study 2 hours?',
-    timestamp: addDay(startOfDayInLocalTime),
+    const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+
+    const startTime = new Date('2022-10-22T00:00:00.000Z')
+    const queryTime = new Date('2022-10-23T00:00:00.000Z')
+
+    await promptQueue.createRecurringQuestion({
+      id: '2',
+      order: 2,
+      question: 'Have you studied?',
+      phases: [
+        {
+          timestamp: startTime,
+          utcOffsetInMinutes: 0,
+        },
+      ],
+    })
+
+    await promptQueue.createRecurringQuestion({
+      id: '1',
+      order: 1,
+      question: 'Have you eaten broccoli?',
+      phases: [
+        {
+          timestamp: startTime,
+          utcOffsetInMinutes: 0,
+        },
+      ],
+    })
+
+    assert({
+      given: 'two recurring questions',
+      should: 'return prompts in order of the questions',
+      actual: await promptQueue.query(queryTime),
+      expected: [
+        {
+          questionId: '1',
+          question: 'Have you eaten broccoli?',
+          timestamp: startTime,
+        },
+        {
+          questionId: '2',
+          question: 'Have you studied?',
+          timestamp: startTime,
+        },
+      ],
+    })
   }
-
-  const firstDayAnswer: Answer = {
-    id: '1',
-    questionId: '1',
-    timestamp: new Date(startOfDayInLocalTime),
-    response: true,
-  }
-
-  await promptQueue.createRecurringQuestion({
-    id: '1',
-    question: 'Did you study 2 hours?',
-    phases: [
-      {
-        timestamp: startDate,
-        utcOffsetInMinutes: 5 * 60,
-      },
-    ],
-  })
-
-  assert({
-    given: 'a recurring question and a query in two days local time',
-    should: 'return two prompts, one for each day except the current day',
-    actual: await promptQueue.query(addHours(28, startDateLocal)),
-    expected: [firstDayPrompt, secondDayPrompt],
-  })
-
-  await promptQueue.createAnswer(firstDayAnswer)
-
-  assert({
-    given: 'one prompt answered',
-    should: 'return one answer',
-    actual: await promptQueue.getAnswers(),
-    expected: [firstDayAnswer],
-  })
-
-  assert({
-    given: 'a prompt answered',
-    should: 'not show the prompt again',
-    actual: await promptQueue.query(addHours(28, startDateLocal)),
-    expected: [secondDayPrompt],
-  })
-
-  await prisma.answer.deleteMany()
-  await prisma.recurringQuestion.deleteMany()
-
-  const startTime = new Date('2022-10-22T00:00:00.000Z')
-  const queryTime = new Date('2022-10-23T00:00:00.000Z')
-
-  await promptQueue.createRecurringQuestion({
-    id: '2',
-    order: 2,
-    question: 'Have you studied?',
-    phases: [
-      {
-        timestamp: startTime,
-        utcOffsetInMinutes: 0,
-      },
-    ],
-  })
-
-  await promptQueue.createRecurringQuestion({
-    id: '1',
-    order: 1,
-    question: 'Have you eaten broccoli?',
-    phases: [
-      {
-        timestamp: startTime,
-        utcOffsetInMinutes: 0,
-      },
-    ],
-  })
-
-  assert({
-    given: 'two recurring questions',
-    should: 'return prompts in order of the questions',
-    actual: await promptQueue.query(queryTime),
-    expected: [
-      {
-        questionId: '1',
-        question: 'Have you eaten broccoli?',
-        timestamp: startTime,
-      },
-      {
-        questionId: '2',
-        question: 'Have you studied?',
-        timestamp: startTime,
-      },
-    ],
-  })
 })
 
 describe('calculateQuery()', () => {
