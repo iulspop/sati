@@ -5,12 +5,10 @@ import { promptQueue } from '../../domains/personal-data-collection/domain/index
 const createRecurringQuestion = async argv =>
   await promptQueue.createRecurringQuestion({
     question: argv.question,
-    phases: [
-      {
-        timestamp: new Date(),
-        utcOffsetInMinutes: new Date().getTimezoneOffset(),
-      },
-    ],
+    phase: {
+      timestamp: new Date(),
+      utcOffsetInMinutes: new Date().getTimezoneOffset(),
+    },
   })
 
 const createRecurringQuestionsFromFile = async argv => {
@@ -22,12 +20,10 @@ const createRecurringQuestionsFromFile = async argv => {
   for (const question of questions) {
     await promptQueue.createRecurringQuestion({
       question,
-      phases: [
-        {
-          timestamp: new Date(),
-          utcOffsetInMinutes: new Date().getTimezoneOffset(),
-        },
-      ],
+      phase: {
+        timestamp: new Date(),
+        utcOffsetInMinutes: new Date().getTimezoneOffset(),
+      },
     })
   }
 }

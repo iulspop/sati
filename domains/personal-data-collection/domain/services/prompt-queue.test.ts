@@ -49,12 +49,10 @@ describe('promptQueue()', async () => {
     await promptQueue.createRecurringQuestion({
       id: '1',
       question: 'Did you study 2 hours?',
-      phases: [
-        {
-          timestamp: startDate,
-          utcOffsetInMinutes: 5 * 60,
-        },
-      ],
+      phase: {
+        timestamp: startDate,
+        utcOffsetInMinutes: 5 * 60,
+      },
     })
 
     assert({
@@ -93,24 +91,20 @@ describe('promptQueue()', async () => {
       id: '2',
       order: 2,
       question: 'Have you studied?',
-      phases: [
-        {
-          timestamp: startTime,
-          utcOffsetInMinutes: 0,
-        },
-      ],
+      phase: {
+        timestamp: startTime,
+        utcOffsetInMinutes: 0,
+      },
     })
 
     await promptQueue.createRecurringQuestion({
       id: '1',
       order: 1,
       question: 'Have you eaten broccoli?',
-      phases: [
-        {
-          timestamp: startTime,
-          utcOffsetInMinutes: 0,
-        },
-      ],
+      phase: {
+        timestamp: startTime,
+        utcOffsetInMinutes: 0,
+      },
     })
 
     assert({
@@ -139,12 +133,10 @@ describe('promptQueue()', async () => {
 
     const recurringQuestion = {
       question: 'X',
-      phases: [
-        {
-          timestamp: new Date('2022-10-22T00:00:00.000Z'),
-          utcOffsetInMinutes: 0,
-        },
-      ],
+      phase: {
+        timestamp: new Date('2022-10-22T00:00:00.000Z'),
+        utcOffsetInMinutes: 0,
+      },
     }
     await promptQueue.createRecurringQuestion({ ...recurringQuestion, id: '1', order: 10 })
     await promptQueue.createRecurringQuestion({ ...recurringQuestion, id: '2' })
@@ -174,12 +166,10 @@ describe('calculateQuery()', () => {
           id: '1',
           order: 1,
           question: 'Have you studied?',
-          phases: [
-            {
-              timestamp: startTimeUTC,
-              utcOffsetInMinutes: 5 * 60,
-            },
-          ],
+          phase: {
+            timestamp: startTimeUTC,
+            utcOffsetInMinutes: 5 * 60,
+          },
         },
       ],
       [],

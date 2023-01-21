@@ -9,22 +9,20 @@ export default function recurringQuestionRepositoryDatabase(): RecurringQuestion
         id,
         order,
         question,
-        phases: [
-          {
-            timestamp: new Date(timestamp),
-            utcOffsetInMinutes: utcOffsetInMinutes,
-          },
-        ],
+        phase: {
+          timestamp: new Date(timestamp),
+          utcOffsetInMinutes: utcOffsetInMinutes,
+        },
       }))
     },
-    create: async ({ id, order, question, phases }) => {
+    create: async ({ id, order, question, phase }) => {
       await prisma.recurringQuestion.create({
         data: {
           id,
           order,
           question,
-          timestamp: phases[0].timestamp,
-          utcOffsetInMinutes: phases[0].utcOffsetInMinutes,
+          timestamp: phase.timestamp,
+          utcOffsetInMinutes: phase.utcOffsetInMinutes,
         },
       })
     },
