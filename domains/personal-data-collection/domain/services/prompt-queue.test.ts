@@ -131,6 +131,34 @@ describe('promptQueue()', async () => {
       ],
     })
   }
+  {
+    await prisma.answer.deleteMany()
+    await prisma.recurringQuestion.deleteMany()
+
+    const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+
+    const recurringQuestion = {
+      question: 'X',
+      phases: [
+        {
+          timestamp: new Date('2022-10-22T00:00:00.000Z'),
+          utcOffsetInMinutes: 0,
+        },
+      ],
+    }
+    await promptQueue.createRecurringQuestion({ ...recurringQuestion, id: '1', order: 10 })
+    await promptQueue.createRecurringQuestion({ ...recurringQuestion, id: '2' })
+
+    assert({
+      given: 'creating a recurring question',
+      should: 'default order to last order + 1',
+      actual: await promptQueue.getRecurringQuestions(),
+      expected: [
+        { ...recurringQuestion, id: '1', order: 10 },
+        { ...recurringQuestion, id: '2', order: 11 },
+      ],
+    })
+  }
 })
 
 describe('calculateQuery()', () => {

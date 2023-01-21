@@ -17,8 +17,17 @@ const PromptQueue =
   (answerRepository: AnswerRepository): PromptQueueAPI => ({
     createAnswer: partialAnswer => answerRepository.create(createAnswer(partialAnswer)),
     getAnswers: answerRepository.findMany,
-    createRecurringQuestion: partialRecurringQuestion =>
-      recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion)),
+    createRecurringQuestion: async partialRecurringQuestion => {
+      if ('order' in partialRecurringQuestion)
+        return recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion))
+
+      const recurringQuestions = await recurringQuestionRepository.findMany()
+      const lastOrder = recurringQuestions.reduce((max, recurringQuestion) => Math.max(max, recurringQuestion.order), 0)
+
+      return recurringQuestionRepository.create(
+        createRecurringQuestion({ ...partialRecurringQuestion, order: lastOrder + 1 })
+      )
+    },
     getRecurringQuestions: recurringQuestionRepository.findMany,
     query: async (
       queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
