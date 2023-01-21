@@ -6,6 +6,7 @@ import {
   calculateQuery,
   filterIfCurrentDay,
   keepUnlessPromptAnswered,
+  sortByDay,
   PromptQueue,
   toDayList,
   toLocalTime,
@@ -153,7 +154,7 @@ describe('promptQueue()', async () => {
   }
 })
 
-describe.skip('calculateQuery()', () => {
+describe('calculateQuery()', () => {
   {
     const startTimeUTC = new Date('2022-10-22T01:00:00.000Z')
     const queryTimeLocal = new Date('2022-10-22T00:00:00.000Z')
@@ -191,7 +192,7 @@ describe.skip('calculateQuery()', () => {
 
     assert({
       given: 'two recurring questions and a prompt in two days',
-      should: 'return prompts grouped by day',
+      should: 'return prompts ordered by day',
       actual: calculateQuery(
         [
           {
@@ -240,6 +241,57 @@ describe.skip('calculateQuery()', () => {
       ],
     })
   }
+})
+
+describe('sortByDay()', () => {
+  assert({
+    given: 'an unordered list of prompts',
+    should: 'return prompts ordered by day',
+    actual: sortByDay([
+      {
+        questionId: '1',
+        question: 'Have you studied?',
+        timestamp: new Date('2022-10-22T00:00:00.000Z'),
+      },
+      {
+        questionId: '1',
+        question: 'Have you studied?',
+        timestamp: new Date('2022-10-23T00:00:00.000Z'),
+      },
+      {
+        questionId: '2',
+        question: 'Did you eat your vegetables?',
+        timestamp: new Date('2022-10-23T00:00:00.000Z'),
+      },
+      {
+        questionId: '2',
+        question: 'Did you eat your vegetables?',
+        timestamp: new Date('2022-10-22T00:00:00.000Z'),
+      },
+    ]),
+    expected: [
+      {
+        questionId: '1',
+        question: 'Have you studied?',
+        timestamp: new Date('2022-10-22T00:00:00.000Z'),
+      },
+      {
+        questionId: '2',
+        question: 'Did you eat your vegetables?',
+        timestamp: new Date('2022-10-22T00:00:00.000Z'),
+      },
+      {
+        questionId: '1',
+        question: 'Have you studied?',
+        timestamp: new Date('2022-10-23T00:00:00.000Z'),
+      },
+      {
+        questionId: '2',
+        question: 'Did you eat your vegetables?',
+        timestamp: new Date('2022-10-23T00:00:00.000Z'),
+      },
+    ],
+  })
 })
 
 describe('keepUnlessPromptAnswered()', () => {

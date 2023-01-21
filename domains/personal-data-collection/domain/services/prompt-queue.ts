@@ -50,7 +50,8 @@ const calculateQuery: CalculateQuery = (recurringQuestionList, answerList, query
   pipe(
     calculatePromptList(recurringQuestionList),
     keepUnlessPromptAnswered(answerList),
-    filterIfCurrentDay(queryTimeLocal)
+    filterIfCurrentDay(queryTimeLocal),
+    sortByDay
   )(queryTimeLocal)
 
 type CalculatePromptList = (recurringQuestionList: RecurringQuestion[]) => (queryTimeLocal: Date) => Prompt[]
@@ -58,13 +59,11 @@ const calculatePromptList: CalculatePromptList = recurringQuestionList => queryT
   recurringQuestionList.reduce(
     (promptList: Prompt[], { id, question, phase }) => [
       ...promptList,
-      ...toDayList(toUTCTime(toStartOfDay(toLocalTime(phase)), phase.utcOffsetInMinutes), queryTimeLocal).map(
-        date => ({
-          questionId: id,
-          question,
-          timestamp: date,
-        })
-      ),
+      ...toDayList(toUTCTime(toStartOfDay(toLocalTime(phase)), phase.utcOffsetInMinutes), queryTimeLocal).map(date => ({
+        questionId: id,
+        question,
+        timestamp: date,
+      })),
     ],
     []
   )
@@ -84,6 +83,9 @@ const filterIfCurrentDay: FilterIfCurrentDay = queryTimeLocal => promptList =>
   promptList.filter(
     prompt => prompt.timestamp.toISOString().split('T')[0] != queryTimeLocal.toISOString().split('T')[0]
   )
+
+type SortByDay = (promptList: Prompt[]) => Prompt[]
+const sortByDay: SortByDay = promptList => [...promptList].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
 
 const pipe =
   (...fns: Function[]) =>
@@ -129,6 +131,7 @@ export {
   calculateQuery,
   keepUnlessPromptAnswered,
   filterIfCurrentDay,
+  sortByDay,
   addDays,
   addDay,
   toStartOfDay,
