@@ -1,13 +1,17 @@
 import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
+  plugins: [react(), tsconfigPaths()],
   test: {
-    watchExclude: ['./storage/**'],
-    exclude: ['**/node_modules', '**/bin', 'src/web'],
-  },
-  resolve: {
-    alias: {
-      '@test': './test',
+    environment: 'happy-dom',
+    globals: true,
+    setupFiles: ['./app/test/setup-test-environment.ts'],
+    include: ['./**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*', '.*\\/storage\\/.*'],
+    coverage: {
+      reporter: ['text', 'json', 'html'],
     },
   },
 })
