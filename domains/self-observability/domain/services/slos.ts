@@ -6,16 +6,6 @@ interface SLOsAPI {
   read: (id?: string) => Promise<SLO | SLO[] | null>
   update: (id: string, partialSLO: Partial<SLO>) => Promise<SLO>
   delete: (id: string) => Promise<SLO>
-  /*
-  // - create({ name, denominatorLabel, denominator, targetPercentage, interpreter }) => SLO
-        // - SLO contains info for how to interpret data points into results
-        // - It has one stream associated with it
-        // - It can map stream data points to SLO results
-        // - SLO results are used to calculate SLO status (percentage, budget, etc)
-  // - read(sloId?) => SLO | SLO[]
-  // - update(sloId), { name, denominatorLabel, denominator, targetPercentage }) => SLO
-  // - delete(sloId) => SLO
-  */
 }
 
 export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({

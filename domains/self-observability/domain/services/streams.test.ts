@@ -18,10 +18,28 @@ test('Stream CRUD', async () => {
   const stream = {
     createdAt: new Date(),
     sloId: createdSLO.id,
-    source: 'manual',
+    source: 'inquireQuestion',
   }
 
   // CREATE
   const createdStream = await streams.create(stream)
   expect(createdStream).toEqual({ id: createdStream.id, ...stream })
+
+  // READ
+  const readStream = await streams.read(createdStream.id)
+  let readStreams = await streams.read()
+  expect(readStream).toEqual(createdStream)
+  expect(readStreams).toEqual([createdStream])
+
+  // UPDATE
+  const updatedStream = await streams.update(createdStream.id, {
+    source: 'X',
+  })
+  expect(updatedStream).toEqual({ ...createdStream, source: 'X' })
+
+  // DELETE
+  const deletedStream = await streams.delete(createdStream.id)
+  readStreams = await streams.read()
+  expect(deletedStream).toEqual(updatedStream)
+  expect(readStreams).toEqual([])
 })

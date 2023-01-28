@@ -2,7 +2,7 @@ import { Stream } from '../entities/stream'
 
 export default interface StreamRepositoryAPI {
   create(stream: Stream): Promise<Stream>
-  // read(id?: string): Promise<Stream | Stream[] | null>
-  // update(id: string, stream: Partial<Stream>): Promise<Stream>
-  // delete(id: string): Promise<Stream>
+  read(id?: string): Promise<Stream | Stream[] | null>
+  update(id: string, stream: Partial<Stream>): Promise<Stream>
+  delete(id: string): Promise<Stream>
 }

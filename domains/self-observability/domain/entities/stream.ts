@@ -7,7 +7,12 @@ export interface Stream {
   source: string
 }
 
-export const createStream = ({ id = createId(), createdAt = new Date(), sloId = '', source = 'manual' }): Stream => ({
+export const createStream = ({
+  id = createId(),
+  createdAt = new Date(),
+  sloId = '',
+  source = 'inquireQuestion',
+}): Stream => ({
   id,
   createdAt,
   sloId,
