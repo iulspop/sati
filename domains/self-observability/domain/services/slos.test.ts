@@ -28,9 +28,10 @@ test('SLO CRUD', async () => {
   expect(readSLO).toEqual(createdSLO)
   expect(readSLOs).toEqual([createdSLO])
 
-  // // UPDATE
-  // const updatedPendulum = await api.put(pendulumIdUrl, { length: 3 })
-  // expect(updatedPendulum).toEqual({ ...readPendulum, length: 3 })
+  // UPDATE
+  const name = 'Go to Bed By 9:30PM'
+  const updatedSLO = await slos.update(createdSLO.id, { name })
+  expect(updatedSLO).toEqual({ ...createdSLO, name })
 
   // // DELETE
   // const deleteData = await api.delete(pendulumIdUrl)

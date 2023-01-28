@@ -4,6 +4,7 @@ import SLORepositoryAPI from '../repositories/slo-repository'
 interface SLOsAPI {
   create: (partialSLO: Partial<SLO>) => Promise<SLO>
   read: (sloId?: string) => Promise<SLO | SLO[] | null>
+  update: (sloId: string, partialSLO: Partial<SLO>) => Promise<SLO>
   /*
   // - create({ name, denominatorLabel, denominator, targetPercentage, interpreter }) => SLO
         // - SLO contains info for how to interpret data points into results
@@ -19,6 +20,7 @@ interface SLOsAPI {
 export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
   create: async partialSLO => await SLORepository.create(createSLO(partialSLO)),
   read: async sloId => await SLORepository.read(sloId),
+  update: async (sloId, partialSLO) => await SLORepository.update(sloId, partialSLO),
 })
 
 export const Monitors = () => ({
