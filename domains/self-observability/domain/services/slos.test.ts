@@ -24,7 +24,7 @@ test('SLO CRUD', async () => {
 
   // READ
   const readSLO = await slos.read(createdSLO.id)
-  const readSLOs = await slos.read()
+  let readSLOs = await slos.read()
   expect(readSLO).toEqual(createdSLO)
   expect(readSLOs).toEqual([createdSLO])
 
@@ -33,13 +33,9 @@ test('SLO CRUD', async () => {
   const updatedSLO = await slos.update(createdSLO.id, { name })
   expect(updatedSLO).toEqual({ ...createdSLO, name })
 
-  // // DELETE
-  // const deleteData = await api.delete(pendulumIdUrl)
-  // expect(deleteData).toEqual({ success: true })
-
-  // const error = await api.get(pendulumIdUrl).catch(resolve)
-  // expect(error.status).toBe(404)
-  // expect(error.data).toEqual({
-  //   message: `No pendulum was found with the id of ${pendulumId}`,
-  // })
+  // DELETE
+  const deletedSLO = await slos.delete(createdSLO.id)
+  readSLOs = await slos.read()
+  expect(createdSLO.id).toEqual(createdSLO.id)
+  expect(readSLOs).toEqual([])
 })
