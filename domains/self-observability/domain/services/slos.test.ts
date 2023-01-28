@@ -1,6 +1,11 @@
 import { describe, test } from 'vitest'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { SLOs } from './slos'
+import db from '../../../db.server'
+
+beforeAll(async () => {
+  await db.slo.deleteMany()
+})
 
 test('SLO CRUD', async () => {
   const slos = SLOs(SLORepository())
@@ -17,9 +22,11 @@ test('SLO CRUD', async () => {
   const createdSLO = await slos.create(slo)
   expect(createdSLO).toEqual({ id: createdSLO.id, ...slo })
 
-  // // READ
-  // const readPendulum = await api.get(pendulumIdUrl)
-  // expect(readPendulum).toEqual(createdPendulum)
+  // READ
+  const readSLO = await slos.read(createdSLO.id)
+  const readSLOs = await slos.read()
+  expect(readSLO).toEqual(createdSLO)
+  expect(readSLOs).toEqual([createdSLO])
 
   // // UPDATE
   // const updatedPendulum = await api.put(pendulumIdUrl, { length: 3 })
