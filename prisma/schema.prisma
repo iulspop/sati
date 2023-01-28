@@ -28,11 +28,20 @@ model Answer {
 }
 
 model Slo {
-  id               String @id
+  id               String   @id
   createdAt        DateTime
   name             String
   denominatorLabel String
   denominator      Int
   targetPercentage Float
   interpreter      String
+  Stream           Stream[]
+}
+
+model Stream {
+  id        String   @id
+  slo       Slo      @relation(fields: [sloId], references: [id])
+  createdAt DateTime
+  source    String
+  sloId     String
 }

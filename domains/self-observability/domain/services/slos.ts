@@ -25,20 +25,6 @@ export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
   delete: async id => await SLORepository.delete(id),
 })
 
-export const Streams = () => ({
-  /*
-  - create(sloId, source) => Stream
-     - when created, stream is associated with an SLO
-     - when I create, I say go load data from this source
-          - there should be one repository that can interpret different sources and load data
-            - right now it would just be an id of a question from inquire, then fetches all the answers
-     - then additional data is added through events
-  - read(streamId?) => Stream | Stream[]
-  - update(streamId, source) => Stream
-  - delete(streamId) => Stream
-  */
-})
-
 export const Points = () => ({
   // - read(streamId) => Point[]
   //    - gets all data points

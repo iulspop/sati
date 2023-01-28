@@ -1,9 +1,9 @@
-import { describe, test } from 'vitest'
+import { test, beforeEach } from 'vitest'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { SLOs } from './slos'
 import db from '../../../db.server'
 
-beforeAll(async () => {
+beforeEach(async () => {
   await db.slo.deleteMany()
 })
 
