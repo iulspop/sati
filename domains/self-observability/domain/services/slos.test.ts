@@ -36,6 +36,6 @@ test('SLO CRUD', async () => {
   // DELETE
   const deletedSLO = await slos.delete(createdSLO.id)
   readSLOs = await slos.read()
-  expect(createdSLO.id).toEqual(createdSLO.id)
+  expect(deletedSLO).toEqual(updatedSLO)
   expect(readSLOs).toEqual([])
 })

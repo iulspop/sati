@@ -25,19 +25,6 @@ export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
   delete: async id => await SLORepository.delete(id),
 })
 
-export const Monitors = () => ({
-  /*
-     - read(sloId) => Monitor
-
-     interface Monitor {
-        remainingMaxPercentage: number
-        missBudget: number
-        spentBudget: number
-        remainingBudget: number
-     }
- */
-})
-
 export const Streams = () => ({
   /*
   - create(sloId, source) => Stream
@@ -60,4 +47,17 @@ export const Points = () => ({
   //    - if the update is only an event, how do I know what Stream to update?
   //       if the sources matches, then it's the same stream
   //       source is question id
+})
+
+export const Monitors = () => ({
+  /*
+     - read(sloId) => Monitor
+
+     interface Monitor {
+        remainingMaxPercentage: number
+        missBudget: number
+        spentBudget: number
+        remainingBudget: number
+     }
+ */
 })
