@@ -11,20 +11,20 @@ datasource db {
 }
 
 model RecurringQuestion {
-  id                 String   @id @default(cuid())
+  id                 String   @id
   order              Int
   question           String
-  timestamp          DateTime @default(now())
+  timestamp          DateTime
   utcOffsetInMinutes Int
   answers            Answer[]
 }
 
 model Answer {
-  id         String            @id @default(cuid())
+  id         String            @id
   question   RecurringQuestion @relation(fields: [questionId], references: [id])
   questionId String
   response   Boolean
-  timestamp  DateTime          @default(now())
+  timestamp  DateTime
 }
 
 model Slo {
