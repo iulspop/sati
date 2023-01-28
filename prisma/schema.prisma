@@ -26,3 +26,13 @@ model Answer {
   response   Boolean
   timestamp  DateTime          @default(now())
 }
+
+model Slo {
+  id               String @id
+  createdAt        DateTime
+  name             String
+  denominatorLabel String
+  denominator      Int
+  targetPercentage Float
+  interpreter      String
+}

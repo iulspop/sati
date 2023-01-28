@@ -38,7 +38,7 @@ Later when implementing, shoot for minimality like restrictiveness (e.g. operati
 ---
 
 add :: Stream -> (Event -> Point[])
-shape :: SLO -> (Point[] -> Result[]
+shape :: SLO -> (Point[] -> Result[])
 percentage :: SLO -> Result[] -> Percentage
 budget :: SLO -> Result[] -> Budget
 

@@ -13,7 +13,7 @@ import {
   toStartOfDay,
 } from './prompt-queue'
 import { describe } from 'vitest'
-import prisma from '../../infrastructure/db.server'
+import prisma from '../../../db.server'
 import Prompt from '../value-objects/prompt'
 import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
 

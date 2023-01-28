@@ -1,5 +1,5 @@
 import AnswerRepository from '../domain/repositories/answer-repository.js'
-import prisma from './db.server.js'
+import prisma from '../../db.server.js'
 
 export default function answerRepositoryDatabase(): AnswerRepository {
   return {
