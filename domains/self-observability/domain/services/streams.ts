@@ -1,6 +1,7 @@
 import { Event, eventFactory } from '../entities/event'
 import { Stream, streamFactory } from '../entities/stream'
 import { EventRepositoryAPI } from '../repositories/event-repository'
+import { InquireRepositoryAPI } from '../repositories/inquire-repository'
 import { StreamRepositoryAPI } from '../repositories/stream-repository'
 
 interface StreamsAPI {
@@ -13,11 +14,12 @@ interface StreamsAPI {
 }
 
 export const Streams =
+  (inquireRepository: InquireRepositoryAPI) =>
   (streamRepository: StreamRepositoryAPI) =>
   (eventRepository: EventRepositoryAPI): StreamsAPI => ({
     create: async partialStream => {
       const stream = await streamRepository.create(streamFactory(partialStream))
-      // cacheEvents(stream)
+      await cacheEvents(inquireRepository)(eventRepository)(stream)
       return stream
     },
     read: async id => streamRepository.read(id),
@@ -33,3 +35,15 @@ export const Streams =
     },
     readEvents: async id => eventRepository.readAll(id),
   })
+
+const cacheEvents =
+  (inquireRepository: InquireRepositoryAPI) => (eventRepository: EventRepositoryAPI) => async (stream: Stream) => {
+    let answers = await inquireRepository.getAnswers()
+
+    await Promise.all(
+      answers
+        .filter(answer => answer.questionId === stream.source)
+        .map(answer => eventFactory({ streamId: stream.id, data: answer }))
+        .map(event => eventRepository.append(event))
+    )
+  }

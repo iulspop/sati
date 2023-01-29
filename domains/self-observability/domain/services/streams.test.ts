@@ -3,8 +3,13 @@ import { beforeEach, test } from 'vitest'
 import db from '../../../db.server'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
+import { InquireRepositoryAPI } from '../repositories/inquire-repository'
 import { SLOs } from './slos'
 import { Streams } from './streams'
+
+const MockInquireRepository = (answers: {}[] = []): InquireRepositoryAPI => ({
+  getAnswers: async () => answers,
+})
 
 beforeEach(async () => {
   await db.slo.deleteMany()
@@ -15,7 +20,7 @@ test('Stream CRUD', async () => {
   const slo = { name: 'Go to Bed By 10PM' }
   const createdSLO = await slos.create(slo)
 
-  const streams = Streams(StreamRepository())(EventRepository())
+  const streams = Streams(MockInquireRepository())(StreamRepository())(EventRepository())
   const stream = {
     createdAt: new Date(),
     sloId: createdSLO.id,
@@ -50,7 +55,7 @@ test('Stream Events', async () => {
   const slo = { name: 'Go to Bed By 10PM' }
   const createdSLO = await slos.create(slo)
 
-  const streams = Streams(StreamRepository())(EventRepository())
+  const streams = Streams(MockInquireRepository())(StreamRepository())(EventRepository())
   const stream = {
     createdAt: new Date(),
     sloId: createdSLO.id,
@@ -59,8 +64,26 @@ test('Stream Events', async () => {
   const eventData = { questionId: 'inquireQuestionId' }
 
   const createdStream = await streams.create(stream)
-  const streamId = await streams.appendEvent(eventData)
+  const idOfStreamAppendedTo = await streams.appendEvent(eventData)
   const events = await streams.readEvents(createdStream.id)
-  expect(streamId).toEqual(createdStream.id)
+  expect(idOfStreamAppendedTo).toEqual(createdStream.id)
+  expect(events[0].data).toEqual(eventData)
+})
+
+test('Streams cache events on create', async () => {
+  const slos = SLOs(SLORepository())
+  const slo = { name: 'Go to Bed By 10PM' }
+  const createdSLO = await slos.create(slo)
+
+  const eventData = { questionId: 'inquireQuestionId' }
+  const streams = Streams(MockInquireRepository([eventData]))(StreamRepository())(EventRepository())
+  const stream = {
+    createdAt: new Date(),
+    sloId: createdSLO.id,
+    source: 'inquireQuestionId',
+  }
+
+  const createdStream = await streams.create(stream)
+  const events = await streams.readEvents(createdStream.id)
   expect(events[0].data).toEqual(eventData)
 })

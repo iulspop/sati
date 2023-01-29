@@ -4,7 +4,7 @@ import AnswerRepository from '../repositories/answer-repository.js'
 import RecurringQuestionRepository from '../repositories/recurring-question-repository.js'
 import Prompt from '../value-objects/prompt.js'
 
-interface PromptQueueAPI {
+export interface PromptQueueAPI {
   getAnswers: () => Promise<Answer[]>
   createAnswer: (answer: Partial<Answer>) => Promise<void>
   getRecurringQuestions: () => Promise<RecurringQuestion[]>
