@@ -1,5 +1,5 @@
-import { createEvent, Event } from '../entities/event'
-import { createStream, Stream } from '../entities/stream'
+import { Event, eventFactory } from '../entities/event'
+import { Stream, streamFactory } from '../entities/stream'
 import { EventRepositoryAPI } from '../repositories/event-repository'
 import { StreamRepositoryAPI } from '../repositories/stream-repository'
 
@@ -16,7 +16,7 @@ export const Streams =
   (streamRepository: StreamRepositoryAPI) =>
   (eventRepository: EventRepositoryAPI): StreamsAPI => ({
     create: async partialStream => {
-      const stream = await streamRepository.create(createStream(partialStream))
+      const stream = await streamRepository.create(streamFactory(partialStream))
       // cacheEvents(stream)
       return stream
     },
@@ -28,7 +28,7 @@ export const Streams =
       const streams: Stream[] = await streamRepository.read()
       const stream = streams.find(stream => stream.source === eventData.questionId)
       if (!stream) return '-1'
-      await eventRepository.append(createEvent({ streamId: stream.id, data: eventData }))
+      await eventRepository.append(eventFactory({ streamId: stream.id, data: eventData }))
       return stream.id
     },
     readEvents: async id => eventRepository.readAll(id),

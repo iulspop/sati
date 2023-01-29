@@ -7,7 +7,7 @@ export interface Event {
   data: any
 }
 
-export const createEvent = ({ id = createId(), streamId = '', createdAt = new Date(), data = {} }): Event => ({
+export const eventFactory = ({ id = createId(), streamId = '', createdAt = new Date(), data = {} }): Event => ({
   id,
   streamId,
   createdAt,

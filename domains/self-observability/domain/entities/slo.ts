@@ -10,7 +10,7 @@ export interface SLO {
   interpreter: string
 }
 
-export const createSLO = ({
+export const sloFactory = ({
   id = createId(),
   createdAt = new Date(),
   name = 'N/A',

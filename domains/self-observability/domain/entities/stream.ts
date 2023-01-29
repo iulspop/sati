@@ -7,7 +7,7 @@ export interface Stream {
   source: string
 }
 
-export const createStream = ({
+export const streamFactory = ({
   id = createId(),
   createdAt = new Date(),
   sloId = '',
