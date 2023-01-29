@@ -1,5 +1,5 @@
 import { createSLO, SLO } from '../entities/slo'
-import SLORepositoryAPI from '../repositories/slo-repository'
+import { SLORepositoryAPI } from '../repositories/slo-repository'
 
 interface SLOsAPI {
   create: (partialSLO: Partial<SLO>) => Promise<SLO>

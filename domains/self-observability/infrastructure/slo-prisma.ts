@@ -1,5 +1,5 @@
 import db from '../../db.server'
-import SLORepositoryAPI from '../domain/repositories/slo-repository'
+import { SLORepositoryAPI } from '../domain/repositories/slo-repository'
 
 export const SLORepository = (): SLORepositoryAPI => ({
   create: async slo => await db.slo.create({ data: slo }),
