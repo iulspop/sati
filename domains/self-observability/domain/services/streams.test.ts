@@ -1,12 +1,13 @@
+import { beforeEach, test } from 'vitest'
+import { EventRepository } from '@domains/self-observability/infrastructure/event-prisma'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { SLOs } from './slos'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
 import { Streams } from './streams'
-import { test, beforeEach } from 'vitest'
 import db from '../../../db.server'
 
 beforeEach(async () => {
-  await db.stream.deleteMany()
+  await db.slo.deleteMany()
 })
 
 test('Stream CRUD', async () => {
@@ -14,11 +15,11 @@ test('Stream CRUD', async () => {
   const slo = { name: 'Go to Bed By 10PM' }
   const createdSLO = await slos.create(slo)
 
-  const streams = Streams(StreamRepository())
+  const streams = Streams(StreamRepository())(EventRepository())
   const stream = {
     createdAt: new Date(),
     sloId: createdSLO.id,
-    source: 'inquireQuestion',
+    source: 'inquireQuestionId',
   }
 
   // CREATE
@@ -42,4 +43,24 @@ test('Stream CRUD', async () => {
   readStreams = await streams.read()
   expect(deletedStream).toEqual(updatedStream)
   expect(readStreams).toEqual([])
+})
+
+test('Stream Events', async () => {
+  const slos = SLOs(SLORepository())
+  const slo = { name: 'Go to Bed By 10PM' }
+  const createdSLO = await slos.create(slo)
+
+  const streams = Streams(StreamRepository())(EventRepository())
+  const stream = {
+    createdAt: new Date(),
+    sloId: createdSLO.id,
+    source: 'inquireQuestionId',
+  }
+  const eventData = { questionId: 'inquireQuestionId' }
+
+  const createdStream = await streams.create(stream)
+  const streamId = await streams.appendEvent(eventData)
+  const events = await streams.readEvents(createdStream.id)
+  expect(streamId).toEqual(createdStream.id)
+  expect(events[0].data).toEqual(eventData)
 })

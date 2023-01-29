@@ -1,4 +1,4 @@
-import StreamRepositoryAPI from '../domain/repositories/stream-repository'
+import { StreamRepositoryAPI } from '../domain/repositories/stream-repository'
 import db from '../../db.server'
 
 export const StreamRepository = (): StreamRepositoryAPI => ({

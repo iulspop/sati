@@ -44,4 +44,13 @@ model Stream {
   createdAt DateTime
   source    String
   sloId     String
+  Event     Event[]
+}
+
+model Event {
+  id        String   @id
+  stream    Stream   @relation(fields: [streamId], references: [id], onDelete: Cascade)
+  createdAt DateTime
+  streamId  String
+  data      String
 }

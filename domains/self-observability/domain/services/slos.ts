@@ -15,16 +15,6 @@ export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
   delete: async id => await SLORepository.delete(id),
 })
 
-export const Points = () => ({
-  // - read(streamId) => Point[]
-  //    - gets all data points
-  // - append(event) => void
-  //    - only update would be append data point
-  //    - if the update is only an event, how do I know what Stream to update?
-  //       if the sources matches, then it's the same stream
-  //       source is question id
-})
-
 export const Monitors = () => ({
   /*
      - read(sloId) => Monitor
