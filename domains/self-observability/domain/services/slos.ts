@@ -1,4 +1,4 @@
-import { SLO, createSLO } from '../entities/slo'
+import { createSLO, SLO } from '../entities/slo'
 import SLORepositoryAPI from '../repositories/slo-repository'
 
 interface SLOsAPI {

@@ -1,10 +1,10 @@
-import { beforeEach, test } from 'vitest'
 import { EventRepository } from '@domains/self-observability/infrastructure/event-prisma'
-import { SLORepository } from '../../infrastructure/slo-prisma'
-import { SLOs } from './slos'
-import { StreamRepository } from '../../infrastructure/stream-prisma'
-import { Streams } from './streams'
+import { beforeEach, test } from 'vitest'
 import db from '../../../db.server'
+import { SLORepository } from '../../infrastructure/slo-prisma'
+import { StreamRepository } from '../../infrastructure/stream-prisma'
+import { SLOs } from './slos'
+import { Streams } from './streams'
 
 beforeEach(async () => {
   await db.slo.deleteMany()

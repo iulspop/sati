@@ -1,8 +1,8 @@
+import Answer, { createAnswer } from '../entities/answer.js'
+import RecurringQuestion, { createRecurringQuestion } from '../entities/recurring-question.js'
 import AnswerRepository from '../repositories/answer-repository.js'
 import RecurringQuestionRepository from '../repositories/recurring-question-repository.js'
 import Prompt from '../value-objects/prompt.js'
-import RecurringQuestion, { createRecurringQuestion } from '../entities/recurring-question.js'
-import Answer, { createAnswer } from '../entities/answer.js'
 
 interface PromptQueueAPI {
   getAnswers: () => Promise<Answer[]>

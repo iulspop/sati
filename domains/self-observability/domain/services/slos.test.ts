@@ -1,7 +1,7 @@
-import { test, beforeEach } from 'vitest'
+import { beforeEach, test } from 'vitest'
+import db from '../../../db.server'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { SLOs } from './slos'
-import db from '../../../db.server'
 
 beforeEach(async () => {
   await db.slo.deleteMany()

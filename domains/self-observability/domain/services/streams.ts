@@ -1,5 +1,5 @@
-import { createStream, Stream } from '../entities/stream'
 import { createEvent, Event } from '../entities/event'
+import { createStream, Stream } from '../entities/stream'
 import { EventRepositoryAPI } from '../repositories/event-repository'
 import { StreamRepositoryAPI } from '../repositories/stream-repository'
 

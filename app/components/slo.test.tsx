@@ -1,7 +1,7 @@
-import { describe, test } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { describe, test } from 'vitest'
 
-import { SLOProps, SLO } from './slo'
+import { SLO, SLOProps } from './slo'
 
 describe('SLO component', () => {
   test('given SLO data: renders SLO', () => {
