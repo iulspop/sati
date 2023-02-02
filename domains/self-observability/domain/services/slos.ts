@@ -14,16 +14,3 @@ export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
   update: async (id, partialSLO) => await SLORepository.update(id, partialSLO),
   delete: async id => await SLORepository.delete(id),
 })
-
-export const Monitors = () => ({
-  /*
-     - read(sloId) => Monitor
-
-     interface Monitor {
-        remainingMaxPercentage: number
-        missBudget: number
-        spentBudget: number
-        remainingBudget: number
-     }
- */
-})
