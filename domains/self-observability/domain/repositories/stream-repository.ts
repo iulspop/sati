@@ -4,4 +4,5 @@ export interface StreamRepositoryAPI {
   read(id?: string): Promise<Stream | Stream[] | null>
   update(id: string, stream: Partial<Stream>): Promise<Stream>
   delete(id: string): Promise<Stream>
+  findBySLOId(sloId: string): Promise<Stream | null>
 }

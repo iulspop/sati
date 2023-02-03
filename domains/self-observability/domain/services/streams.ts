@@ -9,6 +9,7 @@ interface StreamsAPI {
   read: (id?: string) => Promise<Stream | Stream[] | null>
   update: (id: string, partialSLO: Partial<Stream>) => Promise<Stream>
   delete: (id: string) => Promise<Stream>
+  findBySLOId: (sloId: string) => Promise<Stream | null>
   appendEvent: (event: any) => Promise<string>
   readEvents: (id: string) => Promise<Event[]>
 }
@@ -25,6 +26,7 @@ export const Streams =
     read: async id => streamRepository.read(id),
     update: async (id, partialStream) => streamRepository.update(id, partialStream),
     delete: async id => streamRepository.delete(id),
+    findBySLOId: async sloId => streamRepository.findBySLOId(sloId),
     appendEvent: async eventData => {
       // @ts-ignore
       const streams: Stream[] = await streamRepository.read()

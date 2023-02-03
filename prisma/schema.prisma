@@ -35,7 +35,7 @@ model Slo {
   denominator      Int
   targetPercentage Float
   interpreter      String
-  Stream           Stream[]
+  Stream           Stream?
 }
 
 model Stream {
@@ -43,7 +43,7 @@ model Stream {
   slo       Slo      @relation(fields: [sloId], references: [id], onDelete: Cascade)
   createdAt DateTime
   source    String
-  sloId     String
+  sloId     String   @unique
   Event     Event[]
 }
 
