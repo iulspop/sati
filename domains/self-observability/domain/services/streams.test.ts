@@ -34,8 +34,10 @@ test('Stream CRUD', async () => {
   // READ
   const readStream = await streams.read(createdStream.id)
   let readStreams = await streams.read()
+  let readStreamBySLOId = await streams.findBySLOId(createdSLO.id)
   expect(readStream).toEqual(createdStream)
   expect(readStreams).toEqual([createdStream])
+  expect(readStreamBySLOId).toEqual(createdStream)
 
   // UPDATE
   const updatedStream = await streams.update(createdStream.id, {
