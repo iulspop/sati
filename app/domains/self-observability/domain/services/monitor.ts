@@ -4,8 +4,8 @@ import { SLOsAPI } from './slos'
 import { StreamsAPI } from './streams'
 
 interface MonitorAPI {
-  maxPossiblePercentage: (sloId: string) => Promise<number>
   currentPercentage: (sloId: string) => Promise<number>
+  maxPossiblePercentage: (sloId: string) => Promise<number>
   budget: (sloId: string) => Promise<number>
   spentBudget: (sloId: string) => Promise<number>
   remainingBudget: (sloId: string) => Promise<number>
@@ -14,14 +14,6 @@ interface MonitorAPI {
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    maxPossiblePercentage: async sloId => {
-      // @ts-ignore
-      const slo: SLO = await SLOs.read(sloId)
-      const stream = await Streams.findBySLOId(sloId)
-      if (!stream) return 0
-      const events = await Streams.readEvents(stream.id)
-      return maxPossiblePercentage(slo.denominator)(interpret(events))
-    },
     currentPercentage: async sloId => {
       // @ts-ignore
       const slo: SLO = await SLOs.read(sloId)
@@ -29,6 +21,14 @@ export const Monitor =
       if (!stream) return 0
       const events = await Streams.readEvents(stream.id)
       return currentPercentage(slo.denominator)(interpret(events))
+    },
+    maxPossiblePercentage: async sloId => {
+      // @ts-ignore
+      const slo: SLO = await SLOs.read(sloId)
+      const stream = await Streams.findBySLOId(sloId)
+      if (!stream) return 0
+      const events = await Streams.readEvents(stream.id)
+      return maxPossiblePercentage(slo.denominator)(interpret(events))
     },
     budget: async sloId => {
       // @ts-ignore
@@ -57,11 +57,11 @@ export const interpret: Interpret = events => events.map(event => event.data.res
 
 type MaxPossiblePercentage = (denominator: SLO['denominator']) => (results: Results) => number
 export const maxPossiblePercentage: MaxPossiblePercentage = denominator => results =>
-  (denominator - spentBudget(results)) / denominator
+  toSecondDecimal((denominator - spentBudget(results)) / denominator)
 
 type CurrentPercentage = (denominator: SLO['denominator']) => (results: Results) => number
 export const currentPercentage: CurrentPercentage = denominator => results =>
-  results.filter(result => result).length / denominator
+  toSecondDecimal(results.filter(result => result).length / denominator)
 
 type Budget = (denominator: SLO['denominator']) => (targetPercentage: SLO['targetPercentage']) => number
 export const budget: Budget = denominator => targetPercentage => Math.floor((1 - targetPercentage) * denominator)
@@ -71,3 +71,5 @@ export const spentBudget: SpentBudget = results => results.filter(result => !res
 
 type RemainingBudget = (budget: number) => (spentBudget: number) => number
 export const remainingBudget: RemainingBudget = budget => spentBudget => budget - spentBudget
+
+const toSecondDecimal = (num: number): number => Math.floor(num * 100) / 100
