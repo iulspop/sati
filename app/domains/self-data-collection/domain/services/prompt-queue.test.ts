@@ -1,5 +1,5 @@
-import { assert } from '@test/assert'
 import { describe } from 'vitest'
+import { assert } from '~/test/assert'
 import prisma from '../../../db.server'
 import answerRepositoryDatabase from '../../infrastructure/answer-prisma'
 import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'

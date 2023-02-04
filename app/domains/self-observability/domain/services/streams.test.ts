@@ -1,5 +1,5 @@
-import { EventRepository } from '@domains/self-observability/infrastructure/event-prisma'
 import { beforeEach, test } from 'vitest'
+import { EventRepository } from '~/domains/self-observability/infrastructure/event-prisma'
 import db from '../../../db.server'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
