@@ -24,11 +24,11 @@ export const Streams =
       await cacheEvents(inquireRepository)(eventRepository)(stream)
       return stream
     },
-    read: async id => streamRepository.read(id),
-    readAll: async () => streamRepository.readAll(),
-    update: async (id, partialStream) => streamRepository.update(id, partialStream),
-    delete: async id => streamRepository.delete(id),
-    findBySLOId: async sloId => streamRepository.findBySLOId(sloId),
+    read: streamRepository.read,
+    readAll: streamRepository.readAll,
+    update: streamRepository.update,
+    delete: streamRepository.delete,
+    findBySLOId: streamRepository.findBySLOId,
     appendEvent: async eventData => {
       const streams = await streamRepository.readAll()
       const stream = streams.find(stream => stream.source === eventData.questionId)
@@ -36,7 +36,7 @@ export const Streams =
       await eventRepository.append(eventFactory({ streamId: stream.id, data: eventData }))
       return stream.id
     },
-    readEvents: async id => eventRepository.readAll(id),
+    readEvents: eventRepository.readAll,
   })
 
 const cacheEvents =

@@ -11,8 +11,8 @@ export interface SLOsAPI {
 
 export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
   create: async partialSLO => await SLORepository.create(sloFactory(partialSLO)),
-  read: async id => await SLORepository.read(id),
-  readAll: async () => await SLORepository.readAll(),
-  update: async (id, partialSLO) => await SLORepository.update(id, partialSLO),
-  delete: async id => await SLORepository.delete(id),
+  read: SLORepository.read,
+  readAll: SLORepository.readAll,
+  update: SLORepository.update,
+  delete: SLORepository.delete,
 })
