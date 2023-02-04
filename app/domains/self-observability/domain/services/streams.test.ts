@@ -33,7 +33,7 @@ test('Stream CRUD', async () => {
 
   // READ
   const readStream = await streams.read(createdStream.id)
-  let readStreams = await streams.read()
+  let readStreams = await streams.readAll()
   let readStreamBySLOId = await streams.findBySLOId(createdSLO.id)
   expect(readStream).toEqual(createdStream)
   expect(readStreams).toEqual([createdStream])
@@ -47,7 +47,7 @@ test('Stream CRUD', async () => {
 
   // DELETE
   const deletedStream = await streams.delete(createdStream.id)
-  readStreams = await streams.read()
+  readStreams = await streams.readAll()
   expect(deletedStream).toEqual(updatedStream)
   expect(readStreams).toEqual([])
 })

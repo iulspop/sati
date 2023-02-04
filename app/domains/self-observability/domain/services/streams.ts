@@ -6,7 +6,8 @@ import { StreamRepositoryAPI } from '../repositories/stream-repository'
 
 export interface StreamsAPI {
   create: (partialSLO: Partial<Stream>) => Promise<Stream>
-  read: (id?: string) => Promise<Stream | Stream[] | null>
+  read: (id: string) => Promise<Stream | null>
+  readAll: () => Promise<Stream[]>
   update: (id: string, partialSLO: Partial<Stream>) => Promise<Stream>
   delete: (id: string) => Promise<Stream>
   findBySLOId: (sloId: string) => Promise<Stream | null>
@@ -24,12 +25,12 @@ export const Streams =
       return stream
     },
     read: async id => streamRepository.read(id),
+    readAll: async () => streamRepository.readAll(),
     update: async (id, partialStream) => streamRepository.update(id, partialStream),
     delete: async id => streamRepository.delete(id),
     findBySLOId: async sloId => streamRepository.findBySLOId(sloId),
     appendEvent: async eventData => {
-      // @ts-ignore
-      const streams: Stream[] = await streamRepository.read()
+      const streams = await streamRepository.readAll()
       const stream = streams.find(stream => stream.source === eventData.questionId)
       if (!stream) return '-1'
       await eventRepository.append(eventFactory({ streamId: stream.id, data: eventData }))
