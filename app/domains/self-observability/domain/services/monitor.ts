@@ -15,24 +15,22 @@ export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
     currentPercentage: async sloId => {
-      // @ts-ignore
-      const slo: SLO = await SLOs.read(sloId)
+      const slo = await SLOs.read(sloId)
       const stream = await Streams.findBySLOId(sloId)
-      if (!stream) return 0
+      if (!stream || !slo) return 0
       const events = await Streams.readEvents(stream.id)
       return currentPercentage(slo.denominator)(interpret(events))
     },
     maxPossiblePercentage: async sloId => {
-      // @ts-ignore
-      const slo: SLO = await SLOs.read(sloId)
+      const slo = await SLOs.read(sloId)
       const stream = await Streams.findBySLOId(sloId)
-      if (!stream) return 0
+      if (!stream || !slo) return 0
       const events = await Streams.readEvents(stream.id)
       return maxPossiblePercentage(slo.denominator)(interpret(events))
     },
     budget: async sloId => {
-      // @ts-ignore
-      const slo: SLO = await SLOs.read(sloId)
+      const slo = await SLOs.read(sloId)
+      if (!slo) return 0
       return budget(slo.denominator)(slo.targetPercentage)
     },
     spentBudget: async sloId => {
@@ -42,10 +40,9 @@ export const Monitor =
       return spentBudget(interpret(events))
     },
     remainingBudget: async sloId => {
-      // @ts-ignore
-      const slo: SLO = await SLOs.read(sloId)
+      const slo = await SLOs.read(sloId)
       const stream = await Streams.findBySLOId(sloId)
-      if (!stream) return 0
+      if (!stream || !slo) return 0
       const events = await Streams.readEvents(stream.id)
       return remainingBudget(budget(slo.denominator)(slo.targetPercentage))(spentBudget(interpret(events)))
     },

@@ -24,7 +24,7 @@ test('SLO CRUD', async () => {
 
   // READ
   const readSLO = await slos.read(createdSLO.id)
-  let readSLOs = await slos.read()
+  let readSLOs = await slos.readAll()
   expect(readSLO).toEqual(createdSLO)
   expect(readSLOs).toEqual([createdSLO])
 
@@ -35,7 +35,7 @@ test('SLO CRUD', async () => {
 
   // DELETE
   const deletedSLO = await slos.delete(createdSLO.id)
-  readSLOs = await slos.read()
+  readSLOs = await slos.readAll()
   expect(deletedSLO).toEqual(updatedSLO)
   expect(readSLOs).toEqual([])
 })
