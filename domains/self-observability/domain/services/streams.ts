@@ -4,7 +4,7 @@ import { EventRepositoryAPI } from '../repositories/event-repository'
 import { InquireRepositoryAPI } from '../repositories/inquire-repository'
 import { StreamRepositoryAPI } from '../repositories/stream-repository'
 
-interface StreamsAPI {
+export interface StreamsAPI {
   create: (partialSLO: Partial<Stream>) => Promise<Stream>
   read: (id?: string) => Promise<Stream | Stream[] | null>
   update: (id: string, partialSLO: Partial<Stream>) => Promise<Stream>

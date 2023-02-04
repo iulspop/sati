@@ -1,6 +1,7 @@
 import { beforeEach, test } from 'vitest'
 import db from '../../../db.server'
 import { SLORepository } from '../../infrastructure/slo-prisma'
+import { SLO } from '../entities/slo'
 import { SLOs } from './slos'
 
 beforeEach(async () => {
@@ -9,13 +10,12 @@ beforeEach(async () => {
 
 test('SLO CRUD', async () => {
   const slos = SLOs(SLORepository())
-  const slo = {
+  const slo: Partial<SLO> = {
     createdAt: new Date(),
     name: 'Go to Bed By 10PM',
     denominatorLabel: 'Days',
     denominator: 365,
     targetPercentage: 99.0,
-    interpreter: 'boolean',
   }
 
   // CREATE

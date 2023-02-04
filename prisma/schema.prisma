@@ -34,7 +34,6 @@ model Slo {
   denominatorLabel String
   denominator      Int
   targetPercentage Float
-  interpreter      String
   Stream           Stream?
 }
 

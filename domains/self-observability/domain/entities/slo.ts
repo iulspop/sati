@@ -7,7 +7,6 @@ export interface SLO {
   denominatorLabel: string
   denominator: number
   targetPercentage: number
-  interpreter: string
 }
 
 export const sloFactory = ({
@@ -17,7 +16,6 @@ export const sloFactory = ({
   denominatorLabel = 'N/A',
   denominator = 1,
   targetPercentage = 100,
-  interpreter = 'boolean',
 }): SLO => ({
   id,
   createdAt,
@@ -25,5 +23,4 @@ export const sloFactory = ({
   denominatorLabel,
   denominator,
   targetPercentage,
-  interpreter,
 })

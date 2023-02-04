@@ -1,7 +1,7 @@
 import { SLO, sloFactory } from '../entities/slo'
 import { SLORepositoryAPI } from '../repositories/slo-repository'
 
-interface SLOsAPI {
+export interface SLOsAPI {
   create: (partialSLO: Partial<SLO>) => Promise<SLO>
   read: (id?: string) => Promise<SLO | SLO[] | null>
   update: (id: string, partialSLO: Partial<SLO>) => Promise<SLO>
