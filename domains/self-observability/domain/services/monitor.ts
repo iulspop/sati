@@ -4,21 +4,51 @@ import { SLOsAPI } from './slos'
 import { StreamsAPI } from './streams'
 
 interface MonitorAPI {
-  maxPossiblePercentage: (sloId: number) => Promise<number>
-  currentPercentage: (sloId: number) => Promise<number>
-  budget: (sloId: number) => Promise<number>
-  spentBudget: (sloId: number) => Promise<number>
-  remainingBudget: (sloId: number) => Promise<number>
+  maxPossiblePercentage: (sloId: string) => Promise<number>
+  currentPercentage: (sloId: string) => Promise<number>
+  budget: (sloId: string) => Promise<number>
+  spentBudget: (sloId: string) => Promise<number>
+  remainingBudget: (sloId: string) => Promise<number>
 }
 
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    maxPossiblePercentage: async sloId => 1,
-    currentPercentage: async sloId => 1,
-    budget: async sloId => 1,
-    spentBudget: async sloId => 1,
-    remainingBudget: async sloId => 1,
+    maxPossiblePercentage: async sloId => {
+      // @ts-ignore
+      const slo: SLO = await SLOs.read(sloId)
+      const stream = await Streams.findBySLOId(sloId)
+      if (!stream) return 0
+      const events = await Streams.readEvents(stream.id)
+      return maxPossiblePercentage(slo.denominator)(interpret(events))
+    },
+    currentPercentage: async sloId => {
+      // @ts-ignore
+      const slo: SLO = await SLOs.read(sloId)
+      const stream = await Streams.findBySLOId(sloId)
+      if (!stream) return 0
+      const events = await Streams.readEvents(stream.id)
+      return currentPercentage(slo.denominator)(interpret(events))
+    },
+    budget: async sloId => {
+      // @ts-ignore
+      const slo: SLO = await SLOs.read(sloId)
+      return budget(slo.denominator)(slo.targetPercentage)
+    },
+    spentBudget: async sloId => {
+      const stream = await Streams.findBySLOId(sloId)
+      if (!stream) return 0
+      const events = await Streams.readEvents(stream.id)
+      return spentBudget(interpret(events))
+    },
+    remainingBudget: async sloId => {
+      // @ts-ignore
+      const slo: SLO = await SLOs.read(sloId)
+      const stream = await Streams.findBySLOId(sloId)
+      if (!stream) return 0
+      const events = await Streams.readEvents(stream.id)
+      return remainingBudget(budget(slo.denominator)(slo.targetPercentage))(spentBudget(interpret(events)))
+    },
   })
 
 type Results = boolean[]
@@ -27,7 +57,7 @@ export const interpret: Interpret = events => events.map(event => event.data.res
 
 type MaxPossiblePercentage = (denominator: SLO['denominator']) => (results: Results) => number
 export const maxPossiblePercentage: MaxPossiblePercentage = denominator => results =>
-  (denominator - results.filter(result => !result).length) / denominator
+  (denominator - spentBudget(results)) / denominator
 
 type CurrentPercentage = (denominator: SLO['denominator']) => (results: Results) => number
 export const currentPercentage: CurrentPercentage = denominator => results =>
