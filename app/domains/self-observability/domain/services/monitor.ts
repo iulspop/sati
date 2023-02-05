@@ -19,8 +19,10 @@ export const Monitor =
     maxPossiblePercentage: pipeP(loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)),
     budget: pipeP(SLOs.read, toPromise(budget)),
     spentBudget: pipeP(loadEvents(Streams), toPromise(spentBudget)),
-    remainingBudget: pipeP(loadSLOandResults(SLOs)(Streams), async ({ slo, results }) =>
-      remainingBudget(budget(slo))(spentBudget(results))
+    remainingBudget: pipeP(
+      loadSLOandResults(SLOs)(Streams),
+      async ({ slo, results }) => ({ budget: budget(slo), spentBudget: spentBudget(results) }),
+      toPromise(remainingBudget)
     ),
   })
 
@@ -62,7 +64,7 @@ export const budget: Budget = ({ targetPercentage, denominator }) => Math.floor(
 type SpentBudget = (results: Results) => number
 export const spentBudget: SpentBudget = results => results.filter(result => !result).length
 
-type RemainingBudget = (budget: number) => (spentBudget: number) => number
-export const remainingBudget: RemainingBudget = budget => spentBudget => budget - spentBudget
+type RemainingBudget = (_: { budget: number; spentBudget: number }) => number
+export const remainingBudget: RemainingBudget = ({ budget, spentBudget }) => budget - spentBudget
 
 const toSecondDecimal = (num: number): number => Math.floor(num * 100) / 100

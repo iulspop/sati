@@ -133,7 +133,7 @@ describe('spentBudget()', () => {
 
 describe('remainingBudget()', () => {
   test('given budget and spent budget: returns remaining negative result budget', () => {
-    expect(remainingBudget(5)(1)).toEqual(4)
-    expect(remainingBudget(5)(5)).toEqual(0)
+    expect(remainingBudget({ budget: 5, spentBudget: 1 })).toEqual(4)
+    expect(remainingBudget({ budget: 5, spentBudget: 5 })).toEqual(0)
   })
 })
