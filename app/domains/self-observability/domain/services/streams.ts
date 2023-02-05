@@ -1,3 +1,5 @@
+import { asyncPipe } from '~/utils/async-pipe'
+import { asyncTap } from '~/utils/async-tap'
 import { Event, eventFactory } from '../entities/event'
 import { Stream, streamFactory } from '../entities/stream'
 import { EventRepositoryAPI } from '../repositories/event-repository'
@@ -19,11 +21,11 @@ export const Streams =
   (inquireRepository: InquireRepositoryAPI) =>
   (streamRepository: StreamRepositoryAPI) =>
   (eventRepository: EventRepositoryAPI): StreamsAPI => ({
-    create: async partialStream => {
-      const stream = await streamRepository.create(streamFactory(partialStream))
-      await cacheEvents(inquireRepository)(eventRepository)(stream)
-      return stream
-    },
+    create: asyncPipe(
+      streamFactory,
+      streamRepository.create,
+      asyncTap(cacheEvents(inquireRepository)(eventRepository))
+    ),
     read: streamRepository.read,
     readAll: streamRepository.readAll,
     update: streamRepository.update,
