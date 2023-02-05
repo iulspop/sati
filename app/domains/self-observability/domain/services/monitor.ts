@@ -43,11 +43,6 @@ const pipeP: PipeP =
   async (...x) =>
     await R.pipeWith(R.andThen)(fns)(...x)
 
-const toPromise =
-  <TArg, TResult>(fn: (arg: TArg) => TResult) =>
-  (arg: TArg): Promise<Awaited<TResult>> =>
-    Promise.resolve(fn(arg))
-
 type Results = boolean[]
 type Interpret = (events: Event[]) => Results
 export const interpret: Interpret = events => events.map(event => event.data.response)
