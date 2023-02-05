@@ -27,14 +27,14 @@ export const Monitor =
   })
 
 const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
-  R.pipeWith(R.andThen)([
+  pipeP(
     SLOs.read,
     async slo => ({ slo, stream: await Streams.findBySLOId(slo.id) }),
-    async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) }),
-  ])
+    async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) })
+  )
 
 const loadEvents = (Streams: StreamsAPI) =>
-  R.pipeWith(R.andThen)([Streams.findBySLOId, R.prop('id'), Streams.readEvents, toPromise(interpret)])
+  pipeP(Streams.findBySLOId, R.prop('id'), Streams.readEvents, toPromise(interpret))
 
 type PipeP = <TArgs extends any[], TResult>(
   ...fns: R.AtLeastOneFunctionsFlow<TArgs, TResult>
