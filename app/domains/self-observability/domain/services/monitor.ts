@@ -12,14 +12,19 @@ interface MonitorAPI {
   remainingBudget: (sloId: string) => Promise<number>
 }
 
+const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
+  R.pipeWith(R.andThen)([
+    async sloId => ({ sloId, slo: await SLOs.read(sloId) }),
+    async ({ sloId, slo }) => ({ slo, stream: await Streams.findBySLOId(sloId) }),
+    async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) }),
+  ])
+
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
     currentPercentage: R.pipeWith(R.andThen)([
-      async sloId => ({ sloId, slo: await SLOs.read(sloId) }),
-      async ({ sloId, slo }) => ({ slo, stream: await Streams.findBySLOId(sloId) }),
-      async ({ slo, stream }) => ({ slo, events: await Streams.readEvents(stream.id) }),
-      async ({ slo, events }) => currentPercentage(slo.denominator)(interpret(events)),
+      loadSLOandResults(SLOs)(Streams),
+      async ({ slo, results }) => currentPercentage(slo.denominator)(results),
     ]),
     maxPossiblePercentage: async sloId => {
       const slo = await SLOs.read(sloId)
