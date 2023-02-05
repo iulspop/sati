@@ -18,13 +18,7 @@ export const Monitor =
     currentPercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(currentPercentage)]),
     maxPossiblePercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)]),
     budget: R.pipeWith(R.andThen)([SLOs.read, toPromise(budget)]),
-    spentBudget: R.pipeWith(R.andThen)([
-      Streams.findBySLOId,
-      R.prop('id'),
-      Streams.readEvents,
-      toPromise(interpret),
-      toPromise(spentBudget),
-    ]),
+    spentBudget: R.pipeWith(R.andThen)([loadEvents(Streams), toPromise(spentBudget)]),
     remainingBudget: R.pipeWith(R.andThen)([
       loadSLOandResults(SLOs)(Streams),
       async ({ slo, results }) => remainingBudget(budget(slo))(spentBudget(results)),
@@ -37,6 +31,9 @@ const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
     async slo => ({ slo, stream: await Streams.findBySLOId(slo.id) }),
     async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) }),
   ])
+
+const loadEvents = (Streams: StreamsAPI) =>
+  R.pipeWith(R.andThen)([Streams.findBySLOId, R.prop('id'), Streams.readEvents, toPromise(interpret)])
 
 const toPromise =
   <X, Y>(f: (n: X) => Y) =>
