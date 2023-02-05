@@ -19,10 +19,7 @@ export const Monitor =
       loadSLOandResults(SLOs)(Streams),
       async ({ slo, results }) => currentPercentage(slo.denominator)(results),
     ]),
-    maxPossiblePercentage: R.pipeWith(R.andThen)([
-      loadSLOandResults(SLOs)(Streams),
-      async ({ slo, results }) => maxPossiblePercentage(slo.denominator)(results),
-    ]),
+    maxPossiblePercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)]),
     budget: R.pipeWith(R.andThen)([
       SLOs.read,
       async ({ denominator, targetPercentage }) => budget(denominator)(targetPercentage),
@@ -56,8 +53,8 @@ type Results = boolean[]
 type Interpret = (events: Event[]) => Results
 export const interpret: Interpret = events => events.map(event => event.data.response)
 
-type MaxPossiblePercentage = (denominator: SLO['denominator']) => (results: Results) => number
-export const maxPossiblePercentage: MaxPossiblePercentage = denominator => results =>
+type MaxPossiblePercentage = (_: { slo: Partial<SLO>; results: Results }) => number
+export const maxPossiblePercentage: MaxPossiblePercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal((denominator - spentBudget(results)) / denominator)
 
 type CurrentPercentage = (denominator: SLO['denominator']) => (results: Results) => number

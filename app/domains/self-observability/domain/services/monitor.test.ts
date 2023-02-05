@@ -89,13 +89,13 @@ describe('interpret()', () => {
 
 describe('maxPossiblePercentage()', () => {
   test('given denominator and results: returns max possible percentage if all further results are positive', () => {
-    expect(maxPossiblePercentage(5)([true])).toEqual(1)
-    expect(maxPossiblePercentage(5)([false])).toEqual(0.8)
-    expect(maxPossiblePercentage(10)([false, false, true, false])).toEqual(0.7)
+    expect(maxPossiblePercentage({ slo: { denominator: 5 }, results: [true] })).toEqual(1)
+    expect(maxPossiblePercentage({ slo: { denominator: 5 }, results: [false] })).toEqual(0.8)
+    expect(maxPossiblePercentage({ slo: { denominator: 10 }, results: [false, false, true, false] })).toEqual(0.7)
   })
 
   test('given denominator and results: returns max possible percentage percentage chopped to two decimals', () => {
-    expect(maxPossiblePercentage(3)([false])).toEqual(0.66)
+    expect(maxPossiblePercentage({ slo: { denominator: 3 }, results: [false] })).toEqual(0.66)
   })
 })
 
