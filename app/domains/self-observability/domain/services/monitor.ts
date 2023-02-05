@@ -15,26 +15,26 @@ interface MonitorAPI {
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    currentPercentage: pipeP(loadSLOandResults(SLOs, Streams), currentPercentage),
-    maxPossiblePercentage: pipeP(loadSLOandResults(SLOs, Streams), maxPossiblePercentage),
-    budget: pipeP(SLOs.read, budget),
-    spentBudget: pipeP(loadEvents(Streams), spentBudget),
-    remainingBudget: pipeP(loadSLOandResults(SLOs, Streams), remainingBudget),
+    currentPercentage: asyncPipe(loadSLOandResults(SLOs, Streams), currentPercentage),
+    maxPossiblePercentage: asyncPipe(loadSLOandResults(SLOs, Streams), maxPossiblePercentage),
+    budget: asyncPipe(SLOs.read, budget),
+    spentBudget: asyncPipe(loadEvents(Streams), spentBudget),
+    remainingBudget: asyncPipe(loadSLOandResults(SLOs, Streams), remainingBudget),
   })
 
 const loadSLOandResults = (SLOs: SLOsAPI, Streams: StreamsAPI) =>
-  pipeP(
+  asyncPipe(
     SLOs.read,
     async slo => ({ slo, stream: await Streams.findBySLOId(slo.id) }),
     async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) })
   )
 
-const loadEvents = (Streams: StreamsAPI) => pipeP(Streams.findBySLOId, R.prop('id'), Streams.readEvents, interpret)
+const loadEvents = (Streams: StreamsAPI) => asyncPipe(Streams.findBySLOId, R.prop('id'), Streams.readEvents, interpret)
 
-type PipeP = <TArgs extends any[], TResult>(
+type AsyncPipe = <TArgs extends any[], TResult>(
   ...fns: R.AtLeastOneFunctionsFlow<TArgs, TResult>
 ) => (...args: TArgs) => Promise<TResult>
-const pipeP: PipeP =
+const asyncPipe: AsyncPipe =
   (...fns) =>
   async (...x) =>
     await R.pipeWith(R.andThen)(fns)(...x)
