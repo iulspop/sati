@@ -1,3 +1,4 @@
+import { asyncPipe } from '~/utils/async-pipe'
 import { SLO, sloFactory } from '../entities/slo'
 import { SLORepositoryAPI } from '../repositories/slo-repository'
 
@@ -10,7 +11,7 @@ export interface SLOsAPI {
 }
 
 export const SLOs = (SLORepository: SLORepositoryAPI): SLOsAPI => ({
-  create: async partialSLO => await SLORepository.create(sloFactory(partialSLO)),
+  create: asyncPipe(sloFactory, SLORepository.create),
   read: SLORepository.read,
   readAll: SLORepository.readAll,
   update: SLORepository.update,
