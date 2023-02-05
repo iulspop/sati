@@ -11,8 +11,8 @@ export interface StreamsAPI {
   update: (id: string, partialSLO: Partial<Stream>) => Promise<Stream>
   delete: (id: string) => Promise<Stream>
   findBySLOId: (sloId: string) => Promise<Stream | null>
-  appendEvent: (event: any) => Promise<string>
-  readEvents: (id: string) => Promise<Event[]>
+  appendEvent: (eventData: any) => Promise<string>
+  readEvents: (streamId: string) => Promise<Event[]>
 }
 
 export const Streams =
@@ -32,11 +32,13 @@ export const Streams =
     appendEvent: async eventData => {
       const streams = await streamRepository.readAll()
       const stream = streams.find(stream => stream.source === eventData.questionId)
-      if (!stream) return '-1'
       await eventRepository.append(eventFactory({ streamId: stream.id, data: eventData }))
       return stream.id
     },
-    readEvents: eventRepository.readAll,
+    readEvents: streamId => {
+      if (typeof streamId !== 'string') throw new Error('Requires streamId')
+      return eventRepository.readAllByStream(streamId)
+    },
   })
 
 const cacheEvents =

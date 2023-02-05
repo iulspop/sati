@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import { Event } from '../entities/event'
 import { SLO } from '../entities/slo'
 import { SLOsAPI } from './slos'
@@ -14,13 +15,12 @@ interface MonitorAPI {
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    currentPercentage: async sloId => {
-      const slo = await SLOs.read(sloId)
-      const stream = await Streams.findBySLOId(sloId)
-      if (!stream || !slo) return 0
-      const events = await Streams.readEvents(stream.id)
-      return currentPercentage(slo.denominator)(interpret(events))
-    },
+    currentPercentage: R.pipeWith(R.andThen)([
+      async sloId => ({ sloId, slo: await SLOs.read(sloId) }),
+      async ({ sloId, slo }) => ({ slo, stream: await Streams.findBySLOId(sloId) }),
+      async ({ slo, stream }) => ({ slo, events: await Streams.readEvents(stream.id) }),
+      async ({ slo, events }) => currentPercentage(slo.denominator)(interpret(events)),
+    ]),
     maxPossiblePercentage: async sloId => {
       const slo = await SLOs.read(sloId)
       const stream = await Streams.findBySLOId(sloId)

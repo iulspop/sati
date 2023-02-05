@@ -9,7 +9,7 @@ export const EventRepository = (): EventRepositoryAPI => ({
         data: JSON.stringify(event.data),
       },
     }),
-  readAll: async streamId =>
+  readAllByStream: async streamId =>
     db.event
       .findMany({ where: { streamId }, orderBy: { createdAt: 'desc' } })
       .then(events => events.map(event => ({ ...event, data: JSON.parse(event.data) }))),

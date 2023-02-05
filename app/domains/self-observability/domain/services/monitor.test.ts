@@ -30,6 +30,7 @@ test('Monitor calculations', async () => {
   const slos = SLOs(SLORepository())
   const slo: Partial<SLO> = { name: 'Go to Bed By 10PM', denominator: 365, targetPercentage: 0.95 }
   const createdSLO = await slos.create(slo)
+  const createdSLO2 = await slos.create({})
 
   const questionId = 'tz4a98xxat96iws9zmbrgj3a'
   const answers: Partial<Answer>[] = [
@@ -48,6 +49,19 @@ test('Monitor calculations', async () => {
     source: questionId,
   }
   await streams.create(stream)
+
+  const questionId2 = 'questionId2'
+  const stream2: Partial<Stream> = {
+    sloId: createdSLO2.id,
+    source: questionId2,
+  }
+  await streams.create(stream2)
+  // Second stream shouldn't affect the first SLO
+  await Promise.all(
+    Array(100)
+      .fill(0)
+      .map((_, i) => streams.appendEvent({ response: i % 2 === 0, questionId: questionId2 }))
+  )
 
   const monitor = Monitor(slos)(streams)
 
