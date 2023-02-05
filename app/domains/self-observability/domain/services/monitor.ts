@@ -12,13 +12,6 @@ interface MonitorAPI {
   remainingBudget: (sloId: string) => Promise<number>
 }
 
-const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
-  R.pipeWith(R.andThen)([
-    async sloId => ({ sloId, slo: await SLOs.read(sloId) }),
-    async ({ sloId, slo }) => ({ slo, stream: await Streams.findBySLOId(sloId) }),
-    async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) }),
-  ])
-
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
@@ -36,16 +29,28 @@ export const Monitor =
     ]),
     spentBudget: R.pipeWith(R.andThen)([
       Streams.findBySLOId,
-      async ({ id }) => id,
+      R.prop('id'),
       Streams.readEvents,
-      async events => interpret(events),
-      async results => spentBudget(results),
+      toPromise(interpret),
+      toPromise(spentBudget),
     ]),
     remainingBudget: R.pipeWith(R.andThen)([
       loadSLOandResults(SLOs)(Streams),
       async ({ slo, results }) => remainingBudget(budget(slo.denominator)(slo.targetPercentage))(spentBudget(results)),
     ]),
   })
+
+const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
+  R.pipeWith(R.andThen)([
+    SLOs.read,
+    async slo => ({ slo, stream: await Streams.findBySLOId(slo.id) }),
+    async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) }),
+  ])
+
+const toPromise =
+  <X, Y>(f: (n: X) => Y) =>
+  (value: X): Promise<Awaited<Y>> =>
+    Promise.resolve(f(value))
 
 type Results = boolean[]
 type Interpret = (events: Event[]) => Results
