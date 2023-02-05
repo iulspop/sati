@@ -15,18 +15,14 @@ interface MonitorAPI {
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    currentPercentage: pipeP(loadSLOandResults(SLOs)(Streams), currentPercentage),
-    maxPossiblePercentage: pipeP(loadSLOandResults(SLOs)(Streams), maxPossiblePercentage),
+    currentPercentage: pipeP(loadSLOandResults(SLOs, Streams), currentPercentage),
+    maxPossiblePercentage: pipeP(loadSLOandResults(SLOs, Streams), maxPossiblePercentage),
     budget: pipeP(SLOs.read, budget),
     spentBudget: pipeP(loadEvents(Streams), spentBudget),
-    remainingBudget: pipeP(
-      loadSLOandResults(SLOs)(Streams),
-      async ({ slo, results }) => ({ budget: budget(slo), spentBudget: spentBudget(results) }),
-      remainingBudget
-    ),
+    remainingBudget: pipeP(loadSLOandResults(SLOs, Streams), remainingBudget),
   })
 
-const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
+const loadSLOandResults = (SLOs: SLOsAPI, Streams: StreamsAPI) =>
   pipeP(
     SLOs.read,
     async slo => ({ slo, stream: await Streams.findBySLOId(slo.id) }),
@@ -61,7 +57,10 @@ export const budget: Budget = ({ targetPercentage, denominator }) => Math.floor(
 type SpentBudget = (results: Results) => number
 export const spentBudget: SpentBudget = results => results.filter(result => !result).length
 
-type RemainingBudget = (_: { budget: number; spentBudget: number }) => number
-export const remainingBudget: RemainingBudget = ({ budget, spentBudget }) => budget - spentBudget
+type RemainingBudget = (_: {
+  slo: { denominator: SLO['denominator']; targetPercentage: SLO['targetPercentage'] }
+  results: Results
+}) => number
+export const remainingBudget: RemainingBudget = ({ slo, results }) => budget(slo) - spentBudget(results)
 
 const toSecondDecimal = (num: number): number => Math.floor(num * 100) / 100

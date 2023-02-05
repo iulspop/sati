@@ -133,7 +133,9 @@ describe('spentBudget()', () => {
 
 describe('remainingBudget()', () => {
   test('given budget and spent budget: returns remaining negative result budget', () => {
-    expect(remainingBudget({ budget: 5, spentBudget: 1 })).toEqual(4)
-    expect(remainingBudget({ budget: 5, spentBudget: 5 })).toEqual(0)
+    expect(remainingBudget({ slo: { denominator: 5, targetPercentage: 0 }, results: [false, true] })).toEqual(4)
+    expect(remainingBudget({ slo: { denominator: 3, targetPercentage: 0.33 }, results: [false, true, false] })).toEqual(
+      0
+    )
   })
 })
