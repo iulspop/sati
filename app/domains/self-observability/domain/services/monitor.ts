@@ -47,15 +47,15 @@ type Results = boolean[]
 type Interpret = (events: Event[]) => Results
 export const interpret: Interpret = events => events.map(event => event.data.response)
 
-type MaxPossiblePercentage = (_: { slo: Partial<SLO>; results: Results }) => number
+type MaxPossiblePercentage = (_: { slo: { denominator: SLO['denominator'] }; results: Results }) => number
 export const maxPossiblePercentage: MaxPossiblePercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal((denominator - spentBudget(results)) / denominator)
 
-type CurrentPercentage = (_: { slo: Partial<SLO>; results: Results }) => number
+type CurrentPercentage = (_: { slo: { denominator: SLO['denominator'] }; results: Results }) => number
 export const currentPercentage: CurrentPercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal(results.filter(result => result).length / denominator)
 
-type Budget = (slo: Partial<SLO>) => number
+type Budget = (slo: { denominator: SLO['denominator']; targetPercentage: SLO['targetPercentage'] }) => number
 export const budget: Budget = ({ targetPercentage, denominator }) => Math.floor((1 - targetPercentage) * denominator)
 
 type SpentBudget = (results: Results) => number
