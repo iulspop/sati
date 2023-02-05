@@ -15,10 +15,7 @@ interface MonitorAPI {
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    currentPercentage: R.pipeWith(R.andThen)([
-      loadSLOandResults(SLOs)(Streams),
-      async ({ slo, results }) => currentPercentage(slo.denominator)(results),
-    ]),
+    currentPercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(currentPercentage)]),
     maxPossiblePercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)]),
     budget: R.pipeWith(R.andThen)([
       SLOs.read,
@@ -57,8 +54,8 @@ type MaxPossiblePercentage = (_: { slo: Partial<SLO>; results: Results }) => num
 export const maxPossiblePercentage: MaxPossiblePercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal((denominator - spentBudget(results)) / denominator)
 
-type CurrentPercentage = (denominator: SLO['denominator']) => (results: Results) => number
-export const currentPercentage: CurrentPercentage = denominator => results =>
+type CurrentPercentage = (_: { slo: Partial<SLO>; results: Results }) => number
+export const currentPercentage: CurrentPercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal(results.filter(result => result).length / denominator)
 
 type Budget = (denominator: SLO['denominator']) => (targetPercentage: SLO['targetPercentage']) => number

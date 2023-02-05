@@ -101,13 +101,13 @@ describe('maxPossiblePercentage()', () => {
 
 describe('currentPercentage()', () => {
   test('given denominator and results: returns percentage of positive results out of total', () => {
-    expect(currentPercentage(5)([true])).toEqual(0.2)
-    expect(currentPercentage(5)([false])).toEqual(0)
-    expect(currentPercentage(10)([false, false, true, false])).toEqual(0.1)
+    expect(currentPercentage({ slo: { denominator: 5 }, results: [true] })).toEqual(0.2)
+    expect(currentPercentage({ slo: { denominator: 5 }, results: [false] })).toEqual(0)
+    expect(currentPercentage({ slo: { denominator: 10 }, results: [false, false, true, false] })).toEqual(0.1)
   })
 
   test('given denominator and results: returns percentage of positive results chopped to two decimals', () => {
-    expect(currentPercentage(3)([true])).toEqual(0.33)
+    expect(currentPercentage({ slo: { denominator: 3 }, results: [true] })).toEqual(0.33)
   })
 })
 
