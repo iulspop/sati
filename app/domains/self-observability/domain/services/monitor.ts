@@ -15,14 +15,13 @@ interface MonitorAPI {
 export const Monitor =
   (SLOs: SLOsAPI) =>
   (Streams: StreamsAPI): MonitorAPI => ({
-    currentPercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(currentPercentage)]),
-    maxPossiblePercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)]),
-    budget: R.pipeWith(R.andThen)([SLOs.read, toPromise(budget)]),
-    spentBudget: R.pipeWith(R.andThen)([loadEvents(Streams), toPromise(spentBudget)]),
-    remainingBudget: R.pipeWith(R.andThen)([
-      loadSLOandResults(SLOs)(Streams),
-      async ({ slo, results }) => remainingBudget(budget(slo))(spentBudget(results)),
-    ]),
+    currentPercentage: pipeP(loadSLOandResults(SLOs)(Streams), toPromise(currentPercentage)),
+    maxPossiblePercentage: pipeP(loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)),
+    budget: pipeP(SLOs.read, toPromise(budget)),
+    spentBudget: pipeP(loadEvents(Streams), toPromise(spentBudget)),
+    remainingBudget: pipeP(loadSLOandResults(SLOs)(Streams), async ({ slo, results }) =>
+      remainingBudget(budget(slo))(spentBudget(results))
+    ),
   })
 
 const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
@@ -35,20 +34,25 @@ const loadSLOandResults = (SLOs: SLOsAPI) => (Streams: StreamsAPI) =>
 const loadEvents = (Streams: StreamsAPI) =>
   R.pipeWith(R.andThen)([Streams.findBySLOId, R.prop('id'), Streams.readEvents, toPromise(interpret)])
 
+type PipeP = <TArgs extends any[], TResult>(
+  ...fns: R.AtLeastOneFunctionsFlow<TArgs, TResult>
+) => (...args: TArgs) => TResult
+const pipeP: PipeP = (...fns) => R.pipeWith(R.andThen)(fns)
+
 const toPromise =
-  <X, Y>(f: (n: X) => Y) =>
-  (value: X): Promise<Awaited<Y>> =>
-    Promise.resolve(f(value))
+  <TArg, TResult>(fn: (arg: TArg) => TResult) =>
+  (arg: TArg): Promise<Awaited<TResult>> =>
+    Promise.resolve(fn(arg))
 
 type Results = boolean[]
 type Interpret = (events: Event[]) => Results
 export const interpret: Interpret = events => events.map(event => event.data.response)
 
-type MaxPossiblePercentage = (_: { slo: { denominator: SLO['denominator'] }; results: Results }) => number
+type MaxPossiblePercentage = (_: { slo: Partial<SLO>; results: Results }) => number
 export const maxPossiblePercentage: MaxPossiblePercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal((denominator - spentBudget(results)) / denominator)
 
-type CurrentPercentage = (_: { slo: { denominator: SLO['denominator'] }; results: Results }) => number
+type CurrentPercentage = (_: { slo: Partial<SLO>; results: Results }) => number
 export const currentPercentage: CurrentPercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal(results.filter(result => result).length / denominator)
 
