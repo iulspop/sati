@@ -17,10 +17,7 @@ export const Monitor =
   (Streams: StreamsAPI): MonitorAPI => ({
     currentPercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(currentPercentage)]),
     maxPossiblePercentage: R.pipeWith(R.andThen)([loadSLOandResults(SLOs)(Streams), toPromise(maxPossiblePercentage)]),
-    budget: R.pipeWith(R.andThen)([
-      SLOs.read,
-      async ({ denominator, targetPercentage }) => budget(denominator)(targetPercentage),
-    ]),
+    budget: R.pipeWith(R.andThen)([SLOs.read, toPromise(budget)]),
     spentBudget: R.pipeWith(R.andThen)([
       Streams.findBySLOId,
       R.prop('id'),
@@ -30,7 +27,7 @@ export const Monitor =
     ]),
     remainingBudget: R.pipeWith(R.andThen)([
       loadSLOandResults(SLOs)(Streams),
-      async ({ slo, results }) => remainingBudget(budget(slo.denominator)(slo.targetPercentage))(spentBudget(results)),
+      async ({ slo, results }) => remainingBudget(budget(slo))(spentBudget(results)),
     ]),
   })
 
@@ -58,8 +55,8 @@ type CurrentPercentage = (_: { slo: Partial<SLO>; results: Results }) => number
 export const currentPercentage: CurrentPercentage = ({ slo: { denominator }, results }) =>
   toSecondDecimal(results.filter(result => result).length / denominator)
 
-type Budget = (denominator: SLO['denominator']) => (targetPercentage: SLO['targetPercentage']) => number
-export const budget: Budget = denominator => targetPercentage => Math.floor((1 - targetPercentage) * denominator)
+type Budget = (slo: Partial<SLO>) => number
+export const budget: Budget = ({ targetPercentage, denominator }) => Math.floor((1 - targetPercentage) * denominator)
 
 type SpentBudget = (results: Results) => number
 export const spentBudget: SpentBudget = results => results.filter(result => !result).length

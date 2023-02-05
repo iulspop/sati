@@ -113,13 +113,13 @@ describe('currentPercentage()', () => {
 
 describe('budget()', () => {
   test('given denominator and target positive results percentage: returns negative result budget', () => {
-    expect(budget(5)(0.2)).toEqual(4)
-    expect(budget(5)(0.5)).toEqual(2)
-    expect(budget(10)(1)).toEqual(0)
+    expect(budget({ denominator: 5, targetPercentage: 0.2 })).toEqual(4)
+    expect(budget({ denominator: 5, targetPercentage: 0.5 })).toEqual(2)
+    expect(budget({ denominator: 10, targetPercentage: 1 })).toEqual(0)
   })
 
   test('given denominator and target positive results percentage: returns negative result budget floored', () => {
-    expect(budget(5)(0.5)).toEqual(2)
+    expect(budget({ denominator: 5, targetPercentage: 0.5 })).toEqual(2)
   })
 })
 
