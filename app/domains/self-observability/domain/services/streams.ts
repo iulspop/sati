@@ -36,7 +36,8 @@ export const Streams =
       return stream.id
     },
     readEvents: streamId => {
-      if (typeof streamId !== 'string') throw new Error('Requires streamId')
+      if (typeof streamId !== 'string')
+        throw new Error(`Expected streamId of type string. Actual type is ${typeof streamId}: ${streamId}`)
       return eventRepository.readAllByStream(streamId)
     },
   })

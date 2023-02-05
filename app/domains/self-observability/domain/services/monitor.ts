@@ -26,31 +26,25 @@ export const Monitor =
       loadSLOandResults(SLOs)(Streams),
       async ({ slo, results }) => currentPercentage(slo.denominator)(results),
     ]),
-    maxPossiblePercentage: async sloId => {
-      const slo = await SLOs.read(sloId)
-      const stream = await Streams.findBySLOId(sloId)
-      if (!stream || !slo) return 0
-      const events = await Streams.readEvents(stream.id)
-      return maxPossiblePercentage(slo.denominator)(interpret(events))
-    },
-    budget: async sloId => {
-      const slo = await SLOs.read(sloId)
-      if (!slo) return 0
-      return budget(slo.denominator)(slo.targetPercentage)
-    },
-    spentBudget: async sloId => {
-      const stream = await Streams.findBySLOId(sloId)
-      if (!stream) return 0
-      const events = await Streams.readEvents(stream.id)
-      return spentBudget(interpret(events))
-    },
-    remainingBudget: async sloId => {
-      const slo = await SLOs.read(sloId)
-      const stream = await Streams.findBySLOId(sloId)
-      if (!stream || !slo) return 0
-      const events = await Streams.readEvents(stream.id)
-      return remainingBudget(budget(slo.denominator)(slo.targetPercentage))(spentBudget(interpret(events)))
-    },
+    maxPossiblePercentage: R.pipeWith(R.andThen)([
+      loadSLOandResults(SLOs)(Streams),
+      async ({ slo, results }) => maxPossiblePercentage(slo.denominator)(results),
+    ]),
+    budget: R.pipeWith(R.andThen)([
+      SLOs.read,
+      async ({ denominator, targetPercentage }) => budget(denominator)(targetPercentage),
+    ]),
+    spentBudget: R.pipeWith(R.andThen)([
+      Streams.findBySLOId,
+      async ({ id }) => id,
+      Streams.readEvents,
+      async events => interpret(events),
+      async results => spentBudget(results),
+    ]),
+    remainingBudget: R.pipeWith(R.andThen)([
+      loadSLOandResults(SLOs)(Streams),
+      async ({ slo, results }) => remainingBudget(budget(slo.denominator)(slo.targetPercentage))(spentBudget(results)),
+    ]),
   })
 
 type Results = boolean[]
