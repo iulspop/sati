@@ -1,4 +1,5 @@
-import * as R from 'ramda'
+import { prop } from 'ramda'
+import { asyncPipe } from '~/utils/async-pipe'
 import { Event } from '../entities/event'
 import { SLO } from '../entities/slo'
 import { SLOsAPI } from './slos'
@@ -29,15 +30,7 @@ const loadSLOandResults = (SLOs: SLOsAPI, Streams: StreamsAPI) =>
     async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) })
   )
 
-const loadEvents = (Streams: StreamsAPI) => asyncPipe(Streams.findBySLOId, R.prop('id'), Streams.readEvents, interpret)
-
-type AsyncPipe = <TArgs extends any[], TResult>(
-  ...fns: R.AtLeastOneFunctionsFlow<TArgs, TResult>
-) => (...args: TArgs) => Promise<TResult>
-const asyncPipe: AsyncPipe =
-  (...fns) =>
-  async (...x) =>
-    await R.pipeWith(R.andThen)(fns)(...x)
+const loadEvents = (Streams: StreamsAPI) => asyncPipe(Streams.findBySLOId, prop('id'), Streams.readEvents, interpret)
 
 type Results = boolean[]
 type Interpret = (events: Event[]) => Results
