@@ -19,7 +19,7 @@ export const Monitor =
     currentPercentage: asyncPipe(loadSLOandResults(SLOs, Streams), currentPercentage),
     maxPossiblePercentage: asyncPipe(loadSLOandResults(SLOs, Streams), maxPossiblePercentage),
     budget: asyncPipe(SLOs.read, budget),
-    spentBudget: asyncPipe(loadEvents(Streams), spentBudget),
+    spentBudget: asyncPipe(loadResults(Streams), spentBudget),
     remainingBudget: asyncPipe(loadSLOandResults(SLOs, Streams), remainingBudget),
   })
 
@@ -30,7 +30,7 @@ const loadSLOandResults = (SLOs: SLOsAPI, Streams: StreamsAPI) =>
     async ({ slo, stream }) => ({ slo, results: interpret(await Streams.readEvents(stream.id)) })
   )
 
-const loadEvents = (Streams: StreamsAPI) => asyncPipe(Streams.findBySLOId, prop('id'), Streams.readEvents, interpret)
+const loadResults = (Streams: StreamsAPI) => asyncPipe(Streams.findBySLOId, prop('id'), Streams.readEvents, interpret)
 
 type Results = boolean[]
 type Interpret = (events: Event[]) => Results
