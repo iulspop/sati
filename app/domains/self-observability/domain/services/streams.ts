@@ -37,11 +37,7 @@ export const Streams =
       await eventRepository.append(eventFactory({ streamId: stream.id, data: eventData }))
       return stream.id
     },
-    readEvents: streamId => {
-      if (typeof streamId !== 'string')
-        throw new Error(`Expected streamId of type string. Actual type is ${typeof streamId}: ${streamId}`)
-      return eventRepository.readAllByStream(streamId)
-    },
+    readEvents: eventRepository.readAllByStream,
   })
 
 const cacheEvents =
