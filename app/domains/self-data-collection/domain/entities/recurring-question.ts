@@ -1,4 +1,4 @@
-import cuid from 'cuid'
+import { createId } from '@paralleldrive/cuid2'
 
 export interface RecurringQuestion {
   id: string
@@ -11,7 +11,7 @@ export interface RecurringQuestion {
 }
 
 export const recurringQuestionFactory = ({
-  id = cuid(),
+  id = createId(),
   question = 'N/A',
   order = 999999,
   phase = { timestamp: new Date(), utcOffsetInMinutes: 0 },

@@ -1,5 +1,4 @@
-import cuid from 'cuid'
-
+import { createId } from '@paralleldrive/cuid2'
 export interface Answer {
   id: string
   questionId: string
@@ -8,7 +7,7 @@ export interface Answer {
 }
 
 export const answerFactory = ({
-  id = cuid(),
+  id = createId(),
   questionId = 'N/A',
   response = false,
   timestamp = new Date(),
