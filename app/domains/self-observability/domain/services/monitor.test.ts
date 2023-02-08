@@ -1,5 +1,5 @@
 import { test } from 'vitest'
-import Answer from '~/domains/self-data-collection/domain/entities/answer'
+import { Answer } from '~/domains/self-data-collection/domain/entities/answer'
 import db from '../../../db.server'
 import { EventRepository } from '../../infrastructure/event-prisma'
 import { SLORepository } from '../../infrastructure/slo-prisma'

@@ -1,6 +1,6 @@
 import cuid from 'cuid'
 
-export default interface RecurringQuestion {
+export interface RecurringQuestion {
   id: string
   order: number
   question: string
@@ -10,7 +10,7 @@ export default interface RecurringQuestion {
   }
 }
 
-const createRecurringQuestion = ({
+export const recurringQuestionFactory = ({
   id = cuid(),
   question = 'N/A',
   order = 999999,
@@ -21,5 +21,3 @@ const createRecurringQuestion = ({
   question,
   phase,
 })
-
-export { createRecurringQuestion }

@@ -1,6 +1,6 @@
-import Answer from '../entities/answer'
+import { Answer } from '../entities/answer'
 
-export default interface AnswerRepository {
+export interface AnswerRepositoryAPI {
   findMany(): Promise<Answer[]>
   create(answer: Answer): Promise<void>
 }

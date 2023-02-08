@@ -1,10 +1,10 @@
 import { describe } from 'vitest'
 import { assert } from '~/test/assert'
-import prisma from '../../../db.server'
-import answerRepositoryDatabase from '../../infrastructure/answer-prisma'
-import recurringQuestionRepositoryDatabase from '../../infrastructure/recurring-question-prisma'
-import Answer from '../entities/answer'
-import Prompt from '../value-objects/prompt'
+import db from '../../../db.server'
+import { AnswerRepository } from '../../infrastructure/answer-prisma'
+import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
+import { Answer } from '../entities/answer'
+import { Prompt } from '../value-objects/prompt'
 import {
   addDay,
   calculateQuery,
@@ -19,10 +19,10 @@ import {
 
 describe('promptQueue()', async () => {
   {
-    await prisma.answer.deleteMany()
-    await prisma.recurringQuestion.deleteMany()
+    await db.answer.deleteMany()
+    await db.recurringQuestion.deleteMany()
 
-    const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+    const promptQueue = PromptQueue(RecurringQuestionRepository())(AnswerRepository())
 
     const startDate = new Date('2022-10-20T01:00:00.000Z')
     const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
@@ -80,10 +80,10 @@ describe('promptQueue()', async () => {
     })
   }
   {
-    await prisma.answer.deleteMany()
-    await prisma.recurringQuestion.deleteMany()
+    await db.answer.deleteMany()
+    await db.recurringQuestion.deleteMany()
 
-    const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+    const promptQueue = PromptQueue(RecurringQuestionRepository())(AnswerRepository())
 
     const startTime = new Date('2022-10-22T00:00:00.000Z')
     const queryTime = new Date('2022-10-23T00:00:00.000Z')
@@ -127,10 +127,10 @@ describe('promptQueue()', async () => {
     })
   }
   {
-    await prisma.answer.deleteMany()
-    await prisma.recurringQuestion.deleteMany()
+    await db.answer.deleteMany()
+    await db.recurringQuestion.deleteMany()
 
-    const promptQueue = PromptQueue(recurringQuestionRepositoryDatabase())(answerRepositoryDatabase())
+    const promptQueue = PromptQueue(RecurringQuestionRepository())(AnswerRepository())
 
     const recurringQuestion = {
       question: 'X',

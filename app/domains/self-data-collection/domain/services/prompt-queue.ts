@@ -1,8 +1,8 @@
-import Answer, { createAnswer } from '../entities/answer.js'
-import RecurringQuestion, { createRecurringQuestion } from '../entities/recurring-question.js'
-import AnswerRepository from '../repositories/answer-repository.js'
-import RecurringQuestionRepository from '../repositories/recurring-question-repository.js'
-import Prompt from '../value-objects/prompt.js'
+import { Answer, answerFactory } from '../entities/answer'
+import { RecurringQuestion, recurringQuestionFactory } from '../entities/recurring-question'
+import { AnswerRepositoryAPI } from '../repositories/answer-repository'
+import { RecurringQuestionRepositoryAPI } from '../repositories/recurring-question-repository'
+import { Prompt } from '../value-objects/prompt'
 
 export interface PromptQueueAPI {
   getAnswers: () => Promise<Answer[]>
@@ -12,14 +12,14 @@ export interface PromptQueueAPI {
   query: (queryTimeLocal?: Date) => Promise<Prompt[]>
 }
 
-const PromptQueue =
-  (recurringQuestionRepository: RecurringQuestionRepository) =>
-  (answerRepository: AnswerRepository): PromptQueueAPI => ({
-    createAnswer: partialAnswer => answerRepository.create(createAnswer(partialAnswer)),
+export const PromptQueue =
+  (recurringQuestionRepository: RecurringQuestionRepositoryAPI) =>
+  (answerRepository: AnswerRepositoryAPI): PromptQueueAPI => ({
+    createAnswer: partialAnswer => answerRepository.create(answerFactory(partialAnswer)),
     getAnswers: answerRepository.findMany,
     createRecurringQuestion: async partialRecurringQuestion => {
       if ('order' in partialRecurringQuestion)
-        return await recurringQuestionRepository.create(createRecurringQuestion(partialRecurringQuestion))
+        return await recurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
 
       const recurringQuestions = await recurringQuestionRepository.findMany()
       const lastOrder = recurringQuestions.reduce(
@@ -28,7 +28,7 @@ const PromptQueue =
       )
 
       await recurringQuestionRepository.create(
-        createRecurringQuestion({ ...partialRecurringQuestion, order: lastOrder + 1 })
+        recurringQuestionFactory({ ...partialRecurringQuestion, order: lastOrder + 1 })
       )
     },
     getRecurringQuestions: recurringQuestionRepository.findMany,
@@ -46,7 +46,7 @@ type CalculateQuery = (
   answerList: Answer[],
   queryTimeLocal: Date
 ) => Prompt[]
-const calculateQuery: CalculateQuery = (recurringQuestionList, answerList, queryTimeLocal) =>
+export const calculateQuery: CalculateQuery = (recurringQuestionList, answerList, queryTimeLocal) =>
   pipe(
     calculatePromptList(recurringQuestionList),
     keepUnlessPromptAnswered(answerList),
@@ -55,7 +55,7 @@ const calculateQuery: CalculateQuery = (recurringQuestionList, answerList, query
   )(queryTimeLocal)
 
 type CalculatePromptList = (recurringQuestionList: RecurringQuestion[]) => (queryTimeLocal: Date) => Prompt[]
-const calculatePromptList: CalculatePromptList = recurringQuestionList => queryTimeLocal =>
+export const calculatePromptList: CalculatePromptList = recurringQuestionList => queryTimeLocal =>
   recurringQuestionList.reduce(
     (promptList: Prompt[], { id, question, phase }) => [
       ...promptList,
@@ -69,7 +69,7 @@ const calculatePromptList: CalculatePromptList = recurringQuestionList => queryT
   )
 
 type KeepUnlessPromptAnswered = (answerList: Answer[]) => (promptList: Prompt[]) => Prompt[]
-const keepUnlessPromptAnswered: KeepUnlessPromptAnswered = answerList => promptList =>
+export const keepUnlessPromptAnswered: KeepUnlessPromptAnswered = answerList => promptList =>
   promptList.filter(
     prompt =>
       !answerList.find(
@@ -79,13 +79,14 @@ const keepUnlessPromptAnswered: KeepUnlessPromptAnswered = answerList => promptL
   )
 
 type FilterIfCurrentDay = (queryTimeLocal: Date) => (promptList: Prompt[]) => Prompt[]
-const filterIfCurrentDay: FilterIfCurrentDay = queryTimeLocal => promptList =>
+export const filterIfCurrentDay: FilterIfCurrentDay = queryTimeLocal => promptList =>
   promptList.filter(
     prompt => prompt.timestamp.toISOString().split('T')[0] != queryTimeLocal.toISOString().split('T')[0]
   )
 
 type SortByDay = (promptList: Prompt[]) => Prompt[]
-const sortByDay: SortByDay = promptList => [...promptList].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+export const sortByDay: SortByDay = promptList =>
+  [...promptList].sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
 
 const pipe =
   (...fns: Function[]) =>
@@ -99,9 +100,9 @@ const addDays = (days: number) => (date: Date) => {
   return result
 }
 
-const addDay = addDays(1)
+export const addDay = addDays(1)
 
-const toDayList = (startDate: Date, endDate: Date) => {
+export const toDayList = (startDate: Date, endDate: Date) => {
   const dayList = []
   let currentDate = startDate
   while (currentDate <= endDate) {
@@ -111,29 +112,16 @@ const toDayList = (startDate: Date, endDate: Date) => {
   return dayList
 }
 
-const toStartOfDay = (date: Date) => {
+export const toStartOfDay = (date: Date) => {
   const dateCopy = new Date(date)
   dateCopy.setUTCHours(0, 0, 0, 0)
   return dateCopy
 }
 
 type ToLocalTime = ({ timestamp, utcOffsetInMinutes }: { timestamp: Date; utcOffsetInMinutes: number }) => Date
-const toLocalTime: ToLocalTime = ({ timestamp, utcOffsetInMinutes }) =>
+export const toLocalTime: ToLocalTime = ({ timestamp, utcOffsetInMinutes }) =>
   new Date(timestamp.getTime() - utcOffsetInMinutes * 60 * 1000)
 
 type ToUTCTime = (timestamp: Date, utcOffsetInMinutes: number) => Date
 const toUTCTime: ToUTCTime = (timestamp, utcOffsetInMinutes) =>
   new Date(timestamp.getTime() + utcOffsetInMinutes * 60 * 1000)
-
-export {
-  PromptQueue,
-  toDayList,
-  calculateQuery,
-  keepUnlessPromptAnswered,
-  filterIfCurrentDay,
-  sortByDay,
-  addDays,
-  addDay,
-  toStartOfDay,
-  toLocalTime,
-}
