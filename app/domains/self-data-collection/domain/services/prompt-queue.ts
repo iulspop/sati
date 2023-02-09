@@ -8,7 +8,7 @@ export interface PromptQueueAPI {
   getAnswers: () => Promise<Answer[]>
   createAnswer: (answer: Partial<Answer>) => Promise<void>
   getRecurringQuestions: () => Promise<RecurringQuestion[]>
-  createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<void>
+  createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
   query: (queryTimeLocal?: Date) => Promise<Prompt[]>
 }
 
@@ -21,21 +21,21 @@ export const PromptQueue =
       if ('order' in partialRecurringQuestion)
         return await recurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
 
-      const recurringQuestions = await recurringQuestionRepository.findMany()
+      const recurringQuestions = await recurringQuestionRepository.readAll()
       const lastOrder = recurringQuestions.reduce(
         (max, recurringQuestion) => Math.max(max, recurringQuestion.order),
         -1
       )
 
-      await recurringQuestionRepository.create(
+      return recurringQuestionRepository.create(
         recurringQuestionFactory({ ...partialRecurringQuestion, order: lastOrder + 1 })
       )
     },
-    getRecurringQuestions: recurringQuestionRepository.findMany,
+    getRecurringQuestions: recurringQuestionRepository.readAll,
     query: async (
       queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
     ) => {
-      const recurringQuestionList = await recurringQuestionRepository.findMany()
+      const recurringQuestionList = await recurringQuestionRepository.readAll()
       const answerList = await answerRepository.findMany()
       return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
     },
