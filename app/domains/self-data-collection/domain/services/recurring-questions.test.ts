@@ -53,3 +53,22 @@ test('RecurringQuestions CRUD', async () => {
   expect(deletedRecurringQuestion).toEqual(updatedRecurringQuestion)
   expect(readRecurringQuestions).toEqual([createdRecurringQuestion2])
 })
+
+test('given creating a recurring question: default order to last order + 1', async () => {
+  const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
+  const recurringQuestion: Partial<RecurringQuestion> = {
+    question: 'X',
+    phase: {
+      timestamp: new Date('2022-10-22T00:00:00.000Z'),
+      utcOffsetInMinutes: 0,
+    },
+  }
+  await recurringQuestions.create({ ...recurringQuestion, id: '1', order: 10 })
+  await recurringQuestions.create({ ...recurringQuestion, id: '2' })
+
+  const readRecurringQuestions = await recurringQuestions.readAll()
+  expect(readRecurringQuestions).toEqual([
+    { ...recurringQuestion, id: '1', order: 10 },
+    { ...recurringQuestion, id: '2', order: 11 },
+  ])
+})

@@ -1,4 +1,3 @@
-import { asyncPipe } from '~/utils/async-pipe'
 import { RecurringQuestion, recurringQuestionFactory } from '../entities/recurring-question'
 import { RecurringQuestionRepositoryAPI } from '../repositories/recurring-question-repository'
 
@@ -13,7 +12,17 @@ export interface RecurringQuestionsAPI {
 export const RecurringQuestions = (
   RecurringQuestionRepository: RecurringQuestionRepositoryAPI
 ): RecurringQuestionsAPI => ({
-  create: asyncPipe(recurringQuestionFactory, RecurringQuestionRepository.create),
+  create: async partialRecurringQuestion => {
+    if ('order' in partialRecurringQuestion)
+      return await RecurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
+
+    const recurringQuestions = await RecurringQuestionRepository.readAll()
+    const lastOrder = recurringQuestions.reduce((max, recurringQuestion) => Math.max(max, recurringQuestion.order), -1)
+
+    return RecurringQuestionRepository.create(
+      recurringQuestionFactory({ ...partialRecurringQuestion, order: lastOrder + 1 })
+    )
+  },
   read: RecurringQuestionRepository.read,
   readAll: RecurringQuestionRepository.readAll,
   update: RecurringQuestionRepository.update,
