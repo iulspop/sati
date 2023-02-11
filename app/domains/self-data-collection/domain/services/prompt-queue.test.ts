@@ -5,6 +5,7 @@ import { AnswerRepository } from '../../infrastructure/answer-prisma'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
 import { Answer } from '../entities/answer'
 import { Prompt } from '../value-objects/prompt'
+import { Answers } from './answers'
 import {
   addDay,
   calculateQuery,
@@ -16,13 +17,15 @@ import {
   toLocalTime,
   toStartOfDay,
 } from './prompt-queue'
+import { RecurringQuestions } from './recurring-questions'
 
 describe('promptQueue()', async () => {
   {
-    await db.answer.deleteMany()
     await db.recurringQuestion.deleteMany()
 
-    const promptQueue = PromptQueue(RecurringQuestionRepository())(AnswerRepository())
+    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
+    const answers = Answers(AnswerRepository())
+    const promptQueue = PromptQueue(recurringQuestions)(answers)
 
     const startDate = new Date('2022-10-20T01:00:00.000Z')
     const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
@@ -47,7 +50,7 @@ describe('promptQueue()', async () => {
       response: true,
     }
 
-    await promptQueue.createRecurringQuestion({
+    await recurringQuestions.create({
       id: '1',
       question: 'Did you study 2 hours?',
       phase: {
@@ -63,12 +66,12 @@ describe('promptQueue()', async () => {
       expected: [firstDayPrompt, secondDayPrompt],
     })
 
-    await promptQueue.createAnswer(firstDayAnswer)
+    await answers.create(firstDayAnswer)
 
     assert({
       given: 'one prompt answered',
       should: 'return one answer',
-      actual: await promptQueue.getAnswers(),
+      actual: await answers.readAll(),
       expected: [firstDayAnswer],
     })
 
@@ -80,15 +83,16 @@ describe('promptQueue()', async () => {
     })
   }
   {
-    await db.answer.deleteMany()
     await db.recurringQuestion.deleteMany()
 
-    const promptQueue = PromptQueue(RecurringQuestionRepository())(AnswerRepository())
+    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
+    const answers = Answers(AnswerRepository())
+    const promptQueue = PromptQueue(recurringQuestions)(answers)
 
     const startTime = new Date('2022-10-22T00:00:00.000Z')
     const queryTime = new Date('2022-10-23T00:00:00.000Z')
 
-    await promptQueue.createRecurringQuestion({
+    await recurringQuestions.create({
       id: '2',
       order: 2,
       question: 'Have you studied?',
@@ -98,7 +102,7 @@ describe('promptQueue()', async () => {
       },
     })
 
-    await promptQueue.createRecurringQuestion({
+    await recurringQuestions.create({
       id: '1',
       order: 1,
       question: 'Have you eaten broccoli?',
@@ -123,32 +127,6 @@ describe('promptQueue()', async () => {
           question: 'Have you studied?',
           timestamp: startTime,
         },
-      ],
-    })
-  }
-  {
-    await db.answer.deleteMany()
-    await db.recurringQuestion.deleteMany()
-
-    const promptQueue = PromptQueue(RecurringQuestionRepository())(AnswerRepository())
-
-    const recurringQuestion = {
-      question: 'X',
-      phase: {
-        timestamp: new Date('2022-10-22T00:00:00.000Z'),
-        utcOffsetInMinutes: 0,
-      },
-    }
-    await promptQueue.createRecurringQuestion({ ...recurringQuestion, id: '1', order: 10 })
-    await promptQueue.createRecurringQuestion({ ...recurringQuestion, id: '2' })
-
-    assert({
-      given: 'creating a recurring question',
-      should: 'default order to last order + 1',
-      actual: await promptQueue.getRecurringQuestions(),
-      expected: [
-        { ...recurringQuestion, id: '1', order: 10 },
-        { ...recurringQuestion, id: '2', order: 11 },
       ],
     })
   }

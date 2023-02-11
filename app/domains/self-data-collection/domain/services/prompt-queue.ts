@@ -1,42 +1,21 @@
-import { Answer, answerFactory } from '../entities/answer'
-import { RecurringQuestion, recurringQuestionFactory } from '../entities/recurring-question'
-import { AnswerRepositoryAPI } from '../repositories/answer-repository'
-import { RecurringQuestionRepositoryAPI } from '../repositories/recurring-question-repository'
+import { Answer } from '../entities/answer'
+import { RecurringQuestion } from '../entities/recurring-question'
 import { Prompt } from '../value-objects/prompt'
+import { AnswersAPI } from './answers'
+import { RecurringQuestionsAPI } from './recurring-questions'
 
 export interface PromptQueueAPI {
-  getAnswers: () => Promise<Answer[]>
-  createAnswer: (answer: Partial<Answer>) => Promise<Answer>
-  getRecurringQuestions: () => Promise<RecurringQuestion[]>
-  createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
   query: (queryTimeLocal?: Date) => Promise<Prompt[]>
 }
 
 export const PromptQueue =
-  (recurringQuestionRepository: RecurringQuestionRepositoryAPI) =>
-  (answerRepository: AnswerRepositoryAPI): PromptQueueAPI => ({
-    createAnswer: partialAnswer => answerRepository.create(answerFactory(partialAnswer)),
-    getAnswers: answerRepository.readAll,
-    createRecurringQuestion: async partialRecurringQuestion => {
-      if ('order' in partialRecurringQuestion)
-        return await recurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
-
-      const recurringQuestions = await recurringQuestionRepository.readAll()
-      const lastOrder = recurringQuestions.reduce(
-        (max, recurringQuestion) => Math.max(max, recurringQuestion.order),
-        -1
-      )
-
-      return recurringQuestionRepository.create(
-        recurringQuestionFactory({ ...partialRecurringQuestion, order: lastOrder + 1 })
-      )
-    },
-    getRecurringQuestions: recurringQuestionRepository.readAll,
+  (RecurringQuestions: RecurringQuestionsAPI) =>
+  (Answers: AnswersAPI): PromptQueueAPI => ({
     query: async (
       queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
     ) => {
-      const recurringQuestionList = await recurringQuestionRepository.readAll()
-      const answerList = await answerRepository.readAll()
+      const recurringQuestionList = await RecurringQuestions.readAll()
+      const answerList = await Answers.readAll()
       return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
     },
   })
