@@ -21,7 +21,7 @@ model RecurringQuestion {
 
 model Answer {
   id         String            @id
-  question   RecurringQuestion @relation(fields: [questionId], references: [id])
+  question   RecurringQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
   questionId String
   response   Boolean
   timestamp  DateTime

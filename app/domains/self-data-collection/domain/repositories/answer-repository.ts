@@ -1,6 +1,9 @@
 import { Answer } from '../entities/answer'
 
 export interface AnswerRepositoryAPI {
-  findMany(): Promise<Answer[]>
-  create(answer: Answer): Promise<void>
+  create(answer: Answer): Promise<Answer>
+  read(id: string): Promise<Answer | null>
+  readAll(): Promise<Answer[]>
+  update(id: string, partialAnswer: Partial<Answer>): Promise<Answer>
+  delete(id: string): Promise<Answer>
 }

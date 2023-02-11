@@ -6,7 +6,7 @@ import { Prompt } from '../value-objects/prompt'
 
 export interface PromptQueueAPI {
   getAnswers: () => Promise<Answer[]>
-  createAnswer: (answer: Partial<Answer>) => Promise<void>
+  createAnswer: (answer: Partial<Answer>) => Promise<Answer>
   getRecurringQuestions: () => Promise<RecurringQuestion[]>
   createRecurringQuestion: (recurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
   query: (queryTimeLocal?: Date) => Promise<Prompt[]>
@@ -16,7 +16,7 @@ export const PromptQueue =
   (recurringQuestionRepository: RecurringQuestionRepositoryAPI) =>
   (answerRepository: AnswerRepositoryAPI): PromptQueueAPI => ({
     createAnswer: partialAnswer => answerRepository.create(answerFactory(partialAnswer)),
-    getAnswers: answerRepository.findMany,
+    getAnswers: answerRepository.readAll,
     createRecurringQuestion: async partialRecurringQuestion => {
       if ('order' in partialRecurringQuestion)
         return await recurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
@@ -36,7 +36,7 @@ export const PromptQueue =
       queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
     ) => {
       const recurringQuestionList = await recurringQuestionRepository.readAll()
-      const answerList = await answerRepository.findMany()
+      const answerList = await answerRepository.readAll()
       return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
     },
   })

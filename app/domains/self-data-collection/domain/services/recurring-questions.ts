@@ -3,10 +3,10 @@ import { RecurringQuestion, recurringQuestionFactory } from '../entities/recurri
 import { RecurringQuestionRepositoryAPI } from '../repositories/recurring-question-repository'
 
 export interface RecurringQuestionsAPI {
-  create: (partialSLO: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
+  create: (partialRecurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
   read: (id: string) => Promise<RecurringQuestion | null>
   readAll: () => Promise<RecurringQuestion[]>
-  update: (id: string, partialSLO: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
+  update: (id: string, partialRecurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
   delete: (id: string) => Promise<RecurringQuestion>
 }
 
