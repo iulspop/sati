@@ -1,12 +1,9 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { promptQueue } from '~/domains/self-data-collection/domain'
+import { answers as Answers, recurringQuestions as RecurringQuestions } from '~/domains/self-data-collection/domain'
 
 export const loader = async () => {
-  const [recurringQuestions, answers] = await Promise.all([
-    promptQueue.getRecurringQuestions(),
-    promptQueue.getAnswers(),
-  ])
+  const [recurringQuestions, answers] = await Promise.all([RecurringQuestions.readAll(), Answers.readAll()])
 
   return json(
     recurringQuestions.map(recurringQuestion => ({

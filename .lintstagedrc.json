@@ -1,4 +1,0 @@
-{
-  "app/**": "eslint",
-  "*.{ts,tsx,js,html,json,md}": "prettier --write"
-}
