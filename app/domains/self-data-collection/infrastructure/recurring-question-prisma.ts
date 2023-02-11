@@ -2,7 +2,7 @@ import db from '../../db.server'
 import { RecurringQuestionRepositoryAPI } from '../domain/repositories/recurring-question-repository'
 
 export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI => ({
-  create: async ({ id, order, question, phase: { timestamp, utcOffsetInMinutes } }) =>
+  create: async ({ id, order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
     db.recurringQuestion
       .create({
         data: {
@@ -54,13 +54,15 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
           },
         }))
       ),
-  update: async (id, { order, question }) =>
+  update: async (id, { order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
     db.recurringQuestion
       .update({
         where: { id },
         data: {
           order,
           question,
+          timestamp,
+          utcOffsetInMinutes,
         },
       })
       .then(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
