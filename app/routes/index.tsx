@@ -2,7 +2,6 @@ import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { PromptQueue } from '~/domains/self-data-collection/domain'
 
-// @ts-ignore
 export const loader = async () => json(await PromptQueue.query())
 
 export default function Index() {
