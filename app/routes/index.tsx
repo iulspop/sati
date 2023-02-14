@@ -1,32 +1,25 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { answers as Answers, recurringQuestions as RecurringQuestions } from '~/domains/self-data-collection/domain'
+import { PromptQueue } from '~/domains/self-data-collection/domain'
 
-export const loader = async () => {
-  const [recurringQuestions, answers] = await Promise.all([RecurringQuestions.readAll(), Answers.readAll()])
-
-  return json(
-    recurringQuestions.map(recurringQuestion => ({
-      ...recurringQuestion,
-      answers: answers.filter(answer => answer.questionId === recurringQuestion.id),
-    }))
-  )
-}
+// @ts-ignore
+export const loader = async () => json(await PromptQueue.query())
 
 export default function Index() {
-  const recurringQuestions = useLoaderData<typeof loader>()
+  const prompts = useLoaderData<typeof loader>()
 
   return (
     <main>
-      <h1>Remix + Prisma</h1>
+      <h1>Inquire</h1>
+      <h2>Questions</h2>
       <ul>
-        {recurringQuestions.map(({ id, question, answers }) => (
-          <li key={id}>
-            <h2>{question}</h2>
+        {groupByTimestamp(prompts).map(([timestamp, prompts]) => (
+          <li key={timestamp}>
+            <h3>{new Date(timestamp).toISOString()}</h3>
             <ul>
-              {answers.map(({ id, timestamp, response }) => (
-                <li key={id}>
-                  {timestamp}: {String(response)}
+              {prompts.map(prompt => (
+                <li key={prompt.timestamp + prompt.questionId}>
+                  <h3>{prompt.question}</h3>
                 </li>
               ))}
             </ul>
@@ -36,3 +29,12 @@ export default function Index() {
     </main>
   )
 }
+
+const groupByTimestamp = prompts => [
+  ...prompts
+    .reduce(
+      (timestamps, prompt) => timestamps.set(prompt.timestamp, (timestamps.get(prompt.timestamp) || []).concat(prompt)),
+      new Map()
+    )
+    .entries(),
+]
