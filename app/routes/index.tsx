@@ -1,8 +1,20 @@
-import { json } from '@remix-run/node'
+import { ActionArgs, json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import { PromptQueue } from '~/domains/self-data-collection/domain'
+import { Prompt } from '~/components/prompt'
+import { Answers, PromptQueue } from '~/domains/self-data-collection/domain'
 
-export const loader = async () => json(await PromptQueue.query())
+export const loader = async () => {
+  const prompts = await PromptQueue.query()
+  return json(prompts)
+}
+
+export async function action({ request }: ActionArgs) {
+  const formData = await request.formData()
+  const { questionId, response, timestamp } = Object.fromEntries(formData.entries())
+
+  // @ts-ignore
+  return await Answers.create({ questionId, response: response === 'true', timestamp: new Date(timestamp) })
+}
 
 export default function Index() {
   const prompts = useLoaderData<typeof loader>()
@@ -16,11 +28,12 @@ export default function Index() {
           <li key={timestamp}>
             <h3>{new Date(timestamp).toISOString()}</h3>
             <ul>
-              {prompts.map(prompt => (
-                <li key={prompt.timestamp + prompt.questionId}>
-                  <h3>{prompt.question}</h3>
-                </li>
-              ))}
+              {
+                // @ts-ignore
+                prompts.map(prompt => (
+                  <Prompt key={prompt.timestamp + prompt.questionId} {...prompt} />
+                ))
+              }
             </ul>
           </li>
         ))}
@@ -29,11 +42,11 @@ export default function Index() {
   )
 }
 
-const groupByTimestamp = prompts => [
-  ...prompts
-    .reduce(
-      (timestamps, prompt) => timestamps.set(prompt.timestamp, (timestamps.get(prompt.timestamp) || []).concat(prompt)),
-      new Map()
-    )
-    .entries(),
-]
+const groupByTimestamp = prompts =>
+  Object.entries(
+    prompts.reduce((timestamps, prompt) => {
+      if (!timestamps[prompt.timestamp]) timestamps[prompt.timestamp] = []
+      timestamps[prompt.timestamp] = [...timestamps[prompt.timestamp], prompt]
+      return timestamps
+    }, {})
+  )
