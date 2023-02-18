@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 
-import { act, createRemixStub, render, screen } from '~/test/test-utils'
+import { act, cleanup, createRemixStub, render, screen } from '~/test/test-utils'
 import type { Factory } from '~/utils/types'
 
 import type { UserProfileComponentProps } from './user-profile-component'
@@ -13,6 +13,11 @@ const createProps: Factory<UserProfileComponentProps> = ({
   name = faker.name.fullName(),
   success = false,
 } = {}) => ({ email, name, success })
+
+// Something about I18nextProvider i18next being shared causes:
+// Warning: An update to XComponent inside a test was not wrapped in act(...).
+// explicit cleanup fixes it for some reason
+afterEach(cleanup)
 
 describe('UserProfile component', () => {
   it("given a user's avatar, email and name and no success: renders the correct headings and the user's avatar, email and name and hide the success banner", async () => {
