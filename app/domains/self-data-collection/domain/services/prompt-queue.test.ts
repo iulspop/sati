@@ -1,6 +1,6 @@
 import { describe } from 'vitest'
 import { assert } from '~/test/assert'
-import db from '../../../db.server'
+import { db } from '../../../db.server'
 import { AnswerRepository } from '../../infrastructure/answer-prisma'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
 import { Answer } from '../entities/answer'

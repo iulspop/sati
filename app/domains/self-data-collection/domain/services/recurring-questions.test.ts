@@ -1,5 +1,5 @@
 import { beforeEach, test } from 'vitest'
-import db from '../../../db.server'
+import { db } from '../../../db.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
 import { RecurringQuestion } from '../entities/recurring-question'
 import { RecurringQuestions } from './recurring-questions'

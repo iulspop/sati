@@ -1,4 +1,4 @@
-import db from '../../db.server'
+import { db } from '../../db.server'
 import { RecurringQuestionRepositoryAPI } from '../domain/repositories/recurring-question-repository'
 
 export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI => ({

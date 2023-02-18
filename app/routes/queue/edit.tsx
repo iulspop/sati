@@ -9,7 +9,6 @@ export const loader: LoaderFunction = async () => {
 
 export default function EditQuestions() {
   const recurringQuestions = useLoaderData<typeof loader>()
-  console.log(recurringQuestions)
 
   return (
     <>

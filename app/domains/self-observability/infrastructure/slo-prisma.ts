@@ -1,4 +1,4 @@
-import db from '../../db.server'
+import { db } from '../../db.server'
 import { SLORepositoryAPI } from '../domain/repositories/slo-repository'
 
 export const SLORepository = (): SLORepositoryAPI => ({
