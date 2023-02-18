@@ -64,8 +64,9 @@ export const action = async ({ request }: ActionArgs) => {
 
     const result = emailSchema.safeParse(email)
 
-    if (!result.success) {
-      // @ts-ignore
+    // Checking === false explicitly instead of !result.success so the type can be inferred correctly:
+    // https://github.com/colinhacks/zod/issues/1190#issuecomment-1171607138
+    if (result.success === false) {
       return badRequest({ emailError: result.error.issues[0].message })
     }
 
@@ -127,10 +128,12 @@ export default function LoginPage() {
   const { t } = useTranslation()
   const data = useActionData<ActionData>()
   const navigation = useNavigation()
+  // prettier-ignore
   const state: 'idle' | 'error' | 'submitting' =
     navigation.state === 'submitting' || data?.email
       ? 'submitting'
-      : (data?.emailError || data?.formError
+      : 
+      (data?.emailError || data?.formError
       ? 'error'
       : 'idle')
 

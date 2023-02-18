@@ -69,7 +69,6 @@ export const sortByDay: SortByDay = promptList =>
 
 const pipe =
   (...fns: Function[]) =>
-  // @ts-ignore
   x =>
     fns.reduce((v, f) => f(v), x)
 
