@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/prefer-module */
 module.exports = function (
   /** @type {import('plop').NodePlopAPI} */
-  plop,
+  plop
 ) {
   // create your generators here
   plop.setGenerator('basics', {
@@ -36,10 +36,10 @@ module.exports = function (
           const ressourceToGenerate =
             fileType === 'dbHelper'
               ? 'those CRUD helpers'
-              : fileType === 'reactComponent'
+              : (fileType === 'reactComponent'
               ? 'the React component'
-              : 'the E2E tests';
-          return `For what feature do you want to generate ${ressourceToGenerate}?`;
+              : 'the E2E tests')
+          return `For what feature do you want to generate ${ressourceToGenerate}?`
         },
       },
       {
@@ -47,12 +47,11 @@ module.exports = function (
         name: 'name',
         message: function ({ fileType }) {
           if (fileType === 'e2eTests') {
-            return "What is the url path of the page you want to test? (start with '/')";
+            return "What is the url path of the page you want to test? (start with '/')"
           }
 
-          const ressourceToGenerate =
-            fileType === 'dbHelper' ? 'the model' : 'the React component';
-          return `What is the name of ${ressourceToGenerate}?`;
+          const ressourceToGenerate = fileType === 'dbHelper' ? 'the model' : 'the React component'
+          return `What is the name of ${ressourceToGenerate}?`
         },
       },
     ],
@@ -63,26 +62,23 @@ module.exports = function (
             {
               type: 'add',
               path: 'app/features/{{kebabCase feature}}/{{kebabCase name}}-model.server.ts',
-              templateFile:
-                'templates/app/features/feature/feature-model.server.hbs',
+              templateFile: 'templates/app/features/feature/feature-model.server.hbs',
             },
-          ];
+          ]
         }
         case 'reactComponent': {
           return [
             {
               type: 'add',
               path: 'app/features/{{kebabCase feature}}/{{kebabCase name}}-component.tsx',
-              templateFile:
-                'templates/app/features/feature/feature-component.hbs',
+              templateFile: 'templates/app/features/feature/feature-component.hbs',
             },
             {
               type: 'add',
               path: 'app/features/{{kebabCase feature}}/{{kebabCase name}}-component.test.tsx',
-              templateFile:
-                'templates/app/features/feature/feature-component.test.hbs',
+              templateFile: 'templates/app/features/feature/feature-component.test.hbs',
             },
-          ];
+          ]
         }
         case 'e2eTests': {
           return [
@@ -91,12 +87,12 @@ module.exports = function (
               path: 'playwright/e2e/{{kebabCase feature}}/{{kebabCase feature}}.spec.ts',
               templateFile: 'templates/playwright/e2e/feature/feature.spec.hbs',
             },
-          ];
+          ]
         }
         default: {
-          throw new Error('Unknown file type', data.fileType);
+          throw new Error('Unknown file type', data.fileType)
         }
       }
     },
-  });
-};
+  })
+}

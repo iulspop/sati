@@ -1,20 +1,20 @@
-import { renderHook } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { renderHook } from '@testing-library/react'
+import { describe, expect, it, vi } from 'vitest'
 
-import { useEffectOnce } from './use-effect-once';
+import { useEffectOnce } from './use-effect-once'
 
 describe('useEffectOnce()', () => {
   it('runs the effect exactly once', () => {
-    const effect = vi.fn();
+    const effect = vi.fn()
 
-    expect(effect).not.toHaveBeenCalled();
+    expect(effect).not.toHaveBeenCalled()
 
-    const { rerender } = renderHook(() => useEffectOnce(effect));
+    const { rerender } = renderHook(() => useEffectOnce(effect))
 
-    expect(effect).toHaveBeenCalledOnce();
+    expect(effect).toHaveBeenCalledOnce()
 
-    rerender();
+    rerender()
 
-    expect(effect).toHaveBeenCalledOnce();
-  });
-});
+    expect(effect).toHaveBeenCalledOnce()
+  })
+})

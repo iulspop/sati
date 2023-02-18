@@ -1,8 +1,8 @@
-import { faker } from '@faker-js/faker';
-import type { UserProfile } from '@prisma/client';
+import { faker } from '@faker-js/faker'
+import type { UserProfile } from '@prisma/client'
 
-import { generateRandomDid } from '~/test/generate-random-did.server';
-import type { Factory } from '~/utils/types';
+import { generateRandomDid } from '~/test/generate-random-did.server'
+import type { Factory } from '~/utils/types'
 
 /**
  * Creates a user profile _**without**_ any values. If you want to create a
@@ -18,7 +18,7 @@ export const createUserProfile: Factory<UserProfile> = ({
   avatar = '',
   createdAt = new Date(),
   updatedAt = new Date(),
-} = {}) => ({ id, email, name, avatar, createdAt, updatedAt });
+} = {}) => ({ id, email, name, avatar, createdAt, updatedAt })
 
 /**
  * Creates a user profile with populated values.
@@ -33,4 +33,4 @@ export const createPopulatedUserProfile: Factory<UserProfile> = ({
   avatar = faker.image.avatar(),
   updatedAt = faker.date.recent(10),
   createdAt = faker.date.past(3, updatedAt),
-} = {}) => createUserProfile({ id, email, name, avatar, createdAt, updatedAt });
+} = {}) => createUserProfile({ id, email, name, avatar, createdAt, updatedAt })

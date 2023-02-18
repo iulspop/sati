@@ -16,7 +16,9 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "ES2019"
+    "target": "ES2019",
+    "noImplicitAny": false,
+    "strictNullChecks": false
   },
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"]
 }

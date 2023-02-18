@@ -1,5 +1,5 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
-import { devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from '@playwright/test'
+import { devices } from '@playwright/test'
 
 /**
  * Read environment variables from file.
@@ -101,6 +101,6 @@ const config: PlaywrightTestConfig = {
     command: process.env.CI ? 'npm run build && npm run start' : 'npm run dev',
     port: 3000,
   },
-};
+}
 
-export default config;
+export default config

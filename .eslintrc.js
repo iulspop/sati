@@ -7,7 +7,7 @@ module.exports = {
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
     'plugin:unicorn/recommended',
-    'plugin:prettier/recommended',
+    // 'plugin:prettier/recommended',
   ],
   plugins: ['simple-import-sort'],
   rules: {
@@ -58,4 +58,4 @@ module.exports = {
       },
     },
   ],
-};
+}

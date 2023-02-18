@@ -1,4 +1,4 @@
-import { tap } from 'ramda';
+import { tap } from 'ramda'
 
 /**
  * A utility function that can be used with point-free style to log the contents
@@ -8,7 +8,6 @@ import { tap } from 'ramda';
  * @returns A function that takes in a value and returns it while logging out
  * the value with the given message.
  */
-const trace: (message: string) => <T>(value: T) => T = message =>
-  tap(x => console.log(message, x));
+const trace: (message: string) => <T>(value: T) => T = message => tap(x => console.log(message, x))
 
-export default trace;
+export default trace

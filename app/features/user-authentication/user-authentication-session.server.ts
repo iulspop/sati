@@ -1,12 +1,12 @@
-import type { Session } from '@remix-run/node';
-import { createCookieSessionStorage, redirect } from '@remix-run/node';
-import invariant from 'tiny-invariant';
+import type { Session } from '@remix-run/node'
+import { createCookieSessionStorage, redirect } from '@remix-run/node'
+import invariant from 'tiny-invariant'
 
-import { magicAdmin } from './magic-admin.server';
+import { magicAdmin } from './magic-admin.server'
 
-invariant(process.env.SESSION_SECRET, 'SESSION_SECRET must be set');
+invariant(process.env.SESSION_SECRET, 'SESSION_SECRET must be set')
 
-export const USER_AUTHENTICATION_SESSION_NAME = '__user-authentication-session';
+export const USER_AUTHENTICATION_SESSION_NAME = '__user-authentication-session'
 
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
@@ -18,23 +18,23 @@ export const sessionStorage = createCookieSessionStorage({
     secrets: [process.env.SESSION_SECRET],
     secure: process.env.NODE_ENV === 'production',
   },
-});
+})
 
-const USER_SESSION_KEY = 'userId';
+const USER_SESSION_KEY = 'userId'
 
 export async function getSession(request: Request) {
-  const cookie = request.headers.get('Cookie');
-  return sessionStorage.getSession(cookie);
+  const cookie = request.headers.get('Cookie')
+  return sessionStorage.getSession(cookie)
 }
 
 const getUserIdFromSession = (session: Session): string | undefined => {
-  const userId = session.get(USER_SESSION_KEY);
-  return userId;
-};
+  const userId = session.get(USER_SESSION_KEY)
+  return userId
+}
 
 export async function getUserId(request: Request): Promise<string | undefined> {
-  const session = await getSession(request);
-  return getUserIdFromSession(session);
+  const session = await getSession(request)
+  return getUserIdFromSession(session)
 }
 
 /**
@@ -43,18 +43,15 @@ export async function getUserId(request: Request): Promise<string | undefined> {
  * @param redirectTo The path to redirect to if not logged in.
  * @returns The current user's id.
  */
-export async function requireUserIsAuthenticated(
-  request: Request,
-  redirectTo: string = new URL(request.url).pathname,
-) {
-  const userId = await getUserId(request);
+export async function requireUserIsAuthenticated(request: Request, redirectTo: string = new URL(request.url).pathname) {
+  const userId = await getUserId(request)
 
   if (!userId) {
-    const searchParameters = new URLSearchParams([['redirectTo', redirectTo]]);
-    throw redirect(`/login?${searchParameters}`);
+    const searchParameters = new URLSearchParams([['redirectTo', redirectTo]])
+    throw redirect(`/login?${searchParameters}`)
   }
 
-  return userId;
+  return userId
 }
 
 export async function createUserSession({
@@ -63,13 +60,13 @@ export async function createUserSession({
   remember,
   redirectTo,
 }: {
-  request: Request;
-  userId: string;
-  remember: boolean;
-  redirectTo: string;
+  request: Request
+  userId: string
+  remember: boolean
+  redirectTo: string
 }) {
-  const session = await getSession(request);
-  session.set(USER_SESSION_KEY, userId);
+  const session = await getSession(request)
+  session.set(USER_SESSION_KEY, userId)
   return redirect(redirectTo, {
     headers: {
       'Set-Cookie': await sessionStorage.commitSession(session, {
@@ -78,19 +75,19 @@ export async function createUserSession({
           : undefined,
       }),
     },
-  });
+  })
 }
 
 export async function logout(request: Request) {
-  const session = await getSession(request);
-  const userId = getUserIdFromSession(session);
+  const session = await getSession(request)
+  const userId = getUserIdFromSession(session)
   if (userId) {
-    await magicAdmin.users.logoutByIssuer(userId);
+    await magicAdmin.users.logoutByIssuer(userId)
   }
 
   return redirect('/', {
     headers: {
       'Set-Cookie': await sessionStorage.destroySession(session),
     },
-  });
+  })
 }

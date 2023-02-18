@@ -1,6 +1,6 @@
-import type { StringMap, TFuncKey, TOptions } from 'i18next';
+import type { StringMap, TFuncKey, TOptions } from 'i18next'
 
-import { i18next } from '~/features/localization/i18next.server';
+import { i18next } from '~/features/localization/i18next.server'
 
 /**
  * Helper function to get the page title.
@@ -16,20 +16,13 @@ export async function getPageTitle(
   tKey:
     | TFuncKey
     | {
-        tKey: TFuncKey;
-        options: TOptions<StringMap>;
+        tKey: TFuncKey
+        options: TOptions<StringMap>
       } = '',
-  prefix: string = '',
+  prefix: string = ''
 ) {
-  const t = await i18next.getFixedT(request);
-  const translation =
-    typeof tKey === 'string'
-      ? t(tKey)
-      : 'tKey' in tKey
-      ? t(tKey.tKey, tKey.options)
-      : t(tKey);
-  const concatenatedPrefix = `${prefix} ${translation || ''}`.trim();
-  return concatenatedPrefix
-    ? `${concatenatedPrefix} | ${t('app-name')}`
-    : t('app-name');
+  const t = await i18next.getFixedT(request)
+  const translation = typeof tKey === 'string' ? t(tKey) : ('tKey' in tKey ? t(tKey.tKey, tKey.options) : t(tKey))
+  const concatenatedPrefix = `${prefix} ${translation || ''}`.trim()
+  return concatenatedPrefix ? `${concatenatedPrefix} | ${t('app-name')}` : t('app-name')
 }

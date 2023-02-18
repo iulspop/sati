@@ -9,4 +9,4 @@ export const i18n = {
   defaultNS: 'common',
   // Disabling suspense is recommended.
   react: { useSuspense: false },
-};
+}

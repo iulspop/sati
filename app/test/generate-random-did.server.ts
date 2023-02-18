@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto';
+import { randomBytes } from 'crypto'
 
 /**
  * Generates a random decentralized identity token (DID). This function is to
@@ -9,5 +9,5 @@ import { randomBytes } from 'crypto';
  * @returns did - Decentralized identity token.
  */
 export function generateRandomDid() {
-  return 'did:ethr:0x' + randomBytes(32).toString('hex').slice(0, 40);
+  return 'did:ethr:0x' + randomBytes(32).toString('hex').slice(0, 40)
 }

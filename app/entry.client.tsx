@@ -1,22 +1,22 @@
-import { RemixBrowser } from '@remix-run/react';
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
-import Backend from 'i18next-http-backend';
-import { startTransition, StrictMode } from 'react';
-import { hydrateRoot } from 'react-dom/client';
-import { I18nextProvider, initReactI18next } from 'react-i18next';
-import { getInitialNamespaces } from 'remix-i18next';
+import { RemixBrowser } from '@remix-run/react'
+import i18next from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import Backend from 'i18next-http-backend'
+import { startTransition, StrictMode } from 'react'
+import { hydrateRoot } from 'react-dom/client'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
+import { getInitialNamespaces } from 'remix-i18next'
 
-import { i18n } from './features/localization/i18n';
+import { i18n } from './features/localization/i18n'
 
 export type EnvironmentVariables = {
-  MAGIC_PUBLISHABLE_KEY: string;
-};
+  MAGIC_PUBLISHABLE_KEY: string
+}
 declare global {
-  var ENV: EnvironmentVariables;
+  var ENV: EnvironmentVariables
 
   interface Window {
-    runMagicInTestMode?: boolean;
+    runMagicInTestMode?: boolean
   }
 }
 
@@ -28,9 +28,9 @@ function hydrate() {
         <I18nextProvider i18n={i18next}>
           <RemixBrowser />
         </I18nextProvider>
-      </StrictMode>,
-    );
-  });
+      </StrictMode>
+    )
+  })
 }
 
 i18next
@@ -49,10 +49,10 @@ i18next
   // eslint-disable-next-line unicorn/prefer-top-level-await
   .then(() => {
     if (window.requestIdleCallback) {
-      window.requestIdleCallback(hydrate);
+      window.requestIdleCallback(hydrate)
     } else {
       // Safari doesn't support requestIdleCallback
       // https://caniuse.com/requestidlecallback
-      window.setTimeout(hydrate, 1);
+      window.setTimeout(hydrate, 1)
     }
-  });
+  })

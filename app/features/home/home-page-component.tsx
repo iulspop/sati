@@ -1,27 +1,23 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { Link } from '@remix-run/react';
-import { Fragment } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Link } from '@remix-run/react'
+import { Fragment } from 'react'
+import { useTranslation } from 'react-i18next'
 
-import { classNames } from '~/utils/class-names';
+import { classNames } from '~/utils/class-names'
 
 export type HomePageComponentProps = {
   userProfile: {
-    name: string;
-    email: string;
-    avatar: string;
-  };
-  navigation: Array<{ name: string; href: string; current: boolean }>;
-  userNavigation: Array<{ name: string; href: string }>;
-};
+    name: string
+    email: string
+    avatar: string
+  }
+  navigation: Array<{ name: string; href: string; current: boolean }>
+  userNavigation: Array<{ name: string; href: string }>
+}
 
-export function HomePageComponent({
-  navigation,
-  userProfile,
-  userNavigation,
-}: HomePageComponentProps) {
-  const { t } = useTranslation(['common', 'home']);
+export function HomePageComponent({ navigation, userProfile, userNavigation }: HomePageComponentProps) {
+  const { t } = useTranslation(['common', 'home'])
 
   return (
     <div className="min-h-full">
@@ -48,7 +44,7 @@ export function HomePageComponent({
                             item.current
                               ? 'bg-gray-900 text-white'
                               : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                            'rounded-md px-3 py-2 text-sm font-medium',
+                            'rounded-md px-3 py-2 text-sm font-medium'
                           )}
                           aria-current={item.current ? 'page' : undefined}
                         >
@@ -97,7 +93,7 @@ export function HomePageComponent({
                                   to={item.href}
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
-                                    'block px-4 py-2 text-sm text-gray-700',
+                                    'block px-4 py-2 text-sm text-gray-700'
                                   )}
                                 >
                                   {item.name}
@@ -112,7 +108,7 @@ export function HomePageComponent({
                                   type="submit"
                                   className={classNames(
                                     active ? 'bg-gray-100' : '',
-                                    'block w-full px-4 py-2 text-left text-sm text-gray-700',
+                                    'block w-full px-4 py-2 text-left text-sm text-gray-700'
                                   )}
                                 >
                                   {t('logout')}
@@ -147,10 +143,8 @@ export function HomePageComponent({
                     as={Link}
                     to={item.href}
                     className={classNames(
-                      item.current
-                        ? 'bg-gray-900 text-white'
-                        : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                      'block rounded-md px-3 py-2 text-base font-medium',
+                      item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      'block rounded-md px-3 py-2 text-base font-medium'
                     )}
                     aria-current={item.current ? 'page' : undefined}
                   >
@@ -168,12 +162,8 @@ export function HomePageComponent({
                     />
                   </div>
                   <div className="ml-3">
-                    <div className="text-base font-medium leading-none text-white">
-                      {userProfile.name}
-                    </div>
-                    <div className="text-sm font-medium leading-none text-gray-400">
-                      {userProfile.email}
-                    </div>
+                    <div className="text-base font-medium leading-none text-white">{userProfile.name}</div>
+                    <div className="text-sm font-medium leading-none text-gray-400">{userProfile.email}</div>
                   </div>
                   <button
                     type="button"
@@ -211,9 +201,7 @@ export function HomePageComponent({
 
       <header className="bg-white shadow dark:bg-slate-800">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            {t('home')}
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('home')}</h1>
         </div>
       </header>
 
@@ -229,5 +217,5 @@ export function HomePageComponent({
         </div>
       </main>
     </div>
-  );
+  )
 }

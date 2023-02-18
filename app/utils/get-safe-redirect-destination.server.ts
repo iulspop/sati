@@ -1,25 +1,11 @@
-import {
-  allPass,
-  always,
-  complement,
-  identity,
-  ifElse,
-  is,
-  isEmpty,
-  pipe,
-  startsWith,
-} from 'ramda';
+import { allPass, always, complement, identity, ifElse, is, isEmpty, pipe, startsWith } from 'ramda'
 
-import { getSearchParameterFromRequest } from './get-search-parameter-from-request';
+import { getSearchParameterFromRequest } from './get-search-parameter-from-request'
 
-const getRedirectToSearchParameter =
-  getSearchParameterFromRequest('redirectTo');
-const isNotEmpty = complement(isEmpty);
-export const isValidRedirectDestination = (
-  to: FormDataEntryValue | string | null | undefined,
-): to is string =>
-  is(String, to) &&
-  allPass([isNotEmpty, startsWith('/'), complement(startsWith('//'))])(to);
+const getRedirectToSearchParameter = getSearchParameterFromRequest('redirectTo')
+const isNotEmpty = complement(isEmpty)
+export const isValidRedirectDestination = (to: FormDataEntryValue | string | null | undefined): to is string =>
+  is(String, to) && allPass([isNotEmpty, startsWith('/'), complement(startsWith('//'))])(to)
 
 /**
  * This should be used any time the redirect path is user-provided
@@ -30,11 +16,5 @@ export const isValidRedirectDestination = (
  * @param defaultRedirect The redirect to use if the redirectTo is unsafe.
  * @returns A url that can be safely redirected to.
  */
-export const getSafeRedirectDestination = (
-  request: Request,
-  defaultRedirect = '/',
-): string =>
-  pipe(
-    getRedirectToSearchParameter,
-    ifElse(isValidRedirectDestination, identity, always(defaultRedirect)),
-  )(request);
+export const getSafeRedirectDestination = (request: Request, defaultRedirect = '/'): string =>
+  pipe(getRedirectToSearchParameter, ifElse(isValidRedirectDestination, identity, always(defaultRedirect)))(request)

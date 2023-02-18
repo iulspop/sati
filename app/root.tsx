@@ -1,10 +1,6 @@
-import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import type {
-  LinksFunction,
-  LoaderArgs,
-  V2_MetaFunction,
-} from '@remix-run/node';
-import { json } from '@remix-run/node';
+import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import type { LinksFunction, LoaderArgs, V2_MetaFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import {
   isRouteErrorResponse,
   Link,
@@ -17,73 +13,67 @@ import {
   useLoaderData,
   useLocation,
   useRouteError,
-} from '@remix-run/react';
-import { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import invariant from 'tiny-invariant';
+} from '@remix-run/react'
+import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import invariant from 'tiny-invariant'
 
-import type { EnvironmentVariables } from './entry.client';
-import { i18next } from './features/localization/i18next.server';
-import { NotFoundComponent } from './features/not-found/not-found-component';
-import styles from './tailwind.css';
+import type { EnvironmentVariables } from './entry.client'
+import { i18next } from './features/localization/i18next.server'
+import { NotFoundComponent } from './features/not-found/not-found-component'
+import styles from './tailwind.css'
 
-export const handle = { i18n: 'common' };
+export const handle = { i18n: 'common' }
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
   { rel: 'stylesheet', href: 'https://rsms.me/inter/inter.css' },
-];
+]
 
 type LoaderData = {
-  ENV: EnvironmentVariables;
-  locale: string;
-  title: string;
-};
+  ENV: EnvironmentVariables
+  locale: string
+  title: string
+}
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const { MAGIC_PUBLISHABLE_KEY } = process.env;
-  invariant(MAGIC_PUBLISHABLE_KEY, 'MAGIC_PUBLISHABLE_KEY must be set');
+  const { MAGIC_PUBLISHABLE_KEY } = process.env
+  invariant(MAGIC_PUBLISHABLE_KEY, 'MAGIC_PUBLISHABLE_KEY must be set')
 
-  const locale = await i18next.getLocale(request);
+  const locale = await i18next.getLocale(request)
 
-  const t = await i18next.getFixedT(request);
-  const title = t('app-name');
+  const t = await i18next.getFixedT(request)
+  const title = t('app-name')
 
   return json<LoaderData>({
     ENV: { MAGIC_PUBLISHABLE_KEY: MAGIC_PUBLISHABLE_KEY },
     locale,
     title,
-  });
-};
+  })
+}
 
-export const meta: V2_MetaFunction<typeof loader> = ({
-  data = { title: 'French House Stack' },
-}) => [
+export const meta: V2_MetaFunction<typeof loader> = ({ data = { title: 'French House Stack' } }) => [
   { title: data.title },
   // eslint-disable-next-line unicorn/text-encoding-identifier-case
   { charSet: 'utf-8' },
   { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-];
+]
 
 function useChangeLanguage(locale: string) {
-  const { i18n } = useTranslation();
+  const { i18n } = useTranslation()
 
   useEffect(() => {
-    i18n.changeLanguage(locale);
-  }, [locale, i18n]);
+    i18n.changeLanguage(locale)
+  }, [locale, i18n])
 }
 
 export default function App() {
-  const { locale, ENV } = useLoaderData<typeof loader>();
-  const { i18n } = useTranslation();
-  useChangeLanguage(locale);
+  const { locale, ENV } = useLoaderData<typeof loader>()
+  const { i18n } = useTranslation()
+  useChangeLanguage(locale)
 
   return (
-    <html
-      lang={locale}
-      className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800"
-      dir={i18n.dir()}
-    >
+    <html lang={locale} className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800" dir={i18n.dir()}>
       <head>
         <Meta />
         <Links />
@@ -100,19 +90,16 @@ export default function App() {
         <LiveReload />
       </body>
     </html>
-  );
+  )
 }
 
 export function ErrorBoundary() {
   // TODO: report error
-  const location = useLocation();
-  const error = useRouteError();
+  const location = useLocation()
+  const error = useRouteError()
 
   return isRouteErrorResponse(error) ? (
-    <html
-      className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800"
-      lang="en"
-    >
+    <html className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800" lang="en">
       <head>
         <title>404 Not Found | French House Stack</title>
         <Meta />
@@ -138,28 +125,21 @@ export function ErrorBoundary() {
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 <div className="sm:flex sm:items-start">
                   <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <ExclamationTriangleIcon
-                      className="h-6 w-6 text-red-600"
-                      aria-hidden="true"
-                    />
+                    <ExclamationTriangleIcon className="h-6 w-6 text-red-600" aria-hidden="true" />
                   </div>
 
                   <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                    <h1 className="text-lg font-medium leading-6 text-gray-900">
-                      Ooops! 😱
-                    </h1>
+                    <h1 className="text-lg font-medium leading-6 text-gray-900">Ooops! 😱</h1>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        An unknown error occurred. We've automatically reported
-                        the error and we will investigate it{' '}
+                        An unknown error occurred. We've automatically reported the error and we will investigate it{' '}
                         <i>
                           <b>asap</b>
                         </i>
                         ! 🤓
                       </p>
                       <p className="mt-2 text-sm text-gray-500">
-                        We're very sorry about this! 🙏 Please reload the page.
-                        👇
+                        We're very sorry about this! 🙏 Please reload the page. 👇
                       </p>
                     </div>
                   </div>
@@ -181,5 +161,5 @@ export function ErrorBoundary() {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }

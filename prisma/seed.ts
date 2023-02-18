@@ -1,19 +1,18 @@
-import 'dotenv/config';
+import 'dotenv/config'
 
-import { faker } from '@faker-js/faker';
-import { PrismaClient } from '@prisma/client';
-import { exit } from 'process';
+import { faker } from '@faker-js/faker'
+import { PrismaClient } from '@prisma/client'
+import { exit } from 'process'
 
-const prettyPrint = (object: any) =>
-  console.log(JSON.stringify(object, undefined, 2));
+const prettyPrint = (object: any) => console.log(JSON.stringify(object, undefined, 2))
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
-const userId = process.env.SEED_USER_ID;
+const userId = process.env.SEED_USER_ID
 
 async function seed() {
   if (!userId) {
-    throw new Error('Please provide a userId to seed.ts');
+    throw new Error('Please provide a userId to seed.ts')
   }
 
   const user = await prisma.userProfile.create({
@@ -23,18 +22,18 @@ async function seed() {
       name: faker.name.fullName(),
       avatar: faker.image.avatar(),
     },
-  });
-  console.log('========= result of seed: =========');
-  prettyPrint({ user });
+  })
+  console.log('========= result of seed: =========')
+  prettyPrint({ user })
 }
 
 seed()
   .then(async () => {
-    await prisma.$disconnect();
+    await prisma.$disconnect()
   })
   // eslint-disable-next-line unicorn/prefer-top-level-await
   .catch(async error => {
-    console.error(error);
-    await prisma.$disconnect();
-    exit(1);
-  });
+    console.error(error)
+    await prisma.$disconnect()
+    exit(1)
+  })

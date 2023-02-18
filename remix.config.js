@@ -11,4 +11,4 @@ module.exports = {
     v2_errorBoundary: true,
     unstable_tailwind: true,
   },
-};
+}

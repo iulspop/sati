@@ -1,28 +1,28 @@
-import type { LoaderArgs } from '@remix-run/node';
-import { json, redirect } from '@remix-run/node';
-import { Link } from '@remix-run/react';
-import { useTranslation } from 'react-i18next';
+import type { LoaderArgs } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
+import { Link } from '@remix-run/react'
+import { useTranslation } from 'react-i18next'
 
-import { getUserId } from '~/features/user-authentication/user-authentication-session.server';
-import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server';
+import { getUserId } from '~/features/user-authentication/user-authentication-session.server'
+import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
 
-import magicLogo from '../../public/magic-icon.png';
+import magicLogo from '../../public/magic-icon.png'
 
-export const handle = { i18n: ['common', 'landing'] };
+export const handle = { i18n: ['common', 'landing'] }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const userId = await getUserId(request);
+  const userId = await getUserId(request)
 
   if (userId) {
-    const redirectTo = getSafeRedirectDestination(request, '/home');
-    return redirect(redirectTo);
+    const redirectTo = getSafeRedirectDestination(request, '/home')
+    return redirect(redirectTo)
   }
 
-  return json({});
-};
+  return json({})
+}
 
 export default function LandingPage() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <main className="relative min-h-screen bg-white dark:bg-slate-800 sm:flex sm:items-center sm:justify-center">
@@ -39,9 +39,7 @@ export default function LandingPage() {
             </div>
             <div className="lg:pb-18 relative px-4 pt-16 pb-8 sm:px-6 sm:pt-24 sm:pb-14 lg:px-8 lg:pt-32">
               <h1 className="text-center text-6xl font-extrabold tracking-tight sm:text-8xl lg:text-9xl">
-                <span className="block uppercase text-indigo-600 drop-shadow-md">
-                  {t('app-name')}
-                </span>
+                <span className="block uppercase text-indigo-600 drop-shadow-md">{t('app-name')}</span>
               </h1>
               <p className="mx-auto mt-6 max-w-lg text-center text-xl text-white sm:max-w-3xl">
                 {t('landing:stack-instructions')}
@@ -126,5 +124,5 @@ export default function LandingPage() {
         </div>
       </div>
     </main>
-  );
+  )
 }

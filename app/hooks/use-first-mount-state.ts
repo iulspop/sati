@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef } from 'react'
 
 /**
  * A hook that detects if the current mount is the first one.
@@ -7,13 +7,13 @@ import { useRef } from 'react';
  * false otherwise.
  */
 export function useFirstMountState() {
-  const isFirst = useRef(true);
+  const isFirst = useRef(true)
 
   if (isFirst.current) {
-    isFirst.current = false;
+    isFirst.current = false
 
-    return true;
+    return true
   }
 
-  return isFirst.current;
+  return isFirst.current
 }

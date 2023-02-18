@@ -1,26 +1,22 @@
-import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/solid';
-import { Link } from '@remix-run/react';
-import { useTranslation } from 'react-i18next';
-import { z } from 'zod';
+import { CheckCircleIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import { Link } from '@remix-run/react'
+import { useTranslation } from 'react-i18next'
+import { z } from 'zod'
 
-import { Form } from '~/components/form-component';
+import { Form } from '~/components/form-component'
 
 export type UserProfileComponentProps = {
-  email: string;
-  name: string;
-  success: boolean;
-};
+  email: string
+  name: string
+  success: boolean
+}
 
 export const schema = z.object({
   name: z.string().min(3, 'name-required-and-constraints'),
-});
+})
 
-export function UserProfileComponent({
-  email,
-  name,
-  success,
-}: UserProfileComponentProps) {
-  const { t } = useTranslation('user-profile');
+export function UserProfileComponent({ email, name, success }: UserProfileComponentProps) {
+  const { t } = useTranslation('user-profile')
 
   return (
     <main className="flex-1 xl:overflow-y-auto">
@@ -29,18 +25,11 @@ export function UserProfileComponent({
           <div className="rounded-md bg-green-50 p-4 shadow-sm">
             <div className="flex">
               <div className="flex-shrink-0">
-                <CheckCircleIcon
-                  className="h-5 w-5 text-green-400"
-                  aria-hidden="true"
-                />
+                <CheckCircleIcon className="h-5 w-5 text-green-400" aria-hidden="true" />
               </div>
 
               <div className="ml-3">
-                <p
-                  aria-label={t('success') ?? undefined}
-                  className="text-sm font-medium text-green-800"
-                  role="alert"
-                >
+                <p aria-label={t('success') ?? undefined} className="text-sm font-medium text-green-800" role="alert">
                   {t('successful-save')}
                 </p>
               </div>
@@ -74,31 +63,19 @@ export function UserProfileComponent({
               <div className="space-y-8 divide-y divide-gray-200">
                 <div>
                   <div>
-                    <h2 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">
-                      {t('profile')}
-                    </h2>
+                    <h2 className="text-lg font-medium leading-6 text-gray-900 dark:text-white">{t('profile')}</h2>
 
-                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
-                      {t('public-information')}
-                    </p>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">{t('public-information')}</p>
                   </div>
 
                   <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
                     <p className="flex items-center sm:col-span-6">
-                      <span className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-                        {t('email')}
-                      </span>
+                      <span className="block text-sm font-medium text-gray-700 dark:text-gray-400">{t('email')}</span>
 
-                      <span className="text-blue-gray-900 ml-2 block w-full dark:text-white sm:text-sm">
-                        {email}
-                      </span>
+                      <span className="text-blue-gray-900 ml-2 block w-full dark:text-white sm:text-sm">{email}</span>
                     </p>
 
-                    <Field
-                      defaultValue={name || ''}
-                      label={t('name') ?? undefined}
-                      name="name"
-                    />
+                    <Field defaultValue={name || ''} label={t('name') ?? undefined} name="name" />
                   </div>
                 </div>
               </div>
@@ -120,5 +97,5 @@ export function UserProfileComponent({
         </Form>
       </div>
     </main>
-  );
+  )
 }

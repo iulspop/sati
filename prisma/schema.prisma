@@ -20,3 +20,47 @@ model UserProfile {
   name      String   @default("")
   avatar    String   @default("")
 }
+
+model RecurringQuestion {
+  id                 String   @id
+  order              Int
+  question           String
+  timestamp          DateTime
+  utcOffsetInMinutes Int
+  answers            Answer[]
+}
+
+model Answer {
+  id         String            @id
+  question   RecurringQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId String
+  response   Boolean
+  timestamp  DateTime
+}
+
+model Slo {
+  id               String   @id
+  createdAt        DateTime
+  name             String
+  denominatorLabel String
+  denominator      Int
+  targetPercentage Float
+  Stream           Stream?
+}
+
+model Stream {
+  id        String   @id
+  slo       Slo      @relation(fields: [sloId], references: [id], onDelete: Cascade)
+  createdAt DateTime
+  source    String
+  sloId     String   @unique
+  Event     Event[]
+}
+
+model Event {
+  id        String   @id
+  stream    Stream   @relation(fields: [streamId], references: [id], onDelete: Cascade)
+  createdAt DateTime
+  streamId  String
+  data      String
+}

@@ -1,6 +1,6 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest'
 
-import { mapIdToAutoComplete } from './form-component';
+import { mapIdToAutoComplete } from './form-component'
 
 describe('mapIdToAutoCompelete()', () => {
   it.each([
@@ -18,8 +18,8 @@ describe('mapIdToAutoCompelete()', () => {
     ['stateProvince', 'address-level1'],
     ['zipPostalCode', 'postal-code'],
   ])('given an id: returns the correct autoComplete value', (id, expected) => {
-    const actual = mapIdToAutoComplete(id);
+    const actual = mapIdToAutoComplete(id)
 
-    expect(actual).toEqual(expected);
-  });
-});
+    expect(actual).toEqual(expected)
+  })
+})

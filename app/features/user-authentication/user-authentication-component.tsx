@@ -1,8 +1,8 @@
-import { LockClosedIcon } from '@heroicons/react/24/solid';
-import { XCircleIcon } from '@heroicons/react/24/solid';
-import { Form } from '@remix-run/react';
-import type { RefObject } from 'react';
-import { useTranslation } from 'react-i18next';
+import { LockClosedIcon } from '@heroicons/react/24/solid'
+import { XCircleIcon } from '@heroicons/react/24/solid'
+import { Form } from '@remix-run/react'
+import type { RefObject } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const Spinner = () => (
   <svg
@@ -12,59 +12,39 @@ const Spinner = () => (
     fill="none"
     viewBox="0 0 24 24"
   >
-    <circle
-      className="opacity-25"
-      cx="12"
-      cy="12"
-      r="10"
-      stroke="currentColor"
-      strokeWidth="4"
-    />
+    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
     <path
       className="opacity-75"
       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
       fill="currentColor"
     />
   </svg>
-);
+)
 
-const ErrorMessage = ({
-  errorMessage,
-  id,
-}: {
-  errorMessage: string;
-  id: string;
-}) => (
+const ErrorMessage = ({ errorMessage, id }: { errorMessage: string; id: string }) => (
   <div className="rounded-md bg-red-50 p-2 dark:bg-red-300">
     <div className="flex">
       <div className="flex-shrink-0">
-        <XCircleIcon
-          aria-hidden="true"
-          className="h-5 w-5 text-red-400 dark:text-red-600"
-        />
+        <XCircleIcon aria-hidden="true" className="h-5 w-5 text-red-400 dark:text-red-600" />
       </div>
       <div className="ml-3">
-        <p
-          className="text-sm text-red-700 dark:text-red-900"
-          id={id}
-          role="alert"
-        >
+        <p className="text-sm text-red-700 dark:text-red-900" id={id} role="alert">
           {errorMessage}
         </p>
       </div>
     </div>
   </div>
-);
+)
 
-export const loginIntent = 'login';
+export const loginIntent = 'login'
 
 export type UserAuthenticationComponentProps = {
-  email?: string;
-  emailError?: string;
-  formError?: string;
-  inputRef?: RefObject<HTMLInputElement>;
-  state: 'idle' | 'submitting' | 'error';
-};
+  email?: string
+  emailError?: string
+  formError?: string
+  inputRef?: RefObject<HTMLInputElement>
+  state: 'idle' | 'submitting' | 'error'
+}
 
 export function UserAuthenticationComponent({
   email,
@@ -73,7 +53,7 @@ export function UserAuthenticationComponent({
   inputRef,
   state,
 }: UserAuthenticationComponentProps) {
-  const { t } = useTranslation('user-authentication');
+  const { t } = useTranslation('user-authentication')
 
   return (
     <>
@@ -97,12 +77,7 @@ export function UserAuthenticationComponent({
             </p>
           </div>
 
-          <Form
-            aria-describedby={formError && 'form-error'}
-            className="mt-8 space-y-6"
-            method="post"
-            replace={true}
-          >
+          <Form aria-describedby={formError && 'form-error'} className="mt-8 space-y-6" method="post" replace={true}>
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label className="sr-only" htmlFor="email">
@@ -124,15 +99,11 @@ export function UserAuthenticationComponent({
                   type="email"
                 />
 
-                {emailError && (
-                  <ErrorMessage errorMessage={emailError} id="email-error" />
-                )}
+                {emailError && <ErrorMessage errorMessage={emailError} id="email-error" />}
               </div>
             </div>
 
-            {formError && (
-              <ErrorMessage errorMessage={formError} id="form-error" />
-            )}
+            {formError && <ErrorMessage errorMessage={formError} id="form-error" />}
 
             <div>
               <button
@@ -154,14 +125,12 @@ export function UserAuthenticationComponent({
                     />
                   )}
                 </span>
-                {state === 'submitting'
-                  ? t('authenticating')
-                  : t('sign-in-sign-up')}
+                {state === 'submitting' ? t('authenticating') : t('sign-in-sign-up')}
               </button>
             </div>
           </Form>
         </div>
       </main>
     </>
-  );
+  )
 }

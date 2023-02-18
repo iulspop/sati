@@ -1,8 +1,8 @@
-import { Link } from '@remix-run/react';
-import { useTranslation } from 'react-i18next';
+import { Link } from '@remix-run/react'
+import { useTranslation } from 'react-i18next'
 
 export function NotFoundComponent() {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
   return (
     <div className="flex min-h-full flex-col bg-white pt-16 pb-12 dark:bg-slate-800">
@@ -27,9 +27,7 @@ export function NotFoundComponent() {
               {t('page-not-found')}
             </h1>
 
-            <p className="mt-2 text-base text-gray-500 dark:text-slate-400">
-              {t('sorry-we-could-not-find-page')}
-            </p>
+            <p className="mt-2 text-base text-gray-500 dark:text-slate-400">{t('sorry-we-could-not-find-page')}</p>
 
             <div className="mt-6">
               <Link
@@ -52,20 +50,14 @@ export function NotFoundComponent() {
           >
             {t('contact-support')}
           </Link>
-          <span
-            className="inline-block border-l border-gray-300 dark:border-gray-200"
-            aria-hidden="true"
-          />
+          <span className="inline-block border-l border-gray-300 dark:border-gray-200" aria-hidden="true" />
           <Link
             to="#"
             className="text-sm font-medium text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500"
           >
             {t('status')}
           </Link>
-          <span
-            className="inline-block border-l border-gray-300 dark:border-gray-200"
-            aria-hidden="true"
-          />
+          <span className="inline-block border-l border-gray-300 dark:border-gray-200" aria-hidden="true" />
           <Link
             to="#"
             className="text-sm font-medium text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500"
@@ -75,5 +67,5 @@ export function NotFoundComponent() {
         </nav>
       </footer>
     </div>
-  );
+  )
 }
