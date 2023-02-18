@@ -1,8 +1,14 @@
-/** @type {import('@remix-run/dev').AppConfig} */
+/* eslint-disable unicorn/prefer-module */
+/**
+ * @type {import('@remix-run/dev').AppConfig}
+ */
 module.exports = {
-  ignoredRouteFiles: ['**/.*'],
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // serverBuildPath: "build/index.js",
-  // publicPath: "/build/",
-}
+  ignoredRouteFiles: ['**/*.test.{ts,tsx}'],
+  future: {
+    // broken, see: https://github.com/remix-run/remix/issues/5322
+    v2_routeConvention: true,
+    v2_meta: true,
+    v2_errorBoundary: true,
+    unstable_tailwind: true,
+  },
+};

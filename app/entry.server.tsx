@@ -1,95 +1,79 @@
-import type { EntryContext } from '@remix-run/node'
-import { Response } from '@remix-run/node'
-import { RemixServer } from '@remix-run/react'
-import isbot from 'isbot'
-import { renderToPipeableStream } from 'react-dom/server'
-import { PassThrough } from 'stream'
+import { resolve } from 'node:path';
 
-const ABORT_DELAY = 5000
+import type { EntryContext } from '@remix-run/node';
+import { Response } from '@remix-run/node';
+import { RemixServer } from '@remix-run/react';
+import { createInstance } from 'i18next';
+import Backend from 'i18next-fs-backend';
+import isBot from 'isbot';
+import { renderToPipeableStream } from 'react-dom/server';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
+import { PassThrough } from 'stream';
 
-export default function handleRequest(
+import { i18n } from './features/localization/i18n';
+import { i18next } from './features/localization/i18next.server';
+
+const ABORT_DELAY = 5000;
+
+export default async function handleRequest(
   request: Request,
   responseStatusCode: number,
   responseHeaders: Headers,
-  remixContext: EntryContext
+  remixContext: EntryContext,
 ) {
-  return isbot(request.headers.get('user-agent'))
-    ? handleBotRequest(request, responseStatusCode, responseHeaders, remixContext)
-    : handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext)
-}
+  const callbackName = isBot(request.headers.get('user-agent'))
+    ? 'onAllReady'
+    : 'onShellReady';
 
-function handleBotRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext
-) {
+  const instance = createInstance();
+  const lng = await i18next.getLocale(request);
+  const ns = i18next.getRouteNamespaces(remixContext);
+
+  await instance
+    .use(initReactI18next)
+    .use(Backend)
+    .init({
+      ...i18n,
+      lng,
+      ns,
+      backend: {
+        loadPath: resolve('./public/locales/{{lng}}/{{ns}}.json'),
+      },
+    });
+
   return new Promise((resolve, reject) => {
-    let didError = false
+    let didError = false;
 
-    const { pipe, abort } = renderToPipeableStream(<RemixServer context={remixContext} url={request.url} />, {
-      onAllReady() {
-        const body = new PassThrough()
+    const { pipe, abort } = renderToPipeableStream(
+      <I18nextProvider i18n={instance}>
+        <RemixServer context={remixContext} url={request.url} />
+      </I18nextProvider>,
+      {
+        [callbackName]() {
+          const body = new PassThrough();
 
-        responseHeaders.set('Content-Type', 'text/html')
+          responseHeaders.set('Content-Type', 'text/html');
 
-        resolve(
-          new Response(body, {
-            headers: responseHeaders,
-            status: didError ? 500 : responseStatusCode,
-          })
-        )
+          resolve(
+            new Response(body, {
+              headers: responseHeaders,
+              status: didError ? 500 : responseStatusCode,
+            }),
+          );
 
-        pipe(body)
+          pipe(body);
+        },
+        onShellError(error) {
+          reject(error);
+        },
+        onError(error) {
+          didError = true;
+
+          console.error(error);
+        },
       },
-      onShellError(error: unknown) {
-        reject(error)
-      },
-      onError(error: unknown) {
-        didError = true
+    );
 
-        console.error(error)
-      },
-    })
-
-    setTimeout(abort, ABORT_DELAY)
-  })
-}
-
-function handleBrowserRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext
-) {
-  return new Promise((resolve, reject) => {
-    let didError = false
-
-    const { pipe, abort } = renderToPipeableStream(<RemixServer context={remixContext} url={request.url} />, {
-      onShellReady() {
-        const body = new PassThrough()
-
-        responseHeaders.set('Content-Type', 'text/html')
-
-        resolve(
-          new Response(body, {
-            headers: responseHeaders,
-            status: didError ? 500 : responseStatusCode,
-          })
-        )
-
-        pipe(body)
-      },
-      onShellError(err: unknown) {
-        reject(err)
-      },
-      onError(error: unknown) {
-        didError = true
-
-        console.error(error)
-      },
-    })
-
-    setTimeout(abort, ABORT_DELAY)
-  })
+    setTimeout(abort, ABORT_DELAY);
+  });
 }

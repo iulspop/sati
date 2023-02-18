@@ -1,2 +1,10 @@
-public/build
-cli/bin
+node_modules
+.next
+yarn.lock
+package-lock.json
+public
+coverage
+templates
+build
+playwright-report
+test-results

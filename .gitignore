@@ -1,9 +1,17 @@
 node_modules
 
+coverage
+
 /.cache
 /build
 /public/build
 .env
 
-prisma/*.db
-prisma/*.db-journal
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+/prisma/data.db
+/prisma/data.db-journal
+
+.DS_Store
