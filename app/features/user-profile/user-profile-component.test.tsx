@@ -1,7 +1,3 @@
-/**
- * @vitest-environment jsdom
- */
-
 import { faker } from '@faker-js/faker'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'

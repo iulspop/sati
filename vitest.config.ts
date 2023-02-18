@@ -9,7 +9,7 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./app/test/setup-test-environment.ts'],
     include: ['./**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*', '.*\\/postgres-data\\/.*'],
+    watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
     coverage: {
       reporter: ['text', 'json', 'html'],
     },

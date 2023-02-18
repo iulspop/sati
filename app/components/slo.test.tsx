@@ -1,10 +1,11 @@
-import { render, screen } from '@testing-library/react'
 import { describe, test } from 'vitest'
+
+import { render, screen } from '~/test/test-utils'
 
 import type { SLOProps } from './slo'
 import { SLO } from './slo'
 
-describe.skip('SLO component', () => {
+describe('SLO component', () => {
   test('given SLO data: renders SLO', () => {
     const slo: SLOProps = {
       label: 'Days',

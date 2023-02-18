@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { mapIdToAutoComplete } from './form-component'
 
-describe('mapIdToAutoCompelete()', () => {
+describe('mapIdToAutoComplete()', () => {
   it.each([
     [undefined, undefined],
     ['', undefined],
