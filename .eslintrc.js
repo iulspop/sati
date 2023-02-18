@@ -21,6 +21,7 @@ module.exports = {
         ignore: [/\$[A-Za-z]+\.tsx/],
       },
     ],
+    'unicorn/no-nested-ternary': 'off',
     'unicorn/no-array-callback-reference': 'off',
     'unicorn/no-array-for-each': 'off',
     'unicorn/no-array-reduce': 'off',

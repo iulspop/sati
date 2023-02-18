@@ -22,7 +22,7 @@ export async function getPageTitle(
   prefix: string = ''
 ) {
   const t = await i18next.getFixedT(request)
-  const translation = typeof tKey === 'string' ? t(tKey) : ('tKey' in tKey ? t(tKey.tKey, tKey.options) : t(tKey))
+  const translation = typeof tKey === 'string' ? t(tKey) : 'tKey' in tKey ? t(tKey.tKey, tKey.options) : t(tKey)
   const concatenatedPrefix = `${prefix} ${translation || ''}`.trim()
   return concatenatedPrefix ? `${concatenatedPrefix} | ${t('app-name')}` : t('app-name')
 }

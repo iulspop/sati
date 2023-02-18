@@ -128,14 +128,12 @@ export default function LoginPage() {
   const { t } = useTranslation()
   const data = useActionData<ActionData>()
   const navigation = useNavigation()
-  // prettier-ignore
   const state: 'idle' | 'error' | 'submitting' =
     navigation.state === 'submitting' || data?.email
       ? 'submitting'
-      : 
-      (data?.emailError || data?.formError
+      : data?.emailError || data?.formError
       ? 'error'
-      : 'idle')
+      : 'idle'
 
   const inputRef = useRef<HTMLInputElement>(null)
   const mounted = useRef<boolean>(false)

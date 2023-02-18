@@ -1,9 +1,9 @@
 import { asyncPipe } from '~/utils/async-pipe'
 import { asyncTap } from '~/utils/async-tap'
 
-import type { Event} from '../entities/event';
+import type { Event } from '../entities/event'
 import { eventFactory } from '../entities/event'
-import type { Stream} from '../entities/stream';
+import type { Stream } from '../entities/stream'
 import { streamFactory } from '../entities/stream'
 import type { EventRepositoryAPI } from '../repositories/event-repository'
 import type { InquireRepositoryAPI } from '../repositories/inquire-repository'

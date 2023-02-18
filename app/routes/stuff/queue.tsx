@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderFunction } from '@remix-run/node';
+import type { ActionArgs, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 

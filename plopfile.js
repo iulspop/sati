@@ -33,13 +33,13 @@ module.exports = function (
         type: 'input',
         name: 'feature',
         message: function ({ fileType }) {
-          const ressourceToGenerate =
+          const resourceToGenerate =
             fileType === 'dbHelper'
               ? 'those CRUD helpers'
-              : (fileType === 'reactComponent'
+              : fileType === 'reactComponent'
               ? 'the React component'
-              : 'the E2E tests')
-          return `For what feature do you want to generate ${ressourceToGenerate}?`
+              : 'the E2E tests'
+          return `For what feature do you want to generate ${resourceToGenerate}?`
         },
       },
       {
@@ -50,8 +50,8 @@ module.exports = function (
             return "What is the url path of the page you want to test? (start with '/')"
           }
 
-          const ressourceToGenerate = fileType === 'dbHelper' ? 'the model' : 'the React component'
-          return `What is the name of ${ressourceToGenerate}?`
+          const resourceToGenerate = fileType === 'dbHelper' ? 'the model' : 'the React component'
+          return `What is the name of ${resourceToGenerate}?`
         },
       },
     ],

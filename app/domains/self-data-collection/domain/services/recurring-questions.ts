@@ -1,4 +1,4 @@
-import type { RecurringQuestion} from '../entities/recurring-question';
+import type { RecurringQuestion } from '../entities/recurring-question'
 import { recurringQuestionFactory } from '../entities/recurring-question'
 import type { RecurringQuestionRepositoryAPI } from '../repositories/recurring-question-repository'
 
