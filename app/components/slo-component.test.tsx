@@ -2,8 +2,8 @@ import { describe, test } from 'vitest'
 
 import { render, screen } from '~/test/test-utils'
 
-import type { SLOProps } from './slo'
-import { SLO } from './slo'
+import type { SLOProps } from './slo-component'
+import { SLO } from './slo-component'
 
 describe('SLO component', () => {
   test('given SLO data: renders SLO', () => {

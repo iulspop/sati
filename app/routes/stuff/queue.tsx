@@ -2,7 +2,7 @@ import type { ActionArgs, LoaderFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, Outlet, useLoaderData, useLocation } from '@remix-run/react'
 
-import { Prompt } from '~/components/prompt'
+import { Prompt } from '~/components/prompt-component'
 import { Answers, PromptQueue } from '~/domains/self-data-collection/domain'
 
 export const loader: LoaderFunction = async () => {
