@@ -1,10 +1,10 @@
-import { database } from '../../database.server'
+import { db } from '../../db.server'
 import type { SLORepositoryAPI } from '../domain/repositories/slo-repository'
 
 export const SLORepository = (): SLORepositoryAPI => ({
-  create: async slo => await database.slo.create({ data: slo }),
-  read: async id => database.slo.findUnique({ where: { id } }),
-  readAll: async () => await database.slo.findMany(),
-  update: async (id, slo) => await database.slo.update({ where: { id }, data: slo }),
-  delete: async id => await database.slo.delete({ where: { id } }),
+  create: async slo => await db.slo.create({ data: slo }),
+  read: async id => db.slo.findUnique({ where: { id } }),
+  readAll: async () => await db.slo.findMany(),
+  update: async (id, slo) => await db.slo.update({ where: { id }, data: slo }),
+  delete: async id => await db.slo.delete({ where: { id } }),
 })

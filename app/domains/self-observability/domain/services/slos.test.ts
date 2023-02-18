@@ -1,12 +1,12 @@
 import { beforeEach, test } from 'vitest'
 
-import { database } from '../../../database.server'
+import { db } from '../../../db.server'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import type { SLO } from '../entities/slo'
 import { SLOs } from './slos'
 
 beforeEach(async () => {
-  await database.slo.deleteMany()
+  await db.slo.deleteMany()
 })
 
 test('SLO CRUD', async () => {

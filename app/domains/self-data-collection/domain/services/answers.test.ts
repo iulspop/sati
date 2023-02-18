@@ -1,6 +1,6 @@
 import { beforeEach, test } from 'vitest'
 
-import { database } from '../../../database.server'
+import { db } from '../../../db.server'
 import { AnswerRepository } from '../../infrastructure/answer-prisma'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
 import type { Answer } from '../entities/answer'
@@ -8,7 +8,7 @@ import { Answers } from './answers'
 import { RecurringQuestions } from './recurring-questions'
 
 beforeEach(async () => {
-  await database.recurringQuestion.deleteMany()
+  await db.recurringQuestion.deleteMany()
 })
 
 test('Answers CRUD', async () => {

@@ -1,12 +1,12 @@
 import { beforeEach, test } from 'vitest'
 
-import { database } from '../../../database.server'
+import { db } from '../../../db.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
 import type { RecurringQuestion } from '../entities/recurring-question'
 import { RecurringQuestions } from './recurring-questions'
 
 beforeEach(async () => {
-  await database.recurringQuestion.deleteMany()
+  await db.recurringQuestion.deleteMany()
 })
 
 test('RecurringQuestions CRUD', async () => {

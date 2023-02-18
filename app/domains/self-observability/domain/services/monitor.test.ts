@@ -2,7 +2,7 @@ import { test } from 'vitest'
 
 import type { Answer } from '~/domains/self-data-collection/domain/entities/answer'
 
-import { database } from '../../../database.server'
+import { db } from '../../../db.server'
 import { EventRepository } from '../../infrastructure/event-prisma'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
@@ -27,7 +27,7 @@ const MockInquireRepository = (answers: Partial<Answer>[] = []): InquireReposito
 })
 
 test('Monitor calculations', async () => {
-  await database.slo.deleteMany()
+  await db.slo.deleteMany()
 
   const slos = SLOs(SLORepository())
   const slo: Partial<SLO> = { name: 'Go to Bed By 10PM', denominator: 365, targetPercentage: 0.95 }

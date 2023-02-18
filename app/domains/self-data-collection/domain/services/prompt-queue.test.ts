@@ -2,7 +2,7 @@ import { describe } from 'vitest'
 
 import { assert } from '~/test/assert'
 
-import { database } from '../../../database.server'
+import { db } from '../../../db.server'
 import { AnswerRepository } from '../../infrastructure/answer-prisma'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
 import type { Answer } from '../entities/answer'
@@ -23,7 +23,7 @@ import { RecurringQuestions } from './recurring-questions'
 
 describe('promptQueue()', async () => {
   {
-    await database.recurringQuestion.deleteMany()
+    await db.recurringQuestion.deleteMany()
 
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const answers = Answers(AnswerRepository())
@@ -85,7 +85,7 @@ describe('promptQueue()', async () => {
     })
   }
   {
-    await database.recurringQuestion.deleteMany()
+    await db.recurringQuestion.deleteMany()
 
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const answers = Answers(AnswerRepository())

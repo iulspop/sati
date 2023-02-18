@@ -1,9 +1,9 @@
-import { database } from '../../database.server'
+import { db } from '../../db.server'
 import type { RecurringQuestionRepositoryAPI } from '../domain/repositories/recurring-question-repository'
 
 export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI => ({
   create: async ({ id, order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
-    database.recurringQuestion
+    db.recurringQuestion
       .create({
         data: {
           id,
@@ -23,7 +23,7 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
         },
       })),
   read: async id =>
-    database.recurringQuestion.findUnique({ where: { id } }).then(recurringQuestion => {
+    db.recurringQuestion.findUnique({ where: { id } }).then(recurringQuestion => {
       if (!recurringQuestion) return null
       const { id, order, question, timestamp, utcOffsetInMinutes } = recurringQuestion
       return {
@@ -37,7 +37,7 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
       }
     }),
   readAll: async () =>
-    database.recurringQuestion
+    db.recurringQuestion
       .findMany({
         orderBy: {
           order: 'asc',
@@ -55,7 +55,7 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
         }))
       ),
   update: async (id, { order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
-    database.recurringQuestion
+    db.recurringQuestion
       .update({
         where: { id },
         data: {
@@ -75,15 +75,13 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
         },
       })),
   delete: async id =>
-    database.recurringQuestion
-      .delete({ where: { id } })
-      .then(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
-        id,
-        order,
-        question,
-        phase: {
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      })),
+    db.recurringQuestion.delete({ where: { id } }).then(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
+      id,
+      order,
+      question,
+      phase: {
+        timestamp,
+        utcOffsetInMinutes,
+      },
+    })),
 })

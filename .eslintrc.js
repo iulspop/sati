@@ -32,6 +32,7 @@ module.exports = {
       {
         allowList: {
           e2e: true,
+          db: true,
           'remix.env.d': true,
         },
         replacements: {

@@ -2,7 +2,7 @@ import { beforeEach, test } from 'vitest'
 
 import { EventRepository } from '~/domains/self-observability/infrastructure/event-prisma'
 
-import { database } from '../../../database.server'
+import { db } from '../../../db.server'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
 import type { InquireRepositoryAPI } from '../repositories/inquire-repository'
@@ -14,7 +14,7 @@ const MockInquireRepository = (answers: {}[] = []): InquireRepositoryAPI => ({
 })
 
 beforeEach(async () => {
-  await database.slo.deleteMany()
+  await db.slo.deleteMany()
 })
 
 test('Stream CRUD', async () => {
