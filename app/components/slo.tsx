@@ -1,6 +1,6 @@
 export interface SLOProps {
   label: string
-  targetPrecentage: number
+  targetPercentage: number
   remainingMaxPercentage: number
   missBudget: number
   spentBudget: number
@@ -9,7 +9,7 @@ export interface SLOProps {
 
 export const SLO = ({
   label,
-  targetPrecentage,
+  targetPercentage,
   remainingMaxPercentage,
   missBudget,
   spentBudget,
@@ -18,7 +18,7 @@ export const SLO = ({
   <div>
     <p>{label}</p>
     <ul>
-      <li>Target: {targetPrecentage}</li>
+      <li>Target: {targetPercentage}</li>
       <li>Max Possible: {remainingMaxPercentage}</li>
       <li>Misses Budget: {missBudget}</li>
       <li>Misses: {spentBudget}</li>
