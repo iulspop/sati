@@ -1,4 +1,4 @@
-FROM node:16-bullseye-slim as base
+FROM node:18-bullseye-slim as base
 
 ENV NODE_ENV production
 
@@ -35,7 +35,7 @@ RUN npm run build
 
 FROM base
 
-ENV DATABASE_URL=file:/data/sqlite.db
+ENV DATABASE_URL="file:/data/sqlite.db"
 ENV PORT="8080"
 ENV NODE_ENV="production"
 
@@ -52,5 +52,7 @@ COPY --from=build /myapp/public /myapp/public
 COPY --from=build /myapp/package.json /myapp/package.json
 COPY --from=build /myapp/start.sh /myapp/start.sh
 COPY --from=build /myapp/prisma /myapp/prisma
+
+EXPOSE 8080
 
 ENTRYPOINT [ "./start.sh" ]
