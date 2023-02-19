@@ -86,14 +86,15 @@ This starts your app in development mode, rebuilding assets on file changes.
 
 ### Prisma helper scripts
 
-- `"prisma:apply-changes"` - Applies changes to the database schema to the
-  database.
+- `"prisma:test-changes` - Applies schema changes to database without creating a migration. Use to prototype a schema change before creating a migration.
+- `"prisma:apply-changes"` - Generates a migration for your schema changes and applies it to database.
 - `"prisma:seed"` - Seeds the database with a user profile.
 - `"prisma:setup"` - Sets up the database.
 - `"prisma:wipe"` - Wipes the database (irrevocably delete all data, but keep
   the schema).
 - `"prisma:reset-dev"` - Wipes the database, seeds it and starts the dev server.
   This is a utility script that you can use in development to get clean starts.
+- `"prisma:studio"` - Open Prisma studio for read and writing table data.
 
 ### Generating boilerplate
 
