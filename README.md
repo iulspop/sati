@@ -29,7 +29,7 @@
 
   - `MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` - You'll need to grab a
     public key and a secret key for your project from your
-    [Magic dashboard](https://magic.link).
+    [Magic dashboard](https://magic.link). Use a Magic app only used for testing and development.
   - `SESSION_SECRET` - The session secret can be any string that is at least 32
     characters long.
   - `DATABASE_URL` - The url under which the SQLite database will operate. You
@@ -121,44 +121,6 @@ Out of the box, there are three options:
 - Database model utils
 - E2E tests for a route
 
-### Routing
-
-We're using flat routes, a feature which will
-[ship natively with Remix, soon](https://github.com/remix-run/remix/issues/4483).
-
-You can
-[check out this video for an in-depth explanation](https://portal.gitnation.org/contents/remix-flat-routes-an-evolution-in-routing).
-
-### How authentication works 🛡️
-
-We use [Magic](https://magic.link/) for authentication with a custom session
-cookie. You can find the implementation in `app/features/user-authentication`.
-
-Magic keeps track of the user's session in a cookie, but we ignore Magic's
-session and use our own session cookie instead. This is because Magic's sessions
-only last 2 weeks, while our lasts a year. Additionally, it makes E2E tests
-easier because we fully control the auth flow.
-
-We use
-[Remix's session utils](https://remix.run/docs/en/v1/utils/sessions#using-sessions)
-to manage the session cookie. The code for this lives in
-`app/features/user-authentication/user-authentication-session.server.ts`.
-
-When a user signs in or up using Magic, we grab the user id (the one you logged
-out during the getting started section) and store it in the session cookie.
-
-If the user is signing up, we also create a user profile for them using their
-email, which we can grab from Magic during the sign up flow.
-
-When a user signs out, we clear the session cookie.
-
-### i18n
-
-The French House Stack comes with localization support through
-[remix-i18next](https://github.com/sergiodxa/remix-i18next).
-
-The namespaces live in `public/locales/`.
-
 ## GitHub Actions
 
 We use GitHub Actions for pull request checks. Any pull request triggers checks
@@ -186,12 +148,6 @@ for selecting elements on the page semantically.
 To run these tests in development, run `npm run test:e2e` which will start the
 dev server for the app as well as the Playwright client.
 
-#### VSCode Extension
-
-If you're using VSCode, you can install the
-[Playwright extension](https://github.com/microsoft/playwright-vscode) for a
-better developer experience.
-
 #### Utilities
 
 We have a utility for testing authenticated features without having to go
@@ -206,42 +162,19 @@ test('something that requires an authenticated user', async ({ page }) => {
 
 Check out the `playwright/utils.ts` file for other utility functions.
 
-#### Miscellaneous
-
-To mark a test as todo in Playwright,
-[you have to use `.fixme()`](https://github.com/microsoft/playwright/issues/10918).
-
-```ts
-test('something that should be done later', ({}, testInfo) => {
-  testInfo.fixme();
-});
-
-test.fixme('something that should be done later', async ({ page }) => {
-  // ...
-});
-
-test('something that should be done later', ({ page }) => {
-  test.fixme();
-  // ...
-});
-```
-
-The version using `testInfo.fixme()` is the "preferred" way and can be picked up
-by the VSCode extension.
-
-### Formatting
-
-We use [Prettier](https://prettier.io/) for auto-formatting in this project.
-It's recommended to install an editor plugin (like the
-[VSCode Prettier plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode))
-to get auto-formatting on save. There's also a `npm run format` script you can
-run to format all files in the project.
-
 ### CI
 
-GitHub actions is configured to run tests and deploy to [fly.io](fly.io) on every commit to the main branch. The following GitHub repository secrets must be set: `DATABASE_URL`, `FLY_API_TOKEN`, `MAGIC_PUBLISHABLE_KEY`, `MAGIC_SECRET_KEY`, `SESSION_SECRET`.
+GitHub actions is configured to run tests and deploy to [fly.io](fly.io) on every commit to the main branch.
 
-- Add a `FLY_API_TOKEN` to your GitHub repo. To do this, go to your user settings on Fly and create a new [token](https://web.fly.io/user/personal_access_tokens/new), then add it to [your repo secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) with the name `FLY_API_TOKEN`.
+The following GitHub repository secrets must be set:
+
+- `DATABASE_URL` same as `.env`
+
+- `FLY_API_TOKEN`. Go to your user settings on Fly and create a new [token](https://web.fly.io/user/personal_access_tokens/new), then add it to [your repo secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) with the name `FLY_API_TOKEN`.
+
+- `MAGIC_PUBLISHABLE_KEY`, `MAGIC_SECRET_KEY` use the credentials for the Magic app used for testing and development.
+
+- `SESSION_SECRET` same as `.env`
 
 ### Deployment
 
@@ -291,7 +224,7 @@ The app is continuously deployed on every commit. However, you can deploy manual
 
 #### Testing Docker Container
 
-The Docker image is used only for deploying on fly.io and isn't used in development. However you can test it by building the image and starting the container locally.
+The Docker image is used only for deploying on Fly and isn't used in development. However you can test it by building the image and starting the container locally.
 
 Build image and name it:
 
@@ -310,6 +243,10 @@ docker run -i -t -e MAGIC_PUBLISHABLE_KEY="x" \
 ```
 
 The env variables must be set or the error `Invariant Failed` will be thrown by `remix-serve build`.
+
+#### Debugging Deployment
+
+Fly deployment throwing a `"Failed due to unhealthy allocations"` might be because secrets are not set correctly on the Fly app. See [Troubleshooting your Deployment](https://fly.io/docs/getting-started/troubleshooting/) for more troubleshooting options.
 
 ### Credits
 
