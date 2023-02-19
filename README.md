@@ -4,7 +4,7 @@
 
 ### Getting Started
 
-- Make sure you're using Node.js 16.0.0 or higher. You can run:
+- Make sure you're using Node.js 18.0.0 or higher. You can run:
 
   ```sh
   node -v
