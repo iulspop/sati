@@ -27,6 +27,7 @@ module.exports = {
     'unicorn/no-array-reduce': 'off',
     'unicorn/prefer-node-protocol': 'off',
     'unicorn/no-null': 'off',
+    'unicorn/no-useless-promise-resolve-reject': 'off',
     'unicorn/prevent-abbreviations': [
       'error',
       {
