@@ -1,53 +1,4 @@
-# Remix French House Stack 🪩
-
-![The Remix French House Stack](./public/french-house-stack.png)
-
-The Remix Stack for Web2, Web3 and
-[Web5](https://developer.tbd.website/blog/what-is-web5/) 💃🕺
-
-Learn more about [Remix Stacks](https://remix.run/stacks).
-
-```
-npx create-remix --template janhesters/french-house-stack
-```
-
-## What's in the Stack? 🤔
-
-The French House Stack is a starter template for
-[developing DApps by using Magic](https://magic.link/docs/home#blockchains).
-However, Magic is perfectly suited for a regular Web2 app, too.
-
-- Authentication with [Magic](https://magic.link/) and with
-  [cookie-based sessions](https://remix.run/docs/en/v1/api/remix#createcookiesessionstorage),
-  which enables you to both build Web2 and Web3 apps
-- [GitHub Actions](https://github.com/features/actions) for deploy on merge to
-  production and staging environments
-- Styling with [Tailwind](https://tailwindcss.com/).
-  - Includes [dark mode](https://tailwindcss.com/docs/dark-mode).
-  - The routes in this app have been build using the
-    [free components from Tailwind UI](https://tailwindui.com/preview)
-- End-to-end testing with [Playwright](https://playwright.dev)
-- Unit testing with [Vitest](https://vitest.dev) and
-  [Testing Library](https://testing-library.com)
-- [SQLite](https://www.sqlite.org/index.html) database with
-  [Prisma](https://www.prisma.io/) as the ORM
-- Code formatting with [Prettier](https://prettier.io)
-- Linting with [ESLint](https://eslint.org)
-- Static Types with [TypeScript](https://typescriptlang.org)
-- Commit hooks with [Husky](https://github.com/typicode/husky) and
-  [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) with
-  [Commitizen](https://github.com/commitizen/cz-cli)
-
-### Versioning
-
-This stack pinned all version of its dependencies in order to ensure that it
-always works. You can use
-
-```
-npx npm-check-updates -u
-```
-
-to check for updates and install the latest versions.
+# Inquire
 
 ## Development 🛠
 
@@ -71,7 +22,6 @@ to check for updates and install the latest versions.
 
   ```sh
   chmod a+x .husky/pre-commit
-  chmod a+x .husky/commit-msg
   ```
 
 - Create a `.env` file and add these environment variables (see `.env.example`,
@@ -279,23 +229,6 @@ test('something that should be done later', ({ page }) => {
 The version using `testInfo.fixme()` is the "preferred" way and can be picked up
 by the VSCode extension.
 
-### Vitest ⚡️
-
-For lower level tests of utilities and individual components, we use `vitest`.
-We have DOM-specific assertion helpers via
-[`@testing-library/jest-dom`](https://testing-library.com/jest-dom).
-
-### Type Checking
-
-This project uses TypeScript. It's recommended to get TypeScript set up for your
-editor to get a really great in-editor experience with type checking and
-auto-complete. To run type checking across the whole project, run
-`npm run type-check`.
-
-### Linting
-
-This project uses ESLint for linting. That is configured in `.eslintrc.js`.
-
 ### Formatting
 
 We use [Prettier](https://prettier.io/) for auto-formatting in this project.
@@ -304,65 +237,80 @@ It's recommended to install an editor plugin (like the
 to get auto-formatting on save. There's also a `npm run format` script you can
 run to format all files in the project.
 
-## Next Steps 🚀
+### CI
 
-### Pick a Database
+GitHub actions is configured to run tests and deploy to [fly.io](fly.io) on every commit to the main branch. The following GitHub repository secrets must be set: `DATABASE_URL`, `FLY_API_TOKEN`, `MAGIC_PUBLISHABLE_KEY`, `MAGIC_SECRET_KEY`, `SESSION_SECRET`.
 
-The French House Stack comes with a SQLite database out of the box. It uses
-[Prisma](https://www.prisma.io/) to abstract away the database layer, so you can
-easily switch it out for another database.
-
-If you're looking for inspiration for a centralized database, check out the
-[Blues Stack](https://github.com/remix-run/blues-stack) for a enterprise grade
-PostgeSQL setup.
-
-If you build a DApp, you might want to use the [IPFS](https://ipfs.io/) or
-something like [3Box](https://3boxlabs.com/).
-
-### Pick a Blockchain
-
-Magic is compatible with a
-[variety of blockchains](https://magic.link/docs/home#blockchains). The most
-popular for DApps is
-[Ethereum](https://magic.link/docs/advanced/blockchains/ethereum/javascript) and
-the most popular chain in general is
-[Bitcoin](https://magic.link/docs/advanced/blockchains/bitcoin).
+- Add a `FLY_API_TOKEN` to your GitHub repo. To do this, go to your user settings on Fly and create a new [token](https://web.fly.io/user/personal_access_tokens/new), then add it to [your repo secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) with the name `FLY_API_TOKEN`.
 
 ### Deployment
 
-Learn how you can
-[deploy your Remix app here](https://remix.run/docs/en/v1/guides/deployment).
-For examples of setups you can check out the
-[official Remix stacks](https://remix.run/docs/en/v1/pages/stacks).
+A Docker image is built and deployed to [fly.io](fly.io).
 
-### Explore Magic
+#### Initial Deployment
 
-The French House Stack comes with a magic link setup via email preconfigured.
-However, Magic also offers social auth (e.g. for
-[Google](https://magic.link/docs/login-methods/social-logins/integration/social-providers/google)),
-[multi-factor auth](https://magic.link/docs/login-methods/mfa) and
-[WebAuthn](https://magic.link/docs/login-methods/webauthn).
+Prior to your first deployment, you'll need to do a few things:
 
-**Note:** the included cookie based authentication with
-`createCookieSessionStorage` is set up
-[as recommended by the Magic docs](https://magic.link/docs/introduction/faq#sessions-and-tokens).
-However, it doesn't work for Web3 functions. You'll need to
-[stay logged in with Magic](https://magic.link/docs/introduction/faq#how-long-does-a-user-remain-logged-in)
-to work with any chain.
+- [Install Fly](https://fly.io/docs/getting-started/installing-flyctl/)
 
-### To-Dos
+- Sign up and log in to Fly
 
-There are a bunch of TODOs in the code, for example for error reporting. This
-stack leaves it to you to handle error reporting.
+  ```sh
+  fly auth signup
+  ```
 
-Here is a list of things this app could use:
+  > **Note:** If you have more than one Fly account, ensure that you are signed into the same account in the Fly CLI as you are in the browser. In your terminal, run `fly auth whoami` and ensure the email matches the Fly account signed into the browser.
 
-- error reporting
-- feature flags
-- use feedback capturing and tracking
+- Create the app on Fly:
 
-### [Buidl!](https://www.urbandictionary.com/define.php?term=%23BUIDL)
+  ```sh
+  fly apps create
+  ```
 
-Now go out there make some magic! 🧙‍♂️
+  > **Note:** The app name is taken from the `app` set in your `fly.toml` file.
 
-[Ask better questions! 📈](https://janhesters.com)
+- Add a `SESSION_SECRET` to your fly app secrets, to do this you can run the following commands:
+
+  ```sh
+  fly secrets set SESSION_SECRET=$(openssl rand -hex 32)
+  ```
+
+  If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator/) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
+
+- Add your prod Magic app `MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` to your fly app secrets.
+
+- Create a persistent volume for the sqlite database. Run the following:
+
+  ```sh
+  fly volumes create data --size 1
+  ```
+
+#### Subsequent Deployments
+
+The app is continuously deployed on every commit. However, you can deploy manually using `fly deploy`.
+
+#### Testing Docker Container
+
+The Docker image is used only for deploying on fly.io and isn't used in development. However you can test it by building the image and starting the container locally.
+
+Build image and name it:
+
+```sh
+docker build -t inquire_image .
+```
+
+Start the container with the port open:
+
+```sh
+docker run -i -t -e MAGIC_PUBLISHABLE_KEY="x" \
+-e MAGIC_SECRET_KEY="x" \
+-e SESSION_SECRET="x" \
+-p 8080:8080 \
+--name inquire_container inquire_image
+```
+
+The env variables must be set or the error `Invariant Failed` will be thrown by `remix-serve build`.
+
+### Credits
+
+Configuration based on the [French House Stack](https://github.com/janhesters/french-house-stack) and [Indie Stack](https://github.com/remix-run/indie-stack) Remix templates.
