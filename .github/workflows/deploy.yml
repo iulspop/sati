@@ -26,8 +26,6 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
 
       - name: 🔎 Type check
         run: npm run typecheck --if-present
@@ -50,8 +48,11 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+
+      - name: 🛠 Setup Database
+        run: npm run prisma:wipe
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: ⚡ Run vitest
         run: npm run test
@@ -79,8 +80,6 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
 
       - name: 🌐 Install Playwright Browsers
         run: npx playwright install --with-deps
