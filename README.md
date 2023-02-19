@@ -121,15 +121,6 @@ Out of the box, there are three options:
 - Database model utils
 - E2E tests for a route
 
-## GitHub Actions
-
-We use GitHub Actions for pull request checks. Any pull request triggers checks
-such as linting, type checks, unit tests and E2E tests.
-
-Check out the
-[Remix team's official stacks](https://remix.run/docs/en/v1/pages/stacks) to
-learn how to use GitHub Actions for continuous integration and deployment.
-
 ## Testing 🧪
 
 ### Playwright 🎭
@@ -162,7 +153,7 @@ test('something that requires an authenticated user', async ({ page }) => {
 
 Check out the `playwright/utils.ts` file for other utility functions.
 
-### CI
+## CI/CD
 
 GitHub actions is configured to run tests and deploy to [fly.io](fly.io) on every commit to the main branch.
 
@@ -176,11 +167,11 @@ The following GitHub repository secrets must be set:
 
 - `SESSION_SECRET` same as `.env`
 
-### Deployment
+## Deployment
 
 A Docker image is built and deployed to [fly.io](fly.io).
 
-#### Initial Deployment
+### Initial Deployment
 
 Prior to your first deployment, you'll need to do a few things:
 
@@ -218,11 +209,11 @@ Prior to your first deployment, you'll need to do a few things:
   fly volumes create data --size 1
   ```
 
-#### Subsequent Deployments
+### Subsequent Deployments
 
 The app is continuously deployed on every commit. However, you can deploy manually using `fly deploy`.
 
-#### Testing Docker Container
+### Testing Docker Container
 
 The Docker image is used only for deploying on Fly and isn't used in development. However you can test it by building the image and starting the container locally.
 
@@ -244,10 +235,10 @@ docker run -i -t -e MAGIC_PUBLISHABLE_KEY="x" \
 
 The env variables must be set or the error `Invariant Failed` will be thrown by `remix-serve build`.
 
-#### Debugging Deployment
+### Debugging Deployment
 
 Fly deployment throwing a `"Failed due to unhealthy allocations"` might be because secrets are not set correctly on the Fly app. See [Troubleshooting your Deployment](https://fly.io/docs/getting-started/troubleshooting/) for more troubleshooting options.
 
-### Credits
+## Credits
 
 Configuration based on the [French House Stack](https://github.com/janhesters/french-house-stack) and [Indie Stack](https://github.com/remix-run/indie-stack) Remix templates.
