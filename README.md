@@ -193,7 +193,7 @@ Prior to your first deployment, you'll need to do a few things:
 
   > **Note:** The app name is taken from the `app` set in your `fly.toml` file.
 
-- Add a `SESSION_SECRET` to your fly app secrets, to do this you can run the following commands:
+- Add a `SESSION_SECRET` to your Fly app secrets, to do this you can run the following commands:
 
   ```sh
   fly secrets set SESSION_SECRET=$(openssl rand -hex 32)
@@ -201,7 +201,7 @@ Prior to your first deployment, you'll need to do a few things:
 
   If you don't have openssl installed, you can also use [1password](https://1password.com/password-generator/) to generate a random secret, just replace `$(openssl rand -hex 32)` with the generated secret.
 
-- Add your prod Magic app `MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` to your fly app secrets.
+- Add your production Magic app `MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` credentials to your Fly app secrets.
 
 - Create a persistent volume for the sqlite database. Run the following:
 
