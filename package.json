@@ -58,8 +58,6 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "4.6.0",
-    "@commitlint/cli": "17.4.4",
-    "@commitlint/config-conventional": "17.4.4",
     "@faker-js/faker": "7.6.0",
     "@playwright/test": "1.30.0",
     "@remix-run/dev": "1.13.0",
