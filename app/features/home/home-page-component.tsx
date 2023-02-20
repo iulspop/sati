@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { classNames } from '~/utils/class-names'
 
 export type HomePageComponentProps = {
-  navigation: Array<{ name: string; href: string; current: boolean }>
+  navigation: { name: string; href: string; current: boolean }[]
 }
 
 export function HomePageComponent({ navigation }: HomePageComponentProps) {
