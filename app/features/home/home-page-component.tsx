@@ -1,4 +1,3 @@
-import { Disclosure } from '@headlessui/react'
 import { Link } from '@remix-run/react'
 import { useTranslation } from 'react-i18next'
 
