@@ -62,7 +62,7 @@ test.describe('login page', () => {
     await page.goto('./login')
 
     // The page has the correct tile.
-    expect(await page.title()).toEqual('Sign In / Sign Up | French House Stack')
+    expect(await page.title()).toEqual('Sign In / Sign Up | Inquire')
 
     // Enter the valid email and submit the form.
     await page.getByLabel(/email/i).fill(validMagicEmail)

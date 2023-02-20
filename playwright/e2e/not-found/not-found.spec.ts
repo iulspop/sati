@@ -13,7 +13,7 @@ test.describe('not found page', () => {
     await page.goto('./some-non-existing-url')
 
     // It has the correct title and header.
-    expect(await page.title()).toEqual('404 Not Found | French House Stack')
+    expect(await page.title()).toEqual('404 Not Found | Inquire')
     await expect(page.getByRole('heading', { name: /page not found/i, level: 1 })).toBeVisible()
 
     // It renders a link to contact support and a button to navigate to the

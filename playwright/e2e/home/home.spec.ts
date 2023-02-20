@@ -63,7 +63,7 @@ test.describe('home page', () => {
     await page.goto('./home')
 
     // The page has the correct tile.
-    expect(await page.title()).toEqual('Home | French House Stack')
+    expect(await page.title()).toEqual('Home | Inquire')
 
     // It retrieves the users data.
     await expect(page.getByText(email)).toBeVisible()

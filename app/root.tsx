@@ -52,7 +52,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   })
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data = { title: 'French House Stack' } }) => [
+export const meta: V2_MetaFunction<typeof loader> = ({ data = { title: 'Inquire' } }) => [
   { title: data.title },
   // eslint-disable-next-line unicorn/text-encoding-identifier-case
   { charSet: 'utf-8' },
@@ -101,7 +101,7 @@ export function ErrorBoundary() {
   return isRouteErrorResponse(error) ? (
     <html className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800" lang="en">
       <head>
-        <title>404 Not Found | French House Stack</title>
+        <title>404 Not Found | Inquire</title>
         <Meta />
         <Links />
       </head>

@@ -24,6 +24,7 @@ export default function LandingPage() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center space-y-12 bg-white p-10 dark:bg-slate-800">
+      <h1>{t('landing:main-heading')}</h1>
       <p>{t('landing:hello')}</p>
       <Link
         to="/login"

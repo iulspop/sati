@@ -6,10 +6,10 @@ import { deleteUserProfileFromDatabaseById } from '~/features/user-profile/user-
 import { loginAndSaveUserProfileToDatabase } from '../../utils'
 
 test.describe('landing page', () => {
-  test('has the correct title and renders a greeting', async ({ page }) => {
+  test('has the correct title and renders a header', async ({ page }) => {
     await page.goto('./')
-    expect(await page.title()).toEqual('French House Stack')
-    await expect(page.getByRole('heading', { level: 1, name: 'French House Stack' })).toBeVisible()
+    expect(await page.title()).toEqual('Inquire')
+    await expect(page.getByRole('heading', { level: 1, name: 'Inquire' })).toBeVisible()
   })
 
   test("redirects you to the home page when you're logged in", async ({ page, baseURL }) => {

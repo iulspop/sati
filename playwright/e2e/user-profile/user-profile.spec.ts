@@ -22,7 +22,7 @@ test.describe('user profile page', () => {
     await page.goto('./settings/profile')
 
     // The page has the correct title, headings and description.
-    expect(await page.title()).toEqual('Profile | French House Stack')
+    expect(await page.title()).toEqual('Profile | Inquire')
     await expect(page.getByRole('heading', { name: /settings/i, level: 1 })).toBeVisible()
     await expect(page.getByRole('heading', { name: /profile/i, level: 2 })).toBeVisible()
     await expect(page.getByText(/information will be displayed publicly/i)).toBeVisible()
