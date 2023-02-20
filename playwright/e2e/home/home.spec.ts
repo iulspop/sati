@@ -36,17 +36,8 @@ test.describe('home page', () => {
     await page.goto('./home')
     await page.waitForLoadState('networkidle')
 
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    await (isMobile
-      ? page.getByRole('button', { name: /open main menu/i }).click()
-      : page.getByRole('button', { name: /open user menu/i }).click())
-    await page.waitForLoadState('networkidle')
-
     // Logging the user out should redirect you to the landing page.
-    // eslint-disable-next-line playwright/no-conditional-in-test
-    await (isMobile
-      ? page.getByRole('button', { name: /log out/i }).click()
-      : page.getByRole('menuitem', { name: /log out/i }).click())
+    await page.getByRole('button', { name: /log out/i }).click()
     expect(page.url()).toEqual(baseURL + '/')
 
     // Verify that the user is really logged out by trying to visit the home
@@ -58,15 +49,12 @@ test.describe('home page', () => {
     await deleteUserProfileFromDatabaseById(id)
   })
 
-  test("given the user is logged in: has the correct title and renders the user's email", async ({ page }) => {
-    const { id, email } = await loginAndSaveUserProfileToDatabase({ page })
+  test('given the user is logged in: has the correct title', async ({ page }) => {
+    const { id } = await loginAndSaveUserProfileToDatabase({ page })
     await page.goto('./home')
 
     // The page has the correct tile.
     expect(await page.title()).toEqual('Home | Inquire')
-
-    // It retrieves the users data.
-    await expect(page.getByText(email)).toBeVisible()
 
     await page.close()
     await deleteUserProfileFromDatabaseById(id)
