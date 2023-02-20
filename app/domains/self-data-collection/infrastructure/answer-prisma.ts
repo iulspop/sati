@@ -1,4 +1,5 @@
-import { db } from '../../db.server.js'
+import { db } from '~/database.server'
+
 import type { AnswerRepositoryAPI } from '../domain/repositories/answer-repository.js'
 
 export const AnswerRepository = (): AnswerRepositoryAPI => ({

@@ -1,6 +1,6 @@
 import type { UserProfile } from '@prisma/client'
 
-import { prisma } from '~/database.server'
+import { db } from '~/database.server'
 
 // CREATE
 
@@ -11,9 +11,9 @@ import { prisma } from '~/database.server'
  * @returns The newly created user profile.
  */
 export async function saveUserProfileToDatabase(
-  userProfile: Pick<Parameters<typeof prisma.userProfile.create>[0]['data'], 'avatar' | 'email' | 'id' | 'name'>
+  userProfile: Pick<Parameters<typeof db.userProfile.create>[0]['data'], 'avatar' | 'email' | 'id' | 'name'>
 ) {
-  return prisma.userProfile.create({ data: userProfile })
+  return db.userProfile.create({ data: userProfile })
 }
 
 // READ
@@ -25,7 +25,7 @@ export async function saveUserProfileToDatabase(
  * @returns The user profile with a given id or null if it wasn't found.
  */
 export async function retrieveUserProfileFromDatabaseById(id: UserProfile['id']) {
-  return prisma.userProfile.findUnique({ where: { id } })
+  return db.userProfile.findUnique({ where: { id } })
 }
 
 // UPDATE
@@ -47,9 +47,9 @@ export async function updateUserProfileInDatabaseById({
   /**
    * The values of the user profile you want to change.
    */
-  userProfile: Partial<Pick<Parameters<typeof prisma.userProfile.update>[0]['data'], 'avatar' | 'email' | 'name'>>
+  userProfile: Partial<Pick<Parameters<typeof db.userProfile.update>[0]['data'], 'avatar' | 'email' | 'name'>>
 }) {
-  return prisma.userProfile.update({ where: { id }, data: userProfile })
+  return db.userProfile.update({ where: { id }, data: userProfile })
 }
 
 // DELETE
@@ -61,5 +61,5 @@ export async function updateUserProfileInDatabaseById({
  * @returns The user profile that was deleted.
  */
 export async function deleteUserProfileFromDatabaseById(id: UserProfile['id']) {
-  return prisma.userProfile.delete({ where: { id } })
+  return db.userProfile.delete({ where: { id } })
 }

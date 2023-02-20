@@ -1,23 +1,9 @@
 import { PrismaClient } from '@prisma/client'
 
-let prisma: PrismaClient
+const globalForPrisma = global as unknown as { prisma: PrismaClient }
 
-declare global {
-  var __database__: PrismaClient
-}
+// To prevent hot reloading from creating new instances of PrismaClient
+// https://www.prisma.io/docs/guides/performance-and-optimization/connection-management#prevent-hot-reloading-from-creating-new-instances-of-prismaclient
+export const db = globalForPrisma.prisma || new PrismaClient()
 
-// this is needed because in development we don't want to restart
-// the server with every change, but we want to make sure we don't
-// create a new connection to the DB with every change either.
-// in production we'll have a single connection to the DB.
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
-} else {
-  if (!global.__database__) {
-    global.__database__ = new PrismaClient()
-  }
-  prisma = global.__database__
-  prisma.$connect()
-}
-
-export { prisma }
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = db

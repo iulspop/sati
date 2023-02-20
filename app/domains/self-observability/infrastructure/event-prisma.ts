@@ -1,4 +1,5 @@
-import { db } from '../../db.server'
+import { db } from '~/database.server'
+
 import type { EventRepositoryAPI } from '../domain/repositories/event-repository'
 
 export const EventRepository = (): EventRepositoryAPI => ({

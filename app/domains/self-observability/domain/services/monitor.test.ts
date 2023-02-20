@@ -1,8 +1,8 @@
 import { test } from 'vitest'
 
+import { db } from '~/database.server'
 import type { Answer } from '~/domains/self-data-collection/domain/entities/answer'
 
-import { db } from '../../../db.server'
 import { EventRepository } from '../../infrastructure/event-prisma'
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
