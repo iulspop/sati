@@ -16,9 +16,7 @@ test.describe('not found page', () => {
     expect(await page.title()).toEqual('404 Not Found | Inquire')
     await expect(page.getByRole('heading', { name: /page not found/i, level: 1 })).toBeVisible()
 
-    // It renders a link to contact support and a button to navigate to the
-    // landing page.
-    await expect(page.getByRole('link', { name: /contact support/i })).toBeVisible()
+    // It renders a button to navigate to the landing page.
     await page.getByRole('link', { name: /home/i }).click()
     await page.waitForURL(baseURL + '/')
     expect(page.url()).toEqual(baseURL + '/')

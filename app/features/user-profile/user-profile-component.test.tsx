@@ -48,7 +48,7 @@ describe('UserProfile component', () => {
     expect(screen.getByRole('button', { name: /save/i })).toBeInTheDocument()
 
     // It has a button to cancel the changes.
-    expect(screen.getByRole('link', { name: /cancel/i })).toHaveAttribute('href', '/settings/profile')
+    expect(screen.getByRole('link', { name: /cancel/i })).toHaveAttribute('href', '/')
 
     // It hides the success banner.
     expect(screen.queryByRole('alert', { name: /success/i })).not.toBeInTheDocument()

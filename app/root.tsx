@@ -107,7 +107,7 @@ export function ErrorBoundary() {
       </head>
 
       <body className="h-full overflow-auto">
-        <NotFoundComponent />;
+        <NotFoundComponent />
         <Scripts />
       </body>
     </html>

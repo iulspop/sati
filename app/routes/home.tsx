@@ -18,17 +18,8 @@ export const loader = async ({ request }: LoaderArgs) => {
   return json({
     title: await getPageTitle(request, t('home:home') ?? undefined),
     userProfile: pick(['avatar', 'email', 'name'], userProfile),
-    navigation: [
-      { name: t('home:dashboard'), href: '#', current: true },
-      { name: t('home:team'), href: '#', current: false },
-      { name: t('home:projects'), href: '#', current: false },
-      { name: t('home:calendar'), href: '#', current: false },
-      { name: t('home:reports'), href: '#', current: false },
-    ],
-    userNavigation: [
-      { name: t('home:your-profile'), href: '#' },
-      { name: t('home:settings'), href: '#' },
-    ],
+    navigation: [{ name: t('home:question-queue'), href: '#', current: true }],
+    userNavigation: [{ name: t('home:your-profile'), href: '/settings/profile' }],
   })
 }
 

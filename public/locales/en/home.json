@@ -1,11 +1,6 @@
 {
-  "calendar": "Calendar",
-  "dashboard": "Dashboard",
+  "question-queue": "Question Queue",
   "home": "Home",
   "logout": "Log out",
-  "open-main-menu": "Open main menu",
-  "projects": "Projects",
-  "reports": "Reports",
-  "team": "Team",
-  "view-notifications": "View notifications"
+  "open-main-menu": "Open main menu"
 }

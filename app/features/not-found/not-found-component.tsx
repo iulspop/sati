@@ -35,37 +35,12 @@ export function NotFoundComponent() {
                 className="text-base font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400"
               >
                 {t('go-back-home')}
-                <span aria-hidden="true"> &rarr;</span>
+                <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>
           </div>
         </div>
       </main>
-
-      <footer className="mx-auto w-full max-w-7xl flex-shrink-0 px-4 sm:px-6 lg:px-8">
-        <nav className="flex justify-center space-x-4">
-          <Link
-            to="#"
-            className="text-sm font-medium text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500"
-          >
-            {t('contact-support')}
-          </Link>
-          <span className="inline-block border-l border-gray-300 dark:border-gray-200" aria-hidden="true" />
-          <Link
-            to="#"
-            className="text-sm font-medium text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500"
-          >
-            {t('status')}
-          </Link>
-          <span className="inline-block border-l border-gray-300 dark:border-gray-200" aria-hidden="true" />
-          <Link
-            to="#"
-            className="text-sm font-medium text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-500"
-          >
-            {t('twitter')}
-          </Link>
-        </nav>
-      </footer>
     </div>
   )
 }
