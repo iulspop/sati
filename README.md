@@ -82,7 +82,7 @@
 
 This starts your app in development mode, rebuilding assets on file changes.
 
-## Development 🛠
+## Development
 
 Read our [contributing guide][contributing] to learn about our development process. Architecture decisions for this project [are documented here][adrs], using the [Architecture Decision Records (ADR)][adrs-pattern] pattern.
 

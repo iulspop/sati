@@ -8,9 +8,9 @@ We enforce [conventional commits][conventional-commits] using [commitlint][commi
 
 The motivation is primarily to [measure defect commit rate][defect-rate].
 
-## Testing 🧪
+## Testing
 
-### Playwright 🎭
+### Playwright
 
 > **Note:** make sure you've run `npm run dev` at least one time before you run
 > the E2E tests!
