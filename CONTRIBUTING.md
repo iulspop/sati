@@ -158,7 +158,7 @@ Configuration based on the [French House Stack](https://github.com/janhesters/fr
 
 <!-- Links -->
 
-[conventional-commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
-[commitlint](https://github.com/conventional-changelog/commitlint#what-is-commitlint)
-[angular-convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)
-[defect-rate](https://medium.com/javascript-scene/the-hardest-part-of-being-a-software-manager-5293b1b02f94)
+[conventional-commits]: https://www.conventionalcommits.org/en/v1.0.0/#summary
+[commitlint]: https://github.com/conventional-changelog/commitlint#what-is-commitlint
+[angular-convention]: https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines
+[defect-rate]: https://medium.com/javascript-scene/the-hardest-part-of-being-a-software-manager-5293b1b02f94
