@@ -6,24 +6,24 @@
     "node": ">=18"
   },
   "scripts": {
-    "build": "remix build",
-    "deploy": "fly deploy --remote-only",
     "dev": "remix dev",
+    "build": "remix build",
+    "start": "remix-serve build",
+    "deploy": "fly deploy --remote-only",
     "format": "prettier --write .",
-    "gen": "plop",
+    "type-check": "tsc -b",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
-    "prepare": "husky install",
+    "test": "vitest --no-threads",
+    "test:coverage": "npm run test -- --coverage",
+    "test:e2e": "playwright test",
     "prisma:test-changes": "prisma db push",
     "prisma:apply-changes": "prisma migrate dev",
     "prisma:reset-dev": "run-s prisma:wipe prisma:seed dev",
     "prisma:seed": "ts-node ./prisma/seed.ts",
     "prisma:wipe": "prisma migrate reset --force && prisma migrate dev",
     "prisma:studio": "prisma studio",
-    "start": "remix-serve build",
-    "test": "vitest --no-threads",
-    "test:coverage": "npm run test -- --coverage",
-    "test:e2e": "playwright test",
-    "type-check": "tsc -b"
+    "prepare": "husky install",
+    "gen": "plop"
   },
   "dependencies": {
     "@headlessui/react": "1.7.11",
