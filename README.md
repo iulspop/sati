@@ -47,7 +47,7 @@
 - Set up the database:
 
   ```sh
-  npm run prisma:setup
+  npm run db:setup
   ```
 
 - Start dev server:
@@ -69,12 +69,12 @@
 
   - `SEED_USER_ID` - The steps above outlined how to get this value. This value
     is the user id of the user that will be seeded in the database. This value
-    is required for the `"prisma:seed"` script.
+    is required for the `"db:seed"` script.
 
 - Lastly, stop your `npm run dev` script and run
 
   ```sh
-  npm run prisma:reset-dev
+  npm run db:reset-dev
   ```
 
   , which wipes the database, seeds the database with lots of data and starts up

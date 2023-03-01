@@ -116,15 +116,15 @@ Fly deployment throwing a `"Failed due to unhealthy allocations"` might be becau
 
 ### Prisma helper scripts
 
-- `"prisma:test-changes` - Applies schema changes to database without creating a migration. Use to prototype a schema change before creating a migration.
-- `"prisma:apply-changes"` - Generates a migration for your schema changes and applies it to database.
-- `"prisma:seed"` - Seeds the database with a user profile.
-- `"prisma:setup"` - Sets up the database.
-- `"prisma:wipe"` - Wipes the database (irrevocably delete all data, but keep
+- `"db:test-changes` - Applies schema changes to database without creating a migration. Use to prototype a schema change before creating a migration.
+- `"db:apply-changes"` - Generates a migration for your schema changes and applies it to database.
+- `"db:seed"` - Seeds the database with a user profile.
+- `"db:setup"` - Sets up the database.
+- `"db:wipe"` - Wipes the database (irrevocably delete all data, but keep
   the schema).
-- `"prisma:reset-dev"` - Wipes the database, seeds it and starts the dev server.
+- `"db:reset-dev"` - Wipes the database, seeds it and starts the dev server.
   This is a utility script that you can use in development to get clean starts.
-- `"prisma:studio"` - Open Prisma studio for read and writing table data.
+- `"db:studio"` - Open Prisma studio for read and writing table data.
 
 ### Generating boilerplate
 
