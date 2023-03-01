@@ -4,7 +4,7 @@
 
 ### Conventional Commits
 
-We enforce [conventional commits][conventional-commits] using [commitlint][commitlint]. Refer to the Angular [commit message guidelines][angular-convention] for learning to when to use commit types other than `fix` or `feat`.
+We enforce [conventional commits][conventional-commits] using [commitlint][commitlint]. Refer to the Angular [commit message guidelines][angular-convention] for learning when to use commit types other than `fix` or `feat`.
 
 The motivation is primarily to [measure defect commit rate][defect-rate].
 
