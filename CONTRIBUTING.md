@@ -1,40 +1,12 @@
-### Prisma helper scripts
+# Development
 
-- `"prisma:test-changes` - Applies schema changes to database without creating a migration. Use to prototype a schema change before creating a migration.
-- `"prisma:apply-changes"` - Generates a migration for your schema changes and applies it to database.
-- `"prisma:seed"` - Seeds the database with a user profile.
-- `"prisma:setup"` - Sets up the database.
-- `"prisma:wipe"` - Wipes the database (irrevocably delete all data, but keep
-  the schema).
-- `"prisma:reset-dev"` - Wipes the database, seeds it and starts the dev server.
-  This is a utility script that you can use in development to get clean starts.
-- `"prisma:studio"` - Open Prisma studio for read and writing table data.
+## Style Guide
 
-### Generating boilerplate
+### Conventional Commits
 
-This repository uses [Plop](https://plopjs.com/documentation/#getting-started)
-to automate the generation of common boilerplate.
+We enforce [conventional commits][conventional-commits] using [commitlint][commitlint]. Refer to the Angular [commit message guidelines][angular-convention] for learning to when to use commit types other than `fix` or `feat`.
 
-Run `npm run gen` and then choose what you want to create, e.g.:
-
-```
-$ npm run gen
-
-> gen
-> plop
-
-? What do you want to generate? React component
-? For what feature do you want to generate the React component? user profile
-? What is the name of the React component? user name
-✔  ++ /app/features/user-profile/user-name-component.tsx
-✔  ++ /app/features/user-profile/user-name-component.test.tsx
-```
-
-Out of the box, there are three options:
-
-- React component with unit test
-- Database model utils
-- E2E tests for a route
+The motivation is primarily to [measure defect commit rate][defect-rate].
 
 ## Testing 🧪
 
@@ -54,21 +26,11 @@ for selecting elements on the page semantically.
 To run these tests in development, run `npm run test:e2e` which will start the
 dev server for the app as well as the Playwright client.
 
-#### Utilities
+## Deployment
 
-We have a utility for testing authenticated features without having to go
-through the login flow:
+A Docker image is built and deployed to [fly.io](fly.io).
 
-```ts
-test('something that requires an authenticated user', async ({ page }) => {
-  await loginByCookie({ page });
-  // ... your tests ...
-});
-```
-
-Check out the `playwright/utils.ts` file for other utility functions.
-
-## CI/CD
+### Continuous Deployment
 
 GitHub actions is configured to run tests and deploy to [fly.io](fly.io) on every commit to the main branch.
 
@@ -81,10 +43,6 @@ The following GitHub repository secrets must be set:
 - `MAGIC_PUBLISHABLE_KEY`, `MAGIC_SECRET_KEY` use the credentials for the Magic app used for testing and development.
 
 - `SESSION_SECRET` same as `.env`
-
-## Deployment
-
-A Docker image is built and deployed to [fly.io](fly.io).
 
 ### Initial Deployment
 
@@ -154,6 +112,53 @@ The env variables must be set or the error `Invariant Failed` will be thrown by 
 
 Fly deployment throwing a `"Failed due to unhealthy allocations"` might be because secrets are not set correctly on the Fly app. See [Troubleshooting your Deployment](https://fly.io/docs/getting-started/troubleshooting/) for more troubleshooting options.
 
+## Utilities
+
+### Prisma helper scripts
+
+- `"prisma:test-changes` - Applies schema changes to database without creating a migration. Use to prototype a schema change before creating a migration.
+- `"prisma:apply-changes"` - Generates a migration for your schema changes and applies it to database.
+- `"prisma:seed"` - Seeds the database with a user profile.
+- `"prisma:setup"` - Sets up the database.
+- `"prisma:wipe"` - Wipes the database (irrevocably delete all data, but keep
+  the schema).
+- `"prisma:reset-dev"` - Wipes the database, seeds it and starts the dev server.
+  This is a utility script that you can use in development to get clean starts.
+- `"prisma:studio"` - Open Prisma studio for read and writing table data.
+
+### Generating boilerplate
+
+This repository uses [Plop](https://plopjs.com/documentation/#getting-started)
+to automate the generation of common boilerplate.
+
+Run `npm run gen` and then choose what you want to create, e.g.:
+
+```
+$ npm run gen
+
+> gen
+> plop
+
+? What do you want to generate? React component
+? For what feature do you want to generate the React component? user profile
+? What is the name of the React component? user name
+✔  ++ /app/features/user-profile/user-name-component.tsx
+✔  ++ /app/features/user-profile/user-name-component.test.tsx
+```
+
+Out of the box, there are three options:
+
+- React component with unit test
+- Database model utils
+- E2E tests for a route
+
 ## Credits
 
 Configuration based on the [French House Stack](https://github.com/janhesters/french-house-stack) and [Indie Stack](https://github.com/remix-run/indie-stack) Remix templates.
+
+<!-- Links -->
+
+[conventional-commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)
+[commitlint](https://github.com/conventional-changelog/commitlint#what-is-commitlint)
+[angular-convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines)
+[defect-rate](https://medium.com/javascript-scene/the-hardest-part-of-being-a-software-manager-5293b1b02f94)
