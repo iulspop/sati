@@ -50,7 +50,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: 🛠 Setup Database
-        run: npm run prisma:wipe
+        run: npm run db:wipe
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
@@ -85,7 +85,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: 🛠 Setup Database
-        run: npm run prisma:wipe
+        run: npm run db:wipe
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
