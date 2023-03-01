@@ -36,7 +36,7 @@ GitHub actions is configured to run tests and deploy to [fly.io](fly.io) on ever
 
 The following GitHub repository secrets must be set:
 
-- `DATABASE_URL` same as `.env`
+- `DATABASE_URL` same as `.test.env` without the quotes
 
 - `FLY_API_TOKEN`. Go to your user settings on Fly and create a new [token](https://web.fly.io/user/personal_access_tokens/new), then add it to [your repo secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets) with the name `FLY_API_TOKEN`.
 
