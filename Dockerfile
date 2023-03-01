@@ -2,7 +2,7 @@ FROM node:18-bullseye-slim as base
 
 ENV NODE_ENV production
 
-# Install openssl for Prisma & python3 ake gcc g++ for bufferutil npm package which requires node-gyp
+# Install openssl for Prisma & python3 make gcc g++ for bufferutil npm package which requires node-gyp
 # Run `npm ls bufferutil` to see which packages cause the dependency
 RUN apt-get update && apt-get install -y openssl sqlite3 python3 make gcc g++
 
