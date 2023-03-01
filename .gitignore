@@ -11,7 +11,7 @@ coverage
 /playwright-report/
 /playwright/.cache/
 
-/prisma/data.db
-/prisma/data.db-journal
+/prisma/*.db
+/prisma/*.db-journal
 
 .DS_Store

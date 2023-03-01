@@ -114,18 +114,6 @@ Fly deployment throwing a `"Failed due to unhealthy allocations"` might be becau
 
 ## Utilities
 
-### Prisma helper scripts
-
-- `"db:test-changes` - Applies schema changes to database without creating a migration. Use to prototype a schema change before creating a migration.
-- `"db:apply-changes"` - Generates a migration for your schema changes and applies it to database.
-- `"db:seed"` - Seeds the database with a user profile.
-- `"db:setup"` - Sets up the database.
-- `"db:wipe"` - Wipes the database (irrevocably delete all data, but keep
-  the schema).
-- `"db:reset-dev"` - Wipes the database, seeds it and starts the dev server.
-  This is a utility script that you can use in development to get clean starts.
-- `"db:studio"` - Open Prisma studio for read and writing table data.
-
 ### Generating boilerplate
 
 This repository uses [Plop](https://plopjs.com/documentation/#getting-started)
