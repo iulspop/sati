@@ -13,7 +13,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const [t] = await Promise.all([i18next.getFixedT(request), requireUserIsAuthenticated(request)])
 
   return json({
-    title: await getPageTitle(request, t('home:home') ?? undefined),
+    title: await getPageTitle(request, t('home:title') ?? undefined),
     navigation: [{ name: t('home:question-queue'), href: '#', current: true }],
   })
 }

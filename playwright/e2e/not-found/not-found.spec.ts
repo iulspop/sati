@@ -29,7 +29,7 @@ test.describe('not found page', () => {
     // Clicking the home button navigates the user to the home page.
     await page.getByRole('link', { name: /home/i }).click()
     await page.waitForURL(baseURL + '/home')
-    await expect(page.getByRole('heading', { name: /home/i, level: 1 })).toBeVisible()
+    await expect(page.getByRole('heading', { name: /questions/i, level: 1 })).toBeVisible()
     expect(page.url()).toEqual(baseURL + '/home')
 
     await page.close()

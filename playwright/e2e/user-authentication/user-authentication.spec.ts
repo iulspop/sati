@@ -131,7 +131,7 @@ test.describe('login page', () => {
     await page.getByRole('button', { name: /sign in/i }).click()
     await page.waitForURL(baseURL + '/home')
     await page.waitForLoadState('networkidle')
-    await expect(page.getByRole('heading', { level: 1, name: /home/i })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: /questions/i })).toBeVisible()
     expect(page.url()).toEqual(baseURL + '/home')
 
     await page.context().close()

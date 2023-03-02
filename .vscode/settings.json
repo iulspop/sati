@@ -1,3 +1,12 @@
 {
-  "cSpell.words": ["commitlint", "headlessui", "heroicons", "isbot", "languagedetector", "paralleldrive", "tailwindcss"]
+  "cSpell.words": [
+    "commitlint",
+    "headlessui",
+    "heroicons",
+    "isbot",
+    "languagedetector",
+    "networkidle",
+    "paralleldrive",
+    "tailwindcss"
+  ]
 }
