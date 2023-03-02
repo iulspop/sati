@@ -12,7 +12,7 @@ export function HomePageComponent({ navigation }: HomePageComponentProps) {
 
   return (
     <div className="min-h-full">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between bg-gray-800 px-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex h-10 items-center justify-between bg-gray-800 px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex items-center">
           <div className="flex-shrink-0">
             <img
@@ -28,7 +28,7 @@ export function HomePageComponent({ navigation }: HomePageComponentProps) {
                 to={item.href}
                 className={classNames(
                   item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'rounded-md px-3 py-2 text-sm font-medium'
+                  'rounded-md px-1 py-2 text-sm font-medium'
                 )}
                 aria-current={item.current ? 'page' : undefined}
               >
@@ -49,7 +49,7 @@ export function HomePageComponent({ navigation }: HomePageComponentProps) {
 
       <header className="bg-white shadow dark:bg-slate-800">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('home')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('home:main-header')}</h1>
         </div>
       </header>
 

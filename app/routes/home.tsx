@@ -10,8 +10,7 @@ import { getPageTitle } from '~/utils/get-page-title.server'
 export const handle = { i18n: 'home' }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [t, userId] = await Promise.all([i18next.getFixedT(request), requireUserIsAuthenticated(request)])
+  const [t] = await Promise.all([i18next.getFixedT(request), requireUserIsAuthenticated(request)])
 
   return json({
     title: await getPageTitle(request, t('home:home') ?? undefined),
