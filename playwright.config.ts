@@ -60,7 +60,7 @@ const config: PlaywrightTestConfig = {
           use: {
             ...devices['Desktop Chrome'],
           },
-        }
+        },
       ],
   webServer: {
     command: process.env.CI ? 'npm run build && npm run start' : 'npm run dev -- --port 3001',
