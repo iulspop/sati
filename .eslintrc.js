@@ -2,12 +2,7 @@
  * @type {import('@types/eslint').Linter.BaseConfig}
  */
 module.exports = {
-  extends: [
-    '@remix-run/eslint-config',
-    '@remix-run/eslint-config/node',
-    'plugin:unicorn/recommended',
-    'prettier',
-  ],
+  extends: ['@remix-run/eslint-config', '@remix-run/eslint-config/node', 'plugin:unicorn/recommended', 'prettier'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
     'unicorn/prefer-module': 'off',
