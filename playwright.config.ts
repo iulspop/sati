@@ -18,7 +18,7 @@ const config: PlaywrightTestConfig = {
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     actionTimeout: 0,
-    baseURL: process.env.BASE_URL || 'http://localhost:3001',
+    baseURL: process.env.BASE_URL || process.env.CI ? 'http://localhost:3000' : 'http://localhost:3001',
     trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
   },
   projects: process.env.CI
