@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/prefer-module */
 module.exports = function (
   /** @type {import('plop').NodePlopAPI} */
   plop

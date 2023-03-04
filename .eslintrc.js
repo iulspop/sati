@@ -1,19 +1,16 @@
 /**
  * @type {import('@types/eslint').Linter.BaseConfig}
  */
-// eslint-disable-next-line unicorn/prefer-module
 module.exports = {
   extends: [
     '@remix-run/eslint-config',
     '@remix-run/eslint-config/node',
     'plugin:unicorn/recommended',
-    'plugin:prettier/recommended',
+    'prettier',
   ],
-  plugins: ['simple-import-sort'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
+    'unicorn/prefer-module': 'off',
     'unicorn/filename-case': 'off',
     'unicorn/no-nested-ternary': 'off',
     'unicorn/no-array-callback-reference': 'off',
