@@ -2,9 +2,9 @@ import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 
-import { HomePageComponent } from '~/routes/queue/home-page-component'
 import { i18next } from '~/features/localization/i18next.server'
 import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
+import { HomePageComponent } from '~/routes/queue/home-page-component'
 import { getPageTitle } from '~/utils/get-page-title.server'
 
 export const handle = { i18n: 'home' }
