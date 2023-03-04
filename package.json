@@ -23,7 +23,7 @@
     "db:migrate:test": "npm run test:env -- prisma db push",
     "db:reset-dev": "run-s db:wipe db:seed dev",
     "db:wipe": "prisma migrate reset --force && prisma migrate dev",
-    "db:seed": "ts-node ./prisma/seed.ts",
+    "db:seed": "ts-node -r tsconfig-paths/register ./prisma/seed.ts",
     "db:studio": "prisma studio",
     "prepare": "husky install",
     "gen": "plop"
