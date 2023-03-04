@@ -54,7 +54,6 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data = { title: 'Inquire' } }) => [
   { title: data.title },
-  // eslint-disable-next-line unicorn/text-encoding-identifier-case
   { charSet: 'utf-8' },
   { name: 'viewport', content: 'width=device-width,initial-scale=1' },
 ]

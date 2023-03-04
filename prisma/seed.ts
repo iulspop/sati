@@ -53,7 +53,6 @@ seed()
   .then(async () => {
     await prisma.$disconnect()
   })
-  // eslint-disable-next-line unicorn/prefer-top-level-await
   .catch(async error => {
     console.error(error)
     await prisma.$disconnect()

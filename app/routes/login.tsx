@@ -154,7 +154,6 @@ export default function LoginPage() {
   const submit = useSubmit()
 
   useEffectOnce(() => {
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     async function downloadMagicStaticAssets() {
       const magic = new Magic(window.ENV.MAGIC_PUBLISHABLE_KEY, {
         /**

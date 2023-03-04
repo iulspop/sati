@@ -2,32 +2,9 @@
  * @type {import('@types/eslint').Linter.BaseConfig}
  */
 module.exports = {
-  extends: ['@remix-run/eslint-config', '@remix-run/eslint-config/node', 'plugin:unicorn/recommended', 'prettier'],
+  extends: ['@remix-run/eslint-config', '@remix-run/eslint-config/node', 'prettier'],
   rules: {
     '@typescript-eslint/no-unused-vars': 'error',
-    'unicorn/prefer-module': 'off',
-    'unicorn/filename-case': 'off',
-    'unicorn/no-nested-ternary': 'off',
-    'unicorn/no-array-callback-reference': 'off',
-    'unicorn/no-array-for-each': 'off',
-    'unicorn/no-array-reduce': 'off',
-    'unicorn/prefer-node-protocol': 'off',
-    'unicorn/no-null': 'off',
-    'unicorn/no-useless-promise-resolve-reject': 'off',
-    'unicorn/prevent-abbreviations': [
-      'error',
-      {
-        allowList: {
-          e2e: true,
-          db: true,
-          'remix.env.d': true,
-        },
-        replacements: {
-          props: false,
-          ref: false,
-        },
-      },
-    ],
   },
   overrides: [
     {

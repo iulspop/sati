@@ -46,7 +46,6 @@ i18next
     },
     detection: { order: ['htmlTag'], caches: [] },
   })
-  // eslint-disable-next-line unicorn/prefer-top-level-await
   .then(() => {
     if (window.requestIdleCallback) {
       window.requestIdleCallback(hydrate)
