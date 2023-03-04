@@ -26,11 +26,11 @@ test.describe('not found page', () => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
     await page.goto('./some-non-existing-url')
 
-    // Clicking the home button navigates the user to the home page.
+    // Clicking the home button navigates the user to the prompt queue page.
     await page.getByRole('link', { name: /home/i }).click()
-    await page.waitForURL(baseURL + '/home')
+    await page.waitForURL(baseURL + '/queue')
     await expect(page.getByRole('heading', { name: /questions/i, level: 1 })).toBeVisible()
-    expect(page.url()).toEqual(baseURL + '/home')
+    expect(page.url()).toEqual(baseURL + '/queue')
 
     await page.close()
     await deleteUserProfileFromDatabaseById(id)

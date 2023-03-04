@@ -48,7 +48,7 @@ test.describe('login page', () => {
         return route.fulfill({
           headers: {
             'Set-Cookie': `${USER_AUTHENTICATION_SESSION_NAME}=${cookieToken}; Max-Age=31536000; Path=/; HttpOnly; SameSite=Lax`,
-            'X-Remix-Redirect': '/home',
+            'X-Remix-Redirect': '/queue',
             'X-Remix-Revalidate': 'yes',
           },
           status: 204,
@@ -71,8 +71,8 @@ test.describe('login page', () => {
     await page.getByRole('button', { name: /authenticating/i }).isDisabled()
 
     // After logging in, the user should be redirected to the home page.
-    await page.waitForURL(baseURL + '/home')
-    expect(page.url()).toEqual(baseURL + '/home')
+    await page.waitForURL(baseURL + '/queue')
+    expect(page.url()).toEqual(baseURL + '/queue')
 
     await page.context().close()
     await deleteUserProfileFromDatabaseById(user.id)
@@ -96,7 +96,7 @@ test.describe('login page', () => {
         return route.fulfill({
           headers: {
             'Set-Cookie': `${USER_AUTHENTICATION_SESSION_NAME}=${cookieToken}; Max-Age=31536000; Path=/; HttpOnly; SameSite=Lax`,
-            'X-Remix-Redirect': '/home',
+            'X-Remix-Redirect': '/queue',
             'X-Remix-Revalidate': 'yes',
           },
           status: 204,
@@ -129,10 +129,10 @@ test.describe('login page', () => {
     // again with a valid email.
     await page.getByLabel(/email/i).fill(validMagicEmail)
     await page.getByRole('button', { name: /sign in/i }).click()
-    await page.waitForURL(baseURL + '/home')
+    await page.waitForURL(baseURL + '/queue')
     await page.waitForLoadState('networkidle')
     await expect(page.getByRole('heading', { level: 1, name: /questions/i })).toBeVisible()
-    expect(page.url()).toEqual(baseURL + '/home')
+    expect(page.url()).toEqual(baseURL + '/queue')
 
     await page.context().close()
     await deleteUserProfileFromDatabaseById(user.id)

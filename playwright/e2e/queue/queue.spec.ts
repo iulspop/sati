@@ -10,9 +10,9 @@ test.describe('home page', () => {
     page,
     baseURL,
   }) => {
-    await page.goto('./home')
+    await page.goto('./queue')
     const expectedUrl = new URL(baseURL + '/login')
-    expectedUrl.searchParams.append('redirectTo', '/home')
+    expectedUrl.searchParams.append('redirectTo', '/queue')
     expect(page.url()).toEqual(expectedUrl.href)
   })
 
@@ -33,16 +33,16 @@ test.describe('home page', () => {
     })
 
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
-    await page.goto('./home')
+    await page.goto('./queue')
     await page.waitForLoadState('networkidle')
 
     // Logging the user out should redirect you to the landing page.
     await page.getByRole('button', { name: /log out/i }).click()
     expect(page.url()).toEqual(baseURL + '/')
 
-    // Verify that the user is really logged out by trying to visit the home
+    // Verify that the user is really logged out by trying to visit the queue
     // page and getting redirected to login.
-    await page.goto('./home')
+    await page.goto('./queue')
     expect(page.url()).toContain('/login')
 
     await page.close()
@@ -51,7 +51,7 @@ test.describe('home page', () => {
 
   test('given the user is logged in: has the correct title', async ({ page }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
-    await page.goto('./home')
+    await page.goto('./queue')
 
     // The page has the correct tile.
     expect(await page.title()).toEqual('Home | Inquire')
@@ -62,7 +62,7 @@ test.describe('home page', () => {
 
   test('page should not have any automatically detectable accessibility issues', async ({ page }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
-    await page.goto('./home')
+    await page.goto('./queue')
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
 

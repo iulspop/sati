@@ -12,7 +12,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request)
 
   if (userId) {
-    const redirectTo = getSafeRedirectDestination(request, '/home')
+    const redirectTo = getSafeRedirectDestination(request, '/queue')
     return redirect(redirectTo)
   }
 

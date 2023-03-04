@@ -12,11 +12,11 @@ test.describe('landing page', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Inquire' })).toBeVisible()
   })
 
-  test("redirects you to the home page when you're logged in", async ({ page, baseURL }) => {
+  test("redirects you to the prompt queue page when you're logged in", async ({ page, baseURL }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
 
     await page.goto('./')
-    expect(page.url()).toEqual(baseURL + '/home')
+    expect(page.url()).toEqual(baseURL + '/queue')
 
     await page.close()
     await deleteUserProfileFromDatabaseById(id)

@@ -26,7 +26,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request)
 
   if (userId) {
-    const redirectTo = getSafeRedirectDestination(request, '/home')
+    const redirectTo = getSafeRedirectDestination(request, '/queue')
     return redirect(redirectTo)
   }
 
@@ -103,7 +103,7 @@ export const action = async ({ request }: ActionArgs) => {
       await saveUserProfileToDatabase({ id: userId, email })
     }
 
-    const redirectTo = getSafeRedirectDestination(request, '/home')
+    const redirectTo = getSafeRedirectDestination(request, '/queue')
 
     return createUserSession({ redirectTo, remember: true, request, userId })
   }

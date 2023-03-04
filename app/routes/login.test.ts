@@ -53,7 +53,7 @@ describe('login page action', async () => {
     const response = await action({ request, context: {}, params: {} })
 
     expect(response.status).toEqual(302)
-    expect(response.headers.get('location')).toEqual('/home')
+    expect(response.headers.get('location')).toEqual('/queue')
     expect(response.headers.get('set-cookie')?.includes('__user-authentication-session=ey')).toEqual(true)
 
     await deleteUserProfileFromDatabaseById(userProfile.id)
