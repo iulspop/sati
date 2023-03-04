@@ -1,4 +1,5 @@
 import type { Stream } from '../entities/stream'
+
 export interface StreamRepositoryAPI {
   create(stream: Stream): Promise<Stream>
   read(id: string): Promise<Stream | null>

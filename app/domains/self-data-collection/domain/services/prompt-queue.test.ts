@@ -9,11 +9,11 @@ import type { Answer } from '../entities/answer'
 import type { Prompt } from '../value-objects/prompt'
 import { Answers } from './answers'
 import {
+  PromptQueue,
   addDay,
   calculateQuery,
   filterIfCurrentDay,
   keepUnlessPromptAnswered,
-  PromptQueue,
   sortByDay,
   toDayList,
   toLocalTime,

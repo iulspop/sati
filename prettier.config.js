@@ -16,4 +16,6 @@ module.exports = {
   jsxSingleQuote: false,
   plugins: [require('prettier-plugin-tailwindcss')],
   quoteProps: 'as-needed',
+  importOrder: ['<THIRD_PARTY_MODULES>', '^[~/]', '^[./]'],
+  importOrderSeparation: true,
 }

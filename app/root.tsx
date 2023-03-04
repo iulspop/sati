@@ -2,7 +2,6 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import type { LinksFunction, LoaderArgs, V2_MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
-  isRouteErrorResponse,
   Link,
   Links,
   LiveReload,
@@ -10,6 +9,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useLoaderData,
   useLocation,
   useRouteError,

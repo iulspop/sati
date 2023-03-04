@@ -11,11 +11,11 @@ import type { SLO } from '../entities/slo'
 import type { Stream } from '../entities/stream'
 import type { InquireRepositoryAPI } from '../repositories/inquire-repository'
 import {
+  Monitor,
   budget,
   currentPercentage,
   interpret,
   maxPossiblePercentage,
-  Monitor,
   remainingBudget,
   spentBudget,
 } from './monitor'

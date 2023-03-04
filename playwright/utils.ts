@@ -1,13 +1,12 @@
-import 'dotenv/config'
-
 import { faker } from '@faker-js/faker'
 import type { Page } from '@playwright/test'
 import { installGlobals } from '@remix-run/node'
 import { parse } from 'cookie'
+import 'dotenv/config'
 
 import {
-  createUserSession,
   USER_AUTHENTICATION_SESSION_NAME,
+  createUserSession,
 } from '~/features/user-authentication/user-authentication-session.server'
 import { saveUserProfileToDatabase } from '~/features/user-profile/user-profile-model.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'

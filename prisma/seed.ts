@@ -1,7 +1,6 @@
-import 'dotenv/config'
-
 import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
+import 'dotenv/config'
 import { exit } from 'process'
 
 import { RecurringQuestions } from '~/domains/self-data-collection/domain'

@@ -9,7 +9,7 @@ import { z } from 'zod'
 
 import { i18next } from '~/features/localization/i18next.server'
 import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
-import { loginIntent, UserAuthenticationComponent } from '~/features/user-authentication/user-authentication-component'
+import { UserAuthenticationComponent, loginIntent } from '~/features/user-authentication/user-authentication-component'
 import { createUserSession, getUserId } from '~/features/user-authentication/user-authentication-session.server'
 import {
   retrieveUserProfileFromDatabaseById,
