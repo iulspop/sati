@@ -18,7 +18,6 @@ model UserProfile {
   updatedAt DateTime @updatedAt
   email     String   @unique
   name      String   @default("")
-  avatar    String   @default("")
 }
 
 model RecurringQuestion {

@@ -11,7 +11,7 @@ import { db } from '~/database.server'
  * @returns The newly created user profile.
  */
 export async function saveUserProfileToDatabase(
-  userProfile: Pick<Parameters<typeof db.userProfile.create>[0]['data'], 'avatar' | 'email' | 'id' | 'name'>
+  userProfile: Pick<Parameters<typeof db.userProfile.create>[0]['data'], 'email' | 'id' | 'name'>
 ) {
   return db.userProfile.create({ data: userProfile })
 }
@@ -47,7 +47,7 @@ export async function updateUserProfileInDatabaseById({
   /**
    * The values of the user profile you want to change.
    */
-  userProfile: Partial<Pick<Parameters<typeof db.userProfile.update>[0]['data'], 'avatar' | 'email' | 'name'>>
+  userProfile: Partial<Pick<Parameters<typeof db.userProfile.update>[0]['data'], 'email' | 'name'>>
 }) {
   return db.userProfile.update({ where: { id }, data: userProfile })
 }

@@ -58,12 +58,11 @@ export async function loginByCookie({ id = generateRandomDid(), page }: { id?: s
 }
 
 export async function loginAndSaveUserProfileToDatabase({
-  avatar = faker.image.avatar(),
   email = faker.internet.email(),
   id = generateRandomDid(),
   name = faker.name.fullName(),
   page,
 }: Partial<Parameters<typeof saveUserProfileToDatabase>[0]> & { page: Page }) {
   await loginByCookie({ id, page })
-  return await saveUserProfileToDatabase({ avatar, email, id, name })
+  return await saveUserProfileToDatabase({ email, id, name })
 }

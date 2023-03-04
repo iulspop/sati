@@ -20,7 +20,6 @@ async function seed() {
       id: userId,
       email: faker.internet.email(),
       name: faker.name.fullName(),
-      avatar: faker.image.avatar(),
     },
   })
   console.log('========= result of seed: =========')

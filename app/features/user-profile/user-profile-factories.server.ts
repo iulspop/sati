@@ -15,10 +15,9 @@ export const createUserProfile: Factory<UserProfile> = ({
   id = '',
   email = '',
   name = '',
-  avatar = '',
   createdAt = new Date(),
   updatedAt = new Date(),
-} = {}) => ({ id, email, name, avatar, createdAt, updatedAt })
+} = {}) => ({ id, email, name, createdAt, updatedAt })
 
 /**
  * Creates a user profile with populated values.
@@ -30,7 +29,6 @@ export const createPopulatedUserProfile: Factory<UserProfile> = ({
   id = generateRandomDid(),
   email = faker.internet.email(),
   name = faker.name.fullName(),
-  avatar = faker.image.avatar(),
   updatedAt = faker.date.recent(10),
   createdAt = faker.date.past(3, updatedAt),
-} = {}) => createUserProfile({ id, email, name, avatar, createdAt, updatedAt })
+} = {}) => createUserProfile({ id, email, name, createdAt, updatedAt })
