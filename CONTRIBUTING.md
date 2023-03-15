@@ -112,34 +112,6 @@ The env variables must be set or the error `Invariant Failed` will be thrown by 
 
 Fly deployment throwing a `"Failed due to unhealthy allocations"` might be because secrets are not set correctly on the Fly app. See [Troubleshooting your Deployment](https://fly.io/docs/getting-started/troubleshooting/) for more troubleshooting options.
 
-## Utilities
-
-### Generating boilerplate
-
-This repository uses [Plop](https://plopjs.com/documentation/#getting-started)
-to automate the generation of common boilerplate.
-
-Run `npm run gen` and then choose what you want to create, e.g.:
-
-```
-$ npm run gen
-
-> gen
-> plop
-
-? What do you want to generate? React component
-? For what feature do you want to generate the React component? user profile
-? What is the name of the React component? user name
-✔  ++ /app/features/user-profile/user-name-component.tsx
-✔  ++ /app/features/user-profile/user-name-component.test.tsx
-```
-
-Out of the box, there are three options:
-
-- React component with unit test
-- Database model utils
-- E2E tests for a route
-
 ## Credits
 
 Configuration based on the [French House Stack](https://github.com/janhesters/french-house-stack) and [Indie Stack](https://github.com/remix-run/indie-stack) Remix templates.
