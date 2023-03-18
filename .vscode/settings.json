@@ -1,5 +1,8 @@
 {
   "cSpell.words": [
+    "bahmutov",
+    "buildx",
+    "Buildx",
     "commitlint",
     "headlessui",
     "heroicons",
@@ -7,6 +10,13 @@
     "languagedetector",
     "networkidle",
     "paralleldrive",
-    "tailwindcss"
+    "Rollen",
+    "styfle",
+    "superfly",
+    "tailwindcss",
+    "trivago",
+    "typecheck",
+    "vitest",
+    "Vitest"
   ]
 }
