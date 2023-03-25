@@ -7,4 +7,4 @@
 
 set -ex
 npx prisma migrate deploy
-npm run start
+npm run start:prod
