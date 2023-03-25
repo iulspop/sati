@@ -4,10 +4,8 @@ import { json } from '@remix-run/node'
 import { useActionData, useNavigation, useSubmit } from '@remix-run/react'
 import { Magic } from 'magic-sdk'
 import { useEffect, useRef } from 'react'
-import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
 
-import { i18next } from '~/features/localization/i18next.server'
 import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
 import { UserAuthenticationComponent, loginIntent } from '~/features/user-authentication/user-authentication-component'
 import { createUserSession, getUserId } from '~/features/user-authentication/user-authentication-session.server'
@@ -17,10 +15,7 @@ import {
 } from '~/features/user-profile/user-profile-model.server'
 import { useEffectOnce } from '~/hooks/use-effect-once'
 import { usePromise } from '~/hooks/use-promise'
-import { getPageTitle } from '~/utils/get-page-title.server'
 import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
-
-export const handle = { i18n: 'user-authentication' }
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userId = await getUserId(request)
@@ -30,12 +25,12 @@ export const loader = async ({ request }: LoaderArgs) => {
     return redirect(redirectTo)
   }
 
-  return json({
-    title: await getPageTitle(request, 'user-authentication:sign-in-sign-up'),
+  return new Response('', {
+    status: 200,
   })
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data: { title } }) => [{ title }]
+export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Sign In / Sign Up | Inquire' }]
 
 type ActionData = {
   email?: string
@@ -49,7 +44,6 @@ const magicIntent = 'magic'
 const magicErrorIntent = 'magicError'
 
 export const action = async ({ request }: ActionArgs) => {
-  const t = await i18next.getFixedT(request)
   const formData = await request.formData()
   const { _intent, ...values } = Object.fromEntries(formData)
 
@@ -57,15 +51,13 @@ export const action = async ({ request }: ActionArgs) => {
     const { email } = values
     const emailSchema = z
       .string({
-        required_error: t('user-authentication:email-required') ?? undefined,
-        invalid_type_error: t('user-authentication:email-must-be-string') ?? undefined,
+        required_error: 'Please enter a valid email (required).',
+        invalid_type_error: 'A valid email address must be string.',
       })
-      .email({ message: t('user-authentication:email-invalid') ?? undefined })
+      .email({ message: "A valid email consists of characters, '@' and '.'." })
 
     const result = emailSchema.safeParse(email)
 
-    // Checking === false explicitly instead of !result.success so the type can be inferred correctly:
-    // https://github.com/colinhacks/zod/issues/1190#issuecomment-1171607138
     if (result.success === false) {
       return badRequest({ emailError: result.error.issues[0].message })
     }
@@ -77,18 +69,16 @@ export const action = async ({ request }: ActionArgs) => {
     const { didToken } = values
 
     if (typeof didToken !== 'string') {
-      // TODO: report error.
       return badRequest({
-        formError: t('user-authentication:did-token-malformed-error') ?? undefined,
+        formError: 'A DID token must be string.',
       })
     }
 
     const { email, issuer: userId } = await magicAdmin.users.getMetadataByToken(didToken)
 
     if (typeof userId !== 'string') {
-      // TODO: report error.
       return badRequest({
-        formError: t('user-authentication:missing-issuer-metadata') ?? undefined,
+        formError: 'Missing issuer from Magic metadata.',
       })
     }
 
@@ -96,8 +86,7 @@ export const action = async ({ request }: ActionArgs) => {
 
     if (!existingUser) {
       if (typeof email !== 'string') {
-        // TODO: report error
-        return json({ errorMessage: t('user-authentication:missing-email-metadata') }, { status: 400 })
+        return json({ errorMessage: 'Missing email from Magic metadata.' }, { status: 400 })
       }
 
       await saveUserProfileToDatabase({ id: userId, email })
@@ -110,7 +99,6 @@ export const action = async ({ request }: ActionArgs) => {
 
   if (_intent === magicErrorIntent) {
     const { formError } = values
-    // TODO: report errors here
 
     if (typeof formError !== 'string') {
       return badRequest({ formError: 'Invalid Magic error.' })
@@ -120,12 +108,11 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   return badRequest({
-    formError: t('user-authentication:invalid-intent', { intent: _intent }) ?? undefined,
+    formError: `Invalid intent: ${_intent}`,
   })
 }
 
 export default function LoginPage() {
-  const { t } = useTranslation()
   const data = useActionData<ActionData>()
   const navigation = useNavigation()
   const state: 'idle' | 'error' | 'submitting' =
@@ -166,12 +153,10 @@ export default function LoginPage() {
     }
 
     downloadMagicStaticAssets().catch(() => {
-      // TODO: force user to reload page
-      // TODO: report error
       submit(
         {
           _intent: magicErrorIntent,
-          formError: t('user-authentication:failed-to-load-magic'),
+          formError: 'Failed to load authentication provider https://magic.link. Please reload the page to try again.',
         },
         { method: 'post', replace: true }
       )
@@ -190,21 +175,19 @@ export default function LoginPage() {
           if (didToken) {
             submit({ didToken, _intent: magicIntent }, { method: 'post', replace: true })
           } else {
-            // TODO: report error
             submit(
               {
                 _intent: magicErrorIntent,
-                formError: t('user-authentication:did-token-missing'),
+                formError: 'Login failed. No DID token.',
               },
               { method: 'post', replace: true }
             )
           }
         } catch {
-          // TODO: reportError
           submit(
             {
               _intent: magicErrorIntent,
-              formError: t('user-authentication:login-failed'),
+              formError: 'Login failed. Please try again.',
             },
             { method: 'post', replace: true }
           )

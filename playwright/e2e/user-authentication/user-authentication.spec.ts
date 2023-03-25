@@ -23,10 +23,10 @@ test.describe('login page', () => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
 
     const searchParameters = new URLSearchParams({
-      redirectTo: '/settings/profile',
+      redirectTo: '/queue',
     })
     await page.goto('./login?' + searchParameters.toString())
-    expect(page.url()).toEqual(baseURL + '/settings/profile')
+    expect(page.url()).toEqual(baseURL + '/queue')
 
     await page.close()
     await deleteUserProfileFromDatabaseById(id)
@@ -113,8 +113,6 @@ test.describe('login page', () => {
     await page.keyboard.press('Enter')
     await page.getByRole('button', { name: /sign in/i }).isDisabled()
     await expect(page.getByText(new RegExp("A valid email consists of characters, '@' and '.'.", 'i'))).toBeVisible()
-
-    // TODO: figure out how to test that an email is required.
 
     // Enter an invalid email and submit the form.
     await page.getByLabel(/email/i).fill(invalidMagicEmail)

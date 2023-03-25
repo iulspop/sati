@@ -14,16 +14,11 @@ import {
   useLocation,
   useRouteError,
 } from '@remix-run/react'
-import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
 import invariant from 'tiny-invariant'
 
 import type { EnvironmentVariables } from './entry.client'
-import { i18next } from './features/localization/i18next.server'
 import { NotFoundComponent } from './features/not-found/not-found-component'
 import styles from './tailwind.css'
-
-export const handle = { i18n: 'common' }
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: styles },
@@ -32,48 +27,27 @@ export const links: LinksFunction = () => [
 
 type LoaderData = {
   ENV: EnvironmentVariables
-  locale: string
-  title: string
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = async (_: LoaderArgs) => {
   const { MAGIC_PUBLISHABLE_KEY } = process.env
   invariant(MAGIC_PUBLISHABLE_KEY, 'MAGIC_PUBLISHABLE_KEY must be set')
 
-  const locale = await i18next.getLocale(request)
-
-  const t = await i18next.getFixedT(request)
-  const title = t('app-name')
-
   return json<LoaderData>({
-    ENV: { MAGIC_PUBLISHABLE_KEY: MAGIC_PUBLISHABLE_KEY },
-    locale,
-    title,
+    ENV: { MAGIC_PUBLISHABLE_KEY },
   })
 }
 
-export const meta: V2_MetaFunction<typeof loader> = ({ data = { title: 'Inquire' } }) => [
-  { title: data.title },
-  { charSet: 'utf-8' },
-  { name: 'viewport', content: 'width=device-width,initial-scale=1' },
-]
-
-function useChangeLanguage(locale: string) {
-  const { i18n } = useTranslation()
-
-  useEffect(() => {
-    i18n.changeLanguage(locale)
-  }, [locale, i18n])
-}
+export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Inquire' }]
 
 export default function App() {
-  const { locale, ENV } = useLoaderData<typeof loader>()
-  const { i18n } = useTranslation()
-  useChangeLanguage(locale)
+  const { ENV } = useLoaderData<typeof loader>()
 
   return (
-    <html lang={locale} className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800" dir={i18n.dir()}>
+    <html lang="en" className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800">
       <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
@@ -93,7 +67,6 @@ export default function App() {
 }
 
 export function ErrorBoundary() {
-  // TODO: report error
   const location = useLocation()
   const error = useRouteError()
 

@@ -1,15 +1,12 @@
 import { Link } from '@remix-run/react'
-import { useTranslation } from 'react-i18next'
 
 export function NotFoundComponent() {
-  const { t } = useTranslation()
-
   return (
     <div className="flex min-h-full flex-col bg-white pt-16 pb-12 dark:bg-slate-800">
       <main className="mx-auto flex w-full max-w-7xl flex-grow flex-col justify-center px-4 sm:px-6 lg:px-8">
         <div className="flex flex-shrink-0 justify-center">
           <Link to="/" className="inline-flex">
-            <span className="sr-only">{t('app-name')}</span>
+            <span className="sr-only">Inquire</span>
             <img
               className="h-12 w-auto"
               src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
@@ -21,20 +18,22 @@ export function NotFoundComponent() {
         <div className="py-16">
           <div className="text-center">
             <p className="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-500">
-              {t('404-error')}
+              404 Error
             </p>
             <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-              {t('page-not-found')}
+              Page not found.
             </h1>
 
-            <p className="mt-2 text-base text-gray-500 dark:text-slate-400">{t('sorry-we-could-not-find-page')}</p>
+            <p className="mt-2 text-base text-gray-500 dark:text-slate-400">
+              Sorry, we couldn't find the page you're looking for.
+            </p>
 
             <div className="mt-6">
               <Link
                 to={'/'}
                 className="text-base font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400"
               >
-                {t('go-back-home')}
+                Go back home
                 <span aria-hidden="true">&rarr;</span>
               </Link>
             </div>

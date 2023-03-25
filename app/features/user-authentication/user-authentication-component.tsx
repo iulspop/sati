@@ -2,7 +2,6 @@ import { LockClosedIcon } from '@heroicons/react/24/solid'
 import { XCircleIcon } from '@heroicons/react/24/solid'
 import { Form } from '@remix-run/react'
 import type { RefObject } from 'react'
-import { useTranslation } from 'react-i18next'
 
 const Spinner = () => (
   <svg
@@ -53,12 +52,10 @@ export function UserAuthenticationComponent({
   inputRef,
   state,
 }: UserAuthenticationComponentProps) {
-  const { t } = useTranslation('user-authentication')
-
   return (
     <>
       <header className="sr-only">
-        <h1>{t('sign-in-or-sign-up')}</h1>
+        <h1>Sign In or Sign Up</h1>
       </header>
 
       <main className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -67,13 +64,13 @@ export function UserAuthenticationComponent({
             <img
               className="mx-auto h-12 w-auto"
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt={t('app-name') ?? undefined}
+              alt="Inquire"
             />
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-              {t('sign-in-to-your-account')}
+              Sign in to your account
             </h2>
             <p className="mx-auto mt-2 max-w-xs text-center text-sm text-gray-600 dark:text-slate-400">
-              {t('or-create-account')}
+              Or create an account. Both works through this email field here 👇
             </p>
           </div>
 
@@ -81,7 +78,7 @@ export function UserAuthenticationComponent({
             <div className="-space-y-px rounded-md shadow-sm">
               <div>
                 <label className="sr-only" htmlFor="email">
-                  {t('email-address')}
+                  Email address
                 </label>
 
                 <input
@@ -93,7 +90,7 @@ export function UserAuthenticationComponent({
                   disabled={state === 'submitting'}
                   id="email"
                   name="email"
-                  placeholder={t('email-placeholder') ?? undefined}
+                  placeholder="Your email address ..."
                   ref={inputRef}
                   required
                   type="email"
@@ -125,7 +122,7 @@ export function UserAuthenticationComponent({
                     />
                   )}
                 </span>
-                {state === 'submitting' ? t('authenticating') : t('sign-in-sign-up')}
+                {state === 'submitting' ? 'Authenticating...' : 'Sign In / Sign Up'}
               </button>
             </div>
           </Form>

@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import userEvent from '@testing-library/user-event'
-import { afterEach, describe, expect, it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
-import { cleanup, createRemixStub, render, screen } from '~/test/test-utils'
+import { createRemixStub, render, screen } from '~/test/test-utils'
 import type { Factory } from '~/utils/types'
 
 import type { UserAuthenticationComponentProps } from './user-authentication-component'
@@ -15,11 +15,6 @@ const createProps: Factory<UserAuthenticationComponentProps> = ({
   inputRef,
   state = 'idle',
 } = {}) => ({ email, emailError, formError, inputRef, state })
-
-// Something about I18nextProvider i18next being shared causes:
-// Warning: An update to XComponent inside a test was not wrapped in act(...).
-// explicit cleanup fixes it for some reason
-afterEach(cleanup)
 
 describe('UserAuthentication component', () => {
   it('given an idle state and nothing else: renders the user authentication form', async () => {

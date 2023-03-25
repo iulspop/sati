@@ -101,6 +101,6 @@ describe('login page action', async () => {
     const response = await action({ request, context: {}, params: {} })
 
     expect(response.status).toEqual(400)
-    expect(await response.json()).toEqual({ formError: 'Invalid intent: ' })
+    expect(await response.json()).toEqual({ formError: 'Invalid intent: undefined' })
   })
 })

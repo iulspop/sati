@@ -23,7 +23,6 @@ test.describe('home page', () => {
     // eslint-disable-next-line playwright/no-skipped-test
     test.skip(browserName === 'chromium' && !!isMobile, 'Mobile Chrome is currently broken')
 
-    // TODO: Refactor when Magic supports server side test mode.
     await page.route('/logout', async route => {
       await page.context().clearCookies()
       return route.fulfill({

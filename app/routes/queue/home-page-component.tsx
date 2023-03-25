@@ -1,5 +1,4 @@
 import { Link } from '@remix-run/react'
-import { useTranslation } from 'react-i18next'
 
 import { classNames } from '~/utils/class-names'
 
@@ -8,8 +7,6 @@ export type HomePageComponentProps = {
 }
 
 export function HomePageComponent({ navigation }: HomePageComponentProps) {
-  const { t } = useTranslation(['common', 'home'])
-
   return (
     <div className="min-h-full">
       <nav className="mx-auto flex h-10 items-center justify-between bg-gray-800 px-4 py-6 sm:px-6 lg:px-8">
@@ -18,7 +15,7 @@ export function HomePageComponent({ navigation }: HomePageComponentProps) {
             <img
               className="h-8 w-8"
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-              alt={t('app-name') ?? undefined}
+              alt="Inquire"
             />
           </div>
           <div className="ml-10 flex items-baseline space-x-4">
@@ -42,14 +39,14 @@ export function HomePageComponent({ navigation }: HomePageComponentProps) {
             type="submit"
             className="block w-full px-4 py-2 text-left text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
           >
-            {t('logout')}
+            Log out
           </button>
         </form>
       </nav>
 
       <header className="bg-white shadow dark:bg-slate-800">
         <div className="mx-auto max-w-7xl py-6 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('home:main-header')}</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Questions</h1>
         </div>
       </header>
 
