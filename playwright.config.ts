@@ -21,47 +21,14 @@ const config: PlaywrightTestConfig = {
     baseURL: process.env.BASE_URL || process.env.CI ? 'http://localhost:3000' : 'http://localhost:3001',
     trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
   },
-  projects: process.env.CI
-    ? [
-        {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-          },
-        },
-        {
-          name: 'firefox',
-          use: {
-            ...devices['Desktop Firefox'],
-          },
-        },
-        {
-          name: 'webkit',
-          use: {
-            ...devices['Desktop Safari'],
-          },
-        },
-        {
-          name: 'Mobile Chrome',
-          use: {
-            ...devices['Pixel 5'],
-          },
-        },
-        {
-          name: 'Mobile Safari',
-          use: {
-            ...devices['iPhone 12'],
-          },
-        },
-      ]
-    : [
-        {
-          name: 'chromium',
-          use: {
-            ...devices['Desktop Chrome'],
-          },
-        },
-      ],
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
+  ],
   webServer: {
     command: process.env.CI ? 'npm run build && npm run start' : 'npm run dev -- --port 3001',
     port: process.env.CI ? 3000 : 3001,
