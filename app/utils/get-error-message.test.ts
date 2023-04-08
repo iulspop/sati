@@ -52,7 +52,7 @@ describe('getErrorMessage()', () => {
     expect(getErrorMessage({ message })).toEqual(message)
   })
 
-  it('given circular references: handles them', () => {
+  test('given circular references: handles them', () => {
     expect.assertions(1)
 
     const object = { circular: this }

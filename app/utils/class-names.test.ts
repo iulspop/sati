@@ -1,4 +1,4 @@
-import { describe } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { classNames } from './class-names'
 
 describe('classNames()', () => {

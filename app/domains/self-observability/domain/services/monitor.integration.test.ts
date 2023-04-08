@@ -1,4 +1,4 @@
-import { test } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import { db } from '~/database.server'
 import type { Answer } from '~/domains/self-data-collection/domain/entities/answer'
 import { EventRepository } from '../../infrastructure/event-prisma'

@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    // By default all visible ”@types” packages are included in your compilation
+    // If types is specified, only packages listed will be included in the global scope.
+    // https://www.typescriptlang.org/tsconfig#types
+    "types": ["node"],
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "moduleResolution": "node",
     "target": "ES2019",

@@ -1,4 +1,4 @@
-import { beforeEach, test } from 'vitest'
+import { beforeEach, expect, test } from 'vitest'
 import { db } from '~/database.server'
 import { EventRepository } from '~/domains/self-observability/infrastructure/event-prisma'
 import { SLORepository } from '../../infrastructure/slo-prisma'

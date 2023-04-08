@@ -7,8 +7,7 @@ export default defineConfig({
   test: {
     threads: false,
     environment: 'happy-dom',
-    globals: true,
-    setupFiles: ['./app/test/setup-integration-test-environment.ts'],
+    setupFiles: ['./app/test/setup-test-environment.ts'],
     include: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
     coverage: {
