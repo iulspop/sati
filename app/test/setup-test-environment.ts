@@ -5,6 +5,9 @@ import matchers, { TestingLibraryMatchers } from '@testing-library/jest-dom/matc
 import { cleanup } from '@testing-library/react'
 import { afterEach, expect } from 'vitest'
 
+// Disabled Jest global types since disabled Vitest globals.
+// So we need to extend expect types manually.
+// source: https://github.com/testing-library/jest-dom/issues/439
 declare global {
   namespace Vi {
     interface JestAssertion<T = any> extends jest.Matchers<void, T>, TestingLibraryMatchers<T, void> {}
