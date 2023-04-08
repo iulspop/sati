@@ -5,7 +5,8 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
-    environment: 'happy-dom',
+    // fetcher.Form doesn't submit when click button type=submit in happy-dom, so we use jsdom
+    environment: 'jsdom',
     setupFiles: ['./app/test/setup-test-environment.ts'],
     include: ['**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'node_modules', '.git', '.cache'],

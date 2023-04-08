@@ -3,9 +3,10 @@ import { classNames } from '~/utils/class-names'
 
 export type HomePageComponentProps = {
   navigation: { name: string; href: string; current: boolean }[]
+  children: React.ReactNode | React.ReactNode[]
 }
 
-export function HomePageComponent({ navigation }: HomePageComponentProps) {
+export function HomePageComponent({ navigation, children }: HomePageComponentProps) {
   return (
     <div className="min-h-full">
       <nav className="mx-auto flex h-10 items-center justify-between bg-gray-800 px-4 py-6 sm:px-6 lg:px-8">
@@ -49,11 +50,7 @@ export function HomePageComponent({ navigation }: HomePageComponentProps) {
         </div>
       </header>
 
-      <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-          <p>Queue Goes Here</p>
-        </div>
-      </main>
+      <main>{children}</main>
     </div>
   )
 }
