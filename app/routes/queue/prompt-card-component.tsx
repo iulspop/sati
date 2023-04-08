@@ -10,7 +10,7 @@ export function PromptCardComponent({ questionId, question, timestamp }: PromptC
   const fetcher = useFetcher()
 
   return (
-    <li key={question}>
+    <li>
       <fetcher.Form method="post">
         <p>{question}</p>
         <input type="hidden" name="questionId" value={questionId} />

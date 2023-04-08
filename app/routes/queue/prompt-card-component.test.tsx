@@ -24,12 +24,13 @@ describe('PromptCard component', () => {
 
     render(<RemixStub />)
 
-    const yesButton = await screen.findByLabelText(`Answer "${prompt.question}" with Yes`)
+    const yesButton = screen.getByLabelText(`Answer "${prompt.question}" with Yes`)
     expect(yesButton).toHaveTextContent('Yes')
 
-    const noButton = await screen.findByLabelText(`Answer "${prompt.question}" with No`)
+    const noButton = screen.getByLabelText(`Answer "${prompt.question}" with No`)
     expect(noButton).toHaveTextContent('No')
   })
+
   test('given submitting a yes answer: form data contains only "Yes" answer, questionId and timestamp', async () => {
     const prompt: Prompt = {
       questionId: '1',
@@ -51,7 +52,7 @@ describe('PromptCard component', () => {
     const user = userEvent.setup()
     render(<RemixStub />)
 
-    const yesButton = await screen.findByLabelText(`Answer "${prompt.question}" with Yes`)
+    const yesButton = screen.getByLabelText(`Answer "${prompt.question}" with Yes`)
     await user.click(yesButton)
 
     expect([...formData.entries()]).toEqual([
@@ -60,6 +61,7 @@ describe('PromptCard component', () => {
       ['answer', 'Yes'],
     ])
   })
+
   test('given submitting a no answer: form data only contains "No" answer, questionId and timestamp', async () => {
     const prompt: Prompt = {
       questionId: '1',
@@ -81,7 +83,7 @@ describe('PromptCard component', () => {
     const user = userEvent.setup()
     render(<RemixStub />)
 
-    const noButton = await screen.findByLabelText(`Answer "${prompt.question}" with No`)
+    const noButton = screen.getByLabelText(`Answer "${prompt.question}" with No`)
     await user.click(noButton)
 
     expect([...formData.entries()]).toEqual([
