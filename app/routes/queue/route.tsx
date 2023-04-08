@@ -21,13 +21,15 @@ export const action = async () => {
 export default function HomePage() {
   return (
     <HomePageComponent navigation={[{ name: 'Question Queue', href: '#', current: true }]}>
-      <PromptCardComponent
-        {...{
-          questionId: '1',
-          question: 'What is your name?',
-          timestamp: new Date('2021-01-01T00:00:00.000Z'),
-        }}
-      />
+      <ol>
+        <PromptCardComponent
+          {...{
+            questionId: '1',
+            question: 'What is your name?',
+            timestamp: new Date('2021-01-01T00:00:00.000Z'),
+          }}
+        />
+      </ol>
     </HomePageComponent>
   )
 }
