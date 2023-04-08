@@ -7,14 +7,14 @@ import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
 } from '~/features/user-profile/user-profile-model.server'
-import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../../utils'
+import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../utils'
 
 const loginLoaderRoute = '/login?_data=routes%2Flogin'
 const invalidMagicEmail = 'test+fail@magic.link'
 const validMagicEmail = 'test+success@magic.link'
 
 test.describe('login page', () => {
-  test('redirects to the route specified in the search parameter if the user is logged in', async ({
+  test('given user is logged in: redirects to the route specified in the search parameter', async ({
     page,
     baseURL,
   }) => {
@@ -30,7 +30,7 @@ test.describe('login page', () => {
     await deleteUserProfileFromDatabaseById(id)
   })
 
-  test('lets the user log in with valid credentials', async ({ page, baseURL }) => {
+  test('given user is logged out & valid credentials are provided: logs user in', async ({ page, baseURL }) => {
     const user = createPopulatedUserProfile()
     await saveUserProfileToDatabase(user)
     const cookieToken = await createValidCookieToken(user.id)
@@ -38,6 +38,7 @@ test.describe('login page', () => {
     await page.addInitScript(() => {
       window.runMagicInTestMode = true
     })
+
     await page.route(loginLoaderRoute, (route, request) => {
       const postData = request.postData()
 
@@ -55,37 +56,32 @@ test.describe('login page', () => {
       return route.continue()
     })
 
-    // Navigate to the login page.
     await page.goto('./login')
-
-    // The page has the correct tile.
     expect(await page.title()).toEqual('Sign In / Sign Up | Inquire')
 
-    // Enter the valid email and submit the form.
     await page.getByLabel(/email/i).fill(validMagicEmail)
     await page.getByRole('button', { name: /sign in/i }).click()
     await page.getByRole('button', { name: /sign in/i }).isHidden()
     await page.getByRole('button', { name: /authenticating/i }).isDisabled()
 
-    // After logging in, the user should be redirected to the home page.
     await page.waitForURL(baseURL + '/queue')
     expect(page.url()).toEqual(baseURL + '/queue')
 
-    await page.context().close()
     await deleteUserProfileFromDatabaseById(user.id)
   })
 
-  test('fails gracefully with invalid credentials', async ({ page, baseURL }) => {
+  test('given user is logged out & invalid credentials are provided: should NOT crash the app and the user should be able to log in again with a valid email', async ({
+    page,
+    baseURL,
+  }) => {
     const user = createPopulatedUserProfile()
     await saveUserProfileToDatabase(user)
     const cookieToken = await createValidCookieToken(user.id)
 
-    // NOTE: This test has two `waits` to make the test more reliable.
-    // The first wait waits for the page to load. The second wait waits for the
-    // page to correctly navigate to the next page after the successful sign in.
     await page.addInitScript(() => {
       window.runMagicInTestMode = true
     })
+
     await page.route(loginLoaderRoute, (route, request) => {
       const postData = request.postData()
 
@@ -103,25 +99,19 @@ test.describe('login page', () => {
       return route.continue()
     })
 
-    // Navigate to the login page.
     await page.goto('./login')
 
-    // Enter a malformed email and submit the form.
     await page.getByLabel(/email/i).fill('not-an-email@foo')
     await page.keyboard.press('Enter')
     await page.getByRole('button', { name: /sign in/i }).isDisabled()
     await expect(page.getByText(new RegExp("A valid email consists of characters, '@' and '.'.", 'i'))).toBeVisible()
 
-    // Enter an invalid email and submit the form.
     await page.getByLabel(/email/i).fill(invalidMagicEmail)
     await page.getByRole('button', { name: /sign in/i }).click()
     await page.waitForLoadState('networkidle')
 
-    // There should be an appropriate error message.
     await expect(page.getByText(/login failed. please try again/i)).toBeVisible()
 
-    // The error should NOT crash the app and the user should be able to log in
-    // again with a valid email.
     await page.getByLabel(/email/i).fill(validMagicEmail)
     await page.getByRole('button', { name: /sign in/i }).click()
     await page.waitForURL(baseURL + '/queue')
@@ -129,15 +119,15 @@ test.describe('login page', () => {
     await expect(page.getByRole('heading', { level: 1, name: /questions/i })).toBeVisible()
     expect(page.url()).toEqual(baseURL + '/queue')
 
-    await page.context().close()
     await deleteUserProfileFromDatabaseById(user.id)
   })
 
-  test('page should not have any automatically detectable accessibility issues', async ({ page }) => {
+  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({
+    page,
+  }) => {
     await page.goto('./login')
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()
-
     expect(accessibilityScanResults.violations).toEqual([])
   })
 })
