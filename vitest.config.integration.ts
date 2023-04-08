@@ -5,11 +5,11 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
+    threads: false,
     environment: 'happy-dom',
     globals: true,
-    setupFiles: ['./app/test/setup-test-environment.ts'],
-    include: ['**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'node_modules', '.git', '.cache'],
+    setupFiles: ['./app/test/setup-integration-test-environment.ts'],
+    include: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
     coverage: {
       reporter: ['text', 'json', 'html'],
