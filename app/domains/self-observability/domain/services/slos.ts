@@ -1,5 +1,4 @@
 import { asyncPipe } from '~/utils/async-pipe'
-
 import type { SLO } from '../entities/slo'
 import { sloFactory } from '../entities/slo'
 import type { SLORepositoryAPI } from '../repositories/slo-repository'

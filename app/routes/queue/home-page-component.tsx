@@ -1,5 +1,4 @@
 import { Link } from '@remix-run/react'
-
 import { classNames } from '~/utils/class-names'
 
 export type HomePageComponentProps = {

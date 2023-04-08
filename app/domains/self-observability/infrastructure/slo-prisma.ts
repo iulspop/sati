@@ -1,5 +1,4 @@
 import { db } from '~/database.server'
-
 import type { SLORepositoryAPI } from '../domain/repositories/slo-repository'
 
 export const SLORepository = (): SLORepositoryAPI => ({

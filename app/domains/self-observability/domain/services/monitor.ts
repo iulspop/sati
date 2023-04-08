@@ -1,7 +1,5 @@
 import { prop } from 'ramda'
-
 import { asyncPipe } from '~/utils/async-pipe'
-
 import type { Event } from '../entities/event'
 import type { SLO } from '../entities/slo'
 import type { SLOsAPI } from './slos'

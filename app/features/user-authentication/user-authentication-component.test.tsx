@@ -3,9 +3,7 @@ import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
-
 import type { Factory } from '~/utils/types'
-
 import type { UserAuthenticationComponentProps } from './user-authentication-component'
 import { UserAuthenticationComponent } from './user-authentication-component'
 

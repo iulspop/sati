@@ -1,7 +1,6 @@
 import type { LoaderArgs } from '@remix-run/node'
 import { redirect } from '@remix-run/node'
 import { Link } from '@remix-run/react'
-
 import { getUserId } from '~/features/user-authentication/user-authentication-session.server'
 import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
 

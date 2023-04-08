@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
 import { describe, expect, test } from 'vitest'
-
 import { badRequest, forbidden, internalServerError, notAllowed, notFound } from './api-helpers.server'
 
 describe('badRequest()', async () => {

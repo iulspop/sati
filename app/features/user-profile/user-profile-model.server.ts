@@ -1,5 +1,4 @@
 import type { UserProfile } from '@prisma/client'
-
 import { db } from '~/database.server'
 
 // CREATE

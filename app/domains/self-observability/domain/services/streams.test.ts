@@ -1,8 +1,6 @@
 import { beforeEach, test } from 'vitest'
-
 import { db } from '~/database.server'
 import { EventRepository } from '~/domains/self-observability/infrastructure/event-prisma'
-
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import { StreamRepository } from '../../infrastructure/stream-prisma'
 import type { InquireRepositoryAPI } from '../repositories/inquire-repository'

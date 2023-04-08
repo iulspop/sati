@@ -1,7 +1,5 @@
 import { beforeEach, test } from 'vitest'
-
 import { db } from '~/database.server'
-
 import { SLORepository } from '../../infrastructure/slo-prisma'
 import type { SLO } from '../entities/slo'
 import { SLOs } from './slos'

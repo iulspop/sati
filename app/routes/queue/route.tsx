@@ -1,5 +1,4 @@
 import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
-
 import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
 import { HomePageComponent } from '~/routes/queue/home-page-component'
 

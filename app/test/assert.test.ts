@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
 import { describe, vi } from 'vitest'
-
 import { assert } from './assert'
 
 const asyncInc = (n: number) => Promise.resolve(n + 1)

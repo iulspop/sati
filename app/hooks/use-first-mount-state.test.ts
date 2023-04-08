@@ -1,6 +1,5 @@
 import { renderHook } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-
 import { useFirstMountState } from './use-first-mount-state'
 
 describe('useFirstMountState()', () => {

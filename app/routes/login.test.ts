@@ -1,7 +1,6 @@
 // @vitest-environment node
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
-
 import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
 import { createPopulatedUserProfile } from '~/features/user-profile/user-profile-factories.server'
 import {
@@ -9,7 +8,6 @@ import {
   saveUserProfileToDatabase,
 } from '~/features/user-profile/user-profile-model.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
-
 import { action } from './login'
 
 describe('login page action', async () => {

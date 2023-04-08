@@ -2,6 +2,7 @@ import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import type { LinksFunction, LoaderArgs, V2_MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import {
+  isRouteErrorResponse,
   Link,
   Links,
   LiveReload,
@@ -9,13 +10,11 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  isRouteErrorResponse,
   useLoaderData,
   useLocation,
   useRouteError,
 } from '@remix-run/react'
 import invariant from 'tiny-invariant'
-
 import type { EnvironmentVariables } from './entry.client'
 import { NotFoundComponent } from './features/not-found/not-found-component'
 import styles from './tailwind.css'

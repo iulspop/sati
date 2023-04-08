@@ -1,6 +1,5 @@
 import { act, renderHook } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-
 import { usePromise } from './use-promise'
 
 const getPromiseState = <T>(p: Promise<T>) => {

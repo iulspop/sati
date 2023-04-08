@@ -1,6 +1,5 @@
 import type { EffectCallback } from 'react'
 import { useEffect } from 'react'
-
 import { useFirstMountState } from './use-first-mount-state'
 
 /**

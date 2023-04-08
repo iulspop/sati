@@ -1,5 +1,4 @@
 import { allPass, always, complement, identity, ifElse, is, isEmpty, pipe, startsWith } from 'ramda'
-
 import { getSearchParameterFromRequest } from './get-search-parameter-from-request'
 
 const getRedirectToSearchParameter = getSearchParameterFromRequest('redirectTo')

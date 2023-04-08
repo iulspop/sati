@@ -1,5 +1,4 @@
 import { describe, test } from 'vitest'
-
 import { asyncPipe } from './async-pipe'
 
 const double = (n: number) => n * 2

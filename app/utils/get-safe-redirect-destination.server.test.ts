@@ -2,7 +2,6 @@
  * @vitest-environment jsdom
  */
 import { describe, expect, test } from 'vitest'
-
 import { getSafeRedirectDestination, isValidRedirectDestination } from './get-safe-redirect-destination.server'
 
 describe('isValidRedirectDestination()', () => {

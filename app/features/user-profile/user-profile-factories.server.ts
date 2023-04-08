@@ -1,6 +1,5 @@
 import { faker } from '@faker-js/faker'
 import type { UserProfile } from '@prisma/client'
-
 import { generateRandomDid } from '~/test/generate-random-did.server'
 import type { Factory } from '~/utils/types'
 

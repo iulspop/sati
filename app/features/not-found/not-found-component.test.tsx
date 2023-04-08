@@ -1,7 +1,6 @@
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
-
 import { NotFoundComponent } from './not-found-component'
 
 describe('NotFound component', () => {

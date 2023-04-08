@@ -1,7 +1,6 @@
 /* eslint-disable jest/no-conditional-expect */
 import { faker } from '@faker-js/faker'
 import { describe, expect, test } from 'vitest'
-
 import { getErrorMessage } from './get-error-message'
 
 describe('getErrorMessage()', () => {

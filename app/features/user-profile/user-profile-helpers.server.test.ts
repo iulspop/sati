@@ -1,8 +1,6 @@
 // @vitest-environment node
 import { describe, expect, test } from 'vitest'
-
 import { generateRandomDid } from '~/test/generate-random-did.server'
-
 import { createPopulatedUserProfile } from './user-profile-factories.server'
 import { throwIfUserProfileIsMissing } from './user-profile-helpers.server'
 

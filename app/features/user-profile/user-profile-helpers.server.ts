@@ -1,7 +1,5 @@
 import type { UserProfile } from '@prisma/client'
-
 import { asyncPipe } from '~/utils/async-pipe'
-
 import { retrieveUserProfileFromDatabaseById } from './user-profile-model.server'
 
 export const throwIfUserProfileIsMissing =
