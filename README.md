@@ -22,19 +22,13 @@
   chmod a+x .husky/pre-commit
   ```
 
-- Create a `.env` file and add these environment variables (see `.env.example`,
-  too):
+- Create a `.env` file and add these environment variables (see `.env.example`, too):
 
-  - `MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` - You'll need to grab a
-    public key and a secret key for your project from your
-    [Magic dashboard](https://magic.link). Use a Magic app only used for testing and development.
-  - `SESSION_SECRET` - The session secret can be any string that is at least 32
-    characters long.
-  - `DATABASE_URL` - The url under which the SQLite database will operate. You
-    may use the value from `.env.example` for this.
+  - `MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` - You'll need to grab a public key and a secret key for your project from your [Magic dashboard](https://magic.link). Use a Magic app only used for development.
+  - `SESSION_SECRET` - The session secret can be any string that is at least 32 characters long.
+  - `DATABASE_URL` - The url under which the SQLite database will operate. You may use the value from `.env.example` for this.
 
-- Add a `console.warn` to `getUserIdFromSession()` in
-  `app/features/user-authentication/user-authentication-session.server.ts`:
+- Add a `console.warn` to `getUserIdFromSession()` in `app/features/user-authentication/user-authentication-session.server.ts`:
 
   ```ts
   const getUserIdFromSession = (session: Session): string | undefined => {
@@ -58,29 +52,23 @@
 
 - Sign up for an account under `/login` by logging in with Magic.
 
-- Grab the `userId` that you logged out in the previous step from the terminal
-  in which you ran `npm run dev` and add it to your `.env` file as
-  `SEED_USER_ID`.
+- Grab the `userId` that you logged out in the previous step from the terminal in which you ran `npm run dev` and add it to your `.env` file as `SEED_USER_ID`.
 
 - Remove the `console.warn` from `getUserIdFromSession()`.
 
-- Now you can add the remaining values to your `.env` file, which are used by
-  the main seed script:
+- Now you can add the remaining value to your `.env` file, which is used by the seed script:
 
   - `SEED_USER_ID` - The steps above outlined how to get this value. This value
     is the user id of the user that will be seeded in the database. This value
     is required for the `"db:seed"` script.
 
-- Lastly, stop your `npm run dev` script and run
+- Lastly, run
 
   ```sh
   npm run db:reset-dev
   ```
 
-  , which wipes the database, seeds the database with lots of data and starts up
-  the dev server again.
-
-This starts your app in development mode, rebuilding assets on file changes.
+  to wipe & seed the database.
 
 ## Development
 
