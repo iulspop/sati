@@ -7,4 +7,4 @@
 
 set -ex
 npx prisma migrate deploy
-npm run start:prod
+npx remix-serve build

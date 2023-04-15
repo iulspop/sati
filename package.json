@@ -9,7 +9,6 @@
     "dev": "remix dev",
     "build": "remix build",
     "start": "dotenv -e .env remix-serve build",
-    "start:prod": "remix-serve build",
     "deploy": "fly deploy --remote-only",
     "format": "prettier --write .",
     "type-check": "tsc -b",
