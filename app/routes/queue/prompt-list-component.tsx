@@ -32,8 +32,10 @@ export function PromptListComponent({ promptList, timeZone }: PromptListComponen
         })
 
         return (
-          <li key={date} aria-labelledby={headerId} data-testid="date-group">
-            <h2 id={headerId}>{localDate}</h2>
+          <li key={date} aria-labelledby={headerId} data-testid="date-group" className="my-10 text-3xl">
+            <h2 id={headerId} className="font-bold">
+              {localDate}
+            </h2>
             <ol id={groupId}>
               {
                 // @ts-ignore

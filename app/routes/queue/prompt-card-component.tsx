@@ -16,15 +16,27 @@ export function PromptCardComponent({ questionId, question, timestamp }: PromptC
   const fetcher = useFetcher()
 
   return (
-    <li>
+    <li className="my-6">
       <fetcher.Form method="post">
-        <p>{question}</p>
+        <p className="my-4">{question}</p>
         <input type="hidden" name="questionId" value={questionId} />
         <input type="hidden" name="timestamp" value={timestamp.toISOString()} />
-        <button name="response" value="Yes" type="submit" aria-label={`Answer "${question}" with Yes`}>
+        <button
+          className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+          name="response"
+          value="Yes"
+          type="submit"
+          aria-label={`Answer "${question}" with Yes`}
+        >
           Yes
         </button>
-        <button name="response" value="No" type="submit" aria-label={`Answer "${question}" with No`}>
+        <button
+          className="ml-4 rounded bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+          name="response"
+          value="No"
+          type="submit"
+          aria-label={`Answer "${question}" with No`}
+        >
           No
         </button>
       </fetcher.Form>
