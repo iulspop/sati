@@ -23,9 +23,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     return redirect(redirectTo)
   }
 
-  return new Response('', {
-    status: 200,
-  })
+  return new Response(null, { status: 200 })
 }
 
 export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Sign In / Sign Up | Inquire' }]
