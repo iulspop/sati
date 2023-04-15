@@ -1,10 +1,9 @@
-import type { PlaywrightTestConfig } from '@playwright/test'
-import { devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test'
 
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const config: PlaywrightTestConfig = {
+export default defineConfig({
   testDir: './playwright',
   timeout: 30 * 1000,
   expect: {
@@ -30,9 +29,10 @@ const config: PlaywrightTestConfig = {
     },
   ],
   webServer: {
-    command: process.env.CI ? 'npm run build && npm run start' : 'npm run dev:e2e -- --port 3001',
+    command: process.env.CI
+      ? 'npm run build && npm run start'
+      : '"You must start Remix dev server first before running e2e test: \'npm run dev:e2e\'"',
     port: process.env.CI ? 3000 : 3001,
+    reuseExistingServer: !process.env.CI,
   },
-}
-
-export default config
+})

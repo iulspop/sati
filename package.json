@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "remix dev",
-    "dev:e2e": "DATABASE_URL=\"file:./e2e.db?connection_limit=1\" remix dev",
+    "dev:e2e": "npm run test:e2e:env -- remix dev --port 3001",
     "build": "remix build",
     "start": "dotenv -e .env remix-serve build",
     "deploy": "fly deploy --remote-only",
