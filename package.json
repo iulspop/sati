@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "remix dev",
+    "dev:e2e": "DATABASE_URL=\"file:./e2e.db?connection_limit=1\" remix dev",
     "build": "remix build",
     "start": "dotenv -e .env remix-serve build",
     "deploy": "fly deploy --remote-only",
@@ -30,8 +31,8 @@
     "db:reset-dev": "run-s db:wipe:dev db:seed",
     "db:wipe": "run-p db:wipe:*",
     "db:wipe:dev": "prisma migrate reset --force",
-    "db:wipe:test": "prisma migrate reset --force",
-    "db:wipe:e2e": "prisma migrate reset --force",
+    "db:wipe:test": "npm run test:env -- prisma migrate reset --force",
+    "db:wipe:e2e": "npm run test:e2e:env -- prisma migrate reset --force",
     "db:seed": "ts-node -r tsconfig-paths/register ./prisma/seed.ts",
     "prepare": "husky install"
   },

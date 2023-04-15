@@ -64,3 +64,9 @@ export async function loginAndSaveUserProfileToDatabase({
   await loginByCookie({ id, page })
   return await saveUserProfileToDatabase({ email, id, name })
 }
+
+export const daysAgo = (days: number) => {
+  const date = new Date()
+  date.setDate(date.getDate() - days)
+  return date
+}

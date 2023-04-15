@@ -1,5 +1,5 @@
-import { AnswerRepository } from '../infrastructure/answer-prisma'
-import { RecurringQuestionRepository } from '../infrastructure/recurring-question-prisma'
+import { AnswerRepository } from '../infrastructure/answer-prisma.server'
+import { RecurringQuestionRepository } from '../infrastructure/recurring-question-prisma.server'
 import { Answers as Answers_ } from './services/answers'
 import { PromptQueue as PromptQueue_ } from './services/prompt-queue'
 import { RecurringQuestions as RecurringQuestions_ } from './services/recurring-questions'

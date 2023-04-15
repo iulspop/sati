@@ -30,7 +30,7 @@ const config: PlaywrightTestConfig = {
     },
   ],
   webServer: {
-    command: process.env.CI ? 'npm run build && npm run start' : 'npm run dev -- --port 3001',
+    command: process.env.CI ? 'npm run build && npm run start' : 'npm run dev:e2e -- --port 3001',
     port: process.env.CI ? 3000 : 3001,
   },
 }

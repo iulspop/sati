@@ -1,6 +1,6 @@
 import { beforeEach, expect, test } from 'vitest'
 import { db } from '~/database.server'
-import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma'
+import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma.server'
 import type { RecurringQuestion } from '../entities/recurring-question'
 import { RecurringQuestions } from './recurring-questions'
 

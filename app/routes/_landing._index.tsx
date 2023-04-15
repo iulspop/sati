@@ -12,9 +12,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     return redirect(redirectTo)
   }
 
-  return new Response('', {
-    status: 200,
-  })
+  return new Response(null, { status: 200 })
 }
 
 export default function LandingPage() {
