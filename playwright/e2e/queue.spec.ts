@@ -67,6 +67,21 @@ test.describe('queue page', () => {
     }
   })
 
+  test('given user is logged in and there are not query parameters: redirects to the queue page with the timeZone query parameter', async ({
+    page,
+    baseURL,
+  }) => {
+    const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
+
+    await page.goto(`${baseURL}/queue`)
+    await page.waitForURL(`${baseURL}/queue?timeZone=*`, { timeout: 5000 })
+
+    const currentUrl = new URL(page.url())
+    expect(currentUrl.searchParams.get('timeZone')).toBeTruthy()
+
+    await deleteUserProfileFromDatabaseById(userId)
+  })
+
   test('given user is logged in: lets the user log out', async ({ page, baseURL }) => {
     await page.route('/logout', async route => {
       await page.context().clearCookies()

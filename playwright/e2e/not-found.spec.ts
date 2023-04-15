@@ -14,7 +14,8 @@ test.describe('not found page', () => {
     await page.getByRole('link', { name: /home/i }).click()
     await page.waitForURL(baseURL + '/queue')
     await expect(page.getByRole('heading', { name: /questions/i, level: 1 })).toBeVisible()
-    expect(page.url()).toEqual(baseURL + '/queue')
+    const currentUrl = new URL(page.url())
+    expect(currentUrl.origin + currentUrl.pathname).toEqual(baseURL + '/queue')
 
     await deleteUserProfileFromDatabaseById(id)
   })

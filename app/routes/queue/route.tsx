@@ -1,5 +1,6 @@
 import { json, LoaderArgs, V2_MetaFunction } from '@remix-run/node'
-import { useLoaderData } from '@remix-run/react'
+import { useLoaderData, useLocation } from '@remix-run/react'
+import { useEffect } from 'react'
 import { Answers, PromptQueue } from '~/domains/self-data-collection/domain/index.server'
 import type { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
 import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
@@ -30,9 +31,23 @@ export default function HomePage() {
     timestamp: new Date(serializedPrompt.timestamp),
   })) as Prompt[]
 
+  const location = useLocation()
+  const searchParams = new URLSearchParams(location.search)
+  const timeZone = searchParams.get('timeZone')
+
+  useEffect(() => {
+    if (timeZone) return
+
+    const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    const newPath = `${location.pathname}?timeZone=${encodeURIComponent(clientTimeZone)}`
+    window.history.replaceState({}, '', newPath)
+  }, [timeZone])
+
   return (
     <HomePageComponent navigation={[{ name: 'Question Queue', href: '#', current: true }]}>
-      <PromptListComponent promptList={promptList} />
+      <PromptListComponent promptList={promptList} timeZone={timeZone} />
     </HomePageComponent>
   )
 }
+
+//

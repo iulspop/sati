@@ -8,7 +8,8 @@ test.describe('landing page', () => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
 
     await page.goto('./')
-    expect(page.url()).toEqual(baseURL + '/queue')
+    const currentUrl = new URL(page.url())
+    expect(currentUrl.origin + currentUrl.pathname).toEqual(baseURL + '/queue')
 
     await deleteUserProfileFromDatabaseById(id)
   })

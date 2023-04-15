@@ -24,7 +24,8 @@ test.describe('login page', () => {
       redirectTo: '/queue',
     })
     await page.goto('./login?' + searchParameters.toString())
-    expect(page.url()).toEqual(baseURL + '/queue')
+    const currentUrl = new URL(page.url())
+    expect(currentUrl.origin + currentUrl.pathname).toEqual(baseURL + '/queue')
 
     await page.close()
     await deleteUserProfileFromDatabaseById(id)
@@ -117,7 +118,8 @@ test.describe('login page', () => {
     await page.waitForURL(baseURL + '/queue')
     await page.waitForLoadState('networkidle')
     await expect(page.getByRole('heading', { level: 1, name: /questions/i })).toBeVisible()
-    expect(page.url()).toEqual(baseURL + '/queue')
+    const currentUrl = new URL(page.url())
+    expect(currentUrl.origin + currentUrl.pathname).toEqual(baseURL + '/queue')
 
     await deleteUserProfileFromDatabaseById(user.id)
   })
