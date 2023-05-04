@@ -70,6 +70,38 @@
 
   to wipe & seed the database.
 
+## Running Tests
+
+- Run unit tests:
+
+```sh
+npm run test
+```
+
+- Run integration tests (tests which interact with database).
+
+```sh
+npm run test:integration
+```
+
+- To run e2e tests, first start Remix server for e2e tests (uses separate database than dev server, also allows seeing logs output on the server (as opposed to client) when running e2e tests):
+
+```sh
+npm run dev:e2e
+```
+
+Then install playwright browsers and run the e2e tests:
+
+```sh
+npx playwright install && npm run test:e2e
+```
+
+Playwright UI mode is handy for running e2e tests in watch mode with screenshots and logs for each test run:
+
+```sh
+npm run test:e2e:ui
+```
+
 ## Development
 
 Read our [contributing guide][contributing] to learn about our development process. Architecture decisions for this project [are documented here][adrs], using the [Architecture Decision Records (ADR)][adrs-pattern] pattern.

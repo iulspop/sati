@@ -8,24 +8,6 @@ We enforce [conventional commits][conventional-commits] using [commitlint][commi
 
 The motivation is primarily to [measure defect commit rate][defect-rate].
 
-## Testing
-
-### Playwright
-
-> **Note:** make sure you've run `npm run dev` at least one time before you run
-> the E2E tests!
-
-We use Playwright for our End-to-End tests in this project. You'll find those in
-the `playwright/` directory. As you make changes to your app, add to an existing
-file or create a new file in the `playwright/e2e` directory to test your
-changes.
-
-[Playwright natively features testing library selectors](https://playwright.dev/docs/release-notes#locators)
-for selecting elements on the page semantically.
-
-To run these tests in development, run `npm run test:e2e` which will start the
-dev server for the app as well as the Playwright client.
-
 ## Deployment
 
 A Docker image is built and deployed to [fly.io](fly.io).
