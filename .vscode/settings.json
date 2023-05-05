@@ -22,5 +22,6 @@
     "typecheck",
     "vitest",
     "Vitest"
-  ]
+  ],
+  "githubPullRequests.ignoredPullRequestBranches": ["main"]
 }
