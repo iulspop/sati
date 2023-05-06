@@ -45,6 +45,7 @@ describe('PromptCard component', () => {
         element: <PromptCardComponent {...prompt} />,
         action: async ({ request }) => {
           formData = await request.formData()
+          return null
         },
       },
     ])
@@ -79,6 +80,7 @@ describe('PromptCard component', () => {
         element: <PromptCardComponent {...prompt} />,
         action: async ({ request }) => {
           formData = await request.formData()
+          return null
         },
       },
     ])
