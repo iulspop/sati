@@ -39,7 +39,7 @@
   "dependencies": {
     "@headlessui/react": "1.7.11",
     "@heroicons/react": "2.0.16",
-    "@magic-sdk/admin": "1.8.0",
+    "@magic-sdk/admin": "1.10.0",
     "@paralleldrive/cuid2": "2.1.0",
     "@prisma/client": "4.10.1",
     "@remix-run/node": "1.13.0",
