@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react(), tsconfigPaths()],
   test: {
     threads: false,
-    environment: 'happy-dom',
+    environment: 'jsdom',
     setupFiles: ['./app/test/setup-test-environment.ts'],
     include: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
