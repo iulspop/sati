@@ -12,7 +12,6 @@ describe('badRequest()', async () => {
   })
 
   test('given some formatted Zod errors: returns a 400 status with the errors and a message', async () => {
-    // @ts-expect-error The typings for Zod are wrong.
     const response = badRequest({ _errors: ['Required'] })
 
     expect(response.status).toEqual(400)
