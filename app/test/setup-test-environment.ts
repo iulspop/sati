@@ -9,10 +9,8 @@ import { afterEach, expect } from 'vitest'
 // Disabled Jest global types since disabled Vitest globals.
 // So we need to extend expect types manually.
 // source: https://github.com/testing-library/jest-dom/issues/439
-declare global {
-  namespace Vi {
-    interface JestAssertion<T = any> extends jest.Matchers<void, T>, TestingLibraryMatchers<T, void> {}
-  }
+declare module 'vitest' {
+  interface Assertion<T = any> extends jest.Matchers<void, T>, TestingLibraryMatchers<T, void> {}
 }
 
 // When global is false, '@testing-library/jest-dom/extend-expect' fails since doesn't have expect.
