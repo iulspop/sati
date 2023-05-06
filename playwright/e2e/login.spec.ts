@@ -109,14 +109,11 @@ test.describe('login page', () => {
 
     await page.getByLabel(/email/i).fill(invalidMagicEmail)
     await page.getByRole('button', { name: /sign in/i }).click()
-    await page.waitForLoadState('networkidle')
-
     await expect(page.getByText(/login failed. please try again/i)).toBeVisible()
 
     await page.getByLabel(/email/i).fill(validMagicEmail)
     await page.getByRole('button', { name: /sign in/i }).click()
     await page.waitForURL(baseURL + '/queue')
-    await page.waitForLoadState('networkidle')
     await expect(page.getByRole('heading', { level: 1, name: /questions/i })).toBeVisible()
     const currentUrl = new URL(page.url())
     expect(currentUrl.origin + currentUrl.pathname).toEqual(baseURL + '/queue')
