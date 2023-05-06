@@ -11,8 +11,5 @@ export default defineConfig({
     include: ['**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     exclude: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'node_modules', '.git', '.cache'],
     watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
-    coverage: {
-      reporter: ['text', 'json', 'html'],
-    },
   },
 })

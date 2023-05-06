@@ -10,8 +10,5 @@ export default defineConfig({
     setupFiles: ['./app/test/setup-test-environment.ts'],
     include: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
-    coverage: {
-      reporter: ['text', 'json', 'html'],
-    },
   },
 })
