@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import { db } from '~/database.server'
-import { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
+import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
 import { deleteUserProfileFromDatabaseById } from '~/features/user-profile/user-profile-model.server'
 import { daysAgo, loginAndSaveUserProfileToDatabase } from '../utils'

@@ -3,9 +3,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test } from 'vitest'
 
-import { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
+import type { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
 
-import { PromptCardComponent, PromptCardComponentFormEntries } from './prompt-card-component'
+import type { PromptCardComponentFormEntries } from './prompt-card-component'
+import { PromptCardComponent } from './prompt-card-component'
 
 describe('PromptCard component', () => {
   test('given prompt data: renders form with yes and no answer buttons', async () => {

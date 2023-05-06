@@ -1,4 +1,5 @@
-import { json, LoaderArgs, V2_MetaFunction } from '@remix-run/node'
+import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
+import { json } from '@remix-run/node'
 import { useLoaderData, useLocation } from '@remix-run/react'
 import { useEffect } from 'react'
 import { Answers, PromptQueue } from '~/domains/self-data-collection/domain/index.server'
@@ -6,7 +7,7 @@ import type { Prompt } from '~/domains/self-data-collection/domain/value-objects
 import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
 import { HomePageComponent } from '~/routes/queue/home-page-component'
 import { convertAnswerFormat } from './convert-answer-format'
-import { PromptCardComponentFormEntries } from './prompt-card-component'
+import type { PromptCardComponentFormEntries } from './prompt-card-component'
 import { PromptListComponent } from './prompt-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -41,6 +42,7 @@ export default function HomePage() {
     const clientTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
     const newPath = `${location.pathname}?timeZone=${encodeURIComponent(clientTimeZone)}`
     window.history.replaceState({}, '', newPath)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeZone])
 
   return (
@@ -49,5 +51,3 @@ export default function HomePage() {
     </HomePageComponent>
   )
 }
-
-//

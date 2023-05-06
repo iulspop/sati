@@ -1,8 +1,8 @@
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
-import { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
-import { groupByDate, PromptListComponent } from './prompt-list-component'
+import type { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
+import { PromptListComponent, groupByDate } from './prompt-list-component'
 
 describe('PromptList component', () => {
   test('given a list of prompts: groups them by time', () => {
@@ -44,7 +44,7 @@ describe('PromptList component', () => {
     expect(dateGroups).toHaveLength(3)
 
     const groupOne = within(screen.getByRole('listitem', { name: 'April 12, 2023' }))
-    expect(groupOne.getAllByRole('listitem')).toHaveLength(1)
+    expect(groupOne.getByRole('listitem')).toBeInTheDocument()
     expect(groupOne.getByText(promptList[0].question)).toBeVisible()
 
     const groupTwo = within(screen.getByRole('listitem', { name: 'April 13, 2023' }))
@@ -97,7 +97,7 @@ describe('PromptList component', () => {
     expect(dateGroups).toHaveLength(3)
 
     const groupOne = within(screen.getByRole('listitem', { name: 'April 11, 2023' }))
-    expect(groupOne.getAllByRole('listitem')).toHaveLength(1)
+    expect(groupOne.getByRole('listitem')).toBeInTheDocument()
     expect(groupOne.getByText(promptList[0].question)).toBeVisible()
 
     const groupTwo = within(screen.getByRole('listitem', { name: 'April 12, 2023' }))

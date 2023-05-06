@@ -1,7 +1,8 @@
 import 'dotenv/config'
 
 import { installGlobals } from '@remix-run/node'
-import matchers, { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers'
+import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers'
+import matchers from '@testing-library/jest-dom/matchers'
 import { cleanup } from '@testing-library/react'
 import { afterEach, expect } from 'vitest'
 
