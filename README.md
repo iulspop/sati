@@ -1,5 +1,9 @@
 # Inquire
 
+This project is the seed for two tools will compose to work together:
+- Inquire: A self-inquiry tool designed to cultivate and expand self-insight through daily practice.
+- Sati: A self-observability tool that helps you maintain a coherent life rhythm with an at-a-glance report of your well-being and steer yourself into desired states through control loops.
+
 ## Getting Started
 
 - Make sure you're using Node.js 18.0.0 or higher. You can run:
