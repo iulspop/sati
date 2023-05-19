@@ -1,12 +1,14 @@
-import { Link } from '@remix-run/react'
+import { Link, useLocation } from '@remix-run/react'
 import { classNames } from '~/utils/class-names'
 
 export type HomePageComponentProps = {
-  navigation: { name: string; href: string; current: boolean }[]
+  navigation: { name: string; href: string }[]
   children: React.ReactNode | React.ReactNode[]
 }
 
 export function HomePageComponent({ navigation, children }: HomePageComponentProps) {
+  const { pathname: path } = useLocation()
+
   return (
     <div className="min-h-full">
       <nav className="mx-auto flex h-10 items-center justify-between bg-gray-800 px-4 py-6 sm:px-6 lg:px-8">
@@ -19,19 +21,23 @@ export function HomePageComponent({ navigation, children }: HomePageComponentPro
             />
           </div>
           <div className="ml-10 flex items-baseline space-x-4">
-            {navigation.map(item => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={classNames(
-                  item.current ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'rounded-md px-1 py-2 text-sm font-medium'
-                )}
-                aria-current={item.current ? 'page' : undefined}
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map(({ name, href }) => {
+              const isCurrent = calculateIfLinkIsCurrent({ path, href })
+
+              return (
+                <Link
+                  key={name}
+                  to={href}
+                  className={classNames(
+                    isCurrent ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'rounded-md px-1 py-2 text-sm font-medium'
+                  )}
+                  aria-current={isCurrent ? 'page' : undefined}
+                >
+                  {name}
+                </Link>
+              )
+            })}
           </div>
         </div>
         <form action="/logout" method="post" className="">
@@ -53,4 +59,10 @@ export function HomePageComponent({ navigation, children }: HomePageComponentPro
       <main className="flex flex-col items-center dark:text-white">{children}</main>
     </div>
   )
+}
+
+export const calculateIfLinkIsCurrent = ({ path, href }: { path: string; href: string }): boolean => {
+  if (path === href) return true
+  if (href.startsWith(path) && href.charAt(path.length) === '/') return true
+  return false
 }

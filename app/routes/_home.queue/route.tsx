@@ -5,7 +5,6 @@ import { useEffect } from 'react'
 import { Answers, PromptQueue } from '~/domains/self-data-collection/domain/index.server'
 import type { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
 import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
-import { HomePageComponent } from '~/routes/queue/home-page-component'
 import { convertAnswerFormat } from './convert-answer-format'
 import type { PromptCardComponentFormEntries } from './prompt-card-component'
 import { PromptListComponent } from './prompt-list-component'
@@ -26,7 +25,7 @@ export const action = async ({ request }) => {
   return new Response(null, { status: 200 })
 }
 
-export default function HomePage() {
+export default function QueuePage() {
   const promptList = useLoaderData<typeof loader>().map(serializedPrompt => ({
     ...serializedPrompt,
     timestamp: new Date(serializedPrompt.timestamp),
@@ -45,9 +44,5 @@ export default function HomePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeZone])
 
-  return (
-    <HomePageComponent navigation={[{ name: 'Question Queue', href: '#', current: true }]}>
-      <PromptListComponent promptList={promptList} timeZone={timeZone} />
-    </HomePageComponent>
-  )
+  return <PromptListComponent promptList={promptList} timeZone={timeZone} />
 }

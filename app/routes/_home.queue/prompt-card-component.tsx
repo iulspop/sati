@@ -22,7 +22,7 @@ export function PromptCardComponent({ questionId, question, timestamp }: PromptC
         <input type="hidden" name="questionId" value={questionId} />
         <input type="hidden" name="timestamp" value={timestamp.toISOString()} />
         <button
-          className="rounded bg-blue-500 py-2 px-4 font-bold text-white hover:bg-blue-700"
+          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
           name="response"
           value="Yes"
           type="submit"
@@ -31,7 +31,7 @@ export function PromptCardComponent({ questionId, question, timestamp }: PromptC
           Yes
         </button>
         <button
-          className="ml-4 rounded bg-red-500 py-2 px-4 font-bold text-white hover:bg-red-700"
+          className="ml-4 rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
           name="response"
           value="No"
           type="submit"

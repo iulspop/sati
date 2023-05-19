@@ -4,7 +4,6 @@ import { useLoaderData } from '@remix-run/react'
 import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
 import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
-import { HomePageComponent } from '~/routes/queue/home-page-component'
 import { QuestionListComponent } from './question-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -15,7 +14,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Questions | Inquire' }]
 
-export default function HomePage() {
+export default function QuestionsPage() {
   const recurringQuestions = useLoaderData<typeof loader>().map(serializedRecurringQuestion => ({
     ...serializedRecurringQuestion,
     phase: {
@@ -24,9 +23,5 @@ export default function HomePage() {
     },
   })) as RecurringQuestion[]
 
-  return (
-    <HomePageComponent navigation={[{ name: 'Questions', href: '#', current: true }]}>
-      <QuestionListComponent questions={recurringQuestions} />
-    </HomePageComponent>
-  )
+  return <QuestionListComponent questions={recurringQuestions} />
 }
