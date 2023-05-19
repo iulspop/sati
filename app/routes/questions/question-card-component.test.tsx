@@ -4,7 +4,7 @@ import type { RecurringQuestion } from '~/domains/self-data-collection/domain/en
 import { QuestionCardComponent } from './question-card-component'
 
 describe('QuestionCard component', () => {
-  test('given a recurring question: should render question text inside list item', async () => {
+  test('given a recurring question: render question text inside list item', async () => {
     const recurringQuestion: RecurringQuestion = {
       id: '1',
       order: 1,
