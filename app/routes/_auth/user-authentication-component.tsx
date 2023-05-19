@@ -57,7 +57,7 @@ export function UserAuthenticationComponent({
         <h1>Sign In or Sign Up</h1>
       </header>
 
-      <main className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <main className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
             <img
@@ -103,7 +103,7 @@ export function UserAuthenticationComponent({
 
             <div>
               <button
-                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
+                className="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
                 disabled={state === 'submitting'}
                 name="_intent"
                 type="submit"

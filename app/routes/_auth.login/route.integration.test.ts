@@ -1,14 +1,14 @@
 // @vitest-environment node
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
-import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
+import { magicAdmin } from '~/routes/_auth/magic-admin.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
 import { createPopulatedUserProfile } from '~/test/user-profile/user-profile-factories.server'
 import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
 } from '~/test/user-profile/user-profile-model.server'
-import { action } from './login'
+import { action } from './route'
 
 describe('login page action', async () => {
   test('given a login intent with an email: returns a response with a body containing the email', async () => {

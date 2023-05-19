@@ -4,11 +4,11 @@ import { useActionData, useNavigation, useSubmit } from '@remix-run/react'
 import { Magic } from 'magic-sdk'
 import { useEffect, useRef } from 'react'
 import { z } from 'zod'
-import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
-import { UserAuthenticationComponent, loginIntent } from '~/features/user-authentication/user-authentication-component'
-import { createUserSession, getUserId } from '~/features/user-authentication/user-authentication-session.server'
 import { useEffectOnce } from '~/hooks/use-effect-once'
 import { usePromise } from '~/hooks/use-promise'
+import { magicAdmin } from '~/routes/_auth/magic-admin.server'
+import { UserAuthenticationComponent, loginIntent } from '~/routes/_auth/user-authentication-component'
+import { createUserSession, getUserId } from '~/routes/_auth/user-authentication-session.server'
 import {
   retrieveUserProfileFromDatabaseById,
   saveUserProfileToDatabase,

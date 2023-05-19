@@ -3,7 +3,7 @@ import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
-import { requireUserIsAuthenticated } from '~/features/user-authentication/user-authentication-session.server'
+import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
 import { QuestionListComponent } from './question-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
