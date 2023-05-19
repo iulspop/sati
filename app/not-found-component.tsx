@@ -2,7 +2,7 @@ import { Link } from '@remix-run/react'
 
 export function NotFoundComponent() {
   return (
-    <div className="flex min-h-full flex-col bg-white pt-16 pb-12 dark:bg-slate-800">
+    <div className="flex min-h-full flex-col bg-white pb-12 pt-16 dark:bg-slate-800">
       <main className="mx-auto flex w-full max-w-7xl flex-grow flex-col justify-center px-4 sm:px-6 lg:px-8">
         <div className="flex flex-shrink-0 justify-center">
           <Link to="/" className="inline-flex">
