@@ -5,14 +5,14 @@ import { Magic } from 'magic-sdk'
 import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
-import { loginIntent, UserAuthenticationComponent } from '~/features/user-authentication/user-authentication-component'
+import { UserAuthenticationComponent, loginIntent } from '~/features/user-authentication/user-authentication-component'
 import { createUserSession, getUserId } from '~/features/user-authentication/user-authentication-session.server'
+import { useEffectOnce } from '~/hooks/use-effect-once'
+import { usePromise } from '~/hooks/use-promise'
 import {
   retrieveUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/features/user-profile/user-profile-model.server'
-import { useEffectOnce } from '~/hooks/use-effect-once'
-import { usePromise } from '~/hooks/use-promise'
+} from '~/test/user-profile/user-profile-model.server'
 import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
 
 export const loader = async ({ request }: LoaderArgs) => {

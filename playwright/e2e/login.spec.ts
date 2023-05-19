@@ -2,11 +2,11 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import 'dotenv/config'
 import { USER_AUTHENTICATION_SESSION_NAME } from '~/features/user-authentication/user-authentication-session.server'
-import { createPopulatedUserProfile } from '~/features/user-profile/user-profile-factories.server'
+import { createPopulatedUserProfile } from '~/test/user-profile/user-profile-factories.server'
 import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/features/user-profile/user-profile-model.server'
+} from '~/test/user-profile/user-profile-model.server'
 import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../utils'
 
 const loginLoaderRoute = '/login?_data=routes%2Flogin'

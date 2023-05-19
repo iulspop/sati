@@ -2,12 +2,12 @@
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
 import { magicAdmin } from '~/features/user-authentication/magic-admin.server'
-import { createPopulatedUserProfile } from '~/features/user-profile/user-profile-factories.server'
+import { generateRandomDid } from '~/test/generate-random-did.server'
+import { createPopulatedUserProfile } from '~/test/user-profile/user-profile-factories.server'
 import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/features/user-profile/user-profile-model.server'
-import { generateRandomDid } from '~/test/generate-random-did.server'
+} from '~/test/user-profile/user-profile-model.server'
 import { action } from './login'
 
 describe('login page action', async () => {

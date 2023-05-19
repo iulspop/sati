@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
-import { deleteUserProfileFromDatabaseById } from '~/features/user-profile/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById } from '~/test/user-profile/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('not found page', () => {

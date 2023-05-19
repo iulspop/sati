@@ -7,8 +7,8 @@ import {
   createUserSession,
   USER_AUTHENTICATION_SESSION_NAME,
 } from '~/features/user-authentication/user-authentication-session.server'
-import { saveUserProfileToDatabase } from '~/features/user-profile/user-profile-model.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
+import { saveUserProfileToDatabase } from '~/test/user-profile/user-profile-model.server'
 
 installGlobals()
 
