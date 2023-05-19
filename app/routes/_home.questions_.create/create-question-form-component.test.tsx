@@ -21,12 +21,8 @@ describe('CreateQuestionForm component', () => {
         },
       },
     ])
-
     const user = userEvent.setup()
     render(<RemixStub />)
-
-    await user.click(screen.getByRole('button', { name: /submit/i }))
-    expect(formData).toEqual(undefined)
 
     const questionText = 'Did you go to bed between 8 and 9PM?'
     await user.type(screen.getByLabelText('What is the recurring question?'), questionText)
@@ -35,5 +31,36 @@ describe('CreateQuestionForm component', () => {
     // @ts-expect-error
     const formEntries: CreateQuestionFormEntries = Object.fromEntries(formData.entries())
     expect(formEntries).toEqual({ text: questionText })
+  })
+
+  test('given form render: has cancel link to back to /questions', async () => {
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        element: <CreateQuestionFormComponent />,
+      },
+    ])
+    render(<RemixStub />)
+
+    expect(screen.getByRole('link', { name: /cancel/i })).toHaveAttribute('href', '/questions')
+  })
+
+  test('given click submit before input text: does not submit form', async () => {
+    let formData: FormData | undefined
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        element: <CreateQuestionFormComponent />,
+        action: async ({ request }) => {
+          formData = await request.formData()
+          return null
+        },
+      },
+    ])
+    const user = userEvent.setup()
+    render(<RemixStub />)
+
+    await user.click(screen.getByRole('button', { name: /submit/i }))
+    expect(formData).toEqual(undefined)
   })
 })
