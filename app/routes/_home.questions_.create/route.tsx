@@ -1,10 +1,11 @@
 import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
-import { Link, useLoaderData } from '@remix-run/react'
+import { useLoaderData } from '@remix-run/react'
 import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
-import { QuestionListComponent } from './question-list-component'
+import { QuestionListComponent } from '~/routes/_home.questions/question-list-component'
+import { CreateQuestionFormComponent } from './create-question-form-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
   await requireUserIsAuthenticated(request)
@@ -14,7 +15,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Questions | Inquire' }]
 
-export default function QuestionsPage() {
+export default function CreateQuestionPage() {
   const recurringQuestions = useLoaderData<typeof loader>().map(serializedRecurringQuestion => ({
     ...serializedRecurringQuestion,
     phase: {
@@ -25,7 +26,7 @@ export default function QuestionsPage() {
 
   return (
     <>
-      <Link to="/questions/create">Add Question</Link>
+      <CreateQuestionFormComponent />
       <QuestionListComponent questions={recurringQuestions} />
     </>
   )
