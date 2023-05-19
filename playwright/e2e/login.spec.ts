@@ -9,7 +9,39 @@ import {
 } from '~/test/user-profile/user-profile-model.server'
 import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../utils'
 
-const loginLoaderRoute = '/login?_data=routes%2Flogin'
+/*
+
+# Magic Admin SDK Error: [SERVICE_ERROR]
+
+If you get an error as such:
+```
+MagicAdminSDKError:
+Magic Admin SDK Error: [SERVICE_ERROR] A service error occurred while communicating with the Magic API. 
+Check the `data` key of this error object to see nested errors with additional context.
+
+{
+  code: 'SERVICE_ERROR',
+  data: [
+    {
+      data: {},
+      error_code: 'RESOURCE_NOT_FOUND',
+      message: 'Given issuer resource not found.',
+      status: 'failed'
+    }
+  ]
+}
+```
+
+Then it is likely because the login loader route has been changed without updating the test.
+
+To update the `loginLoaderRoute` const appropriately:
+1. Run `npx remix routes`
+2. Find the route for the login `<Route path="login" file="routes/_auth.login/route.tsx" />`
+3. Translate to loader route e.g. `/login?_data=routes%2F_auth.login`
+
+*/
+
+const loginLoaderRoute = '/login?_data=routes%2F_auth.login'
 const invalidMagicEmail = 'test+fail@magic.link'
 const validMagicEmail = 'test+success@magic.link'
 
