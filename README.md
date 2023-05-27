@@ -77,17 +77,15 @@ This project is the seed for two tools that will compose to work together:
 
 ## Running Tests
 
-- Run unit tests:
+- Run unit and integration tests in parallel:
 
 ```sh
 npm run test
 ```
 
-- Run integration tests (tests which interact with database).
+By convention, we name our test files which include tests with database I/O as `*.integration.test`. These tests typically involve interactions with a live database, and therefore, previously had to run sequentially to avoid conflicts.
 
-```sh
-npm run test:integration
-```
+However, with our recent updates, we've ensured that every database interaction within these tests is scoped by the `userId` or entity id. This means each test operates within its own unique context, effectively eliminating the possibility of conflicts between tests, even when they interact with the same database. As a result, these `*.integration.test` files can now be run in parallel.
 
 - To run e2e tests, first start Remix server for e2e tests (uses separate database than dev server, also allows seeing logs output on the server (as opposed to client) when running e2e tests):
 

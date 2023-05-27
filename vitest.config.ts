@@ -9,7 +9,6 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./app/test/setup-test-environment.ts'],
     include: ['**/*.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    exclude: ['**/*.integration.test.{js,mjs,cjs,ts,mts,cts,jsx,tsx}', 'node_modules', '.git', '.cache'],
     watchExclude: ['.*\\/node_modules\\/.*', '.*\\/build\\/.*'],
   },
 })
