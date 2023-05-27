@@ -1,9 +1,9 @@
 import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
-import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
-import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
+import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
+import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
 import { QuestionListComponent } from './question-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {

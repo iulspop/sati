@@ -1,7 +1,7 @@
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
-import type { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
+import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
 import { PromptListComponent, groupByDate } from './prompt-list-component'
 
 describe('PromptList component', () => {

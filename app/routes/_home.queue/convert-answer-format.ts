@@ -1,4 +1,4 @@
-import type { Answer } from '~/domains/self-data-collection/domain/entities/answer'
+import type { Answer } from '~/self-data-collection/domain/entities/answer'
 import type { PromptCardComponentFormEntries } from './prompt-card-component'
 
 export const convertAnswerFormat = (answer: PromptCardComponentFormEntries): Partial<Answer> => ({

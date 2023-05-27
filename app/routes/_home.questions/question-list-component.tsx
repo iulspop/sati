@@ -1,4 +1,4 @@
-import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
+import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
 import { QuestionCardComponent } from './question-card-component'
 
 export type QuestionListComponentProps = {

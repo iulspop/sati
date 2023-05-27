@@ -1,4 +1,4 @@
-import type { Prompt } from '~/domains/self-data-collection/domain/value-objects/prompt'
+import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
 import { PromptCardComponent } from './prompt-card-component'
 
 export type PromptListComponentProps = {

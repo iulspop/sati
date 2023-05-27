@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import 'dotenv/config'
 import { exit } from 'process'
-import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
+import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
 
 const prettyPrint = (object: any) => console.log(JSON.stringify(object, undefined, 2))
 
