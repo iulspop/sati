@@ -43,7 +43,7 @@ async function seed() {
     phase: { timestamp: daysAgo(2), utcOffsetInMinutes },
   })
 
-  const questions = await RecurringQuestions.readAll()
+  const questions = await RecurringQuestions.readAll(userId)
 
   console.log('========= result of seed: =========')
   prettyPrint({ user })

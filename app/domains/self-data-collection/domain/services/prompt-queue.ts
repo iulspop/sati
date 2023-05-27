@@ -15,7 +15,7 @@ export const PromptQueue =
       userId,
       queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
     ) => {
-      const recurringQuestionList = await RecurringQuestions.readAll()
+      const recurringQuestionList = await RecurringQuestions.readAll(userId)
       const answerList = await Answers.readAll(userId)
       return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
     },

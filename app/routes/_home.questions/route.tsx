@@ -7,8 +7,8 @@ import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-s
 import { QuestionListComponent } from './question-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUserIsAuthenticated(request)
-  const recurringQuestions = await RecurringQuestions.readAll()
+  const userId = await requireUserIsAuthenticated(request)
+  const recurringQuestions = await RecurringQuestions.readAll(userId)
   return json(recurringQuestions)
 }
 

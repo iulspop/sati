@@ -4,7 +4,7 @@ import { recurringQuestionFactory } from '../entities/recurring-question'
 export interface RecurringQuestionsAPI {
   create: (partialRecurringQuestion: CreateRecurringQuestionCommand) => Promise<RecurringQuestion>
   read: (id: string) => Promise<RecurringQuestion | null>
-  readAll: () => Promise<RecurringQuestion[]>
+  readAll: (userId: string) => Promise<RecurringQuestion[]>
   update: (id: string, partialRecurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
   delete: (id: string) => Promise<RecurringQuestion>
 }
@@ -16,7 +16,7 @@ export const RecurringQuestions = (
     if ('order' in partialRecurringQuestion)
       return await RecurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
 
-    const recurringQuestions = await RecurringQuestionRepository.readAll()
+    const recurringQuestions = await RecurringQuestionRepository.readAll(partialRecurringQuestion.userId)
     const lastOrder = recurringQuestions.reduce((max, recurringQuestion) => Math.max(max, recurringQuestion.order), -1)
 
     return RecurringQuestionRepository.create(
@@ -24,7 +24,10 @@ export const RecurringQuestions = (
     )
   },
   read: RecurringQuestionRepository.read,
-  readAll: RecurringQuestionRepository.readAll,
+  readAll: async userId => {
+    if (!userId) throw new Error('missing userId')
+    return await RecurringQuestionRepository.readAll(userId)
+  },
   update: RecurringQuestionRepository.update,
   delete: RecurringQuestionRepository.delete,
 })

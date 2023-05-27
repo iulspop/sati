@@ -4,7 +4,7 @@ import type { RecurringQuestion } from '../domain/entities/recurring-question'
 export interface RecurringQuestionRepositoryAPI {
   create(recurringQuestion: RecurringQuestion): Promise<RecurringQuestion>
   read(id: string): Promise<RecurringQuestion | null>
-  readAll(): Promise<RecurringQuestion[]>
+  readAll(userId: string): Promise<RecurringQuestion[]>
   update(id: string, partialRecurringQuestion: Partial<RecurringQuestion>): Promise<RecurringQuestion>
   delete(id: string): Promise<RecurringQuestion>
 }
@@ -47,9 +47,12 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
         },
       }
     }),
-  readAll: async () =>
+  readAll: async userId =>
     db.recurringQuestion
       .findMany({
+        where: {
+          userId,
+        },
         orderBy: {
           order: 'asc',
         },
