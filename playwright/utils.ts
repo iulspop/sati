@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test'
 import { installGlobals } from '@remix-run/node'
 import { parse } from 'cookie'
 import 'dotenv/config'
-import { saveUserProfileToDatabase } from '~/routes/_auth.login/user-profile/user-profile-model.server'
+import { saveUserProfileToDatabase } from '~/domains/self-data-collection/infrastructure/user-profile-model.server'
 import { createUserSession, USER_AUTHENTICATION_SESSION_NAME } from '~/routes/_auth/user-authentication-session.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
 

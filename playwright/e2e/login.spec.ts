@@ -4,7 +4,7 @@ import 'dotenv/config'
 import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/routes/_auth.login/user-profile/user-profile-model.server'
+} from '~/domains/self-data-collection/infrastructure/user-profile-model.server'
 import { USER_AUTHENTICATION_SESSION_NAME } from '~/routes/_auth/user-authentication-session.server'
 import { createPopulatedUserProfile } from '~/test/user-profile-factories.server'
 import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../utils'

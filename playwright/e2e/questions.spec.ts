@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import type { CreateRecurringQuestionCommand } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
-import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById } from '~/domains/self-data-collection/infrastructure/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('questions page', () => {

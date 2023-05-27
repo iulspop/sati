@@ -4,7 +4,7 @@ import { describe, expect, test, vi } from 'vitest'
 import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/routes/_auth.login/user-profile/user-profile-model.server'
+} from '~/domains/self-data-collection/infrastructure/user-profile-model.server'
 import { magicAdmin } from '~/routes/_auth/magic-admin.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
 import { createPopulatedUserProfile } from '~/test/user-profile-factories.server'
