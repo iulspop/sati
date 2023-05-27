@@ -5,7 +5,7 @@ import { answerFactory } from '../entities/answer'
 export interface AnswersAPI {
   create: (partialAnswer: Partial<Answer>) => Promise<Answer>
   read: (id: string) => Promise<Answer | null>
-  readAll: () => Promise<Answer[]>
+  readAll: (userId: string) => Promise<Answer[]>
   update: (id: string, partialAnswer: Partial<Answer>) => Promise<Answer>
   delete: (id: string) => Promise<Answer>
 }

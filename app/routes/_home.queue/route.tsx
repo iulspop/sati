@@ -10,8 +10,8 @@ import type { PromptCardComponentFormEntries } from './prompt-card-component'
 import { PromptListComponent } from './prompt-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUserIsAuthenticated(request)
-  const promptList = await PromptQueue.query()
+  const userId = await requireUserIsAuthenticated(request)
+  const promptList = await PromptQueue.query(userId)
   return json(promptList)
 }
 

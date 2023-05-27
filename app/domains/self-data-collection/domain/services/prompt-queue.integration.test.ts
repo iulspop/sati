@@ -64,7 +64,7 @@ describe('promptQueue()', async () => {
     assert({
       given: 'a recurring question and a query in two days local time',
       should: 'return two prompts, one for each day except the current day',
-      actual: await promptQueue.query(addHours(28, startDateLocal)),
+      actual: await promptQueue.query(userId, addHours(28, startDateLocal)),
       expected: [firstDayPrompt, secondDayPrompt],
     })
 
@@ -73,14 +73,14 @@ describe('promptQueue()', async () => {
     assert({
       given: 'one prompt answered',
       should: 'return one answer',
-      actual: await answers.readAll(),
+      actual: await answers.readAll(userId),
       expected: [firstDayAnswer],
     })
 
     assert({
       given: 'a prompt answered',
       should: 'not show the prompt again',
-      actual: await promptQueue.query(addHours(28, startDateLocal)),
+      actual: await promptQueue.query(userId, addHours(28, startDateLocal)),
       expected: [secondDayPrompt],
     })
 
@@ -121,7 +121,7 @@ describe('promptQueue()', async () => {
     assert({
       given: 'two recurring questions',
       should: 'return prompts in order of the questions',
-      actual: await promptQueue.query(queryTime),
+      actual: await promptQueue.query(userId, queryTime),
       expected: [
         {
           questionId: '1',
