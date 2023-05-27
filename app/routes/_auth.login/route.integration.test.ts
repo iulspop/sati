@@ -1,13 +1,13 @@
 // @vitest-environment node
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
-import { magicAdmin } from '~/routes/_auth/magic-admin.server'
-import { generateRandomDid } from '~/test/generate-random-did.server'
-import { createPopulatedUserProfile } from '~/test/user-profile/user-profile-factories.server'
+import { createPopulatedUserProfile } from '~/routes/_auth.login/user-profile/user-profile-factories.server'
 import {
   deleteUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/test/user-profile/user-profile-model.server'
+} from '~/routes/_auth.login/user-profile/user-profile-model.server'
+import { magicAdmin } from '~/routes/_auth/magic-admin.server'
+import { generateRandomDid } from '~/test/generate-random-did.server'
 import { action } from './route'
 
 describe('login page action', async () => {

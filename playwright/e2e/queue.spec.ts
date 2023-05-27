@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 import { db } from '~/database.server'
 import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
-import { deleteUserProfileFromDatabaseById } from '~/test/user-profile/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
 import { daysAgo, loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('queue page', () => {

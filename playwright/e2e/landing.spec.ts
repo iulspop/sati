@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
-import { deleteUserProfileFromDatabaseById } from '~/test/user-profile/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('landing page', () => {

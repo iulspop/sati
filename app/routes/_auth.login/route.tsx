@@ -7,12 +7,12 @@ import { z } from 'zod'
 import { useEffectOnce } from '~/hooks/use-effect-once'
 import { usePromise } from '~/hooks/use-promise'
 import { UserAuthenticationComponent, loginIntent } from '~/routes/_auth.login/user-authentication-component'
-import { magicAdmin } from '~/routes/_auth/magic-admin.server'
-import { createUserSession, getUserId } from '~/routes/_auth/user-authentication-session.server'
 import {
   retrieveUserProfileFromDatabaseById,
   saveUserProfileToDatabase,
-} from '~/test/user-profile/user-profile-model.server'
+} from '~/routes/_auth.login/user-profile/user-profile-model.server'
+import { magicAdmin } from '~/routes/_auth/magic-admin.server'
+import { createUserSession, getUserId } from '~/routes/_auth/user-authentication-session.server'
 import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
 
 export const loader = async ({ request }: LoaderArgs) => {
