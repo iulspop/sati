@@ -6,8 +6,8 @@ import { useEffect, useRef } from 'react'
 import { z } from 'zod'
 import { useEffectOnce } from '~/hooks/use-effect-once'
 import { usePromise } from '~/hooks/use-promise'
+import { UserAuthenticationComponent, loginIntent } from '~/routes/_auth.login/user-authentication-component'
 import { magicAdmin } from '~/routes/_auth/magic-admin.server'
-import { UserAuthenticationComponent, loginIntent } from '~/routes/_auth/user-authentication-component'
 import { createUserSession, getUserId } from '~/routes/_auth/user-authentication-session.server'
 import {
   retrieveUserProfileFromDatabaseById,
