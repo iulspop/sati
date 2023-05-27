@@ -1,15 +1,28 @@
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, test } from 'vitest'
+import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { CreateQuestionFormComponent } from './create-question-form-component'
 
-type CreateQuestionFormEntries = {
-  text: string
-}
-
 describe('CreateQuestionForm component', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+
+    // Workaround for testing library not supporting Vitest fake timers by default
+    // https://github.com/testing-library/react-testing-library/issues/1197
+    globalThis.jest = {
+      advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
+    }
+  })
+
+  beforeAll(() => {
+    vi.useRealTimers()
+  })
+
   test('given a new recurring question submitted: form data contains only question text', async () => {
+    const date = new Date('2022-10-20T01:00:00.000Z')
+    vi.setSystemTime(date)
+
     let formData: FormData | undefined
     const RemixStub = createRemixStub([
       {
@@ -21,16 +34,23 @@ describe('CreateQuestionForm component', () => {
         },
       },
     ])
-    const user = userEvent.setup()
+
+    const user = userEvent.setup({
+      advanceTimers: vi.advanceTimersByTime.bind(vi),
+    })
+
     render(<RemixStub />)
 
     const questionText = 'Did you go to bed between 8 and 9PM?'
     await user.type(screen.getByLabelText('What is the recurring question?'), questionText)
     await user.click(screen.getByRole('button', { name: /submit/i }))
 
-    // @ts-expect-error
-    const formEntries: CreateQuestionFormEntries = Object.fromEntries(formData.entries())
-    expect(formEntries).toEqual({ text: questionText })
+    const formEntries = Object.fromEntries(formData.entries())
+    expect(formEntries).toEqual({
+      text: questionText,
+      timestamp: date.toISOString(),
+      utcOffsetInMinutes: String(date.getTimezoneOffset()),
+    })
   })
 
   test('given form render: has cancel link to back to /questions', async () => {
@@ -57,7 +77,10 @@ describe('CreateQuestionForm component', () => {
         },
       },
     ])
-    const user = userEvent.setup()
+
+    const user = userEvent.setup({
+      advanceTimers: vi.advanceTimersByTime.bind(vi),
+    })
     render(<RemixStub />)
 
     await user.click(screen.getByRole('button', { name: /submit/i }))
