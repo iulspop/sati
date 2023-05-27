@@ -8,8 +8,8 @@ import { QuestionListComponent } from '~/routes/_home.questions/question-list-co
 import { CreateQuestionFormComponent } from './create-question-form-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await requireUserIsAuthenticated(request)
-  const recurringQuestions = await RecurringQuestions.readAll()
+  const userId = await requireUserIsAuthenticated(request)
+  const recurringQuestions = await RecurringQuestions.readAll(userId)
   return json(recurringQuestions)
 }
 
