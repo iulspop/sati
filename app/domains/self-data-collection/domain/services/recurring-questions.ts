@@ -1,6 +1,7 @@
 import type { RecurringQuestionRepositoryAPI } from '../../infrastructure/recurring-question-repository.server'
 import type { CreateRecurringQuestionCommand, RecurringQuestion } from '../entities/recurring-question'
 import { recurringQuestionFactory } from '../entities/recurring-question'
+
 export interface RecurringQuestionsAPI {
   create: (partialRecurringQuestion: CreateRecurringQuestionCommand) => Promise<RecurringQuestion>
   read: (id: string) => Promise<RecurringQuestion | null>
