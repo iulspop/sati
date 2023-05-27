@@ -1,5 +1,13 @@
 import { db } from '~/database.server'
-import type { AnswerRepositoryAPI } from '../domain/repositories/answer-repository.js'
+import type { Answer } from '../domain/entities/answer'
+
+export interface AnswerRepositoryAPI {
+  create(answer: Answer): Promise<Answer>
+  read(id: string): Promise<Answer | null>
+  readAll(): Promise<Answer[]>
+  update(id: string, partialAnswer: Partial<Answer>): Promise<Answer>
+  delete(id: string): Promise<Answer>
+}
 
 export const AnswerRepository = (): AnswerRepositoryAPI => ({
   create: async answer =>

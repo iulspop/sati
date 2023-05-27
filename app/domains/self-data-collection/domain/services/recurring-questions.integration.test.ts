@@ -2,7 +2,7 @@ import { saveFakeUserProfileToDatabase } from 'playwright/utils'
 import { beforeEach, expect, test } from 'vitest'
 import { db } from '~/database.server'
 import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
-import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma.server'
+import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-repository.server'
 import type { CreateRecurringQuestionCommand } from '../entities/recurring-question'
 import { RecurringQuestions } from './recurring-questions'
 

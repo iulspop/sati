@@ -1,5 +1,13 @@
 import { db } from '~/database.server'
-import type { RecurringQuestionRepositoryAPI } from '../domain/repositories/recurring-question-repository'
+import type { RecurringQuestion } from '../domain/entities/recurring-question'
+
+export interface RecurringQuestionRepositoryAPI {
+  create(recurringQuestion: RecurringQuestion): Promise<RecurringQuestion>
+  read(id: string): Promise<RecurringQuestion | null>
+  readAll(): Promise<RecurringQuestion[]>
+  update(id: string, partialRecurringQuestion: Partial<RecurringQuestion>): Promise<RecurringQuestion>
+  delete(id: string): Promise<RecurringQuestion>
+}
 
 export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI => ({
   create: async ({ id, userId, order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
