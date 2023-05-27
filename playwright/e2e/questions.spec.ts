@@ -1,6 +1,6 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
-import type { RecurringQuestion } from '~/domains/self-data-collection/domain/entities/recurring-question'
+import type { CreateRecurringQuestionCommand } from '~/domains/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/domains/self-data-collection/domain/index.server'
 import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
@@ -8,17 +8,27 @@ import { loginAndSaveUserProfileToDatabase } from '../utils'
 test.describe('questions page', () => {
   test('given user is logged in: loads one of each of their recurring questions', async ({ page }) => {
     const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
-    const recurringQuestion: Partial<RecurringQuestion> = {
+    const recurringQuestion: CreateRecurringQuestionCommand = {
+      userId,
       question: 'Brushed Teeth?',
       order: 1,
+      phase: {
+        timestamp: new Date(),
+        utcOffsetInMinutes: new Date().getTimezoneOffset(),
+      },
     }
-    const recurringQuestion2: Partial<RecurringQuestion> = {
+    const recurringQuestion2: CreateRecurringQuestionCommand = {
+      userId,
       question: 'Gone to Bed By 9:00PM?',
       order: 2,
+      phase: {
+        timestamp: new Date(),
+        utcOffsetInMinutes: new Date().getTimezoneOffset(),
+      },
     }
 
-    const { id: recurringQuestionId } = await RecurringQuestions.create(recurringQuestion)
-    const { id: recurringQuestionId2 } = await RecurringQuestions.create(recurringQuestion2)
+    await RecurringQuestions.create(recurringQuestion)
+    await RecurringQuestions.create(recurringQuestion2)
 
     try {
       await page.goto('./questions')
@@ -26,8 +36,6 @@ test.describe('questions page', () => {
       await expect(listItems.filter({ hasText: recurringQuestion.question })).toHaveCount(1)
       await expect(listItems.filter({ hasText: recurringQuestion2.question })).toHaveCount(1)
     } finally {
-      await RecurringQuestions.delete(recurringQuestionId)
-      await RecurringQuestions.delete(recurringQuestionId2)
       await deleteUserProfileFromDatabaseById(userId)
     }
   })

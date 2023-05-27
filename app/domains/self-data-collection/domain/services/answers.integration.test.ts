@@ -1,5 +1,7 @@
+import { saveFakeUserProfileToDatabase } from 'playwright/utils'
 import { beforeEach, expect, test } from 'vitest'
 import { db } from '~/database.server'
+import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
 import { AnswerRepository } from '../../infrastructure/answer-prisma.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma.server'
 import type { Answer } from '../entities/answer'
@@ -11,8 +13,17 @@ beforeEach(async () => {
 })
 
 test('Answers CRUD', async () => {
+  const { id: userId } = await saveFakeUserProfileToDatabase({})
+
   const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-  const createdRecurringQuestion = await recurringQuestions.create({})
+  const createdRecurringQuestion = await recurringQuestions.create({
+    userId,
+    question: 'N/A',
+    phase: {
+      timestamp: new Date(),
+      utcOffsetInMinutes: 500,
+    },
+  })
 
   const answers = Answers(AnswerRepository())
   const answer: Partial<Answer> = {
@@ -41,4 +52,6 @@ test('Answers CRUD', async () => {
   readAnswers = await answers.readAll()
   expect(deletedAnswer).toEqual(updatedAnswer)
   expect(readAnswers).toEqual([])
+
+  await deleteUserProfileFromDatabaseById(userId)
 })

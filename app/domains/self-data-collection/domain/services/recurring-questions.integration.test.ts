@@ -1,7 +1,9 @@
+import { saveFakeUserProfileToDatabase } from 'playwright/utils'
 import { beforeEach, expect, test } from 'vitest'
 import { db } from '~/database.server'
+import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma.server'
-import type { RecurringQuestion } from '../entities/recurring-question'
+import type { CreateRecurringQuestionCommand } from '../entities/recurring-question'
 import { RecurringQuestions } from './recurring-questions'
 
 beforeEach(async () => {
@@ -9,8 +11,11 @@ beforeEach(async () => {
 })
 
 test('RecurringQuestions CRUD', async () => {
+  const { id: userId } = await saveFakeUserProfileToDatabase({})
+
   const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-  const recurringQuestion: Partial<RecurringQuestion> = {
+  const recurringQuestion: CreateRecurringQuestionCommand = {
+    userId,
     question: 'Go to Bed By 9:30PM',
     order: 10,
     phase: {
@@ -18,7 +23,8 @@ test('RecurringQuestions CRUD', async () => {
       utcOffsetInMinutes: 0,
     },
   }
-  const recurringQuestion2: Partial<RecurringQuestion> = {
+  const recurringQuestion2: CreateRecurringQuestionCommand = {
+    userId,
     question: 'Go to Bed By 9:00PM',
     order: 1,
     phase: {
@@ -52,11 +58,16 @@ test('RecurringQuestions CRUD', async () => {
   readRecurringQuestions = await recurringQuestions.readAll()
   expect(deletedRecurringQuestion).toEqual(updatedRecurringQuestion)
   expect(readRecurringQuestions).toEqual([createdRecurringQuestion2])
+
+  await deleteUserProfileFromDatabaseById(userId)
 })
 
 test('given creating a recurring question: default order to last order + 1', async () => {
+  const { id: userId } = await saveFakeUserProfileToDatabase({})
+
   const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-  const recurringQuestion: Partial<RecurringQuestion> = {
+  const recurringQuestion: CreateRecurringQuestionCommand = {
+    userId,
     question: 'X',
     phase: {
       timestamp: new Date('2022-10-22T00:00:00.000Z'),
@@ -71,4 +82,6 @@ test('given creating a recurring question: default order to last order + 1', asy
     { ...recurringQuestion, id: '1', order: 10 },
     { ...recurringQuestion, id: '2', order: 11 },
   ])
+
+  await deleteUserProfileFromDatabaseById(userId)
 })

@@ -52,14 +52,18 @@ export async function loginByCookie({ id = generateRandomDid(), page }: { id?: s
   ])
 }
 
-export async function loginAndSaveUserProfileToDatabase({
-  email = faker.internet.email(),
-  id = generateRandomDid(),
-  name = faker.name.fullName(),
-  page,
-}: Partial<Parameters<typeof saveUserProfileToDatabase>[0]> & { page: Page }) {
+export async function loginAndSaveUserProfileToDatabase({ page }: { page: Page }) {
+  const id = generateRandomDid()
   await loginByCookie({ id, page })
-  return await saveUserProfileToDatabase({ email, id, name })
+  return await saveFakeUserProfileToDatabase({ id })
+}
+
+export async function saveFakeUserProfileToDatabase({
+  id = generateRandomDid(),
+  email = faker.internet.email(),
+  name = faker.name.fullName(),
+}: Partial<Parameters<typeof saveUserProfileToDatabase>[0]>) {
+  return await saveUserProfileToDatabase({ id, email, name })
 }
 
 export const daysAgo = (days: number) => {

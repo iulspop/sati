@@ -2,18 +2,20 @@ import { db } from '~/database.server'
 import type { RecurringQuestionRepositoryAPI } from '../domain/repositories/recurring-question-repository'
 
 export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI => ({
-  create: async ({ id, order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
+  create: async ({ id, userId, order, question, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
     db.recurringQuestion
       .create({
         data: {
           id,
+          userId,
           order,
           question,
           timestamp,
           utcOffsetInMinutes,
         },
       })
-      .then(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
+      .then(({ id, userId, order, question, timestamp, utcOffsetInMinutes }) => ({
+        userId,
         id,
         order,
         question,
@@ -25,8 +27,9 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
   read: async id =>
     db.recurringQuestion.findUnique({ where: { id } }).then(recurringQuestion => {
       if (!recurringQuestion) return null
-      const { id, order, question, timestamp, utcOffsetInMinutes } = recurringQuestion
+      const { id, userId, order, question, timestamp, utcOffsetInMinutes } = recurringQuestion
       return {
+        userId,
         id,
         order,
         question,
@@ -44,8 +47,9 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
         },
       })
       .then(recurringQuestions =>
-        recurringQuestions.map(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
+        recurringQuestions.map(({ id, userId, order, question, timestamp, utcOffsetInMinutes }) => ({
           id,
+          userId,
           order,
           question,
           phase: {
@@ -65,8 +69,9 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
           utcOffsetInMinutes,
         },
       })
-      .then(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
+      .then(({ id, userId, order, question, timestamp, utcOffsetInMinutes }) => ({
         id,
+        userId,
         order,
         question,
         phase: {
@@ -75,13 +80,16 @@ export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI =>
         },
       })),
   delete: async id =>
-    db.recurringQuestion.delete({ where: { id } }).then(({ id, order, question, timestamp, utcOffsetInMinutes }) => ({
-      id,
-      order,
-      question,
-      phase: {
-        timestamp,
-        utcOffsetInMinutes,
-      },
-    })),
+    db.recurringQuestion
+      .delete({ where: { id } })
+      .then(({ id, userId, order, question, timestamp, utcOffsetInMinutes }) => ({
+        id,
+        userId,
+        order,
+        question,
+        phase: {
+          timestamp,
+          utcOffsetInMinutes,
+        },
+      })),
 })

@@ -8,6 +8,7 @@ describe('QuestionList component', () => {
     const recurringQuestions: RecurringQuestion[] = [
       {
         id: '1',
+        userId: '1',
         order: 1,
         question: 'Did you go to bed between 8 and 9PM?',
         phase: {
@@ -17,6 +18,7 @@ describe('QuestionList component', () => {
       },
       {
         id: '2',
+        userId: '1',
         order: 2,
         question: 'Did you wake up between 6 and 7AM?',
         phase: {
@@ -26,6 +28,7 @@ describe('QuestionList component', () => {
       },
       {
         id: '3',
+        userId: '1',
         order: 3,
         question: 'Did you eat breakfast before 8AM?',
         phase: {

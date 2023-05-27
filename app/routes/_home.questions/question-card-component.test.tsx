@@ -6,6 +6,7 @@ import { QuestionCardComponent } from './question-card-component'
 describe('QuestionCard component', () => {
   test('given a recurring question: render question text inside list item', async () => {
     const recurringQuestion: RecurringQuestion = {
+      userId: '1',
       id: '1',
       order: 1,
       question: 'Did you go to bed between 8 and 9PM?',

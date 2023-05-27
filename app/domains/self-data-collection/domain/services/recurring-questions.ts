@@ -1,9 +1,9 @@
-import type { RecurringQuestion } from '../entities/recurring-question'
+import type { CreateRecurringQuestionCommand, RecurringQuestion } from '../entities/recurring-question'
 import { recurringQuestionFactory } from '../entities/recurring-question'
 import type { RecurringQuestionRepositoryAPI } from '../repositories/recurring-question-repository'
 
 export interface RecurringQuestionsAPI {
-  create: (partialRecurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>
+  create: (partialRecurringQuestion: CreateRecurringQuestionCommand) => Promise<RecurringQuestion>
   read: (id: string) => Promise<RecurringQuestion | null>
   readAll: () => Promise<RecurringQuestion[]>
   update: (id: string, partialRecurringQuestion: Partial<RecurringQuestion>) => Promise<RecurringQuestion>

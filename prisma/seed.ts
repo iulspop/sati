@@ -32,11 +32,13 @@ async function seed() {
   })
 
   await RecurringQuestions.create({
+    userId,
     question: 'Did you go to bed at 9:30PM?',
     phase: { timestamp: daysAgo(3), utcOffsetInMinutes },
   })
 
   await RecurringQuestions.create({
+    userId,
     question: 'Did you eat last meal by 3PM?',
     phase: { timestamp: daysAgo(2), utcOffsetInMinutes },
   })

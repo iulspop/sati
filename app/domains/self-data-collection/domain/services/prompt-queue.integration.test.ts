@@ -1,5 +1,6 @@
+import { saveFakeUserProfileToDatabase } from 'playwright/utils'
 import { describe } from 'vitest'
-import { db } from '~/database.server'
+import { deleteUserProfileFromDatabaseById } from '~/routes/_auth.login/user-profile/user-profile-model.server'
 import { assert } from '~/test/assert'
 import { AnswerRepository } from '../../infrastructure/answer-prisma.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-prisma.server'
@@ -21,7 +22,7 @@ import { RecurringQuestions } from './recurring-questions'
 
 describe('promptQueue()', async () => {
   {
-    await db.recurringQuestion.deleteMany()
+    const { id: userId } = await saveFakeUserProfileToDatabase({})
 
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const answers = Answers(AnswerRepository())
@@ -52,6 +53,7 @@ describe('promptQueue()', async () => {
 
     await recurringQuestions.create({
       id: '1',
+      userId,
       question: 'Did you study 2 hours?',
       phase: {
         timestamp: startDate,
@@ -81,9 +83,11 @@ describe('promptQueue()', async () => {
       actual: await promptQueue.query(addHours(28, startDateLocal)),
       expected: [secondDayPrompt],
     })
+
+    await deleteUserProfileFromDatabaseById(userId)
   }
   {
-    await db.recurringQuestion.deleteMany()
+    const { id: userId } = await saveFakeUserProfileToDatabase({})
 
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const answers = Answers(AnswerRepository())
@@ -94,6 +98,7 @@ describe('promptQueue()', async () => {
 
     await recurringQuestions.create({
       id: '2',
+      userId,
       order: 2,
       question: 'Have you studied?',
       phase: {
@@ -104,6 +109,7 @@ describe('promptQueue()', async () => {
 
     await recurringQuestions.create({
       id: '1',
+      userId,
       order: 1,
       question: 'Have you eaten broccoli?',
       phase: {
@@ -129,6 +135,8 @@ describe('promptQueue()', async () => {
         },
       ],
     })
+
+    await deleteUserProfileFromDatabaseById(userId)
   }
 })
 
@@ -144,6 +152,7 @@ describe('calculateQuery()', () => {
         [
           {
             id: '1',
+            userId: '1',
             order: 1,
             question: 'Have you studied?',
             phase: {
@@ -175,6 +184,7 @@ describe('calculateQuery()', () => {
         [
           {
             id: '1',
+            userId: '1',
             order: 1,
             question: 'Have you studied?',
             phase: {
@@ -184,6 +194,7 @@ describe('calculateQuery()', () => {
           },
           {
             id: '2',
+            userId: '1',
             order: 2,
             question: 'Did you eat your vegetables?',
             phase: {
