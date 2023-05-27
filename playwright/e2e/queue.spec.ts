@@ -37,17 +37,15 @@ test.describe('queue page', () => {
     await RecurringQuestions.create(recurringQuestion)
     await RecurringQuestions.create(recurringQuestion2)
 
-    try {
-      await page.goto('./queue')
+    await page.goto('./queue')
 
-      await expect(page.getByText(recurringQuestion.question)).toHaveCount(1)
-      await expect(page.getByText(recurringQuestion2.question)).toHaveCount(2)
+    await expect(page.getByText(recurringQuestion.question)).toHaveCount(1)
+    await expect(page.getByText(recurringQuestion2.question)).toHaveCount(2)
 
-      await page.locator(`form:has-text('${recurringQuestion.question}')`).getByRole('button', { name: /yes/i }).click()
-      await expect(page.getByText(recurringQuestion.question)).toHaveCount(0)
-    } finally {
-      await deleteUserProfileFromDatabaseById(userId)
-    }
+    await page.locator(`form:has-text('${recurringQuestion.question}')`).getByRole('button', { name: /yes/i }).click()
+    await expect(page.getByText(recurringQuestion.question)).toHaveCount(0)
+
+    await deleteUserProfileFromDatabaseById(userId)
   })
 
   test('given user is logged in and there are not query parameters: redirects to the queue page with the timeZone query parameter', async ({

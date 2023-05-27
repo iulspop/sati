@@ -32,27 +32,7 @@ describe('promptQueue()', async () => {
     const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
     const startOfDayInLocalTime = new Date('2022-10-19T05:00:00.000Z')
 
-    const firstDayPrompt: Prompt = {
-      questionId: '1',
-      question: 'Did you study 2 hours?',
-      timestamp: startOfDayInLocalTime,
-    }
-
-    const secondDayPrompt: Prompt = {
-      questionId: '1',
-      question: 'Did you study 2 hours?',
-      timestamp: addDay(startOfDayInLocalTime),
-    }
-
-    const firstDayAnswer: Answer = {
-      id: '1',
-      questionId: '1',
-      timestamp: new Date(startOfDayInLocalTime),
-      response: true,
-    }
-
-    await recurringQuestions.create({
-      id: '1',
+    const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       question: 'Did you study 2 hours?',
       phase: {
@@ -61,6 +41,18 @@ describe('promptQueue()', async () => {
       },
     })
 
+    const firstDayPrompt: Prompt = {
+      questionId: createdRecurringQuestion.id,
+      question: 'Did you study 2 hours?',
+      timestamp: startOfDayInLocalTime,
+    }
+
+    const secondDayPrompt: Prompt = {
+      questionId: createdRecurringQuestion.id,
+      question: 'Did you study 2 hours?',
+      timestamp: addDay(startOfDayInLocalTime),
+    }
+
     assert({
       given: 'a recurring question and a query in two days local time',
       should: 'return two prompts, one for each day except the current day',
@@ -68,7 +60,11 @@ describe('promptQueue()', async () => {
       expected: [firstDayPrompt, secondDayPrompt],
     })
 
-    await answers.create(firstDayAnswer)
+    const firstDayAnswer = await answers.create({
+      questionId: createdRecurringQuestion.id,
+      timestamp: new Date(startOfDayInLocalTime),
+      response: true,
+    })
 
     assert({
       given: 'one prompt answered',
@@ -96,8 +92,7 @@ describe('promptQueue()', async () => {
     const startTime = new Date('2022-10-22T00:00:00.000Z')
     const queryTime = new Date('2022-10-23T00:00:00.000Z')
 
-    await recurringQuestions.create({
-      id: '2',
+    const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       order: 2,
       question: 'Have you studied?',
@@ -107,8 +102,7 @@ describe('promptQueue()', async () => {
       },
     })
 
-    await recurringQuestions.create({
-      id: '1',
+    const secondCreatedRecurringQuestion = await recurringQuestions.create({
       userId,
       order: 1,
       question: 'Have you eaten broccoli?',
@@ -124,12 +118,12 @@ describe('promptQueue()', async () => {
       actual: await promptQueue.query(userId, queryTime),
       expected: [
         {
-          questionId: '1',
+          questionId: secondCreatedRecurringQuestion.id,
           question: 'Have you eaten broccoli?',
           timestamp: startTime,
         },
         {
-          questionId: '2',
+          questionId: createdRecurringQuestion.id,
           question: 'Have you studied?',
           timestamp: startTime,
         },

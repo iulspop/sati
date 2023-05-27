@@ -70,13 +70,13 @@ describe('RecurringQuestions()', () => {
         utcOffsetInMinutes: 0,
       },
     }
-    await recurringQuestions.create({ ...recurringQuestion, id: '1', order: 10 })
-    await recurringQuestions.create({ ...recurringQuestion, id: '2' })
+    const createdRecurringQuestion = await recurringQuestions.create({ ...recurringQuestion, order: 10 })
+    const secondCreatedRecurringQuestion = await recurringQuestions.create({ ...recurringQuestion })
 
     const readRecurringQuestions = await recurringQuestions.readAll(userId)
     expect(readRecurringQuestions).toEqual([
-      { ...recurringQuestion, id: '1', order: 10 },
-      { ...recurringQuestion, id: '2', order: 11 },
+      { ...createdRecurringQuestion, order: 10 },
+      { ...secondCreatedRecurringQuestion, order: 11 },
     ])
 
     await deleteUserProfileFromDatabaseById(userId)
