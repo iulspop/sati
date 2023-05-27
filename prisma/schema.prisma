@@ -36,30 +36,3 @@ model Answer {
   response   Boolean
   timestamp  DateTime
 }
-
-model Slo {
-  id               String   @id
-  createdAt        DateTime
-  name             String
-  denominatorLabel String
-  denominator      Int
-  targetPercentage Float
-  Stream           Stream?
-}
-
-model Stream {
-  id        String   @id
-  slo       Slo      @relation(fields: [sloId], references: [id], onDelete: Cascade)
-  createdAt DateTime
-  source    String
-  sloId     String   @unique
-  Event     Event[]
-}
-
-model Event {
-  id        String   @id
-  stream    Stream   @relation(fields: [streamId], references: [id], onDelete: Cascade)
-  createdAt DateTime
-  streamId  String
-  data      String
-}
