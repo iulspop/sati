@@ -1,6 +1,7 @@
 # Inquire
 
 This project is the seed for two tools will compose to work together:
+
 - Inquire: A self-inquiry tool designed to cultivate and expand self-insight through daily practice.
 - Sati: A self-observability tool that helps you maintain a coherent life rhythm with an at-a-glance report of your well-being and steer yourself into desired states through control loops.
 
@@ -105,6 +106,8 @@ Playwright UI mode is handy for running e2e tests in watch mode with screenshots
 ```sh
 npm run test:e2e:ui
 ```
+
+When using VS Code, you can also start a task using `Cmd+Shift+B` (or `Ctrl+Shift+B` on Windows/Linux) and select `tsc: watch`. This starts the TypeScript compiler in watch mode and report any encounters in the "Problems" tab at the bottom of the Visual Studio Code window. Handy for keeping track of large refactoring when you change types used all over like domain entities.
 
 ## Development
 
