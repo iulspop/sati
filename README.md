@@ -5,6 +5,12 @@ This project is the seed for two tools that will compose to work together:
 - Inquire: A self-inquiry tool designed to cultivate and expand self-insight through daily practice.
 - Sati: A self-observability tool that helps you maintain a coherent life rhythm with an at-a-glance report of your well-being and steer yourself into desired states through control loops.
 
+## Quickstart
+
+Click this button to create a [Gitpod](https://gitpod.io) workspace with the project set up and Fly pre-installed
+
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
+
 ## Getting Started
 
 - Make sure you're using Node.js 18.0.0 or higher. You can run:
