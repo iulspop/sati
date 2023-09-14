@@ -13,7 +13,7 @@ Click this button to create a [Gitpod](https://gitpod.io) workspace with the pro
 
 ## Getting Started
 
-- Make sure you're using Node.js 18.0.0 or higher. You can run:
+- Make sure you're using the latest Active LTS Node.js release (V18). You can run:
 
   ```sh
   node -v
