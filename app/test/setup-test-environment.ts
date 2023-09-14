@@ -15,3 +15,22 @@ installGlobals()
 
 // source: https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html#configuring-your-testing-environment.
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
+
+// removes "Warning: The current testing environment is not configured to support act" caused by
+// necessary redundant act in `create-question-form-component.test.tsx`:
+// ```
+//  await act(async () => {
+//    await user.click(screen.getByRole('button', { name: /submit/i }))
+//  })
+// ```
+// Monkey path solution found here: https://stackoverflow.com/a/74228751
+const originalConsoleError = console.error
+console.error = (...args) => {
+  if (
+    typeof args[0] === 'string' &&
+    args[0].startsWith('Warning: The current testing environment is not configured to support act')
+  ) {
+    return
+  }
+  originalConsoleError.apply(console, args)
+}

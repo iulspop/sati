@@ -1,11 +1,11 @@
 import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
-import { render, screen } from '@testing-library/react'
+import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { beforeAll, beforeEach, describe, expect, test, vi } from 'vitest'
+import { describe, expect, test, vi } from 'vitest'
 import { CreateQuestionFormComponent } from './create-question-form-component'
 
 describe('CreateQuestionForm component', () => {
-  beforeEach(() => {
+  test('given a new recurring question submitted: form data contains only question text', async () => {
     vi.useFakeTimers()
 
     // Workaround for testing library not supporting Vitest fake timers by default
@@ -13,15 +13,11 @@ describe('CreateQuestionForm component', () => {
     globalThis.jest = {
       advanceTimersByTime: vi.advanceTimersByTime.bind(vi),
     }
-  })
 
-  beforeAll(() => {
-    vi.useRealTimers()
-  })
+    globalThis.IS_REACT_ACT_ENVIRONMENT = true
 
-  test('given a new recurring question submitted: form data contains only question text', async () => {
-    const date = new Date('2022-10-20T01:00:00.000Z')
-    vi.setSystemTime(date)
+    const fixedDate = new Date('2022-10-20T01:00:00.000Z')
+    vi.setSystemTime(fixedDate)
 
     let formData: FormData | undefined
     const RemixStub = createRemixStub([
@@ -38,19 +34,27 @@ describe('CreateQuestionForm component', () => {
     const user = userEvent.setup({
       advanceTimers: vi.advanceTimersByTime.bind(vi),
     })
-
     render(<RemixStub />)
 
     const questionText = 'Did you go to bed between 8 and 9PM?'
+
     await user.type(screen.getByLabelText('What is the recurring question?'), questionText)
-    await user.click(screen.getByRole('button', { name: /submit/i }))
+
+    // Necessary redundant act because fake timer workaround somehow causes this warning:
+    // "Warning: An update to RouterProvider inside a test was not wrapped in act(...)."
+    // RouterProvider is used by the RemixStub.
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: /submit/i }))
+    })
 
     const formEntries = Object.fromEntries(formData.entries())
     expect(formEntries).toEqual({
       text: questionText,
-      timestamp: date.toISOString(),
-      utcOffsetInMinutes: String(date.getTimezoneOffset()),
+      timestamp: fixedDate.toISOString(),
+      utcOffsetInMinutes: String(fixedDate.getTimezoneOffset()),
     })
+
+    vi.useRealTimers()
   })
 
   test('given form render: has cancel link to back to /questions', async () => {
@@ -78,9 +82,7 @@ describe('CreateQuestionForm component', () => {
       },
     ])
 
-    const user = userEvent.setup({
-      advanceTimers: vi.advanceTimersByTime.bind(vi),
-    })
+    const user = userEvent.setup()
     render(<RemixStub />)
 
     await user.click(screen.getByRole('button', { name: /submit/i }))
