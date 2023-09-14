@@ -46,7 +46,7 @@ describe('async assert()', async () => {
   })
 
   vi.useFakeTimers()
-  const time = faker.datatype.number() + 5000
+  const time = faker.number.int() + 5000
   const waitPromise = wait(time)
   vi.advanceTimersByTime(time)
 

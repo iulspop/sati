@@ -27,7 +27,7 @@ export const createUserProfile: Factory<UserProfile> = ({
 export const createPopulatedUserProfile: Factory<UserProfile> = ({
   id = generateRandomDid(),
   email = faker.internet.email(),
-  name = faker.name.fullName(),
-  updatedAt = faker.date.recent(10),
-  createdAt = faker.date.past(3, updatedAt),
+  name = faker.person.fullName(),
+  updatedAt = faker.date.recent({ days: 10 }),
+  createdAt = faker.date.past({ years: 3 }, updatedAt),
 } = {}) => createUserProfile({ id, email, name, createdAt, updatedAt })

@@ -61,7 +61,7 @@ export async function loginAndSaveUserProfileToDatabase({ page }: { page: Page }
 export async function saveFakeUserProfileToDatabase({
   id = generateRandomDid(),
   email = faker.internet.email(),
-  name = faker.name.fullName(),
+  name = faker.person.fullName(),
 }: Partial<Parameters<typeof saveUserProfileToDatabase>[0]>) {
   return await saveUserProfileToDatabase({ id, email, name })
 }

@@ -14,6 +14,6 @@ module.exports = {
   requirePragma: false,
   insertPragma: false,
   jsxSingleQuote: false,
-  plugins: [require('prettier-plugin-tailwindcss')],
+  plugins: ['prettier-plugin-tailwindcss', 'prettier-plugin-organize-imports'],
   quoteProps: 'as-needed',
 }

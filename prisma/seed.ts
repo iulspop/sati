@@ -27,7 +27,7 @@ async function seed() {
     data: {
       id: userId,
       email: faker.internet.email(),
-      name: faker.name.fullName(),
+      name: faker.person.fullName(),
     },
   })
 

@@ -4,7 +4,7 @@ type EmptyPipe = (a: never) => Promise<never>
 
 type AsyncPipeReturnType<
   FS extends Callback[],
-  P = Parameters<FS[0]>[0]
+  P = Parameters<FS[0]>[0],
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
 > = FS extends [...infer _, infer Last] ? (a: P) => Promise<FunToReturnType<Last>> : EmptyPipe
 

@@ -5,7 +5,7 @@ import { getErrorMessage } from './get-error-message'
 
 describe('getErrorMessage()', () => {
   test("given an error: returns the error's message", () => {
-    const message = faker.random.words()
+    const message = faker.lorem.words()
 
     expect(getErrorMessage(new Error(message))).toEqual(message)
   })
@@ -13,7 +13,7 @@ describe('getErrorMessage()', () => {
   test('given a string is thrown: returns the string', () => {
     expect.assertions(1)
 
-    const someString = faker.random.words()
+    const someString = faker.lorem.words()
 
     try {
       throw someString
@@ -36,18 +36,19 @@ describe('getErrorMessage()', () => {
 
   test("given an error that extended the custom error class: returns the error's message", () => {
     class CustomError extends Error {
+      // eslint-disable-next-line
       public constructor(message: string) {
         super(message)
       }
     }
 
-    const message = faker.random.words()
+    const message = faker.lorem.words()
 
     expect(getErrorMessage(new CustomError(message))).toEqual(message)
   })
 
   test("given a custom error object with a message property: returns the object's message property", () => {
-    const message = faker.random.words()
+    const message = faker.lorem.words()
 
     expect(getErrorMessage({ message })).toEqual(message)
   })

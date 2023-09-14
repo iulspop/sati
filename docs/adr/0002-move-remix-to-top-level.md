@@ -18,7 +18,7 @@ src/
   web/
 ```
 
-Where `web/` contained all Remix/React related application files, ` cli`` all CLI app related files, and  `personal-data-collection/` the domain core & driven-side infrastructure.
+Where `web/` contained all Remix/React related application files, `cli`` all CLI app related files, and `personal-data-collection/` the domain core & driven-side infrastructure.
 
 However, the way tree-shaking is configured on Remix, when importing a module from outside the Remix project folder, it doesn't remove it from the browser bundle even when adding `.server.ts` hint for the compiler. This makes our Prisma client initialize on the browser and error.
 
