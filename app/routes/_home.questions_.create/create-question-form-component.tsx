@@ -30,11 +30,11 @@ export function CreateQuestionFormComponent() {
       <input type="hidden" name="utcOffsetInMinutes" value={new Date().getTimezoneOffset()} />
 
       <div className="flex justify-between items-center">
-        <Link to="/questions" className="text-blue-500 hover:text-blue-700 underline">
+        <Link to="/questions" className="text-blue-600 hover:text-blue-700 underline">
           Cancel
         </Link>
 
-        <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-700">
+        <button type="submit" className="bg-blue-600 text-white rounded px-4 py-2 hover:bg-blue-700">
           Submit
         </button>
       </div>
