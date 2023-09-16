@@ -16,7 +16,7 @@ describe('QuestionCard component', () => {
       },
     }
 
-    render(<QuestionCardComponent question={recurringQuestion} />)
+    render(<QuestionCardComponent {...recurringQuestion} />)
 
     const listItem = screen.getByRole('listitem')
     const questionText = within(listItem).getByText(recurringQuestion.question)

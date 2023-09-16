@@ -9,7 +9,7 @@ export function QuestionListComponent({ questions }: QuestionListComponentProps)
   return (
     <ul>
       {questions.map(question => (
-        <QuestionCardComponent key={question.id} question={question} />
+        <QuestionCardComponent key={question.id} {...question} />
       ))}
     </ul>
   )
