@@ -1,5 +1,5 @@
 import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
-import { json } from '@remix-run/node'
+import { json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
 import { QuestionListComponent } from '~/routes/_home.questions/question-list-component'
@@ -23,7 +23,7 @@ export const action = async ({ request }) => {
   // @ts-expect-error
   const questionFormEntries: CreateQuestionFormEntries = Object.fromEntries(formData.entries())
   await RecurringQuestions.create(toCreateRecurringQuestionCommand(questionFormEntries, userId))
-  return new Response(null, { status: 200 })
+  return redirect('/questions')
 }
 
 export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Questions | Inquire' }]

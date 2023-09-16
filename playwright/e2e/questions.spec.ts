@@ -40,7 +40,7 @@ test.describe('questions page', () => {
     }
   })
 
-  test('given user is logged in: can create a recurring question', async ({ page }) => {
+  test('given user is logged in: can create a recurring question', async ({ page, baseURL }) => {
     const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
     const expectedQuestionText = 'Did you eat your vegetables?'
 
@@ -51,8 +51,10 @@ test.describe('questions page', () => {
       await page.getByLabel(/what is the recurring question?/i).fill(expectedQuestionText)
       await page.getByRole('button', { name: /submit/i }).click()
 
+      await page.waitForURL(baseURL + '/questions')
       const listItems = page.getByRole('listitem')
       await expect(listItems.filter({ hasText: expectedQuestionText })).toHaveCount(1)
+      expect(page.url()).toEqual(baseURL + '/questions')
     } finally {
       await deleteUserProfileFromDatabaseById(userId)
     }
