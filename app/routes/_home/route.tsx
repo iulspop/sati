@@ -23,17 +23,18 @@ export default function HomePage() {
               const isCurrent = calculateIfLinkIsCurrent({ path, href })
 
               return (
-                <Link
-                  key={name}
-                  to={href}
-                  className={classNames(
-                    isCurrent ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                    'rounded-md px-1 py-2 text-sm font-medium'
-                  )}
-                  aria-current={isCurrent ? 'page' : undefined}
-                >
-                  {name}
-                </Link>
+                <h1 key={name}>
+                  <Link
+                    to={href}
+                    className={classNames(
+                      isCurrent ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                      'rounded-md px-1 py-2 text-sm font-medium'
+                    )}
+                    aria-current={isCurrent ? 'page' : undefined}
+                  >
+                    {name}
+                  </Link>
+                </h1>
               )
             })}
           </div>
@@ -48,13 +49,7 @@ export default function HomePage() {
         </form>
       </nav>
 
-      <header className="bg-white shadow dark:bg-slate-800 mb-5">
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Questions</h1>
-        </div>
-      </header>
-
-      <main className="flex flex-col items-center dark:text-white lg:max-w-3xl mx-auto">
+      <main className="flex flex-col items-center dark:text-white lg:max-w-3xl mx-auto mt-5">
         <Outlet />
       </main>
     </>
