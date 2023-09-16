@@ -6,7 +6,7 @@ import type { RecurringQuestion } from '~/self-data-collection/domain/entities/r
 import type { DeleteQuestionFormEntries } from './edit-question-form-component'
 import { EditQuestionFormComponent } from './edit-question-form-component'
 
-describe('EditQuestionFormComponent', () => {
+describe('EditQuestionFormComponent()', () => {
   test('given a recurring question: render question text', async () => {
     const recurringQuestion: RecurringQuestion = {
       userId: '1',

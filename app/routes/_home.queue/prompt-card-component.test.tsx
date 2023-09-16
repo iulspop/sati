@@ -8,7 +8,7 @@ import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
 import type { PromptCardComponentFormEntries } from './prompt-card-component'
 import { PromptCardComponent } from './prompt-card-component'
 
-describe('PromptCard component', () => {
+describe('PromptCardComponent()', () => {
   test('given prompt data: renders form with yes and no answer buttons', async () => {
     const prompt: Prompt = {
       questionId: '1',

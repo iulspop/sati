@@ -15,7 +15,7 @@ const createProps: Factory<UserAuthenticationComponentProps> = ({
   state = 'idle',
 } = {}) => ({ email, emailError, formError, inputRef, state })
 
-describe('UserAuthentication component', () => {
+describe('UserAuthenticationComponent()', () => {
   it('given an idle state and nothing else: renders the user authentication form', async () => {
     const user = userEvent.setup()
     const path = '/login'

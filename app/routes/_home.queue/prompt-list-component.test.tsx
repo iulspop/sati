@@ -4,7 +4,7 @@ import { describe, expect, test } from 'vitest'
 import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
 import { PromptListComponent, groupByDate } from './prompt-list-component'
 
-describe('PromptList component', () => {
+describe('PromptListComponent()', () => {
   test('given a list of prompts: groups them by time', () => {
     const promptList: Prompt[] = [
       {

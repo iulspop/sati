@@ -5,7 +5,7 @@ import { describe, expect, test, vi } from 'vitest'
 import type { CreateQuestionFormEntries } from './create-question-form-component'
 import { CreateQuestionFormComponent } from './create-question-form-component'
 
-describe('CreateQuestionForm component', () => {
+describe('CreateQuestionFormComponent()', () => {
   test('given a new recurring question submitted: form data contains only question text', async () => {
     vi.useFakeTimers()
 

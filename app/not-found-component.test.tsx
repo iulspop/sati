@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { NotFoundComponent } from './not-found-component'
 
-describe('NotFound component', () => {
+describe('NotFoundComponent()', () => {
   it('given a link: renders error messages and the correct link', async () => {
     const path = '/some-non-existent-page'
     const RemixStub = createRemixStub([{ path, element: <NotFoundComponent /> }])

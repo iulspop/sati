@@ -3,7 +3,7 @@ import { describe, expect, test } from 'vitest'
 import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
 import { QuestionCardComponent } from './question-card-component'
 
-describe('QuestionCard component', () => {
+describe('QuestionCardComponent()', () => {
   test('given a recurring question: render question text inside list item', async () => {
     const recurringQuestion: RecurringQuestion = {
       userId: '1',
