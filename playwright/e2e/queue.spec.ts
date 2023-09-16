@@ -74,7 +74,6 @@ test.describe('queue page', () => {
 
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
     await page.goto('./queue')
-    await page.waitForLoadState('networkidle')
 
     await page.getByRole('button', { name: /log out/i }).click()
     expect(page.url()).toEqual(baseURL + '/')
