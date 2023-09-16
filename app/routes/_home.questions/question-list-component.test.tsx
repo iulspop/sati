@@ -1,3 +1,4 @@
+import { createRemixStub } from '@remix-run/testing/dist/create-remix-stub'
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
 import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
@@ -38,7 +39,13 @@ describe('QuestionListComponent()', () => {
       },
     ]
 
-    render(<QuestionListComponent questions={recurringQuestions} />)
+    const RemixStub = createRemixStub([
+      {
+        path: '/',
+        element: <QuestionListComponent questions={recurringQuestions} />,
+      },
+    ])
+    render(<RemixStub />)
 
     const listItems = screen.getAllByRole('listitem')
 

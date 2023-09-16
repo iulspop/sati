@@ -1,4 +1,4 @@
-import type { LoaderArgs, V2_MetaFunction } from '@remix-run/node'
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from '@remix-run/node'
 import { json } from '@remix-run/node'
 import { useLoaderData, useLocation } from '@remix-run/react'
 import { useEffect } from 'react'
@@ -17,7 +17,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
 export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Home | Inquire' }]
 
-export const action = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
   // @ts-expect-error
   const answer: PromptCardComponentFormEntries = Object.fromEntries(formData.entries())

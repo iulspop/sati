@@ -1,4 +1,5 @@
 import AxeBuilder from '@axe-core/playwright'
+import { createId } from '@paralleldrive/cuid2'
 import { expect, test } from '@playwright/test'
 import type { CreateRecurringQuestionCommand } from '~/self-data-collection/domain/entities/recurring-question'
 import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
@@ -26,7 +27,6 @@ test.describe('questions page', () => {
         utcOffsetInMinutes: new Date().getTimezoneOffset(),
       },
     }
-
     await RecurringQuestions.create(recurringQuestion)
     await RecurringQuestions.create(recurringQuestion2)
 
@@ -51,10 +51,44 @@ test.describe('questions page', () => {
       await page.getByLabel(/What recurring question to add?/i).fill(expectedQuestionText)
       await page.getByRole('button', { name: /submit/i }).click()
 
-      await page.waitForURL(baseURL + '/questions')
+      await expect(page).toHaveURL(`${baseURL}/questions`)
       const listItems = page.getByRole('listitem')
       await expect(listItems.filter({ hasText: expectedQuestionText })).toHaveCount(1)
-      expect(page.url()).toEqual(baseURL + '/questions')
+    } finally {
+      await deleteUserProfileFromDatabaseById(userId)
+    }
+  })
+
+  test('given user is logged in, clicking a recurring question and clicking delete: deletes the question', async ({
+    page,
+    baseURL,
+  }) => {
+    const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
+    const recurringQuestion: CreateRecurringQuestionCommand = {
+      id: createId(),
+      userId,
+      text: 'Brushed Teeth?',
+      order: 1,
+      phase: {
+        timestamp: new Date(),
+        utcOffsetInMinutes: new Date().getTimezoneOffset(),
+      },
+    }
+    await RecurringQuestions.create(recurringQuestion)
+
+    try {
+      await page.goto('./questions')
+      await expect(page.getByText(recurringQuestion.text), 'should see the question').toBeVisible()
+
+      await page.getByRole('link', { name: recurringQuestion.text }).click()
+      await expect(page, 'should link to the "questions/:id" page').toHaveURL(
+        `${baseURL}/questions/${recurringQuestion.id}`
+      )
+      await expect(page.getByText(recurringQuestion.text), 'should see the question').toBeVisible()
+
+      await page.getByRole('button', { name: 'Delete' }).click()
+      await expect(page, 'should redirect to "/questions" after deleting question').toHaveURL(`${baseURL}/questions`)
+      await expect(page.getByText(recurringQuestion.text), 'should not see the question anymore').toHaveCount(0)
     } finally {
       await deleteUserProfileFromDatabaseById(userId)
     }
