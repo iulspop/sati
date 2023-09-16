@@ -10,13 +10,34 @@ export function CreateQuestionFormComponent() {
   const fetcher = useFetcher()
 
   return (
-    <fetcher.Form method="post">
-      <label htmlFor="recurring-question">What is the recurring question?</label>
-      <input id="recurring-question" name="text" type="text" className="dark:text-black" required />
+    <fetcher.Form
+      method="post"
+      className="flex flex-col space-y-4 bg-white p-6 rounded shadow-lg w-full max-w-md mx-auto dark:text-black"
+    >
+      <label htmlFor="recurring-question" className="font-semibold text-lg">
+        What recurring question to add?
+      </label>
+
+      <input
+        id="recurring-question"
+        name="text"
+        type="text"
+        className="border p-2 rounded dark:bg-gray-200 dark:border-gray-500 dark:text-black"
+        required
+      />
+
       <input type="hidden" name="timestamp" value={new Date().toISOString()} />
       <input type="hidden" name="utcOffsetInMinutes" value={new Date().getTimezoneOffset()} />
-      <Link to="/questions">Cancel</Link>
-      <button type="submit">Submit</button>
+
+      <div className="flex justify-between items-center">
+        <Link to="/questions" className="text-blue-500 hover:text-blue-700 underline">
+          Cancel
+        </Link>
+
+        <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-700">
+          Submit
+        </button>
+      </div>
     </fetcher.Form>
   )
 }

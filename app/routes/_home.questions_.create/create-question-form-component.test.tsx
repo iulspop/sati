@@ -39,7 +39,7 @@ describe('CreateQuestionForm component', () => {
 
     const questionText = 'Did you go to bed between 8 and 9PM?'
 
-    await user.type(screen.getByLabelText('What is the recurring question?'), questionText)
+    await user.type(screen.getByLabelText('What recurring question to add?'), questionText)
 
     // Necessary redundant act because fake timer workaround somehow causes this warning:
     // "Warning: An update to RouterProvider inside a test was not wrapped in act(...)."

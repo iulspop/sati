@@ -48,7 +48,7 @@ test.describe('questions page', () => {
       await page.goto('./questions')
 
       await page.getByRole('link', { name: /add question/i }).click()
-      await page.getByLabel(/what is the recurring question?/i).fill(expectedQuestionText)
+      await page.getByLabel(/What recurring question to add?/i).fill(expectedQuestionText)
       await page.getByRole('button', { name: /submit/i }).click()
 
       await page.waitForURL(baseURL + '/questions')

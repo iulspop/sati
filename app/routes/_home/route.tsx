@@ -48,7 +48,7 @@ export default function HomePage() {
         </form>
       </nav>
 
-      <header className="bg-white shadow dark:bg-slate-800">
+      <header className="bg-white shadow dark:bg-slate-800 mb-5">
         <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Questions</h1>
         </div>
