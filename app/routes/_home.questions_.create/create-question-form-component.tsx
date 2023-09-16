@@ -9,7 +9,7 @@ export function CreateQuestionFormComponent() {
   return (
     <fetcher.Form method="post">
       <label htmlFor="recurring-question">What is the recurring question?</label>
-      <input id="recurring-question" name="text" type="text" required />
+      <input id="recurring-question" name="text" type="text" className="dark:text-black" required />
       <input type="hidden" name="timestamp" value={timestamp} />
       <input type="hidden" name="utcOffsetInMinutes" value={utcOffsetInMinutes} />
       <Link to="/questions">Cancel</Link>
