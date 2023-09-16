@@ -34,7 +34,7 @@ describe('promptQueue()', async () => {
 
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
-      question: 'Did you study 2 hours?',
+      text: 'Did you study 2 hours?',
       phase: {
         timestamp: startDate,
         utcOffsetInMinutes: 5 * 60,
@@ -95,7 +95,7 @@ describe('promptQueue()', async () => {
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       order: 2,
-      question: 'Have you studied?',
+      text: 'Have you studied?',
       phase: {
         timestamp: startTime,
         utcOffsetInMinutes: 0,
@@ -105,7 +105,7 @@ describe('promptQueue()', async () => {
     const secondCreatedRecurringQuestion = await recurringQuestions.create({
       userId,
       order: 1,
-      question: 'Have you eaten broccoli?',
+      text: 'Have you eaten broccoli?',
       phase: {
         timestamp: startTime,
         utcOffsetInMinutes: 0,
@@ -148,7 +148,7 @@ describe('calculateQuery()', () => {
             id: '1',
             userId: '1',
             order: 1,
-            question: 'Have you studied?',
+            text: 'Have you studied?',
             phase: {
               timestamp: startTimeUTC,
               utcOffsetInMinutes: 5 * 60,
@@ -180,7 +180,7 @@ describe('calculateQuery()', () => {
             id: '1',
             userId: '1',
             order: 1,
-            question: 'Have you studied?',
+            text: 'Have you studied?',
             phase: {
               timestamp: startTime,
               utcOffsetInMinutes: 0,
@@ -190,7 +190,7 @@ describe('calculateQuery()', () => {
             id: '2',
             userId: '1',
             order: 2,
-            question: 'Did you eat your vegetables?',
+            text: 'Did you eat your vegetables?',
             phase: {
               timestamp: startTime,
               utcOffsetInMinutes: 0,

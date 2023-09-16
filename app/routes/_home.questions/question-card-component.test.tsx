@@ -9,7 +9,7 @@ describe('QuestionCardComponent()', () => {
       userId: '1',
       id: '1',
       order: 1,
-      question: 'Did you go to bed between 8 and 9PM?',
+      text: 'Did you go to bed between 8 and 9PM?',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: -300,
@@ -19,7 +19,7 @@ describe('QuestionCardComponent()', () => {
     render(<QuestionCardComponent {...recurringQuestion} />)
 
     const listItem = screen.getByRole('listitem')
-    const questionText = within(listItem).getByText(recurringQuestion.question)
+    const questionText = within(listItem).getByText(recurringQuestion.text)
 
     expect(questionText).toBeInTheDocument()
   })

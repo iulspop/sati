@@ -26,7 +26,7 @@ model RecurringQuestion {
   user               UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId             String
   order              Int
-  question           String
+  text               String
   timestamp          DateTime
   utcOffsetInMinutes Int
   answers            Answer[]

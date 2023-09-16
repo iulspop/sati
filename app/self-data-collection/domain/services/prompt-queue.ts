@@ -37,11 +37,11 @@ export const calculateQuery: CalculateQuery = (recurringQuestionList, answerList
 type CalculatePromptList = (recurringQuestionList: RecurringQuestion[]) => (queryTimeLocal: Date) => Prompt[]
 export const calculatePromptList: CalculatePromptList = recurringQuestionList => queryTimeLocal =>
   recurringQuestionList.reduce(
-    (promptList: Prompt[], { id, question, phase }) => [
+    (promptList: Prompt[], { id, text, phase }) => [
       ...promptList,
       ...toDayList(toUTCTime(toStartOfDay(toLocalTime(phase)), phase.utcOffsetInMinutes), queryTimeLocal).map(date => ({
         questionId: id,
-        question,
+        question: text,
         timestamp: date,
       })),
     ],

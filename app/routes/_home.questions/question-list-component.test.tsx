@@ -10,7 +10,7 @@ describe('QuestionListComponent()', () => {
         id: '1',
         userId: '1',
         order: 1,
-        question: 'Did you go to bed between 8 and 9PM?',
+        text: 'Did you go to bed between 8 and 9PM?',
         phase: {
           timestamp: new Date(),
           utcOffsetInMinutes: -300,
@@ -20,7 +20,7 @@ describe('QuestionListComponent()', () => {
         id: '2',
         userId: '1',
         order: 2,
-        question: 'Did you wake up between 6 and 7AM?',
+        text: 'Did you wake up between 6 and 7AM?',
         phase: {
           timestamp: new Date(),
           utcOffsetInMinutes: -300,
@@ -30,7 +30,7 @@ describe('QuestionListComponent()', () => {
         id: '3',
         userId: '1',
         order: 3,
-        question: 'Did you eat breakfast before 8AM?',
+        text: 'Did you eat breakfast before 8AM?',
         phase: {
           timestamp: new Date(),
           utcOffsetInMinutes: -300,
@@ -43,15 +43,15 @@ describe('QuestionListComponent()', () => {
     const listItems = screen.getAllByRole('listitem')
 
     const first = 0
-    const firstQuestionText = within(listItems[first]).getByText(recurringQuestions[first].question)
+    const firstQuestionText = within(listItems[first]).getByText(recurringQuestions[first].text)
     expect(firstQuestionText).toBeInTheDocument()
 
     const second = 1
-    const secondQuestionText = within(listItems[second]).getByText(recurringQuestions[second].question)
+    const secondQuestionText = within(listItems[second]).getByText(recurringQuestions[second].text)
     expect(secondQuestionText).toBeInTheDocument()
 
     const third = 2
-    const thirdQuestionText = within(listItems[third]).getByText(recurringQuestions[third].question)
+    const thirdQuestionText = within(listItems[third]).getByText(recurringQuestions[third].text)
     expect(thirdQuestionText).toBeInTheDocument()
   })
 })

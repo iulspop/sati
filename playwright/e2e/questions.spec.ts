@@ -10,7 +10,7 @@ test.describe('questions page', () => {
     const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
-      question: 'Brushed Teeth?',
+      text: 'Brushed Teeth?',
       order: 1,
       phase: {
         timestamp: new Date(),
@@ -19,7 +19,7 @@ test.describe('questions page', () => {
     }
     const recurringQuestion2: CreateRecurringQuestionCommand = {
       userId,
-      question: 'Gone to Bed By 9:00PM?',
+      text: 'Gone to Bed By 9:00PM?',
       order: 2,
       phase: {
         timestamp: new Date(),
@@ -33,8 +33,8 @@ test.describe('questions page', () => {
     try {
       await page.goto('./questions')
       const listItems = page.getByRole('listitem')
-      await expect(listItems.filter({ hasText: recurringQuestion.question })).toHaveCount(1)
-      await expect(listItems.filter({ hasText: recurringQuestion2.question })).toHaveCount(1)
+      await expect(listItems.filter({ hasText: recurringQuestion.text })).toHaveCount(1)
+      await expect(listItems.filter({ hasText: recurringQuestion2.text })).toHaveCount(1)
     } finally {
       await deleteUserProfileFromDatabaseById(userId)
     }

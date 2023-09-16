@@ -7,13 +7,13 @@ export type DeleteQuestionFormEntries = {
   questionId: string
 }
 
-export function EditQuestionFormComponent({ id, question }: EditQuestionFormComponentProps) {
+export function EditQuestionFormComponent({ id, text }: EditQuestionFormComponentProps) {
   const fetcher = useFetcher()
 
   return (
     <div>
       <h2>Edit Question:</h2>
-      <p>{question}</p>
+      <p>{text}</p>
       <div>
         <Link to="/questions">Cancel</Link>
         <fetcher.Form method="delete">

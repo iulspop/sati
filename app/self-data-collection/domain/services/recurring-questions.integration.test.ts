@@ -12,7 +12,7 @@ describe('RecurringQuestions()', () => {
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
-      question: 'Go to Bed By 9:30PM',
+      text: 'Go to Bed By 9:30PM',
       order: 10,
       phase: {
         timestamp: new Date('2023-01-01T00:00:00.000Z'),
@@ -21,7 +21,7 @@ describe('RecurringQuestions()', () => {
     }
     const recurringQuestion2: CreateRecurringQuestionCommand = {
       userId,
-      question: 'Go to Bed By 9:00PM',
+      text: 'Go to Bed By 9:00PM',
       order: 1,
       phase: {
         timestamp: new Date('2023-01-01T00:00:00.000Z'),
@@ -45,9 +45,11 @@ describe('RecurringQuestions()', () => {
     expect(readRecurringQuestions).toEqual([createdRecurringQuestion2, createdRecurringQuestion])
 
     // UPDATE
-    const question = 'Go to Bed By 9:00PM'
-    const updatedRecurringQuestion = await recurringQuestions.update(createdRecurringQuestion.id, { question })
-    expect(updatedRecurringQuestion).toEqual({ ...createdRecurringQuestion, question })
+    const questionText = 'Go to Bed By 9:00PM'
+    const updatedRecurringQuestion = await recurringQuestions.update(createdRecurringQuestion.id, {
+      text: questionText,
+    })
+    expect(updatedRecurringQuestion).toEqual({ ...createdRecurringQuestion, text: questionText })
 
     // DELETE
     const deletedRecurringQuestion = await recurringQuestions.delete(createdRecurringQuestion.id)
@@ -64,7 +66,7 @@ describe('RecurringQuestions()', () => {
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
-      question: 'X',
+      text: 'X',
       phase: {
         timestamp: new Date('2022-10-22T00:00:00.000Z'),
         utcOffsetInMinutes: 0,
@@ -89,7 +91,7 @@ describe('RecurringQuestions()', () => {
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
-      question: 'N/A',
+      text: 'N/A',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: 500,
@@ -97,7 +99,7 @@ describe('RecurringQuestions()', () => {
     })
     await recurringQuestions.create({
       userId: secondUserId,
-      question: 'N/A',
+      text: 'N/A',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: 500,

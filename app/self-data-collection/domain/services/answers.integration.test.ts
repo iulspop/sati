@@ -14,7 +14,7 @@ describe('Answers()', () => {
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
-      question: 'N/A',
+      text: 'N/A',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: 500,
@@ -59,7 +59,7 @@ describe('Answers()', () => {
     const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
-      question: 'N/A',
+      text: 'N/A',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: 500,
@@ -67,7 +67,7 @@ describe('Answers()', () => {
     })
     const secondCreatedRecurringQuestion = await recurringQuestions.create({
       userId: secondUserId,
-      question: 'N/A',
+      text: 'N/A',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: 500,

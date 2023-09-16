@@ -4,7 +4,7 @@ export interface RecurringQuestion {
   id: string
   userId: string
   order: number
-  question: string
+  text: string
   phase: {
     timestamp: Date
     utcOffsetInMinutes: number
@@ -18,12 +18,12 @@ export const recurringQuestionFactory = ({
   id = createId(),
   userId,
   order = 999_999,
-  question,
+  text,
   phase,
 }): RecurringQuestion => ({
   id,
   userId,
   order,
-  question,
+  text,
   phase,
 })

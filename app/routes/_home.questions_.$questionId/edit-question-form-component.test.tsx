@@ -12,7 +12,7 @@ describe('EditQuestionFormComponent()', () => {
       userId: '1',
       id: '1',
       order: 1,
-      question: 'Did you go to bed between 8 and 9PM?',
+      text: 'Did you go to bed between 8 and 9PM?',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: -300,
@@ -28,7 +28,7 @@ describe('EditQuestionFormComponent()', () => {
 
     render(<RemixStub />)
 
-    expect(screen.getByText(recurringQuestion.question)).toBeInTheDocument()
+    expect(screen.getByText(recurringQuestion.text)).toBeInTheDocument()
   })
 
   test('given a recurring question: render a "Cancel" link to /questions', async () => {
@@ -36,7 +36,7 @@ describe('EditQuestionFormComponent()', () => {
       userId: '1',
       id: '1',
       order: 1,
-      question: 'Did you go to bed between 8 and 9PM?',
+      text: 'Did you go to bed between 8 and 9PM?',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: -300,
@@ -60,7 +60,7 @@ describe('EditQuestionFormComponent()', () => {
       userId: '1',
       id: '1',
       order: 1,
-      question: 'Did you go to bed between 8 and 9PM?',
+      text: 'Did you go to bed between 8 and 9PM?',
       phase: {
         timestamp: new Date(),
         utcOffsetInMinutes: -300,

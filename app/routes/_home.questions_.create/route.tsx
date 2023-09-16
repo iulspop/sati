@@ -55,7 +55,7 @@ export const toCreateRecurringQuestionCommand: ToCreateRecurringQuestionCommand 
 ) => {
   return {
     userId,
-    question: text,
+    text,
     phase: {
       timestamp: new Date(timestamp),
       utcOffsetInMinutes: Number(utcOffsetInMinutes),

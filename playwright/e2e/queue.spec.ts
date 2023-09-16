@@ -19,7 +19,7 @@ test.describe('queue page', () => {
     const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
-      question: 'Brushed Teeth?',
+      text: 'Brushed Teeth?',
       phase: {
         timestamp: daysAgo(1),
         utcOffsetInMinutes: 0,
@@ -27,7 +27,7 @@ test.describe('queue page', () => {
     }
     const recurringQuestion2: CreateRecurringQuestionCommand = {
       userId,
-      question: 'Gone to Bed By 9:00PM?',
+      text: 'Gone to Bed By 9:00PM?',
       phase: {
         timestamp: daysAgo(2),
         utcOffsetInMinutes: 0,
@@ -39,11 +39,11 @@ test.describe('queue page', () => {
 
     await page.goto('./queue')
 
-    await expect(page.getByText(recurringQuestion.question)).toHaveCount(1)
-    await expect(page.getByText(recurringQuestion2.question)).toHaveCount(2)
+    await expect(page.getByText(recurringQuestion.text)).toHaveCount(1)
+    await expect(page.getByText(recurringQuestion2.text)).toHaveCount(2)
 
-    await page.locator(`form:has-text('${recurringQuestion.question}')`).getByRole('button', { name: /yes/i }).click()
-    await expect(page.getByText(recurringQuestion.question)).toHaveCount(0)
+    await page.locator(`form:has-text('${recurringQuestion.text}')`).getByRole('button', { name: /yes/i }).click()
+    await expect(page.getByText(recurringQuestion.text)).toHaveCount(0)
 
     await deleteUserProfileFromDatabaseById(userId)
   })
