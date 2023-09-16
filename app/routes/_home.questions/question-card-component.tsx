@@ -6,8 +6,8 @@ export type PromptCardComponentProps = {
 
 export function QuestionCardComponent({ question }: PromptCardComponentProps) {
   return (
-    <li>
-      <p>{question.question}</p>
+    <li className="bg-white shadow-md rounded-md p-4 m-2 hover:bg-gray-100 text dark:text-black">
+      <p className="text-lg font-semibold">{question.question}</p>
     </li>
   )
 }
