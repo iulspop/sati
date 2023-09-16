@@ -5,7 +5,7 @@ export default function HomePage() {
   const { pathname: path } = useLocation()
 
   return (
-    <div className="min-h-full">
+    <>
       <nav className="mx-auto flex h-10 items-center justify-between bg-gray-800 px-4 py-6 sm:px-6 lg:px-8">
         <div className="flex items-center">
           <div className="flex-shrink-0">
@@ -54,10 +54,10 @@ export default function HomePage() {
         </div>
       </header>
 
-      <main className="flex flex-col items-center dark:text-white">
+      <main className="flex flex-col items-center dark:text-white lg:max-w-3xl mx-auto">
         <Outlet />
       </main>
-    </div>
+    </>
   )
 }
 

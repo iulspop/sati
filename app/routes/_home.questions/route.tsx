@@ -25,7 +25,12 @@ export default function QuestionsPage() {
 
   return (
     <>
-      <Link to="/questions/create">Add Question</Link>
+      <Link
+        to="/questions/create"
+        className="inline-block bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-700 self-end"
+      >
+        Add Question
+      </Link>
       <QuestionListComponent questions={recurringQuestions} />
     </>
   )
