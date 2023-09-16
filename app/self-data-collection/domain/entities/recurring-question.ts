@@ -11,7 +11,6 @@ export interface RecurringQuestion {
   }
 }
 
-// All properties are required except id and order which are optional
 export type CreateRecurringQuestionCommand = Omit<RecurringQuestion, 'id' | 'order'> &
   Partial<Pick<RecurringQuestion, 'id' | 'order'>>
 

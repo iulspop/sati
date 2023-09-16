@@ -40,6 +40,24 @@ test.describe('questions page', () => {
     }
   })
 
+  test('given user is logged in: can create a recurring question', async ({ page }) => {
+    const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
+    const expectedQuestionText = 'Did you eat your vegetables?'
+
+    try {
+      await page.goto('./questions')
+
+      await page.getByRole('link', { name: /add question/i }).click()
+      await page.getByLabel(/what is the recurring question?/i).fill(expectedQuestionText)
+      await page.getByRole('button', { name: /submit/i }).click()
+
+      const listItems = page.getByRole('listitem')
+      await expect(listItems.filter({ hasText: expectedQuestionText })).toHaveCount(1)
+    } finally {
+      await deleteUserProfileFromDatabaseById(userId)
+    }
+  })
+
   test('given user is logged out: page redirects you to the login page and remembers the page as the redirectTo query parameter', async ({
     page,
     baseURL,

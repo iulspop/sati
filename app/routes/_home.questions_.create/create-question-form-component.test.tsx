@@ -2,6 +2,7 @@ import { unstable_createRemixStub as createRemixStub } from '@remix-run/testing'
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test, vi } from 'vitest'
+import type { CreateQuestionFormEntries } from './create-question-form-component'
 import { CreateQuestionFormComponent } from './create-question-form-component'
 
 describe('CreateQuestionForm component', () => {
@@ -47,7 +48,8 @@ describe('CreateQuestionForm component', () => {
       await user.click(screen.getByRole('button', { name: /submit/i }))
     })
 
-    const formEntries = Object.fromEntries(formData.entries())
+    // @ts-expect-error
+    const formEntries: CreateQuestionFormEntries = Object.fromEntries(formData.entries())
     expect(formEntries).toEqual({
       text: questionText,
       timestamp: fixedDate.toISOString(),
