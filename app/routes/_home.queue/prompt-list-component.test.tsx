@@ -9,27 +9,27 @@ describe('PromptListComponent()', () => {
     const promptList: Prompt[] = [
       {
         questionId: 'mup7faxpldjb4gnjes2kwb55',
-        question: 'Did you go to bed at 9:30PM?',
+        text: 'Did you go to bed at 9:30PM?',
         timestamp: new Date('2023-04-12T03:00:00.000Z'),
       },
       {
         questionId: 'mup7faxpldjb4gnjes2kwb55',
-        question: 'Did you go to bed at 9:30PM?',
+        text: 'Did you go to bed at 9:30PM?',
         timestamp: new Date('2023-04-13T03:00:00.000Z'),
       },
       {
         questionId: 'q2wdaogkt89mwwymk81ykegc',
-        question: 'Did you eat last meal by 3PM?',
+        text: 'Did you eat last meal by 3PM?',
         timestamp: new Date('2023-04-13T03:00:00.000Z'),
       },
       {
         questionId: 'mup7faxpldjb4gnjes2kwb55',
-        question: 'Did you go to bed at 9:30PM?',
+        text: 'Did you go to bed at 9:30PM?',
         timestamp: new Date('2023-04-14T03:00:00.000Z'),
       },
       {
         questionId: 'q2wdaogkt89mwwymk81ykegc',
-        question: 'Did you eat last meal by 3PM?',
+        text: 'Did you eat last meal by 3PM?',
         timestamp: new Date('2023-04-14T03:00:00.000Z'),
       },
     ]
@@ -45,44 +45,44 @@ describe('PromptListComponent()', () => {
 
     const groupOne = within(screen.getByRole('listitem', { name: 'April 12, 2023' }))
     expect(groupOne.getByRole('listitem')).toBeInTheDocument()
-    expect(groupOne.getByText(promptList[0].question)).toBeVisible()
+    expect(groupOne.getByText(promptList[0].text)).toBeVisible()
 
     const groupTwo = within(screen.getByRole('listitem', { name: 'April 13, 2023' }))
     expect(groupTwo.getAllByRole('listitem')).toHaveLength(2)
-    expect(groupTwo.getByText(promptList[1].question)).toBeVisible()
-    expect(groupTwo.getByText(promptList[2].question)).toBeVisible()
+    expect(groupTwo.getByText(promptList[1].text)).toBeVisible()
+    expect(groupTwo.getByText(promptList[2].text)).toBeVisible()
 
     const groupThree = within(screen.getByRole('listitem', { name: 'April 14, 2023' }))
     expect(groupThree.getAllByRole('listitem')).toHaveLength(2)
-    expect(groupThree.getByText(promptList[3].question)).toBeVisible()
-    expect(groupThree.getByText(promptList[4].question)).toBeVisible()
+    expect(groupThree.getByText(promptList[3].text)).toBeVisible()
+    expect(groupThree.getByText(promptList[4].text)).toBeVisible()
   })
 
   test('given a list of prompts and a different timezone: groups them by time shifted to local time', () => {
     const promptList: Prompt[] = [
       {
         questionId: 'mup7faxpldjb4gnjes2kwb55',
-        question: 'Did you go to bed at 9:30PM?',
+        text: 'Did you go to bed at 9:30PM?',
         timestamp: new Date('2023-04-12T03:00:00.000Z'),
       },
       {
         questionId: 'mup7faxpldjb4gnjes2kwb55',
-        question: 'Did you go to bed at 9:30PM?',
+        text: 'Did you go to bed at 9:30PM?',
         timestamp: new Date('2023-04-13T03:00:00.000Z'),
       },
       {
         questionId: 'q2wdaogkt89mwwymk81ykegc',
-        question: 'Did you eat last meal by 3PM?',
+        text: 'Did you eat last meal by 3PM?',
         timestamp: new Date('2023-04-13T03:00:00.000Z'),
       },
       {
         questionId: 'mup7faxpldjb4gnjes2kwb55',
-        question: 'Did you go to bed at 9:30PM?',
+        text: 'Did you go to bed at 9:30PM?',
         timestamp: new Date('2023-04-14T03:00:00.000Z'),
       },
       {
         questionId: 'q2wdaogkt89mwwymk81ykegc',
-        question: 'Did you eat last meal by 3PM?',
+        text: 'Did you eat last meal by 3PM?',
         timestamp: new Date('2023-04-14T03:00:00.000Z'),
       },
     ]
@@ -98,17 +98,17 @@ describe('PromptListComponent()', () => {
 
     const groupOne = within(screen.getByRole('listitem', { name: 'April 11, 2023' }))
     expect(groupOne.getByRole('listitem')).toBeInTheDocument()
-    expect(groupOne.getByText(promptList[0].question)).toBeVisible()
+    expect(groupOne.getByText(promptList[0].text)).toBeVisible()
 
     const groupTwo = within(screen.getByRole('listitem', { name: 'April 12, 2023' }))
     expect(groupTwo.getAllByRole('listitem')).toHaveLength(2)
-    expect(groupTwo.getByText(promptList[1].question)).toBeVisible()
-    expect(groupTwo.getByText(promptList[2].question)).toBeVisible()
+    expect(groupTwo.getByText(promptList[1].text)).toBeVisible()
+    expect(groupTwo.getByText(promptList[2].text)).toBeVisible()
 
     const groupThree = within(screen.getByRole('listitem', { name: 'April 13, 2023' }))
     expect(groupThree.getAllByRole('listitem')).toHaveLength(2)
-    expect(groupThree.getByText(promptList[3].question)).toBeVisible()
-    expect(groupThree.getByText(promptList[4].question)).toBeVisible()
+    expect(groupThree.getByText(promptList[3].text)).toBeVisible()
+    expect(groupThree.getByText(promptList[4].text)).toBeVisible()
   })
 })
 

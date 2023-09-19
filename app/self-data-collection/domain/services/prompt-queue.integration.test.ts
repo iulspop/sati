@@ -41,13 +41,13 @@ describe('PromptQueueService()', async () => {
 
     const firstDayPrompt: Prompt = {
       questionId: createdRecurringQuestion.id,
-      question: 'Did you study 2 hours?',
+      text: 'Did you study 2 hours?',
       timestamp: startOfDayInLocalTime,
     }
 
     const secondDayPrompt: Prompt = {
       questionId: createdRecurringQuestion.id,
-      question: 'Did you study 2 hours?',
+      text: 'Did you study 2 hours?',
       timestamp: addDay(startOfDayInLocalTime),
     }
 
@@ -113,12 +113,12 @@ describe('PromptQueueService()', async () => {
       expected: [
         {
           questionId: secondCreatedRecurringQuestion.id,
-          question: 'Have you eaten broccoli?',
+          text: 'Have you eaten broccoli?',
           timestamp: startTime,
         },
         {
           questionId: createdRecurringQuestion.id,
-          question: 'Have you studied?',
+          text: 'Have you studied?',
           timestamp: startTime,
         },
       ],
@@ -153,7 +153,7 @@ describe('calculateQuery()', () => {
       expected: [
         {
           questionId: '1',
-          question: 'Have you studied?',
+          text: 'Have you studied?',
           timestamp: new Date('2022-10-21T05:00:00.000Z'),
         },
       ],
@@ -191,22 +191,22 @@ describe('calculateQuery()', () => {
       expected: [
         {
           questionId: '1',
-          question: 'Have you studied?',
+          text: 'Have you studied?',
           timestamp: new Date('2022-10-22T00:00:00.000Z'),
         },
         {
           questionId: '2',
-          question: 'Did you eat your vegetables?',
+          text: 'Did you eat your vegetables?',
           timestamp: new Date('2022-10-22T00:00:00.000Z'),
         },
         {
           questionId: '1',
-          question: 'Have you studied?',
+          text: 'Have you studied?',
           timestamp: new Date('2022-10-23T00:00:00.000Z'),
         },
         {
           questionId: '2',
-          question: 'Did you eat your vegetables?',
+          text: 'Did you eat your vegetables?',
           timestamp: new Date('2022-10-23T00:00:00.000Z'),
         },
       ],
@@ -221,44 +221,44 @@ describe('sortByDay()', () => {
     actual: sortByDay([
       {
         questionId: '1',
-        question: 'Have you studied?',
+        text: 'Have you studied?',
         timestamp: new Date('2022-10-22T00:00:00.000Z'),
       },
       {
         questionId: '1',
-        question: 'Have you studied?',
+        text: 'Have you studied?',
         timestamp: new Date('2022-10-23T00:00:00.000Z'),
       },
       {
         questionId: '2',
-        question: 'Did you eat your vegetables?',
+        text: 'Did you eat your vegetables?',
         timestamp: new Date('2022-10-23T00:00:00.000Z'),
       },
       {
         questionId: '2',
-        question: 'Did you eat your vegetables?',
+        text: 'Did you eat your vegetables?',
         timestamp: new Date('2022-10-22T00:00:00.000Z'),
       },
     ]),
     expected: [
       {
         questionId: '1',
-        question: 'Have you studied?',
+        text: 'Have you studied?',
         timestamp: new Date('2022-10-22T00:00:00.000Z'),
       },
       {
         questionId: '2',
-        question: 'Did you eat your vegetables?',
+        text: 'Did you eat your vegetables?',
         timestamp: new Date('2022-10-22T00:00:00.000Z'),
       },
       {
         questionId: '1',
-        question: 'Have you studied?',
+        text: 'Have you studied?',
         timestamp: new Date('2022-10-23T00:00:00.000Z'),
       },
       {
         questionId: '2',
-        question: 'Did you eat your vegetables?',
+        text: 'Did you eat your vegetables?',
         timestamp: new Date('2022-10-23T00:00:00.000Z'),
       },
     ],
@@ -275,7 +275,7 @@ describe('keepUnlessPromptAnswered()', () => {
 
   const prompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours?',
+    text: 'Did you study 2 hours?',
     timestamp: new Date('2022-10-19T15:00:00.000Z'),
   }
 
@@ -304,13 +304,13 @@ describe('keepUnlessPromptAnswered()', () => {
 describe('filterIfCurrentDay()', () => {
   const firstDayPrompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours?',
+    text: 'Did you study 2 hours?',
     timestamp: new Date('2022-10-19T05:00:00.000Z'),
   }
 
   const secondDayPrompt: Prompt = {
     questionId: '1',
-    question: 'Did you study 2 hours?',
+    text: 'Did you study 2 hours?',
     timestamp: new Date('2022-10-20T05:00:00.000Z'),
   }
 

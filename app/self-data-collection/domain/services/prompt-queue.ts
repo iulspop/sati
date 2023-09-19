@@ -42,10 +42,10 @@ export const calculatePromptList: CalculatePromptList = recurringQuestionList =>
       ...toDayList(
         toUTCTime(toStartOfDay(toLocalTime({ timestamp, utcOffsetInMinutes })), utcOffsetInMinutes),
         queryTimeLocal
-      ).map(date => ({
+      ).map(timestamp => ({
         questionId: id,
-        question: text,
-        timestamp: date,
+        text,
+        timestamp,
       })),
     ],
     []

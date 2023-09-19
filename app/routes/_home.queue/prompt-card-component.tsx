@@ -1,10 +1,7 @@
 import { useFetcher } from '@remix-run/react'
+import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
 
-export type PromptCardComponentProps = {
-  questionId: string
-  question: string
-  timestamp: Date
-}
+export type PromptCardComponentProps = Prompt
 
 export type PromptCardComponentFormEntries = {
   questionId: string
@@ -12,13 +9,13 @@ export type PromptCardComponentFormEntries = {
   timestamp: string
 }
 
-export function PromptCardComponent({ questionId, question, timestamp }: PromptCardComponentProps) {
+export function PromptCardComponent({ questionId, text, timestamp }: PromptCardComponentProps) {
   const fetcher = useFetcher()
 
   return (
     <li className="my-6">
       <fetcher.Form method="post">
-        <p className="my-4">{question}</p>
+        <p className="my-4">{text}</p>
         <input type="hidden" name="questionId" value={questionId} />
         <input type="hidden" name="timestamp" value={timestamp.toISOString()} />
         <button
@@ -26,7 +23,7 @@ export function PromptCardComponent({ questionId, question, timestamp }: PromptC
           name="response"
           value="Yes"
           type="submit"
-          aria-label={`Answer "${question}" with Yes`}
+          aria-label={`Answer "${text}" with Yes`}
         >
           Yes
         </button>
@@ -35,7 +32,7 @@ export function PromptCardComponent({ questionId, question, timestamp }: PromptC
           name="response"
           value="No"
           type="submit"
-          aria-label={`Answer "${question}" with No`}
+          aria-label={`Answer "${text}" with No`}
         >
           No
         </button>

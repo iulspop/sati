@@ -1,5 +1,5 @@
 export interface Prompt {
   questionId: string
-  question: string
+  text: string
   timestamp: Date
 }
