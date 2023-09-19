@@ -1,4 +1,4 @@
-app = "inquire"
+app = "sati"
 kill_signal = "SIGINT"
 kill_timeout = 5
 # `npx prisma migrate` runs out of memory on hobby plan with 256MB RAM without swap space enabled
