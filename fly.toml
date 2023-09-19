@@ -1,6 +1,8 @@
 app = "inquire"
 kill_signal = "SIGINT"
 kill_timeout = 5
+# `npx prisma migrate` runs out of memory on hobby plan with 256MB RAM without swap space enabled
+swap_size_mb = 512
 processes = [ ]
 
 [experimental]

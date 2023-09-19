@@ -7,15 +7,5 @@
 
 set -ex
 
-# Enable swap so that prisma migrate runs without running out of memory on hobby plan with 256MB RAM
-# Common problem: https://community.fly.io/t/prisma-sqlite-causes-an-out-of-memory-error-on-deploy/11039
-# Code is from Fly docs: https://fly.io/docs/rails/cookbooks/deploy/#enabling-swap
-fallocate -l 512M /swapfile
-chmod 0600 /swapfile
-mkswap /swapfile
-echo 10 > /proc/sys/vm/swappiness
-swapon /swapfile
-echo 1 > /proc/sys/vm/overcommit_memory
-
 npx prisma migrate deploy
 npx remix-serve build
