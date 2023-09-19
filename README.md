@@ -1,4 +1,4 @@
-# Inquire
+# Sati
 
 This project is the seed for two tools that will compose to work together:
 
