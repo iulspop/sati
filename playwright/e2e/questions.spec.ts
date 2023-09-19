@@ -13,19 +13,15 @@ test.describe('questions page', () => {
       userId,
       text: 'Brushed Teeth?',
       order: 1,
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: new Date().getTimezoneOffset(),
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: new Date().getTimezoneOffset(),
     }
     const recurringQuestion2: CreateRecurringQuestionCommand = {
       userId,
       text: 'Gone to Bed By 9:00PM?',
       order: 2,
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: new Date().getTimezoneOffset(),
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: new Date().getTimezoneOffset(),
     }
     await RecurringQuestions.create(recurringQuestion)
     await RecurringQuestions.create(recurringQuestion2)
@@ -69,10 +65,8 @@ test.describe('questions page', () => {
       userId,
       text: 'Brushed Teeth?',
       order: 1,
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: new Date().getTimezoneOffset(),
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: new Date().getTimezoneOffset(),
     }
     await RecurringQuestions.create(recurringQuestion)
 

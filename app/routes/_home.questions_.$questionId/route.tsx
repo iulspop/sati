@@ -31,10 +31,7 @@ export default function CreateQuestionPage() {
   // @ts-expect-error
   const recurringQuestion: RecurringQuestion = {
     ...serializedRecurringQuestion,
-    phase: {
-      timestamp: new Date(serializedRecurringQuestion.phase.timestamp),
-      utcOffsetInMinutes: serializedRecurringQuestion.phase.utcOffsetInMinutes,
-    },
+    timestamp: new Date(serializedRecurringQuestion.timestamp),
   }
 
   return <EditQuestionFormComponent {...recurringQuestion} />

@@ -20,18 +20,14 @@ test.describe('queue page', () => {
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
       text: 'Brushed Teeth?',
-      phase: {
-        timestamp: daysAgo(1),
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: daysAgo(1),
+      utcOffsetInMinutes: 0,
     }
     const recurringQuestion2: CreateRecurringQuestionCommand = {
       userId,
       text: 'Gone to Bed By 9:00PM?',
-      phase: {
-        timestamp: daysAgo(2),
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: daysAgo(2),
+      utcOffsetInMinutes: 0,
     }
 
     await RecurringQuestions.create(recurringQuestion)

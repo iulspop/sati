@@ -5,10 +5,8 @@ export interface RecurringQuestion {
   userId: string
   order: number
   text: string
-  phase: {
-    timestamp: Date
-    utcOffsetInMinutes: number
-  }
+  timestamp: Date
+  utcOffsetInMinutes: number
 }
 
 export type CreateRecurringQuestionCommand = Omit<RecurringQuestion, 'id' | 'order'> &
@@ -19,11 +17,13 @@ export const recurringQuestionFactory = ({
   userId,
   order = 999_999,
   text,
-  phase,
+  timestamp,
+  utcOffsetInMinutes,
 }): RecurringQuestion => ({
   id,
   userId,
   order,
   text,
-  phase,
+  timestamp,
+  utcOffsetInMinutes,
 })

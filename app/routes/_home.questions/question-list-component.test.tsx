@@ -12,30 +12,24 @@ describe('QuestionListComponent()', () => {
         userId: '1',
         order: 1,
         text: 'Did you go to bed between 8 and 9PM?',
-        phase: {
-          timestamp: new Date(),
-          utcOffsetInMinutes: -300,
-        },
+        timestamp: new Date(),
+        utcOffsetInMinutes: -300,
       },
       {
         id: '2',
         userId: '1',
         order: 2,
         text: 'Did you wake up between 6 and 7AM?',
-        phase: {
-          timestamp: new Date(),
-          utcOffsetInMinutes: -300,
-        },
+        timestamp: new Date(),
+        utcOffsetInMinutes: -300,
       },
       {
         id: '3',
         userId: '1',
         order: 3,
         text: 'Did you eat breakfast before 8AM?',
-        phase: {
-          timestamp: new Date(),
-          utcOffsetInMinutes: -300,
-        },
+        timestamp: new Date(),
+        utcOffsetInMinutes: -300,
       },
     ]
 

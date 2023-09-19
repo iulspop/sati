@@ -17,10 +17,7 @@ export const meta: V2_MetaFunction<typeof loader> = () => [{ title: 'Questions |
 export default function QuestionsPage() {
   const recurringQuestions = useLoaderData<typeof loader>().map(serializedRecurringQuestion => ({
     ...serializedRecurringQuestion,
-    phase: {
-      timestamp: new Date(serializedRecurringQuestion.phase.timestamp),
-      utcOffsetInMinutes: serializedRecurringQuestion.phase.utcOffsetInMinutes,
-    },
+    timestamp: new Date(serializedRecurringQuestion.timestamp),
   })) as RecurringQuestion[]
 
   return (

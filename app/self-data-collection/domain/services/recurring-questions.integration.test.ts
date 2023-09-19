@@ -14,19 +14,15 @@ describe('RecurringQuestions()', () => {
       userId,
       text: 'Go to Bed By 9:30PM',
       order: 10,
-      phase: {
-        timestamp: new Date('2023-01-01T00:00:00.000Z'),
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: new Date('2023-01-01T00:00:00.000Z'),
+      utcOffsetInMinutes: 0,
     }
     const recurringQuestion2: CreateRecurringQuestionCommand = {
       userId,
       text: 'Go to Bed By 9:00PM',
       order: 1,
-      phase: {
-        timestamp: new Date('2023-01-01T00:00:00.000Z'),
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: new Date('2023-01-01T00:00:00.000Z'),
+      utcOffsetInMinutes: 0,
     }
 
     // CREATE
@@ -67,10 +63,8 @@ describe('RecurringQuestions()', () => {
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
       text: 'X',
-      phase: {
-        timestamp: new Date('2022-10-22T00:00:00.000Z'),
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: new Date('2022-10-22T00:00:00.000Z'),
+      utcOffsetInMinutes: 0,
     }
     const createdRecurringQuestion = await recurringQuestions.create({ ...recurringQuestion, order: 10 })
     const secondCreatedRecurringQuestion = await recurringQuestions.create({ ...recurringQuestion })
@@ -92,18 +86,14 @@ describe('RecurringQuestions()', () => {
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       text: 'N/A',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: 500,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: 500,
     })
     await recurringQuestions.create({
       userId: secondUserId,
       text: 'N/A',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: 500,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: 500,
     })
 
     const readRecurringQuestions = await recurringQuestions.readAll(userId)

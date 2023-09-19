@@ -35,10 +35,8 @@ describe('promptQueue()', async () => {
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       text: 'Did you study 2 hours?',
-      phase: {
-        timestamp: startDate,
-        utcOffsetInMinutes: 5 * 60,
-      },
+      timestamp: startDate,
+      utcOffsetInMinutes: 5 * 60,
     })
 
     const firstDayPrompt: Prompt = {
@@ -96,20 +94,16 @@ describe('promptQueue()', async () => {
       userId,
       order: 2,
       text: 'Have you studied?',
-      phase: {
-        timestamp: startTime,
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: startTime,
+      utcOffsetInMinutes: 0,
     })
 
     const secondCreatedRecurringQuestion = await recurringQuestions.create({
       userId,
       order: 1,
       text: 'Have you eaten broccoli?',
-      phase: {
-        timestamp: startTime,
-        utcOffsetInMinutes: 0,
-      },
+      timestamp: startTime,
+      utcOffsetInMinutes: 0,
     })
 
     assert({
@@ -149,10 +143,8 @@ describe('calculateQuery()', () => {
             userId: '1',
             order: 1,
             text: 'Have you studied?',
-            phase: {
-              timestamp: startTimeUTC,
-              utcOffsetInMinutes: 5 * 60,
-            },
+            timestamp: startTimeUTC,
+            utcOffsetInMinutes: 5 * 60,
           },
         ],
         [],
@@ -181,20 +173,16 @@ describe('calculateQuery()', () => {
             userId: '1',
             order: 1,
             text: 'Have you studied?',
-            phase: {
-              timestamp: startTime,
-              utcOffsetInMinutes: 0,
-            },
+            timestamp: startTime,
+            utcOffsetInMinutes: 0,
           },
           {
             id: '2',
             userId: '1',
             order: 2,
             text: 'Did you eat your vegetables?',
-            phase: {
-              timestamp: startTime,
-              utcOffsetInMinutes: 0,
-            },
+            timestamp: startTime,
+            utcOffsetInMinutes: 0,
           },
         ],
         [],

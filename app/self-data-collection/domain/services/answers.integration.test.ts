@@ -15,10 +15,8 @@ describe('Answers()', () => {
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       text: 'N/A',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: 500,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: 500,
     })
 
     const answers = Answers(AnswerRepository())
@@ -60,18 +58,14 @@ describe('Answers()', () => {
     const createdRecurringQuestion = await recurringQuestions.create({
       userId,
       text: 'N/A',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: 500,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: 500,
     })
     const secondCreatedRecurringQuestion = await recurringQuestions.create({
       userId: secondUserId,
       text: 'N/A',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: 500,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: 500,
     })
 
     const answers = Answers(AnswerRepository())

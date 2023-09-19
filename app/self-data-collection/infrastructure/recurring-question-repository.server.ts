@@ -10,97 +10,36 @@ export interface RecurringQuestionRepositoryAPI {
 }
 
 export const RecurringQuestionRepository = (): RecurringQuestionRepositoryAPI => ({
-  create: async ({ id, userId, order, text, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
-    db.recurringQuestion
-      .create({
-        data: {
-          id,
-          userId,
-          order,
-          text,
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      })
-      .then(({ id, userId, order, text, timestamp, utcOffsetInMinutes }) => ({
-        userId,
+  create: async ({ id, userId, order, text, timestamp, utcOffsetInMinutes }) =>
+    db.recurringQuestion.create({
+      data: {
         id,
+        userId,
         order,
         text,
-        phase: {
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      })),
-  read: async id =>
-    db.recurringQuestion.findUnique({ where: { id } }).then(recurringQuestion => {
-      if (!recurringQuestion) return null
-      const { id, userId, order, text, timestamp, utcOffsetInMinutes } = recurringQuestion
-      return {
-        userId,
-        id,
-        order,
-        text,
-        phase: {
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      }
+        timestamp,
+        utcOffsetInMinutes,
+      },
     }),
+  read: async id => db.recurringQuestion.findUnique({ where: { id } }),
   readAll: async userId =>
-    db.recurringQuestion
-      .findMany({
-        where: {
-          userId,
-        },
-        orderBy: {
-          order: 'asc',
-        },
-      })
-      .then(recurringQuestions =>
-        recurringQuestions.map(({ id, userId, order, text, timestamp, utcOffsetInMinutes }) => ({
-          id,
-          userId,
-          order,
-          text,
-          phase: {
-            timestamp,
-            utcOffsetInMinutes,
-          },
-        }))
-      ),
-  update: async (id, { order, text, phase: { timestamp, utcOffsetInMinutes } = {} }) =>
-    db.recurringQuestion
-      .update({
-        where: { id },
-        data: {
-          order,
-          text,
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      })
-      .then(({ id, userId, order, text, timestamp, utcOffsetInMinutes }) => ({
-        id,
+    db.recurringQuestion.findMany({
+      where: {
         userId,
+      },
+      orderBy: {
+        order: 'asc',
+      },
+    }),
+  update: async (id, { order, text, timestamp, utcOffsetInMinutes }) =>
+    db.recurringQuestion.update({
+      where: { id },
+      data: {
         order,
         text,
-        phase: {
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      })),
-  delete: async id =>
-    db.recurringQuestion
-      .delete({ where: { id } })
-      .then(({ id, userId, order, text, timestamp, utcOffsetInMinutes }) => ({
-        id,
-        userId,
-        order,
-        text,
-        phase: {
-          timestamp,
-          utcOffsetInMinutes,
-        },
-      })),
+        timestamp,
+        utcOffsetInMinutes,
+      },
+    }),
+  delete: async id => db.recurringQuestion.delete({ where: { id } }),
 })

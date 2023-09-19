@@ -13,10 +13,8 @@ describe('EditQuestionFormComponent()', () => {
       id: '1',
       order: 1,
       text: 'Did you go to bed between 8 and 9PM?',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: -300,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: -300,
     }
 
     const RemixStub = createRemixStub([
@@ -37,10 +35,8 @@ describe('EditQuestionFormComponent()', () => {
       id: '1',
       order: 1,
       text: 'Did you go to bed between 8 and 9PM?',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: -300,
-      },
+      timestamp: new Date(),
+      utcOffsetInMinutes: -300,
     }
 
     const RemixStub = createRemixStub([
@@ -61,10 +57,9 @@ describe('EditQuestionFormComponent()', () => {
       id: '1',
       order: 1,
       text: 'Did you go to bed between 8 and 9PM?',
-      phase: {
-        timestamp: new Date(),
-        utcOffsetInMinutes: -300,
-      },
+
+      timestamp: new Date(),
+      utcOffsetInMinutes: -300,
     }
 
     let formData: FormData | undefined
