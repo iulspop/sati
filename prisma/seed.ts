@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import 'dotenv/config'
 import { exit } from 'process'
-import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
+import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 
 const prettyPrint = (object: any) => console.log(JSON.stringify(object, undefined, 2))
 
@@ -31,28 +31,28 @@ async function seed() {
     },
   })
 
-  await RecurringQuestions.create({
+  await recurringQuestionsService.create({
     userId,
     text: 'Did you complete your morning 1h meditation?',
     timestamp: daysAgo(1),
     utcOffsetInMinutes,
   })
 
-  await RecurringQuestions.create({
+  await recurringQuestionsService.create({
     userId,
     text: 'Did you complete your noon 1h meditation?',
     timestamp: daysAgo(1),
     utcOffsetInMinutes,
   })
 
-  await RecurringQuestions.create({
+  await recurringQuestionsService.create({
     userId,
     text: 'Did you complete your evening 1h meditation?',
     timestamp: daysAgo(1),
     utcOffsetInMinutes,
   })
 
-  const questions = await RecurringQuestions.readAll(userId)
+  const questions = await recurringQuestionsService.readAll(userId)
 
   console.log('========= result of seed: =========')
   prettyPrint({ user })

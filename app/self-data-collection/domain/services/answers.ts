@@ -11,7 +11,7 @@ export interface AnswersAPI {
   delete: (id: string) => Promise<Answer>
 }
 
-export const Answers = (AnswerRepository: AnswerRepositoryAPI): AnswersAPI => ({
+export const AnswersService = (AnswerRepository: AnswerRepositoryAPI): AnswersAPI => ({
   create: asyncPipe(answerFactory, AnswerRepository.create),
   read: AnswerRepository.read,
   readAll: AnswerRepository.readAll,

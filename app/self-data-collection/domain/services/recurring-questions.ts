@@ -10,7 +10,7 @@ export interface RecurringQuestionsAPI {
   delete: (id: string) => Promise<RecurringQuestion>
 }
 
-export const RecurringQuestions = (
+export const RecurringQuestionsService = (
   RecurringQuestionRepository: RecurringQuestionRepositoryAPI
 ): RecurringQuestionsAPI => ({
   create: async partialRecurringQuestion => {

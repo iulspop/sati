@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { createId } from '@paralleldrive/cuid2'
 import { expect, test } from '@playwright/test'
 import type { CreateRecurringQuestionCommand } from '~/self-data-collection/domain/entities/recurring-question'
-import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
+import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
@@ -23,8 +23,8 @@ test.describe('questions page', () => {
       timestamp: new Date(),
       utcOffsetInMinutes: new Date().getTimezoneOffset(),
     }
-    await RecurringQuestions.create(recurringQuestion)
-    await RecurringQuestions.create(recurringQuestion2)
+    await recurringQuestionsService.create(recurringQuestion)
+    await recurringQuestionsService.create(recurringQuestion2)
 
     try {
       await page.goto('./questions')
@@ -68,7 +68,7 @@ test.describe('questions page', () => {
       timestamp: new Date(),
       utcOffsetInMinutes: new Date().getTimezoneOffset(),
     }
-    await RecurringQuestions.create(recurringQuestion)
+    await recurringQuestionsService.create(recurringQuestion)
 
     try {
       await page.goto('./questions')

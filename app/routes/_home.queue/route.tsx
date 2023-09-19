@@ -3,7 +3,7 @@ import { json } from '@remix-run/node'
 import { useLoaderData, useLocation } from '@remix-run/react'
 import { useEffect } from 'react'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
-import { Answers, PromptQueue } from '~/self-data-collection/domain/index.server'
+import { answersService, promptQueueService } from '~/self-data-collection/domain/index.server'
 import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
 import { convertAnswerFormat } from './convert-answer-format'
 import type { PromptCardComponentFormEntries } from './prompt-card-component'
@@ -11,7 +11,7 @@ import { PromptListComponent } from './prompt-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userId = await requireUserIsAuthenticated(request)
-  const promptList = await PromptQueue.query(userId)
+  const promptList = await promptQueueService.query(userId)
   return json(promptList)
 }
 
@@ -21,7 +21,7 @@ export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
   // @ts-expect-error
   const answer: PromptCardComponentFormEntries = Object.fromEntries(formData.entries())
-  await Answers.create(convertAnswerFormat(answer))
+  await answersService.create(convertAnswerFormat(answer))
   return new Response(null, { status: 200 })
 }
 

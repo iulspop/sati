@@ -6,33 +6,33 @@ import { AnswerRepository } from '../../infrastructure/answer-repository.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-repository.server'
 import type { Answer } from '../entities/answer'
 import type { Prompt } from '../value-objects/prompt'
-import { Answers } from './answers'
+import { AnswersService } from './answers'
 import {
   addDay,
   calculateQuery,
   filterIfCurrentDay,
   keepUnlessPromptAnswered,
-  PromptQueue,
+  PromptQueueService,
   sortByDay,
   toDayList,
   toLocalTime,
   toStartOfDay,
 } from './prompt-queue'
-import { RecurringQuestions } from './recurring-questions'
+import { RecurringQuestionsService } from './recurring-questions'
 
-describe('promptQueue()', async () => {
+describe('PromptQueueService()', async () => {
   {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-    const answers = Answers(AnswerRepository())
-    const promptQueue = PromptQueue(recurringQuestions)(answers)
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
+    const answersService = AnswersService(AnswerRepository())
+    const promptQueueService = PromptQueueService(recurringQuestionsService)(answersService)
 
     const startDate = new Date('2022-10-20T01:00:00.000Z')
     const startDateLocal = new Date('2022-10-19T20:00:00.000Z')
     const startOfDayInLocalTime = new Date('2022-10-19T05:00:00.000Z')
 
-    const createdRecurringQuestion = await recurringQuestions.create({
+    const createdRecurringQuestion = await recurringQuestionsService.create({
       userId,
       text: 'Did you study 2 hours?',
       timestamp: startDate,
@@ -54,11 +54,11 @@ describe('promptQueue()', async () => {
     assert({
       given: 'a recurring question and a query in two days local time',
       should: 'return two prompts, one for each day except the current day',
-      actual: await promptQueue.query(userId, addHours(28, startDateLocal)),
+      actual: await promptQueueService.query(userId, addHours(28, startDateLocal)),
       expected: [firstDayPrompt, secondDayPrompt],
     })
 
-    const firstDayAnswer = await answers.create({
+    const firstDayAnswer = await answersService.create({
       questionId: createdRecurringQuestion.id,
       timestamp: new Date(startOfDayInLocalTime),
       response: true,
@@ -67,14 +67,14 @@ describe('promptQueue()', async () => {
     assert({
       given: 'one prompt answered',
       should: 'return one answer',
-      actual: await answers.readAll(userId),
+      actual: await answersService.readAll(userId),
       expected: [firstDayAnswer],
     })
 
     assert({
       given: 'a prompt answered',
       should: 'not show the prompt again',
-      actual: await promptQueue.query(userId, addHours(28, startDateLocal)),
+      actual: await promptQueueService.query(userId, addHours(28, startDateLocal)),
       expected: [secondDayPrompt],
     })
 
@@ -83,14 +83,14 @@ describe('promptQueue()', async () => {
   {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-    const answers = Answers(AnswerRepository())
-    const promptQueue = PromptQueue(recurringQuestions)(answers)
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
+    const answersService = AnswersService(AnswerRepository())
+    const promptQueueService = PromptQueueService(recurringQuestionsService)(answersService)
 
     const startTime = new Date('2022-10-22T00:00:00.000Z')
     const queryTime = new Date('2022-10-23T00:00:00.000Z')
 
-    const createdRecurringQuestion = await recurringQuestions.create({
+    const createdRecurringQuestion = await recurringQuestionsService.create({
       userId,
       order: 2,
       text: 'Have you studied?',
@@ -98,7 +98,7 @@ describe('promptQueue()', async () => {
       utcOffsetInMinutes: 0,
     })
 
-    const secondCreatedRecurringQuestion = await recurringQuestions.create({
+    const secondCreatedRecurringQuestion = await recurringQuestionsService.create({
       userId,
       order: 1,
       text: 'Have you eaten broccoli?',
@@ -109,7 +109,7 @@ describe('promptQueue()', async () => {
     assert({
       given: 'two recurring questions',
       should: 'return prompts in order of the questions',
-      actual: await promptQueue.query(userId, queryTime),
+      actual: await promptQueueService.query(userId, queryTime),
       expected: [
         {
           questionId: secondCreatedRecurringQuestion.id,

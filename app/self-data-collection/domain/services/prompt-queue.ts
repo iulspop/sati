@@ -8,15 +8,15 @@ export interface PromptQueueAPI {
   query: (userId: string, queryTimeLocal?: Date) => Promise<Prompt[]>
 }
 
-export const PromptQueue =
-  (RecurringQuestions: RecurringQuestionsAPI) =>
-  (Answers: AnswersAPI): PromptQueueAPI => ({
+export const PromptQueueService =
+  (recurringQuestionsService: RecurringQuestionsAPI) =>
+  (answersService: AnswersAPI): PromptQueueAPI => ({
     query: async (
       userId,
       queryTimeLocal = toLocalTime({ timestamp: new Date(), utcOffsetInMinutes: new Date().getTimezoneOffset() })
     ) => {
-      const recurringQuestionList = await RecurringQuestions.readAll(userId)
-      const answerList = await Answers.readAll(userId)
+      const recurringQuestionList = await recurringQuestionsService.readAll(userId)
+      const answerList = await answersService.readAll(userId)
       return calculateQuery(recurringQuestionList, answerList, queryTimeLocal)
     },
   })

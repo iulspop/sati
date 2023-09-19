@@ -3,13 +3,13 @@ import { describe, expect, test } from 'vitest'
 import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-repository.server'
 import type { CreateRecurringQuestionCommand } from '../entities/recurring-question'
-import { RecurringQuestions } from './recurring-questions'
+import { RecurringQuestionsService } from './recurring-questions'
 
-describe('RecurringQuestions()', () => {
+describe('RecurringQuestionsService()', () => {
   test('CRUD', async () => {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
       text: 'Go to Bed By 9:30PM',
@@ -26,30 +26,30 @@ describe('RecurringQuestions()', () => {
     }
 
     // CREATE
-    const createdRecurringQuestion = await recurringQuestions.create(recurringQuestion)
+    const createdRecurringQuestion = await recurringQuestionsService.create(recurringQuestion)
     expect(createdRecurringQuestion).toEqual({ id: createdRecurringQuestion.id, ...recurringQuestion })
 
     // READ
-    const readRecurringQuestion = await recurringQuestions.read(createdRecurringQuestion.id)
-    let readRecurringQuestions = await recurringQuestions.readAll(userId)
+    const readRecurringQuestion = await recurringQuestionsService.read(createdRecurringQuestion.id)
+    let readRecurringQuestions = await recurringQuestionsService.readAll(userId)
     expect(readRecurringQuestion).toEqual(createdRecurringQuestion)
     expect(readRecurringQuestions).toEqual([createdRecurringQuestion])
 
     // readAll returns in asc order
-    const createdRecurringQuestion2 = await recurringQuestions.create(recurringQuestion2)
-    readRecurringQuestions = await recurringQuestions.readAll(userId)
+    const createdRecurringQuestion2 = await recurringQuestionsService.create(recurringQuestion2)
+    readRecurringQuestions = await recurringQuestionsService.readAll(userId)
     expect(readRecurringQuestions).toEqual([createdRecurringQuestion2, createdRecurringQuestion])
 
     // UPDATE
     const questionText = 'Go to Bed By 9:00PM'
-    const updatedRecurringQuestion = await recurringQuestions.update(createdRecurringQuestion.id, {
+    const updatedRecurringQuestion = await recurringQuestionsService.update(createdRecurringQuestion.id, {
       text: questionText,
     })
     expect(updatedRecurringQuestion).toEqual({ ...createdRecurringQuestion, text: questionText })
 
     // DELETE
-    const deletedRecurringQuestion = await recurringQuestions.delete(createdRecurringQuestion.id)
-    readRecurringQuestions = await recurringQuestions.readAll(userId)
+    const deletedRecurringQuestion = await recurringQuestionsService.delete(createdRecurringQuestion.id)
+    readRecurringQuestions = await recurringQuestionsService.readAll(userId)
     expect(deletedRecurringQuestion).toEqual(updatedRecurringQuestion)
     expect(readRecurringQuestions).toEqual([createdRecurringQuestion2])
 
@@ -59,17 +59,17 @@ describe('RecurringQuestions()', () => {
   test('given creating a recurring question: default order to last order + 1', async () => {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
     const recurringQuestion: CreateRecurringQuestionCommand = {
       userId,
       text: 'X',
       timestamp: new Date('2022-10-22T00:00:00.000Z'),
       utcOffsetInMinutes: 0,
     }
-    const createdRecurringQuestion = await recurringQuestions.create({ ...recurringQuestion, order: 10 })
-    const secondCreatedRecurringQuestion = await recurringQuestions.create({ ...recurringQuestion })
+    const createdRecurringQuestion = await recurringQuestionsService.create({ ...recurringQuestion, order: 10 })
+    const secondCreatedRecurringQuestion = await recurringQuestionsService.create({ ...recurringQuestion })
 
-    const readRecurringQuestions = await recurringQuestions.readAll(userId)
+    const readRecurringQuestions = await recurringQuestionsService.readAll(userId)
     expect(readRecurringQuestions).toEqual([
       { ...createdRecurringQuestion, order: 10 },
       { ...secondCreatedRecurringQuestion, order: 11 },
@@ -82,21 +82,21 @@ describe('RecurringQuestions()', () => {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
     const { id: secondUserId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-    const createdRecurringQuestion = await recurringQuestions.create({
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
+    const createdRecurringQuestion = await recurringQuestionsService.create({
       userId,
       text: 'N/A',
       timestamp: new Date(),
       utcOffsetInMinutes: 500,
     })
-    await recurringQuestions.create({
+    await recurringQuestionsService.create({
       userId: secondUserId,
       text: 'N/A',
       timestamp: new Date(),
       utcOffsetInMinutes: 500,
     })
 
-    const readRecurringQuestions = await recurringQuestions.readAll(userId)
+    const readRecurringQuestions = await recurringQuestionsService.readAll(userId)
     expect(readRecurringQuestions).toEqual([createdRecurringQuestion])
 
     await deleteUserProfileFromDatabaseById(userId)

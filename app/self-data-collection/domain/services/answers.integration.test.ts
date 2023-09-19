@@ -4,22 +4,22 @@ import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infras
 import { AnswerRepository } from '../../infrastructure/answer-repository.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-repository.server'
 import type { Answer } from '../entities/answer'
-import { Answers } from './answers'
-import { RecurringQuestions } from './recurring-questions'
+import { AnswersService } from './answers'
+import { RecurringQuestionsService } from './recurring-questions'
 
-describe('Answers()', () => {
+describe('AnswersService()', () => {
   test('CRUD', async () => {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-    const createdRecurringQuestion = await recurringQuestions.create({
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
+    const createdRecurringQuestion = await recurringQuestionsService.create({
       userId,
       text: 'N/A',
       timestamp: new Date(),
       utcOffsetInMinutes: 500,
     })
 
-    const answers = Answers(AnswerRepository())
+    const answersService = AnswersService(AnswerRepository())
     const answer: Partial<Answer> = {
       questionId: createdRecurringQuestion.id,
       response: false,
@@ -27,23 +27,23 @@ describe('Answers()', () => {
     }
 
     // CREATE
-    const createdAnswer = await answers.create(answer)
+    const createdAnswer = await answersService.create(answer)
     expect(createdAnswer).toEqual({ id: createdAnswer.id, ...answer })
 
     // READ
-    const readAnswer = await answers.read(createdAnswer.id)
-    let readAnswers = await answers.readAll(userId)
+    const readAnswer = await answersService.read(createdAnswer.id)
+    let readAnswers = await answersService.readAll(userId)
     expect(readAnswer).toEqual(createdAnswer)
     expect(readAnswers).toEqual([createdAnswer])
 
     // UPDATE
     const updatedResponse = true
-    const updatedAnswer = await answers.update(createdAnswer.id, { response: updatedResponse })
+    const updatedAnswer = await answersService.update(createdAnswer.id, { response: updatedResponse })
     expect(updatedAnswer).toEqual({ ...createdAnswer, response: updatedResponse })
 
     // DELETE
-    const deletedAnswer = await answers.delete(createdAnswer.id)
-    readAnswers = await answers.readAll(userId)
+    const deletedAnswer = await answersService.delete(createdAnswer.id)
+    readAnswers = await answersService.readAll(userId)
     expect(deletedAnswer).toEqual(updatedAnswer)
     expect(readAnswers).toEqual([])
 
@@ -54,34 +54,34 @@ describe('Answers()', () => {
     const { id: userId } = await saveFakeUserProfileToDatabase({})
     const { id: secondUserId } = await saveFakeUserProfileToDatabase({})
 
-    const recurringQuestions = RecurringQuestions(RecurringQuestionRepository())
-    const createdRecurringQuestion = await recurringQuestions.create({
+    const recurringQuestionsService = RecurringQuestionsService(RecurringQuestionRepository())
+    const createdRecurringQuestion = await recurringQuestionsService.create({
       userId,
       text: 'N/A',
       timestamp: new Date(),
       utcOffsetInMinutes: 500,
     })
-    const secondCreatedRecurringQuestion = await recurringQuestions.create({
+    const secondCreatedRecurringQuestion = await recurringQuestionsService.create({
       userId: secondUserId,
       text: 'N/A',
       timestamp: new Date(),
       utcOffsetInMinutes: 500,
     })
 
-    const answers = Answers(AnswerRepository())
-    const createdAnswer = await answers.create({
+    const answersService = AnswersService(AnswerRepository())
+    const createdAnswer = await answersService.create({
       questionId: createdRecurringQuestion.id,
       response: false,
       timestamp: new Date(),
     })
-    await answers.create({
+    await answersService.create({
       questionId: secondCreatedRecurringQuestion.id,
       response: false,
       timestamp: new Date(),
     })
 
     // @ts-ignore
-    const readAnswers = await answers.readAll(userId)
+    const readAnswers = await answersService.readAll(userId)
     expect(readAnswers).toEqual([createdAnswer])
 
     await deleteUserProfileFromDatabaseById(userId)

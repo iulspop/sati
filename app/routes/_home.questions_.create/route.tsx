@@ -7,13 +7,13 @@ import type {
   CreateRecurringQuestionCommand,
   RecurringQuestion,
 } from '~/self-data-collection/domain/entities/recurring-question'
-import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
+import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 import type { CreateQuestionFormEntries } from './create-question-form-component'
 import { CreateQuestionFormComponent } from './create-question-form-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userId = await requireUserIsAuthenticated(request)
-  const recurringQuestions = await RecurringQuestions.readAll(userId)
+  const recurringQuestions = await recurringQuestionsService.readAll(userId)
   return json(recurringQuestions)
 }
 
@@ -22,7 +22,7 @@ export const action = async ({ request }: ActionArgs) => {
   const formData = await request.formData()
   // @ts-expect-error
   const createQuestionFormEntries: CreateQuestionFormEntries = Object.fromEntries(formData.entries())
-  await RecurringQuestions.create(toCreateRecurringQuestionCommand(createQuestionFormEntries, userId))
+  await recurringQuestionsService.create(toCreateRecurringQuestionCommand(createQuestionFormEntries, userId))
   return redirect('/questions')
 }
 

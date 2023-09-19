@@ -3,12 +3,12 @@ import { json } from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
 import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
-import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
+import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 import { QuestionListComponent } from './question-list-component'
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userId = await requireUserIsAuthenticated(request)
-  const recurringQuestions = await RecurringQuestions.readAll(userId)
+  const recurringQuestions = await recurringQuestionsService.readAll(userId)
   return json(recurringQuestions)
 }
 

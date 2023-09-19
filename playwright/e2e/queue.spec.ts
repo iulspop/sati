@@ -1,7 +1,7 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import type { CreateRecurringQuestionCommand } from '~/self-data-collection/domain/entities/recurring-question'
-import { RecurringQuestions } from '~/self-data-collection/domain/index.server'
+import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
 import { daysAgo, loginAndSaveUserProfileToDatabase } from '../utils'
 
@@ -30,8 +30,8 @@ test.describe('queue page', () => {
       utcOffsetInMinutes: 0,
     }
 
-    await RecurringQuestions.create(recurringQuestion)
-    await RecurringQuestions.create(recurringQuestion2)
+    await recurringQuestionsService.create(recurringQuestion)
+    await recurringQuestionsService.create(recurringQuestion2)
 
     await page.goto('./queue')
 
