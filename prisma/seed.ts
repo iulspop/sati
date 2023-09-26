@@ -2,7 +2,12 @@ import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import 'dotenv/config'
 import { exit } from 'process'
-import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
+import { answerFactory } from '~/self-data-collection/domain/entities/answer'
+import {
+  answersService,
+  promptQueueService,
+  recurringQuestionsService,
+} from '~/self-data-collection/domain/index.server'
 
 const prettyPrint = (object: any) => console.log(JSON.stringify(object, undefined, 2))
 
@@ -34,29 +39,40 @@ async function seed() {
   await recurringQuestionsService.create({
     userId,
     text: 'Did you complete your morning 1h meditation?',
-    timestamp: daysAgo(1),
+    timestamp: daysAgo(4),
     utcOffsetInMinutes,
   })
 
   await recurringQuestionsService.create({
     userId,
     text: 'Did you complete your noon 1h meditation?',
-    timestamp: daysAgo(1),
+    timestamp: daysAgo(4),
     utcOffsetInMinutes,
   })
 
   await recurringQuestionsService.create({
     userId,
     text: 'Did you complete your evening 1h meditation?',
-    timestamp: daysAgo(1),
+    timestamp: daysAgo(4),
     utcOffsetInMinutes,
   })
 
   const questions = await recurringQuestionsService.readAll(userId)
 
+  const prompts = await promptQueueService.query(userId)
+
+  prompts.slice(0, 9).forEach(async ({ questionId, timestamp }) => {
+    await answersService.create(
+      answerFactory({ questionId, timestamp, response: Math.floor(Math.random() * 10) % 2 === 1 ? true : false })
+    )
+  })
+
+  const answers = await answersService.readAll(userId)
+
   console.log('========= result of seed: =========')
-  prettyPrint({ user })
+  prettyPrint(user)
   prettyPrint(questions)
+  prettyPrint(answers)
 }
 
 seed()
