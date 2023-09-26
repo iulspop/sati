@@ -4,7 +4,7 @@ import type { Answer } from '~/self-data-collection/domain/entities/answer'
 import { answerFactory } from '~/self-data-collection/domain/entities/answer'
 import { QuestionsAnswersTableComponent } from './question-answers-table-component'
 
-describe('EditQuestionFormComponent()', () => {
+describe('QuestionsAnswersTableComponent()', () => {
   test('given a list of answers sorted chronologically: render table of answer dates and responses in reverse chronological order', async () => {
     const answers: Answer[] = [
       answerFactory({ timestamp: new Date('2023-01-01T00:00:00.000Z'), response: true }),
