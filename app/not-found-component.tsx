@@ -17,7 +17,7 @@ export function NotFoundComponent() {
 
         <div className="py-16">
           <div className="text-center">
-            <p className="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-500">
+            <p className="text-sm font-semibold uppercase tracking-wide text-indigo-600 dark:text-indigo-200">
               404 Error
             </p>
             <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl">
@@ -31,7 +31,7 @@ export function NotFoundComponent() {
             <div className="mt-6">
               <Link
                 to={'/'}
-                className="text-base font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-400"
+                className="text-base font-medium text-indigo-600 hover:text-indigo-400 dark:text-indigo-200 dark:hover:text-indigo-300"
               >
                 Go back home
                 <span aria-hidden="true">&rarr;</span>
