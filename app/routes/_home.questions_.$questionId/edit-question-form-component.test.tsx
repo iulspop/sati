@@ -7,7 +7,7 @@ import type { DeleteQuestionFormEntries } from './edit-question-form-component'
 import { EditQuestionFormComponent } from './edit-question-form-component'
 
 describe('EditQuestionFormComponent()', () => {
-  test('given a recurring question: render question text', async () => {
+  test('given a recurring question: render question text and an edit question header', async () => {
     const recurringQuestion: RecurringQuestion = {
       userId: '1',
       id: '1',
@@ -26,7 +26,8 @@ describe('EditQuestionFormComponent()', () => {
 
     render(<RemixStub />)
 
-    expect(screen.getByText(recurringQuestion.text)).toBeInTheDocument()
+    expect(screen.getByText(recurringQuestion.text))
+    expect(screen.getByRole('heading', { name: /Edit Question/i, level: 2 }))
   })
 
   test('given a recurring question: render a "Cancel" link to /questions', async () => {
