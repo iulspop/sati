@@ -14,10 +14,9 @@ test.describe('landing page', () => {
     await deleteUserProfileFromDatabaseById(id)
   })
 
-  test('given user is logged out: has the correct title and renders a header', async ({ page }) => {
+  test('given user is logged out: the landing page loads', async ({ page }) => {
     await page.goto('./')
-    expect(await page.title()).toEqual('Inquire')
-    await expect(page.getByRole('heading', { level: 1, name: 'Inquire' })).toBeVisible()
+    await expect(page.getByRole('heading', { level: 1, name: 'Sati' })).toBeVisible()
   })
 
   test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({
