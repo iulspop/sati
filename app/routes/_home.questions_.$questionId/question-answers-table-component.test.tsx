@@ -45,4 +45,12 @@ describe('EditQuestionFormComponent()', () => {
       throw error
     }
   })
+
+  test('given a list of answers: render question answers header', async () => {
+    const answers: Answer[] = [answerFactory({ timestamp: new Date('2023-01-01T00:00:00.000Z'), response: true })]
+
+    render(<QuestionsAnswersTableComponent answers={answers} />)
+
+    expect(screen.getByRole('heading', { name: /Question Answers/i, level: 2 }))
+  })
 })
