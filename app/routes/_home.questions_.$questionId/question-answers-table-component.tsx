@@ -2,7 +2,7 @@ import type { Answer } from '~/self-data-collection/domain/entities/answer'
 
 export type QuestionsAnswersTableComponentProps = {
   answers: Answer[]
-  fixTimezone: (date: Date) => Date
+  fixTimezone?: (date: Date) => Date
 }
 
 export function QuestionsAnswersTableComponent({

@@ -1,8 +1,10 @@
 import AxeBuilder from '@axe-core/playwright'
 import { createId } from '@paralleldrive/cuid2'
 import { expect, test } from '@playwright/test'
+import type { Answer } from '~/self-data-collection/domain/entities/answer'
+import { answerFactory } from '~/self-data-collection/domain/entities/answer'
 import type { CreateRecurringQuestionCommand } from '~/self-data-collection/domain/entities/recurring-question'
-import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
+import { answersService, recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
@@ -83,6 +85,38 @@ test.describe('questions page', () => {
       await page.getByRole('button', { name: 'Delete' }).click()
       await expect(page, 'should redirect to "/questions" after deleting question').toHaveURL(`${baseURL}/questions`)
       await expect(page.getByText(recurringQuestion.text), 'should not see the question anymore').toHaveCount(0)
+    } finally {
+      await deleteUserProfileFromDatabaseById(userId)
+    }
+  })
+
+  test('given user is logged in, clicking a recurring question: lists each respective answer to the question', async ({
+    page,
+  }) => {
+    const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
+
+    const recurringQuestion: CreateRecurringQuestionCommand = {
+      id: createId(),
+      userId,
+      text: 'Brushed Teeth?',
+      order: 1,
+      timestamp: new Date(),
+      utcOffsetInMinutes: new Date().getTimezoneOffset(),
+    }
+    await recurringQuestionsService.create(recurringQuestion)
+
+    const answers: Answer[] = [
+      answerFactory({ timestamp: new Date(), response: true, questionId: recurringQuestion.id }),
+      answerFactory({ timestamp: new Date(), response: false, questionId: recurringQuestion.id }),
+    ]
+    await answersService.create(answers[0])
+    await answersService.create(answers[1])
+
+    try {
+      await page.goto('./questions')
+      await page.getByRole('link', { name: recurringQuestion.text }).click()
+      await expect(page.getByText('False'), 'should see the first answer').toBeVisible()
+      await expect(page.getByText('True'), 'should see the second answer').toBeVisible()
     } finally {
       await deleteUserProfileFromDatabaseById(userId)
     }
