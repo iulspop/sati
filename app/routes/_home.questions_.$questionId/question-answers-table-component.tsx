@@ -10,8 +10,8 @@ export function QuestionsAnswersTableComponent({
   fixTimezone = date => date,
 }: QuestionsAnswersTableComponentProps) {
   return (
-    <div>
-      <h2>Question Answers</h2>
+    <div className="flex flex-col space-y-4 bg-white p-6 rounded shadow-lg w-full max-w-md mx-auto dark:text-black mt-4">
+      <h2 className="font-semibold text-lg">Question Answers</h2>
       <table>
         <thead>
           <tr>
@@ -26,8 +26,8 @@ export function QuestionsAnswersTableComponent({
             .map(answer => (
               <tr key={answer.id}>
                 {/* en-GB formats date like this: dd/mm/yyyy */}
-                <td>{new Intl.DateTimeFormat('en-GB').format(fixTimezone(answer.timestamp))}</td>
-                <td>{answer.response ? 'True' : 'False'}</td>
+                <td className="border">{new Intl.DateTimeFormat('en-GB').format(fixTimezone(answer.timestamp))}</td>
+                <td className="border">{answer.response ? 'True' : 'False'}</td>
               </tr>
             ))}
         </tbody>
