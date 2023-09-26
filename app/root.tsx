@@ -43,14 +43,14 @@ export default function App() {
   const { ENV } = useLoaderData<typeof loader>()
 
   return (
-    <html lang="en" className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800">
+    <html lang="en" className="dark h-full overflow-hidden">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width,initial-scale=1" />
         <Meta />
         <Links />
       </head>
-      <body className="h-full overflow-auto">
+      <body className="h-full overflow-auto bg-gray-100 dark:bg-slate-800">
         <Outlet />
         <ScrollRestoration />
         <script
@@ -70,26 +70,26 @@ export function ErrorBoundary() {
   const error = useRouteError()
 
   return isRouteErrorResponse(error) ? (
-    <html className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800" lang="en">
+    <html className="dark h-full overflow-hidden" lang="en">
       <head>
         <title>404 Not Found | Inquire</title>
         <Meta />
         <Links />
       </head>
 
-      <body className="h-full overflow-auto">
+      <body className="h-full overflow-auto bg-gray-100 dark:bg-slate-800">
         <NotFoundComponent />
         <Scripts />
       </body>
     </html>
   ) : (
-    <html className="h-full overflow-hidden bg-gray-100 dark:bg-slate-800">
+    <html className="dark h-full overflow-hidden">
       <head>
         <title>Oh no!</title>
         <Meta />
         <Links />
       </head>
-      <body className="h-full overflow-auto">
+      <body className="h-full overflow-auto bg-gray-100 dark:bg-slate-800">
         <main className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
