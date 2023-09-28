@@ -17,11 +17,13 @@ export function LastWeekAnswersTableComponent({
   currentDate = new Date(),
   timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone,
 }: LastWeekAnswersTableComponentProps) {
-  const lastSevenDaysColumnsHeadersText = getPreviousSevenDays(currentDate).map(date =>
+  const lastEightDaysColumnsHeadersText = [...getPreviousSevenDays(currentDate), currentDate].map(date =>
     formatDateToTwoDigitMonthAndDay(date, timeZone)
   )
-  const { timestamp: questionsCreatedDate } = answersGroupedByQuestions[0].question
-  const daysSinceQuestionsCreated = getDifferenceInDays(questionsCreatedDate, currentDate)
+  const questionsCreatedDate = answersGroupedByQuestions[0].question.timestamp
+  const daysSinceStartCount = getDifferenceInDays(questionsCreatedDate, currentDate)
+  const daysSinceStartList = getDaysBetweenDates(questionsCreatedDate, currentDate)
+  const notTrackedHeaderColSpan = 7 - daysSinceStartCount
 
   return (
     <table className="dark:text-white w-full max-w-screen-xl border-collapse bg-slate-400 m-6 border">
@@ -29,25 +31,24 @@ export function LastWeekAnswersTableComponent({
       <thead>
         <tr>
           <th scope="row">Days Since Start:</th>
-          {7 - daysSinceQuestionsCreated >= 1 ? (
-            <th scope="column" colSpan={7 - daysSinceQuestionsCreated}>
+          {notTrackedHeaderColSpan >= 1 && (
+            <th scope="column" colSpan={notTrackedHeaderColSpan}>
               Not Tracked
             </th>
-          ) : undefined}
-          {getDaysBetweenDates(questionsCreatedDate, currentDate).map(day => (
+          )}
+          {daysSinceStartList.map(day => (
             <th key={day} scope="column">
               {day}
             </th>
           ))}
         </tr>
         <tr>
-          <th scope="row" aria-label="Empty header for spacing"></th>
-          {lastSevenDaysColumnsHeadersText.map(columnHeaderText => (
+          <th scope="row" aria-label="Empty header for spacing" />
+          {lastEightDaysColumnsHeadersText.map(columnHeaderText => (
             <th key={columnHeaderText} scope="column">
               {columnHeaderText}
             </th>
           ))}
-          <th scope="column">{formatDateToTwoDigitMonthAndDay(currentDate, timeZone)}</th>
         </tr>
       </thead>
       <tbody>
@@ -59,33 +60,27 @@ export function LastWeekAnswersTableComponent({
   )
 }
 
-const QuestionAnswersRow = ({ questionText }) => {
-  return (
-    <tr>
-      <th scope="row">{questionText}</th>
-      <UntrackedCell />
-      <UntrackedCell />
-      <UntrackedCell />
-      <UntrackedCell />
-      <UntrackedCell />
-      <UntrackedCell />
-      <UntrackedCell />
-      <UnansweredCell />
-    </tr>
-  )
-}
+const QuestionAnswersRow = ({ questionText }) => (
+  <tr>
+    <th scope="row">{questionText}</th>
+    <UntrackedCell />
+    <UntrackedCell />
+    <UntrackedCell />
+    <UntrackedCell />
+    <UntrackedCell />
+    <UntrackedCell />
+    <UntrackedCell />
+    <UnansweredCell />
+  </tr>
+)
 
-const UntrackedCell = () => {
-  return <td className="border bg-black" aria-label="Untracked data"></td>
-}
+const UntrackedCell = () => <td className="border bg-black" aria-label="Untracked data" />
 
-const UnansweredCell = () => {
-  return (
-    <td className="border bg-gray-200 text-center text-gray-500 border-gray-500" aria-label="Unanswered">
-      ?
-    </td>
-  )
-}
+const UnansweredCell = () => (
+  <td className="border bg-gray-200 text-center text-gray-500 border-gray-500" aria-label="Unanswered">
+    ?
+  </td>
+)
 
 export const getPreviousSevenDays = (date: Date): Date[] =>
   Array.from({ length: 7 })
@@ -100,7 +95,7 @@ export const formatDateToTwoDigitMonthAndDay = (date: Date, timeZone: string): s
   date.toLocaleDateString('en-US', { timeZone, month: '2-digit', day: '2-digit' })
 
 export const getDifferenceInDays = (beforeDate: Date, afterDate: Date): number => {
-  const oneDayInMilliseconds = 24 * 60 * 60 * 1000 // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000
   return Math.round(Math.abs((beforeDate.getTime() - afterDate.getTime()) / oneDayInMilliseconds))
 }
 
