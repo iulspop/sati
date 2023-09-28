@@ -8,7 +8,7 @@ export type AnswersGroupedByQuestion = {
 
 export type LastWeekAnswersTableComponentProps = {
   answersGroupedByQuestions: AnswersGroupedByQuestion[]
-  currentDate: Date
+  currentDate?: Date
   timezone?: string
 }
 
@@ -43,41 +43,27 @@ export function LastWeekAnswersTableComponent({
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">Did you complete your morning 1h meditation?</th>
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UnansweredCell />
-        </tr>
-        <tr>
-          <th scope="row">Did you complete your noon 1h meditation?</th>
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UnansweredCell />
-        </tr>
-        <tr>
-          <th scope="row">Did you complete your evening 1h meditation?</th>
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UntrackedCell />
-          <UnansweredCell />
-        </tr>
+        {answersGroupedByQuestions.map(({ question }) => (
+          <QuestionAnswersRow key={question.id} questionText={question.text} />
+        ))}
       </tbody>
     </table>
+  )
+}
+
+const QuestionAnswersRow = ({ questionText }) => {
+  return (
+    <tr>
+      <th scope="row">{questionText}</th>
+      <UntrackedCell />
+      <UntrackedCell />
+      <UntrackedCell />
+      <UntrackedCell />
+      <UntrackedCell />
+      <UntrackedCell />
+      <UntrackedCell />
+      <UnansweredCell />
+    </tr>
   )
 }
 

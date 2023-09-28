@@ -4,7 +4,43 @@ import { recurringQuestionFactory } from '~/self-data-collection/domain/entities
 import { LastWeekAnswersTableComponent, type AnswersGroupedByQuestion } from './last-week-answers-table-component'
 
 describe('LastWeekAnswersTableComponent()', () => {
-  test('given an list of questions created on the same date as the current date', async () => {
+  test('given a list of questions', async () => {
+    const firstQuestionText = 'Did you complete X'
+    const secondQuestionText = 'Did you complete Y'
+    const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
+      {
+        question: recurringQuestionFactory({
+          text: firstQuestionText,
+        }),
+        answers: [],
+      },
+      {
+        question: recurringQuestionFactory({
+          text: secondQuestionText,
+        }),
+        answers: [],
+      },
+    ]
+
+    const { container } = render(
+      <LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} />
+    )
+
+    expect(
+      container.querySelector('tbody').querySelectorAll('th').length,
+      'should be exactly one row header for each question'
+    ).toEqual(2)
+    expect(
+      screen.getByRole('rowheader', { name: firstQuestionText }),
+      'should show a row header for the first question'
+    ).toBeVisible()
+    expect(
+      screen.getByRole('rowheader', { name: secondQuestionText }),
+      'should show a row header for the second question'
+    ).toBeVisible()
+  })
+
+  test('given a list of questions created on the same date as the current date', async () => {
     const octoberSecondDate = new Date('2023-10-02T00:00:00Z')
     const questionsCreatedDate = octoberSecondDate
     const currentDate = octoberSecondDate
