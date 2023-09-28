@@ -17,13 +17,13 @@ export function LastWeekAnswersTableComponent({
   currentDate = new Date(),
   timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone,
 }: LastWeekAnswersTableComponentProps) {
-  const lastEightDaysColumnsHeadersText = [...getPreviousSevenDays(currentDate), currentDate].map(date =>
-    formatDateToTwoDigitMonthAndDay(date, timeZone)
-  )
   const questionsCreatedDate = answersGroupedByQuestions[0].question.timestamp
   const daysSinceStartCount = getDifferenceInDays(questionsCreatedDate, currentDate)
   const daysSinceStartList = getDaysBetweenDates(questionsCreatedDate, currentDate)
   const notTrackedHeaderColSpan = 7 - daysSinceStartCount
+  const lastEightDaysColumnsHeadersText = [...getPreviousSevenDays(currentDate), currentDate].map(date =>
+    formatDateToTwoDigitMonthAndDay(date, timeZone)
+  )
 
   return (
     <table className="dark:text-white w-full max-w-screen-xl border-collapse bg-slate-400 m-6 border">
@@ -31,23 +31,15 @@ export function LastWeekAnswersTableComponent({
       <thead>
         <tr>
           <th scope="row">Days Since Start:</th>
-          {notTrackedHeaderColSpan >= 1 && (
-            <th scope="column" colSpan={notTrackedHeaderColSpan}>
-              Not Tracked
-            </th>
-          )}
+          {notTrackedHeaderColSpan >= 1 && <NotTrackedColumnHeader colSpan={notTrackedHeaderColSpan} />}
           {daysSinceStartList.map(day => (
-            <th key={day} scope="column">
-              {day}
-            </th>
+            <DaySinceStartCountColumnHeader key={day} day={day} />
           ))}
         </tr>
         <tr>
           <th scope="row" aria-label="Empty header for spacing" />
-          {lastEightDaysColumnsHeadersText.map(columnHeaderText => (
-            <th key={columnHeaderText} scope="column">
-              {columnHeaderText}
-            </th>
+          {lastEightDaysColumnsHeadersText.map(text => (
+            <DateColumnHeader key={text} text={text} />
           ))}
         </tr>
       </thead>
@@ -59,6 +51,20 @@ export function LastWeekAnswersTableComponent({
     </table>
   )
 }
+
+const NotTrackedColumnHeader = ({ colSpan }) => (
+  <th scope="column" colSpan={colSpan}>
+    Not Tracked
+  </th>
+)
+
+const DaySinceStartCountColumnHeader = ({ day }) => <th scope="column">{day}</th>
+
+const DateColumnHeader = ({ text }) => (
+  <th key={text} scope="column">
+    {text}
+  </th>
+)
 
 const QuestionAnswersRow = ({ questionText }) => (
   <tr>
