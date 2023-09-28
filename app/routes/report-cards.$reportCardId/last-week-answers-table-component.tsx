@@ -9,14 +9,18 @@ export type AnswersGroupedByQuestion = {
 export type LastWeekAnswersTableComponentProps = {
   answersGroupedByQuestions: AnswersGroupedByQuestion[]
   currentDate?: Date
-  timezone?: string
+  timeZone?: string
 }
 
 export function LastWeekAnswersTableComponent({
   answersGroupedByQuestions,
   currentDate = new Date(),
-  timezone = new Intl.DateTimeFormat().resolvedOptions().timeZone,
+  timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone,
 }: LastWeekAnswersTableComponentProps) {
+  const lastSevenDaysColumnsHeadersText = getPreviousSevenDays(currentDate).map(date =>
+    formatDateToTwoDigitMonthAndDay(date, timeZone)
+  )
+
   return (
     <table className="dark:text-white w-full max-w-screen-xl border-collapse bg-slate-400 m-6 border">
       <caption>Last Week's Meditation Tracking</caption>
@@ -29,17 +33,13 @@ export function LastWeekAnswersTableComponent({
           <th scope="column">1</th>
         </tr>
         <tr>
-          <th aria-label="Empty header for spacing"></th>
-          <th scope="column" abbr="September 25">
-            09/25
-          </th>
-          <th scope="column">09/26</th>
-          <th scope="column">09/27</th>
-          <th scope="column">09/28</th>
-          <th scope="column">09/29</th>
-          <th scope="column">09/30</th>
-          <th scope="column">10/01</th>
-          <th scope="column">10/02</th>
+          <th scope="row" aria-label="Empty header for spacing"></th>
+          {lastSevenDaysColumnsHeadersText.map(columnHeaderText => (
+            <th key={columnHeaderText} scope="column">
+              {columnHeaderText}
+            </th>
+          ))}
+          <th scope="column">{formatDateToTwoDigitMonthAndDay(currentDate, timeZone)}</th>
         </tr>
       </thead>
       <tbody>
@@ -78,3 +78,15 @@ const UnansweredCell = () => {
     </td>
   )
 }
+
+export const getPreviousSevenDays = (date: Date): Date[] =>
+  Array.from({ length: 7 })
+    .map((_, idx) => {
+      const newDate = new Date(date)
+      newDate.setDate(newDate.getDate() - idx - 1)
+      return newDate
+    })
+    .reverse()
+
+export const formatDateToTwoDigitMonthAndDay = (date: Date, timeZone: string): string =>
+  date.toLocaleDateString('en-US', { timeZone, month: '2-digit', day: '2-digit' })

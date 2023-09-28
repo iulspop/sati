@@ -24,5 +24,10 @@ export default function Page() {
     },
   ]
 
-  return <LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} />
+  return (
+    <LastWeekAnswersTableComponent
+      answersGroupedByQuestions={answersGroupedByQuestions}
+      currentDate={new Date('2023-10-02T05:00:00Z')}
+    />
+  )
 }
