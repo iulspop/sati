@@ -20,6 +20,8 @@ export function LastWeekAnswersTableComponent({
   const lastSevenDaysColumnsHeadersText = getPreviousSevenDays(currentDate).map(date =>
     formatDateToTwoDigitMonthAndDay(date, timeZone)
   )
+  const { timestamp: questionsCreatedDate } = answersGroupedByQuestions[0].question
+  const daysSinceQuestionsCreated = getDifferenceInDays(questionsCreatedDate, currentDate)
 
   return (
     <table className="dark:text-white w-full max-w-screen-xl border-collapse bg-slate-400 m-6 border">
@@ -27,10 +29,16 @@ export function LastWeekAnswersTableComponent({
       <thead>
         <tr>
           <th scope="row">Days Since Start:</th>
-          <th scope="column" colSpan={7}>
-            Not Tracked
-          </th>
-          <th scope="column">1</th>
+          {7 - daysSinceQuestionsCreated >= 1 ? (
+            <th scope="column" colSpan={7 - daysSinceQuestionsCreated}>
+              Not Tracked
+            </th>
+          ) : undefined}
+          {getDaysBetweenDates(questionsCreatedDate, currentDate).map(day => (
+            <th key={day} scope="column">
+              {day}
+            </th>
+          ))}
         </tr>
         <tr>
           <th scope="row" aria-label="Empty header for spacing"></th>
@@ -90,3 +98,15 @@ export const getPreviousSevenDays = (date: Date): Date[] =>
 
 export const formatDateToTwoDigitMonthAndDay = (date: Date, timeZone: string): string =>
   date.toLocaleDateString('en-US', { timeZone, month: '2-digit', day: '2-digit' })
+
+export const getDifferenceInDays = (beforeDate: Date, afterDate: Date): number => {
+  const oneDayInMilliseconds = 24 * 60 * 60 * 1000 // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  return Math.round(Math.abs((beforeDate.getTime() - afterDate.getTime()) / oneDayInMilliseconds))
+}
+
+export const getDaysBetweenDates = (beforeDate: Date, afterDate: Date): number[] => {
+  const daysSince = getDifferenceInDays(beforeDate, afterDate) + 1 // Count starts at 1
+  return Array.from({ length: Math.min(8, daysSince) })
+    .map((_, index) => daysSince - index)
+    .reverse()
+}

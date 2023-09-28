@@ -4,6 +4,8 @@ import { recurringQuestionFactory } from '~/self-data-collection/domain/entities
 import {
   LastWeekAnswersTableComponent,
   formatDateToTwoDigitMonthAndDay,
+  getDaysBetweenDates,
+  getDifferenceInDays,
   getPreviousSevenDays,
   type AnswersGroupedByQuestion,
 } from './last-week-answers-table-component'
@@ -208,18 +210,36 @@ describe('LastWeekAnswersTableComponent()', () => {
         )
       )
 
-    // expect(false, 'should have a "Not Tracked" column header that spans five columns').toEqual(true)
-    // expect(false, 'should show the "Days Since Start:" count of 1 above the 10/02 column').toEqual(true)
+    const notTrackedHeaderColSpan = Number(
+      screen.getByRole('columnheader', { name: 'Not Tracked' }).getAttribute('colspan')
+    )
+    expect(notTrackedHeaderColSpan, 'should have a "Not Tracked" column header that spans five columns').toEqual(5)
 
-    // expect(false, 'should show the "Days Since Start:" count of 1 above the 10/02 column').toEqual(true)
+    const firstDayCountIndex =
+      getCellIndex(screen.getByRole('columnheader', { name: '1' })) + notTrackedHeaderColSpan - 1
+    const firstDayDateIndex = getCellIndex(screen.getByRole('columnheader', { name: '10/02' }))
+    expect(firstDayCountIndex, 'should show the "Days Since Start:" count of 1 above the 10/02 column').toEqual(
+      firstDayDateIndex
+    )
     // expect(false, 'should mark first question cell under the 10/02 column as "Yes"').toEqual(true)
     // expect(false, 'should mark second question cell under the 10/02 column as "No"').toEqual(true)
     // expect(false, 'should mark third question cell under the 10/02 column as "Unanswered"').toEqual(true)
 
-    // expect(false, 'should show the "Days Since Start:" count of 2 above the 10/03 column').toEqual(true)
+    const secondDayCountIndex =
+      getCellIndex(screen.getByRole('columnheader', { name: '2' })) + notTrackedHeaderColSpan - 1
+    const secondDayDateIndex = getCellIndex(screen.getByRole('columnheader', { name: '10/03' }))
+    expect(secondDayCountIndex, 'should show the "Days Since Start:" count of 2 above the 10/03 column').toEqual(
+      secondDayDateIndex
+    )
     // expect(false, 'should mark every cell under the 10/03 column as "Unanswered"').toEqual(true)
 
-    // expect(false, 'should show the "Days Since Start:" count of 3 above the 10/04 current date column').toEqual(true)
+    const thirdDayCountIndex =
+      getCellIndex(screen.getByRole('columnheader', { name: '3' })) + notTrackedHeaderColSpan - 1
+    const thirdDayDateIndex = getCellIndex(screen.getByRole('columnheader', { name: '10/04' }))
+    expect(
+      thirdDayCountIndex,
+      'should show the "Days Since Start:" count of 3 above the 10/04 current date column'
+    ).toEqual(thirdDayDateIndex)
     // expect(false, 'should mark every cell under the 10/04 column as "Unanswered"').toEqual(true)
   })
 })
@@ -240,6 +260,8 @@ const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2)
     return [...columnCells, cell]
   }, [])
 }
+
+const getCellIndex = (cell: HTMLElement): number => Array.from(cell.closest('tr').children).indexOf(cell)
 
 describe('getPreviousSevenDays()', () => {
   test('given a date at first day of the month', () => {
@@ -270,5 +292,41 @@ describe('formatDateToTwoDigitMonthAndDay()', () => {
       formatDateToTwoDigitMonthAndDay(new Date('2023-12-09T00:00:00Z'), 'America/Toronto'),
       'should return a formatted date string 12/08 (the date in that timezone given the timestamp)'
     ).toEqual('12/08')
+  })
+})
+
+describe('getDifferenceInDays()', () => {
+  test('given two approximately equal dates', () => {
+    expect(
+      getDifferenceInDays(new Date(2023, 8, 28, 12, 0, 0, 0), new Date(2023, 8, 28, 12, 0, 0, 4)),
+      'should return 0'
+    ).toEqual(0)
+  })
+  test('given a date 2023-12-10 and a date 2023-12-12', () => {
+    expect(
+      getDifferenceInDays(new Date('2023-12-10T00:00:00Z'), new Date('2023-12-12T00:00:00Z')),
+      'should return 2'
+    ).toEqual(2)
+  })
+})
+
+describe('getDaysBetweenDates()', () => {
+  test('given two dates on the same day', () => {
+    expect(
+      getDaysBetweenDates(new Date('2023-01-01'), new Date('2023-01-01')),
+      'should return a list starting with day one'
+    ).toEqual([1])
+  })
+  test('given two dates, one 6 days later', () => {
+    expect(
+      getDaysBetweenDates(new Date('2023-01-01'), new Date('2023-01-07')),
+      'should return a list starting with day 1 up to and including day 7'
+    ).toEqual([1, 2, 3, 4, 5, 6, 7])
+  })
+  test('given two dates, one 8 days later', () => {
+    expect(
+      getDaysBetweenDates(new Date('2023-01-01'), new Date('2023-01-09')),
+      'should return a list starting with day 2 up to and including day 9'
+    ).toEqual([2, 3, 4, 5, 6, 7, 8, 9])
   })
 })
