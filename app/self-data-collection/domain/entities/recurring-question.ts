@@ -14,11 +14,11 @@ export type CreateRecurringQuestionCommand = Omit<RecurringQuestion, 'id' | 'ord
 
 export const recurringQuestionFactory = ({
   id = createId(),
-  userId,
+  userId = 'x',
   order = 999_999,
-  text,
-  timestamp,
-  utcOffsetInMinutes,
+  text = 'x',
+  timestamp = new Date(),
+  utcOffsetInMinutes = 0,
 }): RecurringQuestion => ({
   id,
   userId,
