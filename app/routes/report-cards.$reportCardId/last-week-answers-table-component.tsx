@@ -37,7 +37,7 @@ export function LastWeekAnswersTableComponent({
           ))}
         </tr>
         <tr>
-          <th scope="row" aria-label="Empty header for spacing" />
+          <th scope="row">Date:</th>
           {lastEightDaysColumnsHeadersText.map(text => (
             <DateColumnHeader key={text} text={text} />
           ))}

@@ -92,11 +92,6 @@ describe('LastWeekAnswersTableComponent()', () => {
 
     expect(screen.getByText(currentDateHeaderText), 'should show the current date as a column header').toBeVisible()
 
-    expect(
-      screen.getByRole('rowheader', { name: 'Empty header for spacing' }),
-      'should have an empty spacing header on second row'
-    ).toBeInTheDocument()
-
     // prettier-ignore
     lastSevenDaysColumnsHeaderText.forEach((headerText) => {
       expect(screen.getByRole('columnheader', { name: headerText }), 'should show a column header for each of the last seven days').toBeVisible()
@@ -221,6 +216,60 @@ describe('LastWeekAnswersTableComponent()', () => {
       'should show the "Days Since Start:" count of 3 above the 10/04 current date column'
     ).toEqual(true)
   })
+
+  test(`given a question created 8 days before the current date`, async () => {
+    const octoberSecondDate = new Date('2023-10-02T00:00:00Z')
+    const octoberTenthDate = new Date('2023-10-10T00:00:00Z')
+    const lastSevenDaysAndCurrentDateDaysHeaderText = ['2', '3', '4', '5', '6', '7', '8', '9']
+    const lastSevenDaysAndCurrentDateDateHeaderText = ['10/03', '10/04', '10/05', '10/06', '10/07', '10/08', '10/09', '10/10']
+
+    const firstQuestion = recurringQuestionFactory({
+      text: 'Did you complete your morning 1h meditation?',
+      timestamp: octoberSecondDate,
+    })
+
+    const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
+      {
+        question: firstQuestion,
+        answers: [
+          answerFactory({ questionId: firstQuestion.id, response: false, timestamp: octoberSecondDate }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(1)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(2)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(3)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(4)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(5)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(6)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: true, timestamp: addDays(7)(octoberSecondDate) }),
+          answerFactory({ questionId: firstQuestion.id, response: false, timestamp: addDays(8)(octoberSecondDate) }),
+        ],
+      },
+    ]
+
+    render(
+      <LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} currentDate={octoberTenthDate} timeZone={'Etc/UTC'} />
+    )
+
+    expect(screen.queryByRole('columnheader', { name: 'Not Tracked' }), 'should not render "Not Tracked" column header').not.toBeInTheDocument()
+
+    const daysHeadersRow = screen.getByRole('rowheader', { name: 'Days Since Start:' }).closest('tr')
+    const daysHeaders = Array.from(daysHeadersRow.querySelectorAll('th'))
+      .slice(1)
+      .map(el => el.textContent)
+    expect(daysHeaders, 'should show each day header with the appropriate "Days Since Start:" count').toEqual(
+      lastSevenDaysAndCurrentDateDaysHeaderText
+    )
+
+    const datesHeadersRow = screen.getByRole('rowheader', { name: 'Date:' }).closest('tr')
+    const datesHeaders = Array.from(datesHeadersRow.querySelectorAll('th'))
+      .slice(1)
+      .map(el => el.textContent)
+    expect(datesHeaders, 'should show each date header').toEqual(lastSevenDaysAndCurrentDateDateHeaderText)
+
+    screen
+      .getAllByRole('cell')
+      .slice(0, 7)
+      .forEach(answerCell => expect(answerCell, 'should mark every answer cell as "Yes"').toHaveAccessibleName('Yes'))
+  })
 })
 
 const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2): HTMLElement[] => {
@@ -241,6 +290,12 @@ const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2)
 }
 
 const getCellIndex = (cell: HTMLElement): number => Array.from(cell.closest('tr').children).indexOf(cell)
+
+const addDays = (days: number) => (date: Date) => {
+  const result = new Date(date)
+  result.setDate(result.getDate() + days)
+  return result
+}
 
 describe('getPreviousSevenDays()', () => {
   test('given a date at first day of the month', () => {
