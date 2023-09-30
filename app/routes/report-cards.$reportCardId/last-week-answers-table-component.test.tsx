@@ -266,16 +266,16 @@ const getCellIndex = (cell: HTMLElement): number => Array.from(cell.closest('tr'
 describe('getPreviousSevenDays()', () => {
   test('given a date at first day of the month', () => {
     expect(
-      getPreviousSevenDays(new Date('01/01/2023')),
+      getPreviousSevenDays(new Date('2023-01-01T00:00:00.000Z')),
       'should return list of last seven days in chronological order'
     ).toEqual([
-      new Date('2022-12-25T05:00:00.000Z'),
-      new Date('2022-12-26T05:00:00.000Z'),
-      new Date('2022-12-27T05:00:00.000Z'),
-      new Date('2022-12-28T05:00:00.000Z'),
-      new Date('2022-12-29T05:00:00.000Z'),
-      new Date('2022-12-30T05:00:00.000Z'),
-      new Date('2022-12-31T05:00:00.000Z'),
+      new Date('2022-12-25T00:00:00.000Z'),
+      new Date('2022-12-26T00:00:00.000Z'),
+      new Date('2022-12-27T00:00:00.000Z'),
+      new Date('2022-12-28T00:00:00.000Z'),
+      new Date('2022-12-29T00:00:00.000Z'),
+      new Date('2022-12-30T00:00:00.000Z'),
+      new Date('2022-12-31T00:00:00.000Z'),
     ])
   })
 })

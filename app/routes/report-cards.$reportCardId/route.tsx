@@ -4,7 +4,7 @@ import { LastWeekAnswersTableComponent } from './last-week-answers-table-compone
 
 export default function Page() {
   const questionCreatedDate = new Date('2023-10-02T05:00:00Z')
-  const currentDate = new Date('2023-10-02T05:00:00Z')
+  const currentDate = new Date('2023-10-20T05:00:00Z')
 
   const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
     {
