@@ -40,7 +40,7 @@ describe('LastWeekAnswersTableComponent()', () => {
 
     expect(screen.getByRole('table', { name: /Last 7 Days' Meditations/i }), 'should show a table with an accessible name').toBeVisible()
 
-    expect(container.querySelector('tbody').querySelectorAll('th').length, 'should be exactly one row header for each question').toEqual(2)
+    expect(container.querySelector('tbody')?.querySelectorAll('th').length, 'should be exactly one row header for each question').toEqual(2)
     expect(screen.getByRole('rowheader', { name: firstQuestionText }), 'should show a row header for the first question').toBeVisible()
     expect(screen.getByRole('rowheader', { name: secondQuestionText }), 'should show a row header for the second question').toBeVisible()
   })
@@ -252,6 +252,7 @@ describe('LastWeekAnswersTableComponent()', () => {
     expect(screen.queryByRole('columnheader', { name: 'Not Tracked' }), 'should not render "Not Tracked" column header').not.toBeInTheDocument()
 
     const daysHeadersRow = screen.getByRole('rowheader', { name: 'Days Since Start:' }).closest('tr')
+    // @ts-expect-error
     const daysHeaders = Array.from(daysHeadersRow.querySelectorAll('th'))
       .slice(1)
       .map(el => el.textContent)
@@ -260,6 +261,7 @@ describe('LastWeekAnswersTableComponent()', () => {
     )
 
     const datesHeadersRow = screen.getByRole('rowheader', { name: 'Date:' }).closest('tr')
+    // @ts-expect-error
     const datesHeaders = Array.from(datesHeadersRow.querySelectorAll('th'))
       .slice(1)
       .map(el => el.textContent)
@@ -276,11 +278,13 @@ const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2)
   const columnHeader = screen.getByRole('columnheader', { name: columnHeaderText }) as HTMLTableCellElement
 
   const headersRow = columnHeader.closest('tr')
+  // @ts-expect-error
   const headers = Array.from(headersRow.querySelectorAll('th'))
   const columnIndex = headers.indexOf(columnHeader)
 
   const allRows = Array.from(screen.getByRole('table').querySelectorAll('tr'))
 
+  // @ts-expect-error
   return allRows.reduce((columnCells, row, rowIndex) => {
     if (rowIndex <= ignoreFirstRowsCount - 1) return columnCells
     const cell = row.children[columnIndex]
@@ -289,6 +293,7 @@ const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2)
   }, [])
 }
 
+// @ts-expect-error
 const getCellIndex = (cell: HTMLElement): number => Array.from(cell.closest('tr').children).indexOf(cell)
 
 const addDays = (days: number) => (date: Date) => {

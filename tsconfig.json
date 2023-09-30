@@ -21,8 +21,10 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "strictNullChecks": false,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    // https://github.com/colinhacks/zod/issues/121
+    // strictNullChecks must be enabled for Zod to correctly infer types of zod schemas
+    "strictNullChecks": true
   },
   "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx"]
 }

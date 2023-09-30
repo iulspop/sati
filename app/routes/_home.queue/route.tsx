@@ -4,7 +4,7 @@ import { useLoaderData, useLocation } from '@remix-run/react'
 import { useEffect } from 'react'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
 import { answersService, promptQueueService } from '~/self-inquiry/domain/index.server'
-import type { Prompt } from '~/self-inquiry/domain/value-objects/prompt'
+import { PromptSchema } from '~/self-inquiry/domain/value-objects/prompt'
 import { convertAnswerFormat } from './convert-answer-format'
 import type { PromptCardComponentFormEntries } from './prompt-card-component'
 import { PromptListComponent } from './prompt-list-component'
@@ -26,10 +26,7 @@ export const action = async ({ request }: ActionArgs) => {
 }
 
 export default function QueuePage() {
-  const promptList = useLoaderData<typeof loader>().map(serializedPrompt => ({
-    ...serializedPrompt,
-    timestamp: new Date(serializedPrompt.timestamp),
-  })) as Prompt[]
+  const promptList = useLoaderData<typeof loader>().map(serializedPrompt => PromptSchema.parse(serializedPrompt))
 
   const location = useLocation()
   const searchParams = new URLSearchParams(location.search)
@@ -44,5 +41,6 @@ export default function QueuePage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeZone])
 
+  // @ts-expect-error
   return <PromptListComponent promptList={promptList} timeZone={timeZone} />
 }

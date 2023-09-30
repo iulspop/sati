@@ -35,9 +35,10 @@ export default function CreateQuestionPage() {
   // @ts-expect-error
   const recurringQuestion: RecurringQuestion = {
     ...serializedRecurringQuestion,
+    // @ts-expect-error
     timestamp: new Date(serializedRecurringQuestion.timestamp),
   }
-  // @ts-expect-error
+
   const answers: Answer[] = serializedAnswers.map(serializedAnswer => ({
     ...serializedAnswer,
     timestamp: new Date(serializedAnswer.timestamp),

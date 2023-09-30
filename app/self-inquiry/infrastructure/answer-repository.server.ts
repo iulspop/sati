@@ -29,6 +29,7 @@ export const AnswerRepository = (): AnswerRepositoryAPI => ({
       },
     })
 
+    // @ts-expect-error
     return user.recurringQuestions.flatMap(q => q.answers)
   },
   update: async (id, answer) => db.answer.update({ where: { id }, data: answer }),

@@ -68,7 +68,7 @@ const addDays = (days: number) => (date: Date) => {
 export const addDay = addDays(1)
 
 export const toDayList = (startDate: Date, endDate: Date) => {
-  const dayList = []
+  const dayList: Date[] = []
   let currentDate = startDate
   while (currentDate <= endDate) {
     dayList.push(currentDate)
