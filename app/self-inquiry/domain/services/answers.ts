@@ -7,6 +7,7 @@ export interface AnswersAPI {
   create: (partialAnswer: Partial<Answer>) => Promise<Answer>
   read: (id: string) => Promise<Answer | null>
   readAll: (userId: string) => Promise<Answer[]>
+  readAllByQuestionId(questionId: string): Promise<Answer[]>
   update: (id: string, partialAnswer: Partial<Answer>) => Promise<Answer>
   delete: (id: string) => Promise<Answer>
 }
@@ -15,6 +16,7 @@ export const AnswersService = (AnswerRepository: AnswerRepositoryAPI): AnswersAP
   create: asyncPipe(answerFactory, AnswerRepository.create),
   read: AnswerRepository.read,
   readAll: AnswerRepository.readAll,
+  readAllByQuestionId: AnswerRepository.readAllByQuestionId,
   update: AnswerRepository.update,
   delete: AnswerRepository.delete,
 })

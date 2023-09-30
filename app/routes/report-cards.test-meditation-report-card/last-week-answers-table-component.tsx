@@ -3,15 +3,17 @@ import { z } from 'zod'
 import { AnswerSchema, type Answer } from '~/self-inquiry/domain/entities/answer'
 import { RecurringQuestionSchema } from '~/self-inquiry/domain/entities/recurring-question'
 
-export const AnswersGroupedByQuestionSchema = z.object({
-  question: RecurringQuestionSchema,
-  answers: z.array(AnswerSchema),
-})
+export const AnswersGroupedByQuestionsSchema = z.array(
+  z.object({
+    question: RecurringQuestionSchema,
+    answers: z.array(AnswerSchema),
+  })
+)
 
-export type AnswersGroupedByQuestion = z.infer<typeof AnswersGroupedByQuestionSchema>
+export type AnswersGroupedByQuestions = z.infer<typeof AnswersGroupedByQuestionsSchema>
 
 export type LastWeekAnswersTableComponentProps = {
-  answersGroupedByQuestions: AnswersGroupedByQuestion[]
+  answersGroupedByQuestions: AnswersGroupedByQuestions
   currentDate?: Date
   timeZone?: string
 }

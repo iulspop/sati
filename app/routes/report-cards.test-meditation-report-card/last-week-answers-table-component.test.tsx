@@ -14,14 +14,14 @@ import {
   getDaysBetweenDates,
   getDifferenceInDays,
   getPreviousSevenDays,
-  type AnswersGroupedByQuestion,
+  type AnswersGroupedByQuestions,
 } from './last-week-answers-table-component'
 
 describe('LastWeekAnswersTableComponent()', () => {
   test('given a list of questions', async () => {
     const firstQuestionText = 'Did you complete X'
     const secondQuestionText = 'Did you complete Y'
-    const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
+    const answersGroupedByQuestions: AnswersGroupedByQuestions = [
       {
         question: recurringQuestionFactory({
           text: firstQuestionText,
@@ -58,7 +58,7 @@ describe('LastWeekAnswersTableComponent()', () => {
     const firstQuestionText = 'Did you complete your morning 1h meditation?'
     const secondQuestionText = 'Did you complete your noon 1h meditation?'
     const thirdQuestionText = 'Did you complete your evening 1h meditation?'
-    const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
+    const answersGroupedByQuestions: AnswersGroupedByQuestions = [
       {
         question: recurringQuestionFactory({
           text: firstQuestionText,
@@ -146,7 +146,7 @@ describe('LastWeekAnswersTableComponent()', () => {
       timestamp: questionsCreatedDate,
     })
 
-    const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
+    const answersGroupedByQuestions: AnswersGroupedByQuestions = [
       {
         question: firstQuestion,
         answers: [answerFactory({ questionId: firstQuestion.id, response: true, timestamp: octoberSecondDate })],
@@ -228,7 +228,7 @@ describe('LastWeekAnswersTableComponent()', () => {
       timestamp: octoberSecondDate,
     })
 
-    const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
+    const answersGroupedByQuestions: AnswersGroupedByQuestions = [
       {
         question: firstQuestion,
         answers: [
