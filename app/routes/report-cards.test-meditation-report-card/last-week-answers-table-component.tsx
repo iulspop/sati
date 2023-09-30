@@ -23,6 +23,7 @@ export function LastWeekAnswersTableComponent({
   currentDate = new Date(),
   timeZone = new Intl.DateTimeFormat().resolvedOptions().timeZone,
 }: LastWeekAnswersTableComponentProps) {
+  if (answersGroupedByQuestions.length === 0) return <></>
   const questionsCreatedDate = answersGroupedByQuestions[0].question.timestamp
   const daysSinceStartCount = getDifferenceInDays(questionsCreatedDate, currentDate)
   const daysSinceStartList = getDaysBetweenDates(questionsCreatedDate, currentDate)

@@ -18,6 +18,13 @@ import {
 } from './last-week-answers-table-component'
 
 describe('LastWeekAnswersTableComponent()', () => {
+  test('given an empty list of questions', async () => {
+    const answersGroupedByQuestions: AnswersGroupedByQuestions = []
+
+    render(<LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} />)
+
+    expect(screen.queryByRole('table', { name: /Last 7 Days' Meditations/i }), 'should not render anything').not.toBeInTheDocument()
+  })
   test('given a list of questions', async () => {
     const firstQuestionText = 'Did you complete X'
     const secondQuestionText = 'Did you complete Y'
