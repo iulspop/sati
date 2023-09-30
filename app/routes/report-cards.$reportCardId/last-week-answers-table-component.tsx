@@ -1,11 +1,14 @@
 import { createElement } from 'react'
-import type { Answer } from '~/self-inquiry/domain/entities/answer'
-import type { RecurringQuestion } from '~/self-inquiry/domain/entities/recurring-question'
+import { z } from 'zod'
+import { AnswerSchema, type Answer } from '~/self-inquiry/domain/entities/answer'
+import { RecurringQuestionSchema } from '~/self-inquiry/domain/entities/recurring-question'
 
-export type AnswersGroupedByQuestion = {
-  question: RecurringQuestion
-  answers: Answer[]
-}
+export const AnswersGroupedByQuestionSchema = z.object({
+  question: RecurringQuestionSchema,
+  answers: z.array(AnswerSchema),
+})
+
+export type AnswersGroupedByQuestion = z.infer<typeof AnswersGroupedByQuestionSchema>
 
 export type LastWeekAnswersTableComponentProps = {
   answersGroupedByQuestions: AnswersGroupedByQuestion[]
