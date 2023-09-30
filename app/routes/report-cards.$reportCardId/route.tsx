@@ -1,36 +1,48 @@
+import { answerFactory } from '~/self-data-collection/domain/entities/answer'
 import { recurringQuestionFactory } from '~/self-data-collection/domain/entities/recurring-question'
 import type { AnswersGroupedByQuestion } from './last-week-answers-table-component'
 import { LastWeekAnswersTableComponent } from './last-week-answers-table-component'
 
 export default function Page() {
-  const questionCreatedDate = new Date('2023-10-02T05:00:00Z')
-  const currentDate = new Date('2023-10-20T05:00:00Z')
+  const octoberSecondDate = new Date('2023-10-02T00:00:00Z')
+  const octoberFourthDate = new Date('2023-10-04T00:00:00Z')
+
+  const questionsCreatedDate = octoberSecondDate
+  const currentDate = octoberFourthDate
+
+  const firstQuestion = recurringQuestionFactory({
+    text: 'Did you complete your morning 1h meditation?',
+    timestamp: questionsCreatedDate,
+  })
+  const secondQuestion = recurringQuestionFactory({
+    text: 'Did you complete your noon 1h meditation?',
+    timestamp: questionsCreatedDate,
+  })
+  const thirdQuestion = recurringQuestionFactory({
+    text: 'Did you complete your evening 1h meditation?',
+    timestamp: questionsCreatedDate,
+  })
 
   const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
     {
-      question: recurringQuestionFactory({
-        text: 'Did you complete your morning 1h meditation?',
-        timestamp: questionCreatedDate,
-      }),
-      answers: [],
+      question: firstQuestion,
+      answers: [answerFactory({ questionId: firstQuestion.id, response: true, timestamp: octoberSecondDate })],
     },
     {
-      question: recurringQuestionFactory({
-        text: 'Did you complete your noon 1h meditation?',
-        timestamp: questionCreatedDate,
-      }),
-      answers: [],
+      question: secondQuestion,
+      answers: [answerFactory({ questionId: secondQuestion.id, response: false, timestamp: octoberSecondDate })],
     },
     {
-      question: recurringQuestionFactory({
-        text: 'Did you complete your evening 1h meditation?',
-        timestamp: questionCreatedDate,
-      }),
+      question: thirdQuestion,
       answers: [],
     },
   ]
 
   return (
-    <LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} currentDate={currentDate} />
+    <LastWeekAnswersTableComponent
+      answersGroupedByQuestions={answersGroupedByQuestions}
+      currentDate={currentDate}
+      timeZone="Etc/UTC"
+    />
   )
 }

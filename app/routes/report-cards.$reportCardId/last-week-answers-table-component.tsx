@@ -44,8 +44,14 @@ export function LastWeekAnswersTableComponent({
         </tr>
       </thead>
       <tbody>
-        {answersGroupedByQuestions.map(({ question }) => (
-          <QuestionAnswersRow key={question.id} questionText={question.text} />
+        {answersGroupedByQuestions.map(({ question, answers }) => (
+          <QuestionAnswersRow
+            key={question.id}
+            question={question}
+            answers={answers}
+            questionsCreatedDate={questionsCreatedDate}
+            currentDate={currentDate}
+          />
         ))}
       </tbody>
     </table>
@@ -66,23 +72,25 @@ const DateColumnHeader = ({ text }) => (
   </th>
 )
 
-const QuestionAnswersRow = ({ questionText }) => (
-  <tr>
-    <th scope="row">{questionText}</th>
-    <UntrackedCell />
-    <UntrackedCell />
-    <UntrackedCell />
-    <UntrackedCell />
-    <UntrackedCell />
-    <UntrackedCell />
-    <UntrackedCell />
-    <UnansweredCell />
-  </tr>
-)
+const QuestionAnswersRow = ({ question, answers, questionsCreatedDate, currentDate }) => {
+  return (
+    <tr>
+      <th scope="row">{question.text}</th>
+      {calculatePreviousSevenDaysAnswers(answers, questionsCreatedDate, currentDate).map(functionalComponent =>
+        functionalComponent()
+      )}
+      <UnansweredCell />
+    </tr>
+  )
+}
 
-const UntrackedCell = () => <td className="border bg-black" aria-label="Untracked data" />
+export const UntrackedCell = () => <td className="border bg-black" aria-label="Untracked data" />
 
-const UnansweredCell = () => (
+export const YesAnswerCell = () => <td className="border bg-lime-400" aria-label="Yes" />
+
+export const NoAnswerCell = () => <td className="border bg-white" aria-label="No" />
+
+export const UnansweredCell = () => (
   <td className="border bg-gray-200 text-center text-gray-500 border-gray-500" aria-label="Unanswered">
     ?
   </td>
@@ -111,3 +119,32 @@ export const getDaysBetweenDates = (beforeDate: Date, afterDate: Date): number[]
     .map((_, index) => daysSince - index)
     .reverse()
 }
+
+type CalculatePreviousSevenDaysAnswers = (
+  answers: Answer[],
+  questionCreatedDate: Date,
+  currentDate: Date
+) => (typeof UntrackedCell | typeof YesAnswerCell | typeof NoAnswerCell | typeof UnansweredCell)[]
+export const calculatePreviousSevenDaysAnswers: CalculatePreviousSevenDaysAnswers = (
+  answers,
+  questionCreatedDate,
+  currentDate
+) =>
+  getPreviousSevenDays(currentDate).map(day => {
+    if (isPreviousDayOrBefore(day, questionCreatedDate)) return UntrackedCell
+    const answerForTheDay = answers.find(answer => isSameDay(day, answer.timestamp))
+    if (!answerForTheDay) return UnansweredCell
+    return answerForTheDay.response ? YesAnswerCell : NoAnswerCell
+  })
+
+const isPreviousDayOrBefore = (date1: Date, date2: Date): boolean => {
+  const previousDate = new Date(date2)
+  previousDate.setDate(date2.getDate() - 1)
+
+  return isSameDay(date1, previousDate) || date1 < date2
+}
+
+const isSameDay = (date1: Date, date2: Date): boolean =>
+  date1.getFullYear() === date2.getFullYear() &&
+  date1.getMonth() === date2.getMonth() &&
+  date1.getDate() === date2.getDate()

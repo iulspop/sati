@@ -1,8 +1,15 @@
 import { render, screen } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
+import type { Answer } from '~/self-data-collection/domain/entities/answer'
+import { answerFactory } from '~/self-data-collection/domain/entities/answer'
 import { recurringQuestionFactory } from '~/self-data-collection/domain/entities/recurring-question'
 import {
   LastWeekAnswersTableComponent,
+  NoAnswerCell,
+  UnansweredCell,
+  UntrackedCell,
+  YesAnswerCell,
+  calculatePreviousSevenDaysAnswers,
   formatDateToTwoDigitMonthAndDay,
   getDaysBetweenDates,
   getDifferenceInDays,
@@ -149,37 +156,36 @@ describe('LastWeekAnswersTableComponent()', () => {
     const octoberSecondDate = new Date('2023-10-02T00:00:00Z')
     const octoberFourthDate = new Date('2023-10-04T00:00:00Z')
     const lastSevenDaysColumnsHeaderText = ['09/27', '09/28', '09/29', '09/30', '10/01', '10/02', '10/03']
-    // const currentDateHeaderText = '10/04'
 
     const questionsCreatedDate = octoberSecondDate
     const currentDate = octoberFourthDate
 
     const deterministicTestTimeZone = 'Etc/UTC'
 
-    const firstQuestionText = 'Did you complete your morning 1h meditation?'
-    const secondQuestionText = 'Did you complete your noon 1h meditation?'
-    const thirdQuestionText = 'Did you complete your evening 1h meditation?'
+    const firstQuestion = recurringQuestionFactory({
+      text: 'Did you complete your morning 1h meditation?',
+      timestamp: questionsCreatedDate,
+    })
+    const secondQuestion = recurringQuestionFactory({
+      text: 'Did you complete your noon 1h meditation?',
+      timestamp: questionsCreatedDate,
+    })
+    const thirdQuestion = recurringQuestionFactory({
+      text: 'Did you complete your evening 1h meditation?',
+      timestamp: questionsCreatedDate,
+    })
 
     const answersGroupedByQuestions: AnswersGroupedByQuestion[] = [
       {
-        question: recurringQuestionFactory({
-          text: firstQuestionText,
-          timestamp: questionsCreatedDate,
-        }),
-        answers: [],
+        question: firstQuestion,
+        answers: [answerFactory({ questionId: firstQuestion.id, response: true, timestamp: octoberSecondDate })],
       },
       {
-        question: recurringQuestionFactory({
-          text: secondQuestionText,
-          timestamp: questionsCreatedDate,
-        }),
-        answers: [],
+        question: secondQuestion,
+        answers: [answerFactory({ questionId: secondQuestion.id, response: false, timestamp: octoberSecondDate })],
       },
       {
-        question: recurringQuestionFactory({
-          text: thirdQuestionText,
-          timestamp: questionsCreatedDate,
-        }),
+        question: thirdQuestion,
         answers: [],
       },
     ]
@@ -192,12 +198,11 @@ describe('LastWeekAnswersTableComponent()', () => {
       />
     )
 
-    lastSevenDaysColumnsHeaderText.map(
-      headerText =>
-        expect(
-          screen.getByRole('columnheader', { name: headerText }),
-          'should show a column header for each of the last seven days'
-        ).toBeVisible
+    lastSevenDaysColumnsHeaderText.map(headerText =>
+      expect(
+        screen.getByRole('columnheader', { name: headerText }),
+        'should show a column header for each of the last seven days'
+      ).toBeVisible()
     )
 
     lastSevenDaysColumnsHeaderText
@@ -210,6 +215,29 @@ describe('LastWeekAnswersTableComponent()', () => {
         )
       )
 
+    const [firstAnswerCellOctoberSecond, secondAnswerCellOctoberSecond, thirdAnswerCellOctoberSecond] =
+      getAllCellsByColumn('10/02')
+    expect(
+      firstAnswerCellOctoberSecond,
+      'should mark first answer cell under the 10/02 column as "Yes"'
+    ).toHaveAccessibleName('Yes')
+    expect(
+      secondAnswerCellOctoberSecond,
+      'should mark second answer cell under the 10/02 column as "No"'
+    ).toHaveAccessibleName('No')
+    expect(
+      thirdAnswerCellOctoberSecond,
+      'should mark third answer cell under the 10/02 column as "Unanswered"'
+    ).toHaveAccessibleName('Unanswered')
+
+    getAllCellsByColumn('10/03').forEach(cell =>
+      expect(cell, 'should mark every cell under the 10/03 column as "Unanswered"').toHaveAccessibleName('Unanswered')
+    )
+
+    getAllCellsByColumn('10/04').forEach(cell =>
+      expect(cell, 'should mark every cell under the 10/04 column as "Unanswered"').toHaveAccessibleName('Unanswered')
+    )
+
     const notTrackedHeaderColSpan = Number(
       screen.getByRole('columnheader', { name: 'Not Tracked' }).getAttribute('colspan')
     )
@@ -221,9 +249,6 @@ describe('LastWeekAnswersTableComponent()', () => {
     expect(firstDayCountIndex, 'should show the "Days Since Start:" count of 1 above the 10/02 column').toEqual(
       firstDayDateIndex
     )
-    // expect(false, 'should mark first question cell under the 10/02 column as "Yes"').toEqual(true)
-    // expect(false, 'should mark second question cell under the 10/02 column as "No"').toEqual(true)
-    // expect(false, 'should mark third question cell under the 10/02 column as "Unanswered"').toEqual(true)
 
     const secondDayCountIndex =
       getCellIndex(screen.getByRole('columnheader', { name: '2' })) + notTrackedHeaderColSpan - 1
@@ -231,7 +256,6 @@ describe('LastWeekAnswersTableComponent()', () => {
     expect(secondDayCountIndex, 'should show the "Days Since Start:" count of 2 above the 10/03 column').toEqual(
       secondDayDateIndex
     )
-    // expect(false, 'should mark every cell under the 10/03 column as "Unanswered"').toEqual(true)
 
     const thirdDayCountIndex =
       getCellIndex(screen.getByRole('columnheader', { name: '3' })) + notTrackedHeaderColSpan - 1
@@ -240,11 +264,10 @@ describe('LastWeekAnswersTableComponent()', () => {
       thirdDayCountIndex,
       'should show the "Days Since Start:" count of 3 above the 10/04 current date column'
     ).toEqual(thirdDayDateIndex)
-    // expect(false, 'should mark every cell under the 10/04 column as "Unanswered"').toEqual(true)
   })
 })
 
-const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2) => {
+const getAllCellsByColumn = (columnHeaderText: string, ignoreFirstRowsCount = 2): HTMLElement[] => {
   const columnHeader = screen.getByRole('columnheader', { name: columnHeaderText }) as HTMLTableCellElement
 
   const headersRow = columnHeader.closest('tr')
@@ -328,5 +351,47 @@ describe('getDaysBetweenDates()', () => {
       getDaysBetweenDates(new Date('2023-01-01'), new Date('2023-01-09')),
       'should return a list starting with day 2 up to and including day 9'
     ).toEqual([2, 3, 4, 5, 6, 7, 8, 9])
+  })
+})
+
+describe('calculatePreviousSevenDaysAnswers()', () => {
+  test('given a list of answers, a question creation date, and a current date', () => {
+    const answers: Answer[] = [
+      answerFactory({ timestamp: new Date('2023-01-01'), response: true }),
+      answerFactory({ timestamp: new Date('2023-01-03'), response: false }),
+    ]
+    const questionCreatedDate = new Date('2023-01-01')
+    const currentDate = new Date('2023-01-08')
+
+    expect(
+      calculatePreviousSevenDaysAnswers(answers, questionCreatedDate, currentDate),
+      'should return the correct cell categorizations for the week based on answers'
+    ).toEqual([
+      YesAnswerCell,
+      UnansweredCell,
+      NoAnswerCell,
+      UnansweredCell,
+      UnansweredCell,
+      UnansweredCell,
+      UnansweredCell,
+    ])
+  })
+
+  test('given the current date the day after the question created date', () => {
+    const questionCreatedDate = new Date('2023-01-01')
+    const currentDate = new Date('2023-01-02')
+
+    expect(
+      calculatePreviousSevenDaysAnswers([], questionCreatedDate, currentDate),
+      'should return UntrackedCell for each day before the question creation date and an UnansweredCell for the first day'
+    ).toEqual([
+      UntrackedCell,
+      UntrackedCell,
+      UntrackedCell,
+      UntrackedCell,
+      UntrackedCell,
+      UntrackedCell,
+      UnansweredCell,
+    ])
   })
 })
