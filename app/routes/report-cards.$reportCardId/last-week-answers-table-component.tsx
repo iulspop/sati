@@ -1,3 +1,4 @@
+import { createElement } from 'react'
 import type { Answer } from '~/self-data-collection/domain/entities/answer'
 import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
 
@@ -73,10 +74,14 @@ const DateColumnHeader = ({ text }) => (
 )
 
 const QuestionAnswersRow = ({ question, answers, questionsCreatedDate, currentDate }) => {
+  const previousSevenDays = getPreviousSevenDays(currentDate)
+
   return (
     <tr>
       <th scope="row">{question.text}</th>
-      {calculatePreviousSevenDaysAnswers(answers, questionsCreatedDate, currentDate).map(functionalComponent => functionalComponent())}
+      {calculatePreviousSevenDaysAnswers(answers, questionsCreatedDate, currentDate).map((answerCell, index) =>
+        createElement(answerCell, { key: previousSevenDays[index].toISOString() })
+      )}
       <UnansweredCell />
     </tr>
   )
