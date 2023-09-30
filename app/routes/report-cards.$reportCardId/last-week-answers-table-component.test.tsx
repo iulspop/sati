@@ -38,7 +38,7 @@ describe('LastWeekAnswersTableComponent()', () => {
 
     const { container } = render(<LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} />)
 
-    expect(screen.getByRole('table', { name: /Last Week's Meditation Tracking/i }), 'should show a table with an accessible name').toBeVisible()
+    expect(screen.getByRole('table', { name: /Last 7 Days' Meditations/i }), 'should show a table with an accessible name').toBeVisible()
 
     expect(container.querySelector('tbody').querySelectorAll('th').length, 'should be exactly one row header for each question').toEqual(2)
     expect(screen.getByRole('rowheader', { name: firstQuestionText }), 'should show a row header for the first question').toBeVisible()

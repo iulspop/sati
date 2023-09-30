@@ -27,8 +27,10 @@ export function LastWeekAnswersTableComponent({
   )
 
   return (
-    <table className="dark:text-white w-full max-w-screen-xl border-collapse bg-slate-400 m-6 border">
-      <caption>Last Week's Meditation Tracking</caption>
+    <table className="w-full max-w-screen-xl border-collapse m-6 bg-gray-800 text-gray-200">
+      <caption style={{ captionSide: 'bottom' }} className="text-center text-gray-400 pt-4">
+        Last 7 Days' Meditations
+      </caption>
       <thead>
         <tr>
           <th scope="row">Days Since Start:</th>
@@ -59,20 +61,6 @@ export function LastWeekAnswersTableComponent({
   )
 }
 
-const NotTrackedColumnHeader = ({ colSpan }) => (
-  <th scope="column" colSpan={colSpan}>
-    Not Tracked
-  </th>
-)
-
-const DaySinceStartCountColumnHeader = ({ day }) => <th scope="column">{day}</th>
-
-const DateColumnHeader = ({ text }) => (
-  <th key={text} scope="column">
-    {text}
-  </th>
-)
-
 const QuestionAnswersRow = ({ question, answers, questionsCreatedDate, currentDate }) => {
   const previousSevenDays = getPreviousSevenDays(currentDate)
 
@@ -87,14 +75,32 @@ const QuestionAnswersRow = ({ question, answers, questionsCreatedDate, currentDa
   )
 }
 
-export const UntrackedCell = () => <td className="border bg-black" aria-label="Untracked data" />
+const NotTrackedColumnHeader = ({ colSpan }) => (
+  <th scope="column" colSpan={colSpan} className="bg-gray-700 text-gray-500 p-2">
+    Not Tracked
+  </th>
+)
 
-export const YesAnswerCell = () => <td className="border bg-lime-400" aria-label="Yes" />
+const DaySinceStartCountColumnHeader = ({ day }) => (
+  <th scope="column" className="p-2">
+    {day}
+  </th>
+)
 
-export const NoAnswerCell = () => <td className="border bg-white" aria-label="No" />
+const DateColumnHeader = ({ text }) => (
+  <th scope="column" className="p-2">
+    {text}
+  </th>
+)
+
+export const UntrackedCell = () => <td className="border p-2 bg-gray-700 text-gray-500" aria-label="Untracked data" />
+
+export const YesAnswerCell = () => <td className="border p-2 bg-green-500" aria-label="Yes" />
+
+export const NoAnswerCell = () => <td className="border p-2 bg-red-500" aria-label="No" />
 
 export const UnansweredCell = () => (
-  <td className="border bg-gray-200 text-center text-gray-500 border-gray-500" aria-label="Unanswered">
+  <td className="border p-2 bg-gray-500 text-center text-gray-400" aria-label="Unanswered">
     ?
   </td>
 )
