@@ -1,6 +1,6 @@
 import { saveFakeUserProfileToDatabase } from 'playwright/utils'
 import { describe } from 'vitest'
-import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { assert } from '~/test/assert'
 import { AnswerRepository } from '../../infrastructure/answer-repository.server'
 import { RecurringQuestionRepository } from '../../infrastructure/recurring-question-repository.server'

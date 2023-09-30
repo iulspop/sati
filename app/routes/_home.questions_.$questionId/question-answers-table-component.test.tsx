@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
-import type { Answer } from '~/self-data-collection/domain/entities/answer'
-import { answerFactory } from '~/self-data-collection/domain/entities/answer'
+import type { Answer } from '~/self-inquiry/domain/entities/answer'
+import { answerFactory } from '~/self-inquiry/domain/entities/answer'
 import { QuestionsAnswersTableComponent } from './question-answers-table-component'
 
 describe('QuestionsAnswersTableComponent()', () => {

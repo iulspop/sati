@@ -1,5 +1,5 @@
 import { Link, useFetcher } from '@remix-run/react'
-import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
+import type { RecurringQuestion } from '~/self-inquiry/domain/entities/recurring-question'
 
 export type EditQuestionFormComponentProps = RecurringQuestion
 

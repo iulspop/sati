@@ -1,5 +1,5 @@
 import { useFetcher } from '@remix-run/react'
-import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
+import type { Prompt } from '~/self-inquiry/domain/value-objects/prompt'
 
 export type PromptCardComponentProps = Prompt
 

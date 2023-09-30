@@ -2,7 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import 'dotenv/config'
 import { USER_AUTHENTICATION_SESSION_NAME } from '~/routes/_auth/user-authentication-session.server'
-import { deleteUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { createPopulatedUserProfile } from '~/test/user-profile-factories.server'
 import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../utils'
 

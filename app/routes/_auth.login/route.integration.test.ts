@@ -2,7 +2,7 @@
 import { faker } from '@faker-js/faker'
 import { describe, expect, test, vi } from 'vitest'
 import { magicAdmin } from '~/routes/_auth/magic-admin.server'
-import { deleteUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
 import { createPopulatedUserProfile } from '~/test/user-profile-factories.server'
 import { action } from './route'

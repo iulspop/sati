@@ -9,7 +9,7 @@ import { usePromise } from '~/hooks/use-promise'
 import { UserAuthenticationComponent, loginIntent } from '~/routes/_auth.login/user-authentication-component'
 import { magicAdmin } from '~/routes/_auth/magic-admin.server'
 import { createUserSession, getUserId } from '~/routes/_auth/user-authentication-session.server'
-import { retrieveUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { retrieveUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
 
 export const loader = async ({ request }: LoaderArgs) => {

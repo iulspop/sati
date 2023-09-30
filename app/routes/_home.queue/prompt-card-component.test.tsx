@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test } from 'vitest'
 
-import type { Prompt } from '~/self-data-collection/domain/value-objects/prompt'
+import type { Prompt } from '~/self-inquiry/domain/value-objects/prompt'
 
 import type { PromptCardComponentFormEntries } from './prompt-card-component'
 import { PromptCardComponent } from './prompt-card-component'

@@ -1,8 +1,8 @@
 import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
-import type { CreateRecurringQuestionCommand } from '~/self-data-collection/domain/entities/recurring-question'
-import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
-import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import type { CreateRecurringQuestionCommand } from '~/self-inquiry/domain/entities/recurring-question'
+import { recurringQuestionsService } from '~/self-inquiry/domain/index.server'
+import { deleteUserProfileFromDatabaseById } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { daysAgo, loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('queue page', () => {

@@ -1,4 +1,4 @@
-import type { Answer } from '~/self-data-collection/domain/entities/answer'
+import type { Answer } from '~/self-inquiry/domain/entities/answer'
 
 export type QuestionsAnswersTableComponentProps = {
   answers: Answer[]

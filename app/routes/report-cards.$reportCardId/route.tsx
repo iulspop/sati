@@ -1,5 +1,5 @@
-import { answerFactory } from '~/self-data-collection/domain/entities/answer'
-import { recurringQuestionFactory } from '~/self-data-collection/domain/entities/recurring-question'
+import { answerFactory } from '~/self-inquiry/domain/entities/answer'
+import { recurringQuestionFactory } from '~/self-inquiry/domain/entities/recurring-question'
 import type { AnswersGroupedByQuestion } from './last-week-answers-table-component'
 import { LastWeekAnswersTableComponent } from './last-week-answers-table-component'
 

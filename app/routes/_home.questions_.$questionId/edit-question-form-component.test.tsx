@@ -2,7 +2,7 @@ import { createRemixStub } from '@remix-run/testing/dist/create-remix-stub'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, test } from 'vitest'
-import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
+import type { RecurringQuestion } from '~/self-inquiry/domain/entities/recurring-question'
 import type { DeleteQuestionFormEntries } from './edit-question-form-component'
 import { EditQuestionFormComponent } from './edit-question-form-component'
 

@@ -4,7 +4,7 @@ import { installGlobals } from '@remix-run/node'
 import { parse } from 'cookie'
 import 'dotenv/config'
 import { createUserSession, USER_AUTHENTICATION_SESSION_NAME } from '~/routes/_auth/user-authentication-session.server'
-import { saveUserProfileToDatabase } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { saveUserProfileToDatabase } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { generateRandomDid } from '~/test/generate-random-did.server'
 
 installGlobals()

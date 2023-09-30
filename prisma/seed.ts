@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker'
 import { PrismaClient } from '@prisma/client'
 import 'dotenv/config'
 import { exit } from 'process'
-import { answerFactory } from '~/self-data-collection/domain/entities/answer'
-import { answersService, promptQueueService, recurringQuestionsService } from '~/self-data-collection/domain/index.server'
+import { answerFactory } from '~/self-inquiry/domain/entities/answer'
+import { answersService, promptQueueService, recurringQuestionsService } from '~/self-inquiry/domain/index.server'
 
 const prettyPrint = (object: any) => console.log(JSON.stringify(object, undefined, 2))
 

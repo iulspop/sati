@@ -1,7 +1,7 @@
 import { createRemixStub } from '@remix-run/testing/dist/create-remix-stub'
 import { render, screen, within } from '@testing-library/react'
 import { describe, expect, test } from 'vitest'
-import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
+import type { RecurringQuestion } from '~/self-inquiry/domain/entities/recurring-question'
 import { QuestionListComponent } from './question-list-component'
 
 describe('QuestionListComponent()', () => {

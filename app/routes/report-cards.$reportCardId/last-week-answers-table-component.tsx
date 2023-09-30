@@ -1,6 +1,6 @@
 import { createElement } from 'react'
-import type { Answer } from '~/self-data-collection/domain/entities/answer'
-import type { RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
+import type { Answer } from '~/self-inquiry/domain/entities/answer'
+import type { RecurringQuestion } from '~/self-inquiry/domain/entities/recurring-question'
 
 export type AnswersGroupedByQuestion = {
   question: RecurringQuestion

@@ -1,11 +1,11 @@
 import AxeBuilder from '@axe-core/playwright'
 import { createId } from '@paralleldrive/cuid2'
 import { expect, test } from '@playwright/test'
-import type { Answer } from '~/self-data-collection/domain/entities/answer'
-import { answerFactory } from '~/self-data-collection/domain/entities/answer'
-import type { CreateRecurringQuestionCommand } from '~/self-data-collection/domain/entities/recurring-question'
-import { answersService, recurringQuestionsService } from '~/self-data-collection/domain/index.server'
-import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infrastructure/user-profile-model.server'
+import type { Answer } from '~/self-inquiry/domain/entities/answer'
+import { answerFactory } from '~/self-inquiry/domain/entities/answer'
+import type { CreateRecurringQuestionCommand } from '~/self-inquiry/domain/entities/recurring-question'
+import { answersService, recurringQuestionsService } from '~/self-inquiry/domain/index.server'
+import { deleteUserProfileFromDatabaseById } from '~/self-inquiry/infrastructure/user-profile-model.server'
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('questions page', () => {
