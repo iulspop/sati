@@ -1,11 +1,9 @@
 import { json } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
-import invariant from 'tiny-invariant'
 import { answersService, recurringQuestionsService } from '~/self-inquiry/domain/index.server'
 import { AnswersGroupedByQuestionsSchema, LastWeekAnswersTableComponent } from './last-week-answers-table-component'
 
 export const loader = async () => {
-  invariant(process.env.SEED_USER_ID)
   const iuliuUserId = process.env.SEED_USER_ID ?? 'did:ethr:0xf4B78934DDe5fD83c131A0D500d8c361d5dc54F7'
   const recurringQuestions = await recurringQuestionsService.readAll(iuliuUserId)
 
