@@ -33,37 +33,39 @@ export function LastWeekAnswersTableComponent({
   )
 
   return (
-    <table className="w-full max-w-screen-xl border-collapse m-6 bg-gray-800 text-gray-200">
-      <caption style={{ captionSide: 'bottom' }} className="text-center text-gray-400 pt-4">
-        Last 7 Days' Meditations
-      </caption>
-      <thead>
-        <tr>
-          <th scope="row">Days Since Start:</th>
-          {notTrackedHeaderColSpan >= 1 && <NotTrackedColumnHeader colSpan={notTrackedHeaderColSpan} />}
-          {daysSinceStartList.map(day => (
-            <DaySinceStartCountColumnHeader key={day} day={day} />
+    <div className="overflow-x-auto max-w-full bg-gray-800">
+      <table className="w-full max-w-screen-xl border-collapse m-6 text-gray-200 text-xs sm:text-base">
+        <caption style={{ captionSide: 'bottom' }} className="text-center text-gray-400 pt-4">
+          Last 7 Days' Meditations
+        </caption>
+        <thead>
+          <tr>
+            <RowHeader text="Days Since Start:" />
+            {notTrackedHeaderColSpan >= 1 && <NotTrackedColumnHeader colSpan={notTrackedHeaderColSpan} />}
+            {daysSinceStartList.map(day => (
+              <DaySinceStartCountColumnHeader key={day} day={day} />
+            ))}
+          </tr>
+          <tr>
+            <RowHeader text="Date:" />
+            {lastEightDaysColumnsHeadersText.map(text => (
+              <DateColumnHeader key={text} text={text} />
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {answersGroupedByQuestions.map(({ question, answers }) => (
+            <QuestionAnswersRow
+              key={question.id}
+              question={question}
+              answers={answers}
+              questionsCreatedDate={questionsCreatedDate}
+              currentDate={currentDate}
+            />
           ))}
-        </tr>
-        <tr>
-          <th scope="row">Date:</th>
-          {lastEightDaysColumnsHeadersText.map(text => (
-            <DateColumnHeader key={text} text={text} />
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {answersGroupedByQuestions.map(({ question, answers }) => (
-          <QuestionAnswersRow
-            key={question.id}
-            question={question}
-            answers={answers}
-            questionsCreatedDate={questionsCreatedDate}
-            currentDate={currentDate}
-          />
-        ))}
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   )
 }
 
@@ -72,7 +74,7 @@ const QuestionAnswersRow = ({ question, answers, questionsCreatedDate, currentDa
 
   return (
     <tr>
-      <th scope="row">{question.text}</th>
+      <RowHeader text={question.text} />
       {calculatePreviousSevenDaysAnswers(answers, questionsCreatedDate, currentDate).map((answerCell, index) =>
         createElement(answerCell, { key: previousSevenDays[index].toISOString() })
       )}
@@ -95,6 +97,12 @@ const DaySinceStartCountColumnHeader = ({ day }) => (
 
 const DateColumnHeader = ({ text }) => (
   <th scope="column" className="p-2">
+    {text}
+  </th>
+)
+
+const RowHeader = ({ text }) => (
+  <th scope="row" className="p-2">
     {text}
   </th>
 )
