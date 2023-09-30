@@ -38,11 +38,5 @@ export default function Page() {
     },
   ]
 
-  return (
-    <LastWeekAnswersTableComponent
-      answersGroupedByQuestions={answersGroupedByQuestions}
-      currentDate={currentDate}
-      timeZone="Etc/UTC"
-    />
-  )
+  return <LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} currentDate={currentDate} timeZone="Etc/UTC" />
 }

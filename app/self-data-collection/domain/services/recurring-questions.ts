@@ -10,19 +10,14 @@ export interface RecurringQuestionsAPI {
   delete: (id: string) => Promise<RecurringQuestion>
 }
 
-export const RecurringQuestionsService = (
-  RecurringQuestionRepository: RecurringQuestionRepositoryAPI
-): RecurringQuestionsAPI => ({
+export const RecurringQuestionsService = (RecurringQuestionRepository: RecurringQuestionRepositoryAPI): RecurringQuestionsAPI => ({
   create: async partialRecurringQuestion => {
-    if ('order' in partialRecurringQuestion)
-      return await RecurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
+    if ('order' in partialRecurringQuestion) return await RecurringQuestionRepository.create(recurringQuestionFactory(partialRecurringQuestion))
 
     const recurringQuestions = await RecurringQuestionRepository.readAll(partialRecurringQuestion.userId)
     const lastOrder = recurringQuestions.reduce((max, recurringQuestion) => Math.max(max, recurringQuestion.order), -1)
 
-    return RecurringQuestionRepository.create(
-      recurringQuestionFactory({ ...partialRecurringQuestion, order: lastOrder + 1 })
-    )
+    return RecurringQuestionRepository.create(recurringQuestionFactory({ ...partialRecurringQuestion, order: lastOrder + 1 }))
   },
   read: RecurringQuestionRepository.read,
   readAll: async userId => {

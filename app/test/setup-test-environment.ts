@@ -26,10 +26,7 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true
 // Monkey path solution found here: https://stackoverflow.com/a/74228751
 const originalConsoleError = console.error
 console.error = (...args) => {
-  if (
-    typeof args[0] === 'string' &&
-    args[0].startsWith('Warning: The current testing environment is not configured to support act')
-  ) {
+  if (typeof args[0] === 'string' && args[0].startsWith('Warning: The current testing environment is not configured to support act')) {
     return
   }
   originalConsoleError.apply(console, args)

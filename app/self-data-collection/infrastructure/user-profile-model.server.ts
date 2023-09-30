@@ -9,9 +9,7 @@ import { db } from '~/database.server'
  * @param user profile - Parameters of the user profile that should be created.
  * @returns The newly created user profile.
  */
-export async function saveUserProfileToDatabase(
-  userProfile: Pick<Parameters<typeof db.userProfile.create>[0]['data'], 'email' | 'id' | 'name'>
-) {
+export async function saveUserProfileToDatabase(userProfile: Pick<Parameters<typeof db.userProfile.create>[0]['data'], 'email' | 'id' | 'name'>) {
   return db.userProfile.create({ data: userProfile })
 }
 

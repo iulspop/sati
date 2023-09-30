@@ -7,12 +7,7 @@ import { PassThrough } from 'stream'
 
 const ABORT_DELAY = 5000
 
-export default async function handleRequest(
-  request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  remixContext: EntryContext
-) {
+export default async function handleRequest(request: Request, responseStatusCode: number, responseHeaders: Headers, remixContext: EntryContext) {
   const callbackName = isBot(request.headers.get('user-agent')) ? 'onAllReady' : 'onShellReady'
 
   return new Promise((resolve, reject) => {

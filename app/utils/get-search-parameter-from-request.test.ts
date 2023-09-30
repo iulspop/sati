@@ -2,11 +2,7 @@
  * @vitest-environment jsdom
  */
 import { describe, expect, test } from 'vitest'
-import {
-  getSearchParameterFromRequest,
-  getSearchParameterFromUrl,
-  requestToUrl,
-} from './get-search-parameter-from-request'
+import { getSearchParameterFromRequest, getSearchParameterFromUrl, requestToUrl } from './get-search-parameter-from-request'
 
 describe('requestToUrl()', () => {
   test('given a request with a url: returns a URL object for it', () => {

@@ -13,12 +13,9 @@ describe('isValidRedirectDestination()', () => {
     expect(isValidRedirectDestination(null)).toEqual(false)
   })
 
-  test.each([new File([], 'foo'), 'home', '//home'])(
-    `given an invalid redirect destination (e.g. a file): returns false`,
-    invalidDestination => {
-      expect(isValidRedirectDestination(invalidDestination)).toEqual(false)
-    }
-  )
+  test.each([new File([], 'foo'), 'home', '//home'])(`given an invalid redirect destination (e.g. a file): returns false`, invalidDestination => {
+    expect(isValidRedirectDestination(invalidDestination)).toEqual(false)
+  })
 })
 
 describe('getSafeRedirectDestination()', () => {

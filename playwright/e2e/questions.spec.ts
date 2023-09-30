@@ -57,10 +57,7 @@ test.describe('questions page', () => {
     }
   })
 
-  test('given user is logged in, clicking a recurring question and clicking delete: deletes the question', async ({
-    page,
-    baseURL,
-  }) => {
+  test('given user is logged in, clicking a recurring question and clicking delete: deletes the question', async ({ page, baseURL }) => {
     const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
     const recurringQuestion: CreateRecurringQuestionCommand = {
       id: createId(),
@@ -77,9 +74,7 @@ test.describe('questions page', () => {
       await expect(page.getByText(recurringQuestion.text), 'should see the question').toBeVisible()
 
       await page.getByRole('link', { name: recurringQuestion.text }).click()
-      await expect(page, 'should link to the "questions/:id" page').toHaveURL(
-        `${baseURL}/questions/${recurringQuestion.id}`
-      )
+      await expect(page, 'should link to the "questions/:id" page').toHaveURL(`${baseURL}/questions/${recurringQuestion.id}`)
       await expect(page.getByText(recurringQuestion.text), 'should see the question').toBeVisible()
 
       await page.getByRole('button', { name: 'Delete' }).click()
@@ -90,9 +85,7 @@ test.describe('questions page', () => {
     }
   })
 
-  test('given user is logged in, clicking a recurring question: lists each respective answer to the question', async ({
-    page,
-  }) => {
+  test('given user is logged in, clicking a recurring question: lists each respective answer to the question', async ({ page }) => {
     const { id: userId } = await loginAndSaveUserProfileToDatabase({ page })
 
     const recurringQuestion: CreateRecurringQuestionCommand = {
@@ -132,9 +125,7 @@ test.describe('questions page', () => {
     expect(page.url()).toEqual(expectedUrl.href)
   })
 
-  test('given user is logged in: page should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
+  test('given user is logged in: page should not have any automatically detectable accessibility issues', async ({ page }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
     await page.goto('./questions')
 

@@ -3,13 +3,7 @@ import { Form } from '@remix-run/react'
 import type { RefObject } from 'react'
 
 const Spinner = () => (
-  <svg
-    aria-hidden="true"
-    className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-  >
+  <svg aria-hidden="true" className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
     <path
       className="opacity-75"
@@ -44,13 +38,7 @@ export type UserAuthenticationComponentProps = {
   state: 'idle' | 'submitting' | 'error'
 }
 
-export function UserAuthenticationComponent({
-  email,
-  emailError,
-  formError,
-  inputRef,
-  state,
-}: UserAuthenticationComponentProps) {
+export function UserAuthenticationComponent({ email, emailError, formError, inputRef, state }: UserAuthenticationComponentProps) {
   return (
     <>
       <header className="sr-only">
@@ -60,14 +48,8 @@ export function UserAuthenticationComponent({
       <main className="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8">
           <div>
-            <img
-              className="mx-auto h-12 w-auto"
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Inquire"
-            />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
-              Sign in to your account
-            </h2>
+            <img className="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Inquire" />
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">Sign in to your account</h2>
             <p className="mx-auto mt-2 max-w-xs text-center text-sm text-gray-600 dark:text-slate-400">
               Or create an account. Both works through this email field here 👇
             </p>
@@ -115,10 +97,7 @@ export function UserAuthenticationComponent({
                       <Spinner />
                     </div>
                   ) : (
-                    <LockClosedIcon
-                      aria-hidden="true"
-                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                    />
+                    <LockClosedIcon aria-hidden="true" className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" />
                   )}
                 </span>
                 {state === 'submitting' ? 'Authenticating...' : 'Sign In / Sign Up'}

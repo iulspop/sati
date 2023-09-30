@@ -11,8 +11,6 @@ import { pipe } from 'ramda'
  */
 export const requestToUrl = (request: Request) => new URL(request.url)
 
-export const getSearchParameterFromUrl = (searchParameter: string) => (url: URL) =>
-  url.searchParams.get(searchParameter)
+export const getSearchParameterFromUrl = (searchParameter: string) => (url: URL) => url.searchParams.get(searchParameter)
 
-export const getSearchParameterFromRequest = (searchParameter: string) =>
-  pipe(requestToUrl, getSearchParameterFromUrl(searchParameter))
+export const getSearchParameterFromRequest = (searchParameter: string) => pipe(requestToUrl, getSearchParameterFromUrl(searchParameter))

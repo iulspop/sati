@@ -36,27 +36,13 @@ describe('LastWeekAnswersTableComponent()', () => {
       },
     ]
 
-    const { container } = render(
-      <LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} />
-    )
+    const { container } = render(<LastWeekAnswersTableComponent answersGroupedByQuestions={answersGroupedByQuestions} />)
 
-    expect(
-      screen.getByRole('table', { name: /Last Week's Meditation Tracking/i }),
-      'should show a table with an accessible name'
-    ).toBeVisible()
+    expect(screen.getByRole('table', { name: /Last Week's Meditation Tracking/i }), 'should show a table with an accessible name').toBeVisible()
 
-    expect(
-      container.querySelector('tbody').querySelectorAll('th').length,
-      'should be exactly one row header for each question'
-    ).toEqual(2)
-    expect(
-      screen.getByRole('rowheader', { name: firstQuestionText }),
-      'should show a row header for the first question'
-    ).toBeVisible()
-    expect(
-      screen.getByRole('rowheader', { name: secondQuestionText }),
-      'should show a row header for the second question'
-    ).toBeVisible()
+    expect(container.querySelector('tbody').querySelectorAll('th').length, 'should be exactly one row header for each question').toEqual(2)
+    expect(screen.getByRole('rowheader', { name: firstQuestionText }), 'should show a row header for the first question').toBeVisible()
+    expect(screen.getByRole('rowheader', { name: secondQuestionText }), 'should show a row header for the second question').toBeVisible()
   })
 
   test('given a list of questions created on the same date as the current date', async () => {
@@ -116,30 +102,20 @@ describe('LastWeekAnswersTableComponent()', () => {
       expect(screen.getByRole('columnheader', { name: headerText }), 'should show a column header for each of the last seven days').toBeVisible()
     })
 
-    expect(
-      screen.getByRole('rowheader', { name: firstQuestionText }),
-      'should a row header for each question'
-    ).toBeVisible()
+    expect(screen.getByRole('rowheader', { name: firstQuestionText }), 'should a row header for each question').toBeVisible()
     expect(screen.getByRole('rowheader', { name: secondQuestionText })).toBeVisible()
     expect(screen.getByRole('rowheader', { name: thirdQuestionText })).toBeVisible()
 
     lastSevenDaysColumnsHeaderText
       .map(headerText => getAllCellsByColumn(headerText))
       .flat()
-      .forEach(cell =>
-        expect(cell, 'should mark untracked every cell under the last 7 days columns').toHaveAccessibleName(
-          'Untracked data'
-        )
-      )
+      .forEach(cell => expect(cell, 'should mark untracked every cell under the last 7 days columns').toHaveAccessibleName('Untracked data'))
 
     getAllCellsByColumn(currentDateHeaderText).forEach(cell =>
       expect(cell, 'should mark unanswered every cell under the current date').toHaveAccessibleName('Unanswered')
     )
 
-    expect(
-      screen.getByRole('rowheader', { name: 'Days Since Start:' }),
-      'should show the "Days Since Start:" row header'
-    ).toBeVisible()
+    expect(screen.getByRole('rowheader', { name: 'Days Since Start:' }), 'should show the "Days Since Start:" row header').toBeVisible()
     expect(
       screen.getByRole('columnheader', { name: 'Not Tracked' }),
       'should show the "Not Tracked" column header above the last 7 days columns'
@@ -199,36 +175,19 @@ describe('LastWeekAnswersTableComponent()', () => {
     )
 
     lastSevenDaysColumnsHeaderText.map(headerText =>
-      expect(
-        screen.getByRole('columnheader', { name: headerText }),
-        'should show a column header for each of the last seven days'
-      ).toBeVisible()
+      expect(screen.getByRole('columnheader', { name: headerText }), 'should show a column header for each of the last seven days').toBeVisible()
     )
 
     lastSevenDaysColumnsHeaderText
       .slice(0, 5)
       .map(headerText => getAllCellsByColumn(headerText))
       .flat()
-      .forEach(cell =>
-        expect(cell, 'should mark cells under the 09/26 to 10/01 columns as untracked').toHaveAccessibleName(
-          'Untracked data'
-        )
-      )
+      .forEach(cell => expect(cell, 'should mark cells under the 09/26 to 10/01 columns as untracked').toHaveAccessibleName('Untracked data'))
 
-    const [firstAnswerCellOctoberSecond, secondAnswerCellOctoberSecond, thirdAnswerCellOctoberSecond] =
-      getAllCellsByColumn('10/02')
-    expect(
-      firstAnswerCellOctoberSecond,
-      'should mark first answer cell under the 10/02 column as "Yes"'
-    ).toHaveAccessibleName('Yes')
-    expect(
-      secondAnswerCellOctoberSecond,
-      'should mark second answer cell under the 10/02 column as "No"'
-    ).toHaveAccessibleName('No')
-    expect(
-      thirdAnswerCellOctoberSecond,
-      'should mark third answer cell under the 10/02 column as "Unanswered"'
-    ).toHaveAccessibleName('Unanswered')
+    const [firstAnswerCellOctoberSecond, secondAnswerCellOctoberSecond, thirdAnswerCellOctoberSecond] = getAllCellsByColumn('10/02')
+    expect(firstAnswerCellOctoberSecond, 'should mark first answer cell under the 10/02 column as "Yes"').toHaveAccessibleName('Yes')
+    expect(secondAnswerCellOctoberSecond, 'should mark second answer cell under the 10/02 column as "No"').toHaveAccessibleName('No')
+    expect(thirdAnswerCellOctoberSecond, 'should mark third answer cell under the 10/02 column as "Unanswered"').toHaveAccessibleName('Unanswered')
 
     getAllCellsByColumn('10/03').forEach(cell =>
       expect(cell, 'should mark every cell under the 10/03 column as "Unanswered"').toHaveAccessibleName('Unanswered')
@@ -238,29 +197,24 @@ describe('LastWeekAnswersTableComponent()', () => {
       expect(cell, 'should mark every cell under the 10/04 column as "Unanswered"').toHaveAccessibleName('Unanswered')
     )
 
-    const notTrackedHeaderColSpan = Number(
-      screen.getByRole('columnheader', { name: 'Not Tracked' }).getAttribute('colspan')
-    )
+    const notTrackedHeaderColSpan = Number(screen.getByRole('columnheader', { name: 'Not Tracked' }).getAttribute('colspan'))
     expect(notTrackedHeaderColSpan, 'should have a "Not Tracked" column header that spans five columns').toEqual(5)
 
-    const firstDayCountHeaderPosition =
-      getCellIndex(screen.getByRole('columnheader', { name: '1' })) + notTrackedHeaderColSpan - 1
+    const firstDayCountHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '1' })) + notTrackedHeaderColSpan - 1
     const firstDayDateHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '10/02' }))
     expect(
       firstDayCountHeaderPosition === firstDayDateHeaderPosition,
       'should show the "Days Since Start:" count of 1 above the 10/02 column'
     ).toEqual(true)
 
-    const secondDayCountHeaderPosition =
-      getCellIndex(screen.getByRole('columnheader', { name: '2' })) + notTrackedHeaderColSpan - 1
+    const secondDayCountHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '2' })) + notTrackedHeaderColSpan - 1
     const secondDayDateHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '10/03' }))
     expect(
       secondDayCountHeaderPosition === secondDayDateHeaderPosition,
       'should show the "Days Since Start:" count of 2 above the 10/03 column'
     ).toEqual(true)
 
-    const thirdDayCountHeaderPosition =
-      getCellIndex(screen.getByRole('columnheader', { name: '3' })) + notTrackedHeaderColSpan - 1
+    const thirdDayCountHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '3' })) + notTrackedHeaderColSpan - 1
     const thirdDayDateHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '10/04' }))
     expect(
       thirdDayCountHeaderPosition === thirdDayDateHeaderPosition,
@@ -290,10 +244,7 @@ const getCellIndex = (cell: HTMLElement): number => Array.from(cell.closest('tr'
 
 describe('getPreviousSevenDays()', () => {
   test('given a date at first day of the month', () => {
-    expect(
-      getPreviousSevenDays(new Date('2023-01-01T00:00:00.000Z')),
-      'should return list of last seven days in chronological order'
-    ).toEqual([
+    expect(getPreviousSevenDays(new Date('2023-01-01T00:00:00.000Z')), 'should return list of last seven days in chronological order').toEqual([
       new Date('2022-12-25T00:00:00.000Z'),
       new Date('2022-12-26T00:00:00.000Z'),
       new Date('2022-12-27T00:00:00.000Z'),
@@ -307,10 +258,9 @@ describe('getPreviousSevenDays()', () => {
 
 describe('formatDateToTwoDigitMonthAndDay()', () => {
   test('given a date 12/09/2023 UTC and a UTC time zone', () => {
-    expect(
-      formatDateToTwoDigitMonthAndDay(new Date('2023-12-09T00:00:00Z'), 'Etc/UTC'),
-      'should return a formatted date string 12/09'
-    ).toEqual('12/09')
+    expect(formatDateToTwoDigitMonthAndDay(new Date('2023-12-09T00:00:00Z'), 'Etc/UTC'), 'should return a formatted date string 12/09').toEqual(
+      '12/09'
+    )
   })
   test('given a date 12/09/2023 UTC and a "America/Toronto" time zone', () => {
     expect(
@@ -322,25 +272,16 @@ describe('formatDateToTwoDigitMonthAndDay()', () => {
 
 describe('getDifferenceInDays()', () => {
   test('given two approximately equal dates', () => {
-    expect(
-      getDifferenceInDays(new Date(2023, 8, 28, 12, 0, 0, 0), new Date(2023, 8, 28, 12, 0, 0, 4)),
-      'should return 0'
-    ).toEqual(0)
+    expect(getDifferenceInDays(new Date(2023, 8, 28, 12, 0, 0, 0), new Date(2023, 8, 28, 12, 0, 0, 4)), 'should return 0').toEqual(0)
   })
   test('given a date 2023-12-10 and a date 2023-12-12', () => {
-    expect(
-      getDifferenceInDays(new Date('2023-12-10T00:00:00Z'), new Date('2023-12-12T00:00:00Z')),
-      'should return 2'
-    ).toEqual(2)
+    expect(getDifferenceInDays(new Date('2023-12-10T00:00:00Z'), new Date('2023-12-12T00:00:00Z')), 'should return 2').toEqual(2)
   })
 })
 
 describe('getDaysBetweenDates()', () => {
   test('given two dates on the same day', () => {
-    expect(
-      getDaysBetweenDates(new Date('2023-01-01'), new Date('2023-01-01')),
-      'should return a list starting with day one'
-    ).toEqual([1])
+    expect(getDaysBetweenDates(new Date('2023-01-01'), new Date('2023-01-01')), 'should return a list starting with day one').toEqual([1])
   })
   test('given two dates, one 6 days later', () => {
     expect(
@@ -368,15 +309,7 @@ describe('calculatePreviousSevenDaysAnswers()', () => {
     expect(
       calculatePreviousSevenDaysAnswers(answers, questionCreatedDate, currentDate),
       'should return the correct cell categorizations for the week based on answers'
-    ).toEqual([
-      YesAnswerCell,
-      UnansweredCell,
-      NoAnswerCell,
-      UnansweredCell,
-      UnansweredCell,
-      UnansweredCell,
-      UnansweredCell,
-    ])
+    ).toEqual([YesAnswerCell, UnansweredCell, NoAnswerCell, UnansweredCell, UnansweredCell, UnansweredCell, UnansweredCell])
   })
 
   test('given the current date the day after the question created date', () => {
@@ -386,14 +319,6 @@ describe('calculatePreviousSevenDaysAnswers()', () => {
     expect(
       calculatePreviousSevenDaysAnswers([], questionCreatedDate, currentDate),
       'should return UntrackedCell for each day before the question creation date and an UnansweredCell for the first day'
-    ).toEqual([
-      UntrackedCell,
-      UntrackedCell,
-      UntrackedCell,
-      UntrackedCell,
-      UntrackedCell,
-      UntrackedCell,
-      UnansweredCell,
-    ])
+    ).toEqual([UntrackedCell, UntrackedCell, UntrackedCell, UntrackedCell, UntrackedCell, UntrackedCell, UnansweredCell])
   })
 })

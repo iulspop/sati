@@ -19,10 +19,7 @@ export default function LandingPage() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center space-y-12 bg-white p-10 dark:bg-slate-800">
       <h1 className="dark:text-white">Sati</h1>
-      <Link
-        to="/login"
-        className="flex max-w-lg items-center justify-center rounded-md bg-indigo-600 px-4 py-3 font-medium text-white"
-      >
+      <Link to="/login" className="flex max-w-lg items-center justify-center rounded-md bg-indigo-600 px-4 py-3 font-medium text-white">
         Log In
       </Link>
     </main>

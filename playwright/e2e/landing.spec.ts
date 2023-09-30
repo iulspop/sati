@@ -19,9 +19,7 @@ test.describe('landing page', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Sati' })).toBeVisible()
   })
 
-  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
+  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({ page }) => {
     await page.goto('./')
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()

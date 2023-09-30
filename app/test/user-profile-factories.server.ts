@@ -10,13 +10,13 @@ import type { Factory } from '~/utils/types'
  * @param userProfileParams - User profile params to create user profile with.
  * @returns User profile with given params.
  */
-export const createUserProfile: Factory<UserProfile> = ({
-  id = '',
-  email = '',
-  name = '',
-  createdAt = new Date(),
-  updatedAt = new Date(),
-} = {}) => ({ id, email, name, createdAt, updatedAt })
+export const createUserProfile: Factory<UserProfile> = ({ id = '', email = '', name = '', createdAt = new Date(), updatedAt = new Date() } = {}) => ({
+  id,
+  email,
+  name,
+  createdAt,
+  updatedAt,
+})
 
 /**
  * Creates a user profile with populated values.

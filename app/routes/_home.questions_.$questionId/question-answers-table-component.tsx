@@ -5,10 +5,7 @@ export type QuestionsAnswersTableComponentProps = {
   fixTimezone?: (date: Date) => Date
 }
 
-export function QuestionsAnswersTableComponent({
-  answers,
-  fixTimezone = date => date,
-}: QuestionsAnswersTableComponentProps) {
+export function QuestionsAnswersTableComponent({ answers, fixTimezone = date => date }: QuestionsAnswersTableComponentProps) {
   return (
     <div className="flex flex-col space-y-4 bg-white p-6 rounded shadow-lg w-full max-w-md mx-auto dark:text-black mt-4">
       <h2 className="font-semibold text-lg">Question Answers</h2>

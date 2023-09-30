@@ -10,10 +10,7 @@ export function CreateQuestionFormComponent() {
   const fetcher = useFetcher()
 
   return (
-    <fetcher.Form
-      method="post"
-      className="flex flex-col space-y-4 bg-white p-6 rounded shadow-lg w-full max-w-md mx-auto dark:text-black"
-    >
+    <fetcher.Form method="post" className="flex flex-col space-y-4 bg-white p-6 rounded shadow-lg w-full max-w-md mx-auto dark:text-black">
       <label htmlFor="recurring-question" className="font-semibold text-lg">
         What recurring question to add?
       </label>

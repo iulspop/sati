@@ -14,9 +14,7 @@ export function badRequest(): TypedResponse<{ message: string }>
  * @param errors - An object containing the errors from the Zod schema.
  * @returns A response with the 400 status code, a message and the errors.
  */
-export function badRequest<T>(
-  errors?: ZodFormattedError<T>
-): TypedResponse<{ message: string; errors: ZodFormattedError<T> }>
+export function badRequest<T>(errors?: ZodFormattedError<T>): TypedResponse<{ message: string; errors: ZodFormattedError<T> }>
 /**
  * Returns a 400 Bad Request error.
  *
@@ -24,9 +22,7 @@ export function badRequest<T>(
  * @returns A response with the 400 status code, a message and the errors.
  */
 export function badRequest(errors?: string): TypedResponse<{ message: string; errors: string }>
-export function badRequest<T>(
-  errors?: ZodFormattedError<T> | string
-): TypedResponse<{ message: string; errors?: ZodFormattedError<T> | string }> {
+export function badRequest<T>(errors?: ZodFormattedError<T> | string): TypedResponse<{ message: string; errors?: ZodFormattedError<T> | string }> {
   return json({ message: 'Bad Request', ...(errors && { errors }) }, { status: 400 })
 }
 

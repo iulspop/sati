@@ -9,8 +9,7 @@ export interface RecurringQuestion {
   utcOffsetInMinutes: number
 }
 
-export type CreateRecurringQuestionCommand = Omit<RecurringQuestion, 'id' | 'order'> &
-  Partial<Pick<RecurringQuestion, 'id' | 'order'>>
+export type CreateRecurringQuestionCommand = Omit<RecurringQuestion, 'id' | 'order'> & Partial<Pick<RecurringQuestion, 'id' | 'order'>>
 
 export const recurringQuestionFactory = ({
   id = createId(),

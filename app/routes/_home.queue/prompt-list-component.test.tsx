@@ -34,9 +34,7 @@ describe('PromptListComponent()', () => {
       },
     ]
 
-    const RemixStub = createRemixStub([
-      { path: '/', element: <PromptListComponent promptList={promptList} timeZone="Etc/UTC" /> },
-    ])
+    const RemixStub = createRemixStub([{ path: '/', element: <PromptListComponent promptList={promptList} timeZone="Etc/UTC" /> }])
 
     render(<RemixStub />)
 
@@ -87,9 +85,7 @@ describe('PromptListComponent()', () => {
       },
     ]
 
-    const RemixStub = createRemixStub([
-      { path: '/', element: <PromptListComponent promptList={promptList} timeZone="America/New_York" /> },
-    ])
+    const RemixStub = createRemixStub([{ path: '/', element: <PromptListComponent promptList={promptList} timeZone="America/New_York" /> }])
 
     render(<RemixStub />)
 
@@ -121,10 +117,7 @@ describe('groupByDate()', () => {
     ]
 
     const expectedResult = {
-      '2023-04-15T00:00:00.000Z': [
-        { timestamp: new Date('2023-04-15T00:00:00Z') },
-        { timestamp: new Date('2023-04-15T00:00:00Z') },
-      ],
+      '2023-04-15T00:00:00.000Z': [{ timestamp: new Date('2023-04-15T00:00:00Z') }, { timestamp: new Date('2023-04-15T00:00:00Z') }],
       '2023-04-16T00:00:00.000Z': [{ timestamp: new Date('2023-04-16T00:00:00Z') }],
     }
 

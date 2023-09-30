@@ -91,9 +91,7 @@ test.describe('queue page', () => {
     expect(page.url()).toEqual(expectedUrl.href)
   })
 
-  test('given user is logged in: page should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
+  test('given user is logged in: page should not have any automatically detectable accessibility issues', async ({ page }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
     await page.goto('./queue')
 

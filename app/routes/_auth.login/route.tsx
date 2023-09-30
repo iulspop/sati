@@ -9,10 +9,7 @@ import { usePromise } from '~/hooks/use-promise'
 import { UserAuthenticationComponent, loginIntent } from '~/routes/_auth.login/user-authentication-component'
 import { magicAdmin } from '~/routes/_auth/magic-admin.server'
 import { createUserSession, getUserId } from '~/routes/_auth/user-authentication-session.server'
-import {
-  retrieveUserProfileFromDatabaseById,
-  saveUserProfileToDatabase,
-} from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { retrieveUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-data-collection/infrastructure/user-profile-model.server'
 import { getSafeRedirectDestination } from '~/utils/get-safe-redirect-destination.server'
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -112,11 +109,7 @@ export default function LoginPage() {
   const data = useActionData<ActionData>()
   const navigation = useNavigation()
   const state: 'idle' | 'error' | 'submitting' =
-    navigation.state === 'submitting' || data?.email
-      ? 'submitting'
-      : data?.emailError || data?.formError
-      ? 'error'
-      : 'idle'
+    navigation.state === 'submitting' || data?.email ? 'submitting' : data?.emailError || data?.formError ? 'error' : 'idle'
 
   const inputRef = useRef<HTMLInputElement>(null)
   const mounted = useRef<boolean>(false)
@@ -197,12 +190,6 @@ export default function LoginPage() {
   }, [data?.email])
 
   return (
-    <UserAuthenticationComponent
-      email={data?.email}
-      emailError={data?.emailError}
-      formError={data?.formError}
-      inputRef={inputRef}
-      state={state}
-    />
+    <UserAuthenticationComponent email={data?.email} emailError={data?.emailError} formError={data?.formError} inputRef={inputRef} state={state} />
   )
 }

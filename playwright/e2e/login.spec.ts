@@ -2,10 +2,7 @@ import AxeBuilder from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 import 'dotenv/config'
 import { USER_AUTHENTICATION_SESSION_NAME } from '~/routes/_auth/user-authentication-session.server'
-import {
-  deleteUserProfileFromDatabaseById,
-  saveUserProfileToDatabase,
-} from '~/self-data-collection/infrastructure/user-profile-model.server'
+import { deleteUserProfileFromDatabaseById, saveUserProfileToDatabase } from '~/self-data-collection/infrastructure/user-profile-model.server'
 import { createPopulatedUserProfile } from '~/test/user-profile-factories.server'
 import { createValidCookieToken, loginAndSaveUserProfileToDatabase } from '../utils'
 
@@ -46,10 +43,7 @@ const invalidMagicEmail = 'test+fail@magic.link'
 const validMagicEmail = 'test+success@magic.link'
 
 test.describe('login page', () => {
-  test('given user is logged in: redirects to the route specified in the search parameter', async ({
-    page,
-    baseURL,
-  }) => {
+  test('given user is logged in: redirects to the route specified in the search parameter', async ({ page, baseURL }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
 
     const searchParameters = new URLSearchParams({
@@ -153,9 +147,7 @@ test.describe('login page', () => {
     await deleteUserProfileFromDatabaseById(user.id)
   })
 
-  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
+  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({ page }) => {
     await page.goto('./login')
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()

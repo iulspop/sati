@@ -4,10 +4,7 @@ import { deleteUserProfileFromDatabaseById } from '~/self-data-collection/infras
 import { loginAndSaveUserProfileToDatabase } from '../utils'
 
 test.describe('not found page', () => {
-  test('given user is logged in: the page renders a link that redirects to the home page', async ({
-    page,
-    baseURL,
-  }) => {
+  test('given user is logged in: the page renders a link that redirects to the home page', async ({ page, baseURL }) => {
     const { id } = await loginAndSaveUserProfileToDatabase({ page })
     await page.goto('./some-non-existing-url')
 
@@ -34,9 +31,7 @@ test.describe('not found page', () => {
     expect(page.url()).toEqual(baseURL + '/')
   })
 
-  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({
-    page,
-  }) => {
+  test('given user is logged out: page should not have any automatically detectable accessibility issues', async ({ page }) => {
     await page.goto('./some-non-existing-url')
 
     const accessibilityScanResults = await new AxeBuilder({ page }).analyze()

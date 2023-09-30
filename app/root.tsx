@@ -109,9 +109,7 @@ export function ErrorBoundary() {
                         </i>
                         ! 🤓
                       </p>
-                      <p className="mt-2 text-sm text-gray-500">
-                        We're very sorry about this! 🙏 Please reload the page. 👇
-                      </p>
+                      <p className="mt-2 text-sm text-gray-500">We're very sorry about this! 🙏 Please reload the page. 👇</p>
                     </div>
                   </div>
                 </div>

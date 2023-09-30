@@ -7,12 +7,7 @@ export interface Answer {
   timestamp: Date
 }
 
-export const answerFactory = ({
-  id = createId(),
-  questionId = 'N/A',
-  response = false,
-  timestamp = new Date(),
-}): Answer => ({
+export const answerFactory = ({ id = createId(), questionId = 'N/A', response = false, timestamp = new Date() }): Answer => ({
   id,
   questionId,
   response,

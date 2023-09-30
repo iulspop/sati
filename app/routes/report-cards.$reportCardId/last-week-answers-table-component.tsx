@@ -76,9 +76,7 @@ const QuestionAnswersRow = ({ question, answers, questionsCreatedDate, currentDa
   return (
     <tr>
       <th scope="row">{question.text}</th>
-      {calculatePreviousSevenDaysAnswers(answers, questionsCreatedDate, currentDate).map(functionalComponent =>
-        functionalComponent()
-      )}
+      {calculatePreviousSevenDaysAnswers(answers, questionsCreatedDate, currentDate).map(functionalComponent => functionalComponent())}
       <UnansweredCell />
     </tr>
   )
@@ -125,11 +123,7 @@ type CalculatePreviousSevenDaysAnswers = (
   questionCreatedDate: Date,
   currentDate: Date
 ) => (typeof UntrackedCell | typeof YesAnswerCell | typeof NoAnswerCell | typeof UnansweredCell)[]
-export const calculatePreviousSevenDaysAnswers: CalculatePreviousSevenDaysAnswers = (
-  answers,
-  questionCreatedDate,
-  currentDate
-) =>
+export const calculatePreviousSevenDaysAnswers: CalculatePreviousSevenDaysAnswers = (answers, questionCreatedDate, currentDate) =>
   getPreviousSevenDays(currentDate).map(day => {
     if (isPreviousDayOrBefore(day, questionCreatedDate)) return UntrackedCell
     const answerForTheDay = answers.find(answer => isSameDay(day, answer.timestamp))
@@ -145,6 +139,4 @@ const isPreviousDayOrBefore = (date1: Date, date2: Date): boolean => {
 }
 
 const isSameDay = (date1: Date, date2: Date): boolean =>
-  date1.getFullYear() === date2.getFullYear() &&
-  date1.getMonth() === date2.getMonth() &&
-  date1.getDate() === date2.getDate()
+  date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()

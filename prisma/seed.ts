@@ -3,11 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import 'dotenv/config'
 import { exit } from 'process'
 import { answerFactory } from '~/self-data-collection/domain/entities/answer'
-import {
-  answersService,
-  promptQueueService,
-  recurringQuestionsService,
-} from '~/self-data-collection/domain/index.server'
+import { answersService, promptQueueService, recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 
 const prettyPrint = (object: any) => console.log(JSON.stringify(object, undefined, 2))
 
@@ -62,9 +58,7 @@ async function seed() {
   const prompts = await promptQueueService.query(userId)
 
   prompts.slice(0, 9).forEach(async ({ questionId, timestamp }) => {
-    await answersService.create(
-      answerFactory({ questionId, timestamp, response: Math.floor(Math.random() * 10) % 2 === 1 ? true : false })
-    )
+    await answersService.create(answerFactory({ questionId, timestamp, response: Math.floor(Math.random() * 10) % 2 === 1 ? true : false }))
   })
 
   const answers = await answersService.readAll(userId)

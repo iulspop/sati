@@ -3,10 +3,7 @@ import { json, redirect } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import { requireUserIsAuthenticated } from '~/routes/_auth/user-authentication-session.server'
 import { QuestionListComponent } from '~/routes/_home.questions/question-list-component'
-import type {
-  CreateRecurringQuestionCommand,
-  RecurringQuestion,
-} from '~/self-data-collection/domain/entities/recurring-question'
+import type { CreateRecurringQuestionCommand, RecurringQuestion } from '~/self-data-collection/domain/entities/recurring-question'
 import { recurringQuestionsService } from '~/self-data-collection/domain/index.server'
 import type { CreateQuestionFormEntries } from './create-question-form-component'
 import { CreateQuestionFormComponent } from './create-question-form-component'
@@ -42,14 +39,8 @@ export default function CreateQuestionPage() {
   )
 }
 
-type ToCreateRecurringQuestionCommand = (
-  questionFormEntries: CreateQuestionFormEntries,
-  userId: string
-) => CreateRecurringQuestionCommand
-export const toCreateRecurringQuestionCommand: ToCreateRecurringQuestionCommand = (
-  { text, timestamp, utcOffsetInMinutes },
-  userId
-) => {
+type ToCreateRecurringQuestionCommand = (questionFormEntries: CreateQuestionFormEntries, userId: string) => CreateRecurringQuestionCommand
+export const toCreateRecurringQuestionCommand: ToCreateRecurringQuestionCommand = ({ text, timestamp, utcOffsetInMinutes }, userId) => {
   return {
     userId,
     text,

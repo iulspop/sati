@@ -7,13 +7,13 @@ import type { Factory } from '~/utils/types'
 import type { UserAuthenticationComponentProps } from './user-authentication-component'
 import { UserAuthenticationComponent } from './user-authentication-component'
 
-const createProps: Factory<UserAuthenticationComponentProps> = ({
+const createProps: Factory<UserAuthenticationComponentProps> = ({ email, emailError, formError, inputRef, state = 'idle' } = {}) => ({
   email,
   emailError,
   formError,
   inputRef,
-  state = 'idle',
-} = {}) => ({ email, emailError, formError, inputRef, state })
+  state,
+})
 
 describe('UserAuthenticationComponent()', () => {
   it('given an idle state and nothing else: renders the user authentication form', async () => {
