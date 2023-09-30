@@ -243,27 +243,29 @@ describe('LastWeekAnswersTableComponent()', () => {
     )
     expect(notTrackedHeaderColSpan, 'should have a "Not Tracked" column header that spans five columns').toEqual(5)
 
-    const firstDayCountIndex =
+    const firstDayCountHeaderPosition =
       getCellIndex(screen.getByRole('columnheader', { name: '1' })) + notTrackedHeaderColSpan - 1
-    const firstDayDateIndex = getCellIndex(screen.getByRole('columnheader', { name: '10/02' }))
-    expect(firstDayCountIndex, 'should show the "Days Since Start:" count of 1 above the 10/02 column').toEqual(
-      firstDayDateIndex
-    )
-
-    const secondDayCountIndex =
-      getCellIndex(screen.getByRole('columnheader', { name: '2' })) + notTrackedHeaderColSpan - 1
-    const secondDayDateIndex = getCellIndex(screen.getByRole('columnheader', { name: '10/03' }))
-    expect(secondDayCountIndex, 'should show the "Days Since Start:" count of 2 above the 10/03 column').toEqual(
-      secondDayDateIndex
-    )
-
-    const thirdDayCountIndex =
-      getCellIndex(screen.getByRole('columnheader', { name: '3' })) + notTrackedHeaderColSpan - 1
-    const thirdDayDateIndex = getCellIndex(screen.getByRole('columnheader', { name: '10/04' }))
+    const firstDayDateHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '10/02' }))
     expect(
-      thirdDayCountIndex,
+      firstDayCountHeaderPosition === firstDayDateHeaderPosition,
+      'should show the "Days Since Start:" count of 1 above the 10/02 column'
+    ).toEqual(true)
+
+    const secondDayCountHeaderPosition =
+      getCellIndex(screen.getByRole('columnheader', { name: '2' })) + notTrackedHeaderColSpan - 1
+    const secondDayDateHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '10/03' }))
+    expect(
+      secondDayCountHeaderPosition === secondDayDateHeaderPosition,
+      'should show the "Days Since Start:" count of 2 above the 10/03 column'
+    ).toEqual(true)
+
+    const thirdDayCountHeaderPosition =
+      getCellIndex(screen.getByRole('columnheader', { name: '3' })) + notTrackedHeaderColSpan - 1
+    const thirdDayDateHeaderPosition = getCellIndex(screen.getByRole('columnheader', { name: '10/04' }))
+    expect(
+      thirdDayCountHeaderPosition === thirdDayDateHeaderPosition,
       'should show the "Days Since Start:" count of 3 above the 10/04 current date column'
-    ).toEqual(thirdDayDateIndex)
+    ).toEqual(true)
   })
 })
 
